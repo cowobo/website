@@ -1,0 +1,244 @@
+@charset utf-8;
+/*
+Theme Name: Coders Without Borders
+Theme URI: http://coders-borders.net
+Author: Coders Without Borders
+Author URI: http://coders-borders.net/
+Description: 
+Version: 0.1
+*/
+
+#debugsquare {
+	position: absolute;
+	top: 50px;
+	right: 20px;
+	width: 300px;
+	height: 100px;
+	display: block;
+	border: 1px solid black;
+	z-index: 999;
+}
+
+* {padding:0; margin:0;}
+
+html {}
+
+body {color:#333; font-family:"century gothic"; font-size:13px; background:url(images/space.png) repeat-x;}
+a:link, a:visited, a:active {text-decoration: none; font-weight:bold; color:#fff;}
+a:hover {color:#ccc;}
+
+#wrapper, #background1, #background2, #background3 {
+	position:absolute;
+	white-space: nowrap;
+	top:50%;
+	left:0;
+	width:100%;
+	height:600px;
+	margin-top:-300px;
+	overflow:hidden;
+	z-index: 4; 
+	}
+
+#background1 {z-index: 3; background:url(images/background1.png) repeat-x;}
+#background2 {z-index: 2; background:url(images/background2.png) repeat-x;}
+#background3 {z-index: 1; background:url(images/sky.png) repeat-x;}
+
+.thumbs {
+	position:relative; 
+	display:inline-block!important; 
+	zoom: 1; 
+	*display: inline!important;
+	vertical-align: top; 
+	letter-spacing: normal;
+	width:170px; 
+	height:600px; 
+	margin-left:10px;
+	z-index: 2; 
+	overflow:hidden;
+}
+
+.thumb_images {
+	position:absolute;
+	margin-top:260px;
+	width:160px; 
+	height:120px; 
+	padding:4px; 
+	border: 1px solid #888; 
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:5px;
+	cursor: pointer;
+	background:#fff;
+}
+
+.thumb_images img {
+	width: 100%;
+	height: 100%;
+	opacity:.50;
+	-moz-opacity:.50; 
+	filter:alpha(opacity=50); 
+}
+
+.progressdiv {
+	text-align:center;
+	position:absolute;
+	white-space: normal; 
+	top:50%;
+	left:50%;
+	width:90px;
+	margin: -30px 0 0 -45px;
+ }
+
+.submenu {
+	display: none;
+	margin-left: 170px;
+	position: absolute;
+}
+
+
+
+#navbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-top:5px;
+	height: 30px;
+	width: 100%;
+	z-index:11;
+}
+
+#nav li {
+	position:relative;
+	float: left;
+	margin-left: 15px;
+	color: #ffffff;
+	display:block;
+}
+
+#nav li a {
+line-height:30px;
+font-size:14px;
+}
+
+#nav ul {
+position:absolute; 
+display:none; 
+top:25px; 
+left:0px; 
+list-style:none; 
+z-index:700; 
+}
+
+#nav ul a {
+line-height:20px;
+font-size:12px;
+}
+
+#nav ul li {
+position:relative; 
+float:left; 
+clear:both; 
+width:180px; 
+padding: 3px; 
+margin:0; 
+height: auto; 
+}
+
+#loaderdiv {
+	display:none;
+	position:absolute;
+	top:50px;
+	left:50%;
+	margin: 0 0 0 -320px;
+	width: 640px;
+	height: 480px;
+	padding:10px;
+	border: 1px solid #888; 
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:5px;
+	z-index:10;
+	background:#ffffff;
+	overflow:auto;
+}
+
+.app_front {
+	height: 99%;
+	width: 99%;
+}
+
+.app_transparent {
+	position: absolute;
+	bottom: 4px;
+	left: 0;
+	width: 99%;
+	height: 100px;
+	background: #191919;
+	opacity: .75;
+}
+
+.app_text {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 99%;
+	height: 100px;
+	padding: 0 20px;
+	color: #fff;
+}
+
+.app_title {
+	color: #fff;
+	padding-top: 5px;
+}
+
+.app_description {
+	padding-top: 5px;
+}
+
+/* ===== Begin styling scrollbar ===== */
+.scrollgeneric {
+	line-height: 1px;
+	font-size: 1px;
+	position: absolute;
+	top: 0; left: 0;
+}
+
+/* Background of the scrollerbar */
+.vscrollerbase {
+	width: 15px;
+	background-color: #eeeeee;
+}
+
+/* The scroller */
+.vscrollerbar {
+	width: 15px;
+	background-color: #ffffff;
+	/*height: 30px !important;*/
+	border: 1px solid #cccccc;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+.vscrollerbar:hover {
+		background-color: #cccccc;
+}
+
+.vscrollerbar, .hscrollerbar { 
+	padding: 2px; 
+}
+
+.hscrollerbase {
+	height: 15px;
+	background-color: white;
+}
+
+.hscrollerbar {
+	height: 15px;
+	background-color: black;
+}
+/* ===== End styling scrollbar ===== */

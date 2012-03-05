@@ -1,0 +1,169 @@
+/*
+Theme Name: Cowobo
+Theme URI: http://www.cowobo.org
+Description: Theme for Coders Without Borders
+Version: 1.0
+Author: Coders Without Borders
+Author URI: http://www.cowobo.org
+*/
+
+/* Generic */
+* {margin:0; padding:0;}
+html, body {height:100%; background:#ccc;}
+body {font-family:arial, 'lucida console', sans-serif; color: #666; line-height:1.5em; font-size:13px; overflow:hidden;}
+a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
+a:hover {color: #888}
+li {padding-left:11px;}
+p {padding:5px 0 5px 0;}
+img {border:none;}
+input{margin-right:4px;}
+textarea {border:1px solid #eee;}
+h1 {font-family:'Century Gothic'; white-space: nowrap; font-size:32px; color:#fff; padding:10px 15px 0 20px;}
+h1 a {color:#fff; font-size:14px; margin-left:10px;}
+h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
+h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
+.clear {clear:both;}
+.left {float:left;}
+.right {float:right;}
+a.rss {cursor: pointer;}
+
+/* Page */
+#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
+#page {position:absolute; bottom:0; width:100%; background:url(images/page.png) repeat-x; z-index:4;}
+#angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
+#scroller {white-space: nowrap; overflow:hidden; clear:both; }
+#timeline {display:inline-block; padding-left:5px;}
+#speaking_angel { position:absolute; right:10px; top:0; margin-top:-46px;width:540px; }
+#editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
+#cloud1 {position:absolute; top:10%; left:10%; width:310px; height:230px; padding:45px 25px 0 25px; background:url(images/cloud1.png); z-index:3; text-align:center; font-size:16px; cursor:move;}
+#cloud2 {position:absolute; top:30%; right:10%; width:300px; height:200px; padding:20px 25px 0 25px;; background:url(images/cloud2.png); z-index:3; text-align:center; font-size:16px; cursor:move;}
+#cloud1 h1, #cloud2 h1 {color:#888; font-size:36px; margin-bottom:15px;}
+#closebutton1, #closebutton2 {position:absolute; width:15px; padding:5px; height:15px; cursor:pointer;}
+#closebutton1:hover, #closebutton2:hover {color:#000}
+#closebutton1 {top:47px; left: 34px;}
+#closebutton2 {top:24px; right: 60px;}
+
+/* Nav Menu */
+#menubar {position:relative; overflow:hidden; height:27px; color:#333; margin:0 5px 0 5px; cursor:n-resize;}
+#menu {white-space: nowrap; float:left; list-style:none; font-weight:bold; font-size:14px;}
+#menu li, #menu ul {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer; overflow:hidden;}
+#menu li ul {width:1px; vertical-align:top; height:20px; color:#666}
+#menu li:hover, #menu a:hover {color:#000}
+
+#keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
+#searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
+#profilelink {float:right; margin:3px 15px 0 0; font-size:14px}
+
+
+/* Speech bubble */
+.speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}
+/*.speechbubble.right{background:#075698; width:365px;} */
+.speechbubble.right{background:#075698; width:auto;}
+.speechbubble:after{border-color:#075698 transparent; border-style:solid; border-width:20px 0 0 20px; bottom:-20px;content:"";display:block;left:50px;position:absolute;width:0;}
+.speechbubble.right:after{border-color:transparent #075698; border-width:15px 0 0 40px; top:auto; left:auto; right:-40px; bottom:30px;}
+.speechbubble-title {color:#f0f8ff; font-size:18px; line-height:30px; margin-right:10px; }
+.speechbubble a:link, .speechbubble a:visited {text-decoration:none; font-weight:bold; color:#fff;}
+.speechbubble a:hover {color: #ddd;}
+.speechbubble .close { float: right; cursor:pointer;}
+
+/* Map */
+.marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:2; opacity:0.7}
+.marker img {width:100%; height:100%;}
+.mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
+.mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
+.mtitle span {margin:-2px 0 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px;}
+.maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
+.maplayer {display:none; z-index:2; width:100%; height:100%;}
+.buffer {z-index:0; }
+.maptiles, .streettiles {position:relative; z-index:1; }
+.maptiles {width:50%; height:50%;}
+.showlabels {position:absolute; right:10px; top:10px; width:80px; height:15px;  padding:2px; line-height:15px; background: #fff; z-index:50; text-align:center; cursor:pointer;}
+.zoom {position:absolute; left:10px; top:10px; width:25px; height:50px; background: url(images/zoom.png) no-repeat; z-index:50; cursor:pointer;}
+.zoomin, .zoomout {height:25px;}
+
+/* Boxes Generic */
+.topshadow {position:absolute; top:0; left:0; width:100%; height:60px; background:url(images/topshadow.png) top repeat-x; z-index:10}
+.data {margin-left:6px; color:#fff; font-weight:bold;}
+.holder {background:#fff;}
+.title {color:#333; font-weight:bold;}
+.editable:hover {} /* show edit button */
+
+/* Thumb Styles */
+.medium {position:relative; width:174px; padding:11px 6px 0 6px; opacity:0.6; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
+.medium .holder {position:relative; padding: 7px 7px 0 7px;}
+.medium .content {height:190px; overflow:hidden;}
+.medium .image {position:relative; height:110px; margin-bottom:5px; overflow:hidden;}
+.medium .newimage {background:url(images/addimage.png);}
+.medium .tags a {font-weight:normal}
+.medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
+.medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
+.medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
+.timepassed {position:absolute; left:0; bottom:8px; width:100px; text-align:center; margin-left: -45px; font-weight:bold; color:#999;}
+.writepost {border:1px solid #ccc; height:60px; padding:5px; margin-top:5px; color:#999;}
+
+/* Lightboxes Styles*/
+.large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-270px 0 0 -250px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
+.single {display:block;}
+.large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
+.large .content {height:435px; overflow:hidden;}
+.large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ccc;}
+.large .title {font-size:18px; line-height:30px; margin-right:10px;}
+.large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:50px; font-weight:bold; cursor:move;} 
+.large .like {padding-right:30px; margin-right:8px; background:url(images/largelike.png) right no-repeat;}
+.streetholder {width:1024px; height:410px; overflow:hidden;}
+.large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
+.navarrow {padding-right:20px; margin-right:8px; cursor:pointer;}
+.scrolltrack, .slider {position:absolute; top:0; right:0; width:15px; height:100%; overflow:hidden; }
+.slider {margin-top:15px; background:#eee;}
+.slide {position:absolute; top:0; left:0; width:100%; height:100%; background: #fff; overflow:hidden; z-index:1;}
+.prev, .next {position:absolute; top:15px; width:30px; height:15px; font-weight:bold; font-size:15px; color:#fff; cursor:pointer;}
+.shadowclick {position:absolute; top:0; right:0; width:50px; height:100%;}
+.prev {right:40px;}
+.next {right:5px;}
+.streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
+.loadinggallery {width:110px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
+.cowobo_social_share {display: none; background: #fff; height: 26px; width:450px;}
+
+/* Edit Post Styles */
+.container {margin:20px 10px 0 0;}
+.selectbox {display:none; height:130px; clear:both; margin-bottom:5px;}
+.selectbox .slide {display:none; height:130px; overflow:hidden; padding:0 5px 0 5px;}
+.selectbox li:hover {background:#333; color:#fff;}
+.column {position:relative; width:46%; padding:0 5px 0 5px; height:100%; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
+.editbutton, .editlocation, .savebutton, .deletebutton, .removebutton, .showall, .addbutton {color:#888; cursor:pointer;}
+.editbutton, .addbutton {float:right;}
+.horlist {display:inline; list-style:none;}
+.horlist li {display:inline; padding-left:3px;}
+.horlist span {color:#888; cursor:pointer;}
+.verlist, .typelist {color:#333; padding-left:10px; cursor:pointer; list-style:none; }
+.selected {background:#333; color:#fff;}
+
+/* Related Boxes */
+.listbox {overflow:hidden;}
+.listbox li {padding:0;}
+.listbox ul {padding-left:15px;}
+.restrict {height:125px; }
+.listitem {height:50px; clear:both; margin-top:10px;}
+.thumbnail {width: 50px; float:left; height:50px; border:1px solid #ccc; overflow:hidden; background:#eee}
+.text {margin-left:60px}
+
+/* Reply box styling */
+.replybox {display:none; height:130px; clear:both;}
+.submit {margin-top:5px; background:none; border:none; font-weight:bold; color:#333; cursor:pointer;}
+.comments, .commentform {margin-top:10px;}
+.avatar {float: left; width: 30px; height:30px; margin:2px 10px 0 0; border: 1px solid #CCC;}
+.avatar img {width:100%; height:100%;}
+.commentbox {margin:10px 10px 0 0; padding:0 0 20px 0}
+.commenttext {width:100%; height:73px;}
+.authorlink, .coordinates {font-weight:bold; color:#333;}
+.children {margin-left:10px; list-style:none;}
+.reply {float:right; cursor:pointer;}
+.loading {padding-right:15px; background:url(images/ajax-loader.gif); display:none;}
+
+/* Cowobo connect */
+.cowobo_connect {padding: 10px;}
+
+/* Profile */
+.profile_pic {position:relative; background: url('images/profile.png') no-repeat; width: 250px; height:200px; overflow:hidden; float:left; }
+.profile_info {width: 250px; height:200px; float:right;}
+
