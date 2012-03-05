@@ -15,7 +15,6 @@ $postcomments = get_comments(array('post_id' =>$post->ID));?>
 <div class="replybox"><?php 
 global $social;
 if ($social->state != 4):
-	echo 'To contribute login using your favourite account:';
 	echo $social->speechbubble();
 else:?>
 	<form action="wp-comments-post.php" method="post" class="commentform">
