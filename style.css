@@ -13,7 +13,7 @@ html, body {height:100%; background:#ccc;}
 body {font-family:arial, 'lucida console', sans-serif; color: #666; line-height:1.5em; font-size:13px; overflow:hidden;}
 a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
 a:hover {color: #888}
-li {padding-left:11px;}
+li {padding-left:10px;}
 p {padding:5px 0 5px 0;}
 img {border:none;}
 input{margin-right:4px;}
@@ -139,7 +139,7 @@ a.rss {cursor: pointer;}
 .selected {background:#333; color:#fff;}
 
 /* Related Boxes */
-.listbox {overflow:hidden;}
+.listbox {overflow:hidden; list-style:none;}
 .listbox li {padding:0;}
 .listbox ul {padding-left:15px;}
 .restrict {height:125px; }

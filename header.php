@@ -114,7 +114,6 @@ if(is_home()):?>
 </div>
 <div id="cloud2">
 	<h1>Join Us</h1>
-	Simply click your favourite account:
 	<?php global $social; echo $social->speechbubble(); ?>
 	<div id="closebutton2">X</div>
 </div><?php

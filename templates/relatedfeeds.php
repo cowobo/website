@@ -28,7 +28,6 @@ $relatedfeeds = get_the_category();?>
 		endforeach;?>
 	</div><?php
 	else:
-		echo 'To contribute login using your favourite account:';
 		global $social; echo $social->speechbubble();
 	endif;?>
 </div>

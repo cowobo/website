@@ -59,15 +59,14 @@ class Cowobo_Social_Options {
 		// Default options
 		if ( empty ( $nags ) ) {
 			$nags = array (
-				1 => "<h1>Join Us</h1>Simply click on the account you use most:<br/>COWOBOCONNECT",
-				2 => "<span class='speechbubble-title'>Welcome to CoWoBo!</span><p>Welcome to Cowobo. Your current display name is <a href='PROFILEURL'>DISPLAYNAME</a>. You can change this display name and get access to all cowobo.org functionalities, by <a href='PROFILEURL'>creating a profile</a>.</p>",
-				3 => "<span class='speechbubble-title'>Welcome back DISPLAYNAME</span><br/><p>You didn't make your Coders Without Borders profile yet. Please do so by clicking <a href='PROFILEURL'>here</a>.</p>"
+				1 => "Simply click on the account you use most:<br/>COWOBOCONNECT",
+				2 => "Your current display name is <a href='PROFILEURL'>DISPLAYNAME</a>. You can change this display name and get access to all cowobo.org functionalities, by <a href='PROFILEURL'>creating a profile</a>",
+				3 => "Hi DISPLAYNAME! You didn't make your Coders Without Borders profile yet. Please do so by clicking <a href='PROFILEURL'>here</a>"
 			);
 			update_option ( 'cwob_nags', $nags );
 		}
 		
 		echo '<div class="wrap">
-			<h2>CoWoBo Connect: nags</h2>
 			<div id="poststuff">
 				<div class="postbox">
 					<div class="inside">
