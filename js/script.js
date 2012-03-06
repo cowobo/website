@@ -306,9 +306,11 @@ function cowobo_editpost_listeners() {
 	jQuery('.addbutton').live('click', function() {
 		var replylink = jQuery(this);
 		var post = replylink.parents('.large');
+		var postid = post.attr('id');
 		post.find('.commentbox .replybox').insertAfter(replylink).slideDown(); 
 		post.find('.comment_parent').val(0);
-		post.find('.comment_post_ID').val(post.attr('id'));
+		post.find('.comment_post_ID').val(postid);
+		update_scrollbars(postid);
   	});	
 	
 	//move commentform to the correct place and add the comment number
