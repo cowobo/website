@@ -460,7 +460,7 @@ function loadlike(postid) {
 	});
 	
 	// Listen for click to expand like interface
-	jQuery('a.cowobo_social_like').click(function(ev) {
+	jQuery('.cowobo_social_like').click(function(ev) {
 		jQuery('#' + postid).find('.cowobo_social_share').slideToggle();
 		ev.preventDefault();
 	});

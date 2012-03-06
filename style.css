@@ -107,7 +107,7 @@ a.rss {cursor: pointer;}
 .large .content {height:435px; overflow:hidden;}
 .large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ccc;}
 .large .title {font-size:18px; line-height:30px; margin-right:10px;}
-.large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:50px; font-weight:bold; cursor:move;} 
+.large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:50px; font-weight:bold; cursor:move; clear:both;} 
 .large .like {padding-right:30px; margin-right:8px; background:url(images/largelike.png) right no-repeat;}
 .streetholder {width:1024px; height:410px; overflow:hidden;}
 .large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
@@ -121,7 +121,7 @@ a.rss {cursor: pointer;}
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .loadinggallery {width:110px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
-.cowobo_social_share {display: none; background: #fff; height: 26px; width:550px;}
+.cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */
 .container {margin:20px 10px 0 0;}

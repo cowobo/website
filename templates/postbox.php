@@ -29,10 +29,11 @@
 	<div class="arrow"><?php
 		if(!current_user_can('edit_posts')):?>
 			<span class="navarrow left"></span>
-			<a href='#' class='cowobo_social_like'>Share</a>
+			<span class='cowobo_social_like button'>Share</span>
 			<span class="navarrow right"></span><?php
 		else:?>
-			<span class="save button" id="save-<?php echo $post->ID;?>">Save</span> | 
+			<span class="save button" id="save-<?php echo $post->ID;?>">Save</span>
+			<span class='cowobo_social_like button'>Share</span>
 			<span class="delete button">Delete</span><?php
 		endif;?>
 	</div>
