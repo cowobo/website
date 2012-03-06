@@ -253,7 +253,7 @@ function cowobo_map_listeners() {
 
 //CONTRIBUTE//
 function cowobo_editpost_listeners() {	
-	jQuery('.editlocation').live('click', function() {
+	jQuery('.relocate').live('click', function() {
 		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
 		jQuery('#editmarker').show();
@@ -292,7 +292,7 @@ function cowobo_editpost_listeners() {
 		update_scrollbars(postid);
   	});	
 	
-	jQuery('.editbutton').live('click', function() {
+	jQuery('.edit').live('click', function() {
 		var selectbox = jQuery(this).siblings('.selectbox').eq(0);
 		if(selectbox.is(":visible")){
 			jQuery(this).html('+ Add');
@@ -303,11 +303,11 @@ function cowobo_editpost_listeners() {
   	});	
 	
 	//move commentbox back to top
-	jQuery('.addbutton').live('click', function() {
+	jQuery('.add').live('click', function() {
 		var replylink = jQuery(this);
 		var post = replylink.parents('.large');
 		var postid = post.attr('id');
-		post.find('.commentbox .replybox').insertAfter(replylink).slideDown(); 
+		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(replylink).slideDown()});; 
 		post.find('.comment_parent').val(0);
 		post.find('.comment_post_ID').val(postid);
 		update_scrollbars(postid);
@@ -318,13 +318,13 @@ function cowobo_editpost_listeners() {
 		var comment = jQuery(this).parents('.comments');
 		var commid = comment.attr('id').split('-')[1];
 		var post = comment.parents('.large');
-		post.find('.commentbox .replybox').insertAfter(comment).slideDown(); 
+		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(comment).slideDown()}); 
 		post.find('.commentbox .listbox').removeClass('restrict');
 		post.find('.comment_parent').val(commid);
 		update_scrollbars(post.attr('id'));
 	});
 	
-	jQuery('.removebutton').live('click', function() {
+	jQuery('.remove').live('click', function() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
 		jQuery(this).parents('.listitem').remove();
 		listbox.css('height', 'auto');
@@ -339,7 +339,7 @@ function cowobo_editpost_listeners() {
 			var listitem = jQuery('<div class="'+ id +' listitem">'
 			+ '<div class="thumbnail"></div><div class="text">'
 			+ jQuery(this).html()
-			+ '<span class="removebutton"> (x)</span><br/>Updated just now</div></div>');
+			+ '<span class="remove button"> (x)</span><br/>Updated just now</div></div>');
 			listitem.prependTo(listbox);
 			listbox.css('height', 'auto');
 		};
@@ -355,7 +355,7 @@ function cowobo_editpost_listeners() {
 	});	
 	
 	
-	jQuery('.savebutton').live('click', function() {
+	jQuery('.save').live('click', function() {
 		var catids = new Array(); var postids = new Array();
 		var post = jQuery(this).parents('.large');
 		var saveid = post.attr('id');
@@ -387,7 +387,7 @@ function cowobo_editpost_listeners() {
 		});
   	});	
 
-	jQuery('.deletebutton').live('click', function() {
+	jQuery('.delete').live('click', function() {
 		var deleteid = jQuery(this).parents('.large').attr('id');
 		if(confirm('Are you sure you want to delete this post?'))
 			location.href='?deleteid='+deleteid;
@@ -438,7 +438,7 @@ function loadlightbox(postid) {
 				jQuery('#' + postid + ' .fee-field').each(FrontEndEditor.make_editable);
 			}
 			if(postid=='new'){
-				var id = jQuery('#new .savebutton').attr('id').split('-')[1];
+				var id = jQuery('#new .save').attr('id').split('-')[1];
 				jQuery('#new').attr('id', id);
 			}
 		}
@@ -508,6 +508,13 @@ function update_scrollbars(postid) {
 		event.stopPropagation();
 		startpos = mousepos - jQuery(this).position().top;
 	});
+	
+	//bind mousewheel to new content
+	jQuery(".content").mousewheel(function(event, delta) {
+		jQuery(this).scrollTop(jQuery(this).scrollTop()+delta * -30);
+		//event.preventDefault();
+	});
+	
 }
 
 // scroll divs depending on position of mouse
