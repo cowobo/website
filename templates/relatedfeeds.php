@@ -1,12 +1,12 @@
 <div class="container"><?php
-
+global $social; 
 $relatedfeeds = get_the_category();?>
 
-<h3>Feeds</h3><?php if(count($relatedfeeds)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
-<div class="editbutton">+ Add</div>
+<h3>Feeds</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
+<div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
-	if($social->state != 4):?>
+	if($social->state > 3):?>
 	<div class="column left">
 		<h3>1. Choose Type</h3>
 		<ul class="typelist"><?php
@@ -49,7 +49,7 @@ if (!empty($relatedfeeds)):
 			</div>
 			<div class="text">
 				<a href="<?php echo get_category_link($cat->term_id);?>"><?php echo $cat->name;?></a><?php 
-				if(current_user_can('edit_posts')):?><span class="removebutton"> (x)</span><?php endif;?><br/>
+				if(current_user_can('edit_posts')):?><span class="remove button"> (x)</span><?php endif;?><br/>
 				Updated <?php echo time_passed(strtotime($posts[0]->post_date));?>
 			</div>
 		</div><?php

@@ -1,13 +1,13 @@
 <div class="container"><?php
-
+global $social; 
 $relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
 $relatedposts = $relatedposts->get_related();?>
 
-<h3>Subscriptions </h3><?php if(count($relatedposts)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
-<div class="editbutton">+ Add</div>
+<h3>Subscriptions </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+<div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
-	if($social->state != 4):?>
+	if($social->state > 3):?>
 		<div class="column left">
 			<h3>1. Choose Type</h3>
 			<ul class="typelist">
@@ -61,7 +61,7 @@ if (!empty($relatedposts)):
 			</div>
 			<div class="text">
 				<a href="<?php echo get_permalink($related->ID);?>"><?php echo $related->post_title;?></a><?php 
-				if(current_user_can('edit_posts')):?><span class="removebutton"> (x)</span><?php endif;?><br/>
+				if(current_user_can('edit_posts')):?><span class="remove button"> (x)</span><?php endif;?><br/>
 				Updated <?php echo time_passed(strtotime($related->post_date));?>
 			</div>
 		</div><?php

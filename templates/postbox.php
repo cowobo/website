@@ -32,8 +32,8 @@
 			<a href='#' class='cowobo_social_like'>Share</a>
 			<span class="navarrow right"></span><?php
 		else:?>
-			<span class="savebutton" id="save-<?php echo $post->ID;?>">Save</span> | 
-			<span class="deletebutton">Delete</span><?php
+			<span class="save button" id="save-<?php echo $post->ID;?>">Save</span> | 
+			<span class="delete button">Delete</span><?php
 		endif;?>
 	</div>
 	<div class="shadowclick"></div>

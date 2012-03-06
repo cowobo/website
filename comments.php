@@ -10,7 +10,7 @@ if ( post_password_required() ) { ?>
 $postcomments = get_comments(array('post_id' =>$post->ID));?>
 
 <h3>Comments</h3><?php if(count($postcomments)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
-<div class="addbutton">+ Add</div>
+<div class="add button">+ Add</div>
 
 <div class="replybox"><?php 
 global $social;
@@ -39,7 +39,7 @@ if (!function_exists('cowobo_comments')) {
 		<article class="comments" id="comment-<?php comment_ID(); ?>" >
 			<footer class="comment-meta">
 				<div class="comment-author vcard">
-					<div class="reply">+ Reply</div>
+					<div class="reply button">+ Reply</div>
 					<div class="thumbnail"></div>
 					<div class="text"><?php
 						echo '<span class="authorlink">'.get_comment_author_link().'</span>, '.time_passed(strtotime($comment->comment_date)).':<br/>';

@@ -3,7 +3,7 @@ if(current_user_can('edit_posts')):?>
 <b>Coordinates: </b>
 	<ul class="coordinates horlist">
 	<li id="<?php echo $coordinates;?>"><?php echo $coordinates;?><span> (x)</span></li>
-	</ul><span class="editlocation"> Edit</span><br/><?php
+	</ul><span class="relocate button"> Edit</span><br/><?php
 endif;?>
 <b>Date Joined: </b><?php 
 	if(function_exists('editable_post_meta')):

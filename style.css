@@ -54,7 +54,6 @@ a.rss {cursor: pointer;}
 #searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
 #profilelink {float:right; margin:3px 15px 0 0; font-size:14px}
 
-
 /* Speech bubble */
 .speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}
 /*.speechbubble.right{background:#075698; width:365px;} */
@@ -122,7 +121,7 @@ a.rss {cursor: pointer;}
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .loadinggallery {width:110px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
-.cowobo_social_share {display: none; background: #fff; height: 26px; width:450px;}
+.cowobo_social_share {display: none; background: #fff; height: 26px; width:550px;}
 
 /* Edit Post Styles */
 .container {margin:20px 10px 0 0;}
@@ -130,8 +129,9 @@ a.rss {cursor: pointer;}
 .selectbox .slide {display:none; height:130px; overflow:hidden; padding:0 5px 0 5px;}
 .selectbox li:hover {background:#333; color:#fff;}
 .column {position:relative; width:46%; padding:0 5px 0 5px; height:100%; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
-.editbutton, .editlocation, .savebutton, .deletebutton, .removebutton, .showall, .addbutton {color:#888; cursor:pointer;}
-.editbutton, .addbutton {float:right;}
+.button {color:#ccc; cursor:pointer;}
+.button:hover {color:#888;}
+.edit, .add, .reply {float:right;}
 .horlist {display:inline; list-style:none;}
 .horlist li {display:inline; padding-left:3px;}
 .horlist span {color:#888; cursor:pointer;}
@@ -157,7 +157,6 @@ a.rss {cursor: pointer;}
 .commenttext {width:100%; height:73px;}
 .authorlink, .coordinates {font-weight:bold; color:#333;}
 .children {margin-left:10px; list-style:none;}
-.reply {float:right; cursor:pointer;}
 .loading {padding-right:15px; background:url(images/ajax-loader.gif); display:none;}
 
 /* Cowobo connect */
