@@ -18,7 +18,7 @@ p {padding:5px 0 5px 0;}
 img {border:none;}
 input{margin-right:4px;}
 textarea {border:1px solid #eee;}
-h1 {font-family:'Century Gothic'; white-space: nowrap; font-size:32px; color:#fff; padding:10px 15px 0 20px;}
+h1 {font-family:'Century Gothic'; white-space: nowrap; font-size:32px; color:#fff; padding:10px 15px 0 20px; height:25px;}
 h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
