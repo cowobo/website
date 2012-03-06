@@ -511,8 +511,7 @@ function update_scrollbars(postid) {
 	
 	//bind mousewheel to new content
 	jQuery(".content").mousewheel(function(event, delta) {
-		jQuery(this).scrollTop(jQuery(this).scrollTop()+delta * -30);
-		//event.preventDefault();
+		jQuery(this).scrollTop(jQuery(this).scrollTop()+(delta * -30));
 	});
 	
 }
