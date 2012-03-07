@@ -53,6 +53,7 @@ a.rss {cursor: pointer;}
 #keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
 #searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
 #profilelink {float:right; margin:3px 15px 0 0; font-size:14px}
+#taketour {font-size:14px;}
 
 /* Speech bubble */
 .speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}

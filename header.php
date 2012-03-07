@@ -103,21 +103,7 @@ endif;?>
 		<span class="cancellocation">Cancel</span>
 	</div>
 	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
-</div><?php 
-
-if(is_home()):?>
-<div id="cloud1">
-	<h1>Welcome</h1>
-	<?php bloginfo('description');?>.
-	<a href="mailto:contactus@cowobo.org"> Take the Tour!</a>
-	<div id="closebutton1">X</div>
 </div>
-<div id="cloud2">
-	<h1>Join Us</h1>
-	<?php global $social; echo $social->speechbubble(); ?>
-	<div id="closebutton2">X</div>
-</div><?php
-endif;?>
 
 <div id="page">
 	<h1 id="<?php echo $currentcat->term_id;?>"><b><?php echo $pagetitle;?></b><?php 
@@ -129,6 +115,8 @@ endif;?>
 		else:?>
 			<a onclick="add_to_feed(<?php echo $feed_query; ?>)" class="rss">Subscribe to Feed</a><?php 
 		endif; 
+	else:?>
+		<span id="taketour">Take the Tour!</span><?php
 	endif; ?></h1>
 	
 	<div id='speaking_angel'>
@@ -146,7 +134,7 @@ endif;?>
 		$profilepost = get_posts(array('author' => get_current_user_id(), 'cat'=>get_cat_ID('Coder').','.get_cat_ID('Coders'),));
 		if(count($profilepost)<1):
 			//if no profile posts by the author are found open the Add New Post template ?>
-			<a href="#" class="newprofile">Your Profile</a><?php
+			<a href="#" class="newprofile">Join us!</a><?php
 		else:?>
 			<a href="#" class="profile<?php echo $profilepost[0]->ID;?>">Your Profile</a><?php
 		endif;?>
