@@ -27,6 +27,7 @@
  *
  * @package cowobo-social
  */
+
 include_once('class-cowobo-social-options.php');
 
 class Cowobo_Social {
@@ -40,6 +41,7 @@ class Cowobo_Social {
      * State 2: first login
      * State 3: logged in, no profile
      * State 4: Registration complete: logged in with profile.
+     *
      * @var int
      */
     public $state;
@@ -49,7 +51,7 @@ class Cowobo_Social {
      *
      * @param boolean $skip_construct true skips constructor
      */
-	function __construct( $skip_construct = false ) {
+	public function __construct( $skip_construct = false ) {
 		if ( $skip_construct ) return;
 		if ( is_admin ) {
 			$options = new Cowobo_Social_Options();
@@ -115,7 +117,7 @@ class Cowobo_Social {
      * @param type $query
      * @return type
      */
-	function feed_filter($query) {
+	public function feed_filter($query) {
 		if ($query->is_feed) {
 			add_filter('the_content', array( &$this, 'feedContentFilter' ) );
 		}
@@ -129,7 +131,7 @@ class Cowobo_Social {
      * @param int $feed_query
      * @return boolean true on success
      */
-	function add_to_feed($userid,$feed_query) {
+	public function add_to_feed($userid,$feed_query) {
 		$currentfeed = get_user_meta($userid,'cowobo_feed',true);
 		if (empty($currentfeed)) $currentfeed = array();
 		$currentfeed[] = $feed_query;
@@ -143,7 +145,7 @@ class Cowobo_Social {
      * @param int $userid
      * @return boolean true on success
      */
-	function reset_feed($userid) {
+	public function reset_feed($userid) {
 		update_user_meta($userid,'cowobo_feed', '');
 		return true;
 	}
@@ -154,7 +156,7 @@ class Cowobo_Social {
      * @param object $content
      * @return object content with image
      */
-	function feedContentFilter($content) {
+	public function feedContentFilter($content) {
 		$img = cwob_get_first_image($post->ID);
 		if($img) {
 			$image = '<img align="left" src="'. $img .'" alt="" />';
@@ -195,7 +197,7 @@ class Cowobo_Social {
      *
      * @param int $userid
      */
-	function complete_register($userid) {
+	public function complete_register($userid) {
 		if (get_user_meta($userid, 'cowobo_state', true) == '3') update_user_meta($userid,'cowobo_state','4');
 	}
 
@@ -205,7 +207,7 @@ class Cowobo_Social {
      * @param array $args
      * @return str The social connect html
      */
-	function cowobo_connect( $args = NULL ) {
+	public function cowobo_connect( $args = NULL ) {
 
 		if( $args == NULL )
 			$display_label = true;
