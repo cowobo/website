@@ -2,7 +2,7 @@
 /*
  *      class-cowobo-social.php
  *
- *      Copyright 2011 Coders Without Borders
+ *      Copyright 2012 Coders Without Borders
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -188,7 +188,7 @@ class Cowobo_Social {
 	}
 
     public function get_profile_url ( $userid ) {
-        $ret = get_bloginfo('siteurl') . "/profile/" . get_userdata($userid)->user_nicename;
+        $ret = get_bloginfo('siteurl') . "/category/coders/" . get_userdata($userid)->user_display_name;
         return $ret;
     }
 
@@ -517,4 +517,3 @@ class Cowobo_Social {
 	}
 
 }
-?>
