@@ -4,7 +4,7 @@ global $social;
 
 <h3>Locations </h3><?php if(count($locations)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 
-<div class="relocate button">+ Add</div>
+<div class="edit relocate button">+ Add</div>
 <ul class="coordinates horlist">
 	<li id="<?php echo $coordinates;?>"><?php echo $coordinates;?><span> (x)</span></li>
 </ul>

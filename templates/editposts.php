@@ -1,27 +1,37 @@
-<div class="container coders"><?php
-global $social;
-if(!empty($profiles)):
-	$relatedcoders = get_posts(array('post__in' => $profiles));
-endif;
-$codercats = get_categories(array('child_of'=>get_cat_ID('Coders'), 'hide_empty'=>false, 'parent'=>get_cat_ID('Coders')));?>
+<div class="container posts"><?php
+global $social; 
+$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
+$relatedposts = $relatedposts->get_related();?>
 
-<h3>Coders </h3><?php if(count($relatedcoders)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+<h3>Posts </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
-<div class="selectbox"><?php 
+<div class="selectbox"><?php
 	if($author):?>
 		<div class="column left">
 			<h3>1. Choose Type</h3>
-			<ul class="typelist"><?php
-				foreach($codercats as $cat):?>
+			<ul class="typelist">
+				<li id="sugg" class="selected">Suggested Posts >></li><?php
+				foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
 					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
 				endforeach;?>
 			</ul>
 		</div>
-		<div class="column right"><?php	
-			foreach($codercats as $cat):?>
+		<div class="column right">
+			<div class="slide catsugg" style="display:block">
+				<h3>2. Choose Posts</h3>
+				<ul class="verlist"><?php
+				$suggestedposts  = new Cowobo_Related_Posts();
+				if ($suggestedposts = $suggestedposts->find_similar_posts()) :
+					foreach($suggestedposts as $suggested):?>
+						<li class="<?php echo $suggested->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $suggested->post_title;?></a></li><?php
+					endforeach;
+				endif;?>
+				</ul>
+			</div><?php	
+			foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
 			<div class="slide cat<?php echo $cat->term_id;?>">
-				<h3>2. Choose Coders</h3>
+				<h3>2. Choose Posts</h3>
 				<ul class="verlist"><?php 
 					foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
 						<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
@@ -35,9 +45,9 @@ $codercats = get_categories(array('child_of'=>get_cat_ID('Coders'), 'hide_empty'
 	endif;?>
 </div>
 
-<div class="listbox <?php if(count($relatedcoders)>2):?>restrict<?php endif;?>"><?php
-if (!empty($relatedcoders)):
-	foreach ($relatedcoders as $related): unset($images);?>
+<div class="listbox <?php if(count($relatedposts)>2):?>restrict<?php endif;?>"><?php
+if (!empty($relatedposts)):
+	foreach ($relatedposts as $related): unset($images);?>
 		<div class="<?php echo $related->ID;?> listitem">
 			<div class="thumbnail"><?php
 				$images = get_children(array('post_parent' => $related->ID, 'numberposts' => 1, 'post_mime_type' =>'image'));
@@ -56,8 +66,8 @@ if (!empty($relatedcoders)):
 			</div>
 		</div><?php
 	endforeach;
-elseif(current_user_can('edit_post')):?>
-	<br/>You must assign an author to this post.<?php
+elseif(!current_user_can('edit_posts')):
+	echo '<br/>This post is not yet related to other content';
 endif;?>
 </div>
 

@@ -297,7 +297,7 @@ function cowobo_editpost_listeners() {
 		if(selectbox.is(":visible")){
 			jQuery(this).html('+ Add');
 		} else {
-			jQuery(this).html('- Cancel');
+			jQuery(this).html('- Hide');
 		}
 		selectbox.slideToggle();
   	});	
@@ -347,19 +347,20 @@ function cowobo_editpost_listeners() {
 	
 	jQuery('.typelist li').live('click', function() {
 		var id = jQuery(this).attr('class').split(' ')[0];
+		var container = jQuery(this).parents('.container');
 		jQuery(this).addClass('selected').siblings().removeClass('selected');
 		//empty primary feed list if choosing new feed
 		if(jQuery(this).parents('.feeds').length > 0) 
-			jQuery(this).parents('.container').children('.listbox').empty();
+			container.children('.listbox').empty();
 		jQuery('.selectbox .slide').fadeOut();
-		jQuery('.cat'+id).fadeIn();
+		container.find('.cat'+id).fadeIn();
 	});	
 	
 	
 	jQuery('.save').live('click', function() {
 		var feeds = new Array(); 
 		var posts = new Array(); 
-		var coders = new Array(); 
+		var authors = new Array(); 
 		var subscriptions = new Array();
 		
 		var post = jQuery(this).parents('.large');
@@ -374,9 +375,9 @@ function cowobo_editpost_listeners() {
 				jQuery(this).find('.listitem').each(function(){
 					feeds.push(jQuery(this).attr('class').split(' ')[0]);
 				});	
-			} else if (jQuery(this).hasClass('coders')) { 
+			} else if (jQuery(this).hasClass('authors')) { 
 				jQuery(this).find('.listitem').each(function(){
-					coders.push(jQuery(this).attr('class').split(' ')[0]);
+					authors.push(jQuery(this).attr('class').split(' ')[0]);
 				});
 			} else if (jQuery(this).hasClass('subscriptions')) { 
 				jQuery(this).find('.listitem').each(function(){
@@ -397,7 +398,7 @@ function cowobo_editpost_listeners() {
 					postid: postid, 
 					feeds: feeds.join(','), 
 					posts: posts.join(','), 
-					coders: coders.join(','), 
+					authors: authors.join(','), 
 					subscriptions: subscriptions.join(','), 
 					coordinates: newlatlng},
 				success: function (permalink){
