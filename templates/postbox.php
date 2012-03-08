@@ -2,7 +2,7 @@
 //check type of post and authors
 global $social; unset($profiles);
 $posttype = cwob_get_category($post->ID)->slug;
-$profiles = get_post_meta($post->ID, 'coder', false);
+$profiles = get_post_meta($post->ID, 'author', false);
 if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
 
 <div class="large single" id="<?php echo $post->ID;?>">
@@ -33,14 +33,16 @@ if(in_array($social->profile_id, $profiles)) $author = true; else $author = fals
 	</div>
 	<div class="cowobo_social_share"></div>
 	<div class="arrow"><?php
-		if(!current_user_can('edit_posts')):?>
-			<span class="navarrow left"></span>
-			<span class='cowobo_social_like button'>Share</span>
-			<span class="navarrow right"></span><?php
-		else:?>
+		if($author):?>
 			<span class="save button" id="save-<?php echo $post->ID;?>">Save</span>
 			<span class='cowobo_social_like button'>Share</span>
 			<span class="delete button">Delete</span><?php
+		else:
+			$prev = get_adjacent_post(true,'',true); 
+			$next = get_adjacent_post(true,'',false);?>
+			<span class="lastpost button" id="last-<?php echo $prev->ID; ?>">Last</span>
+			<span class="cowobo_social_like button">Share</span>
+			<span class="nextpost button" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>
 	<div class="shadowclick"></div>

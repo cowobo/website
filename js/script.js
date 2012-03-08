@@ -98,7 +98,7 @@ function cowobo_sidebar_listeners() {
 		jQuery('#scroller').slideToggle();
 		jQuery('#'+postid).fadeIn();
 		update_scrollbars(postid);
-		loadlightbox(postid);
+		loadlightbox(postid, postid);
 		
 		//load new map if marker has coordinates
 		if(typeof(coordinates) != 'undefined' && coordinates.length>0) {
@@ -356,7 +356,16 @@ function cowobo_editpost_listeners() {
 		container.find('.cat'+id).fadeIn();
 	});	
 	
-	
+	jQuery('.nextpost, .lastpost').live('click', function() {
+		var parent = jQuery(this).parents('.large');
+		var postid = parent.attr('id');
+		var newid = jQuery(this).attr('id').split('-')[1];
+		parent.find('.content').fadeTo('slow', 0.5);
+		loadlightbox(newid, postid);
+		//var type = jQuery('.maplayer:last').data('map').type
+		//loadNewMap(lat, lng, zoom, markers, type);
+	});
+		
 	jQuery('.save').live('click', function() {
 		var feeds = new Array(); 
 		var posts = new Array(); 
@@ -443,7 +452,7 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid) {
+function loadlightbox(postid , loadid) {
 	var cat = jQuery('#page h1').attr('id');
 	update_scrollbars(postid);
 	//load lightbox contents
@@ -452,12 +461,12 @@ function loadlightbox(postid) {
    		url: 'wp-admin/admin-ajax.php',
    		data: {action: 'loadlightbox', currentcat:cat, postid:postid},
    		success: function(msg){
-	    	jQuery('#' + postid).html(jQuery(msg).html());
+	    	jQuery('#' + loadid).html(jQuery(msg).html());
 			cowobo_jquery_ui_listeners();
-			update_scrollbars(postid);
+			update_scrollbars(loadid);
 			loadlike(postid);
-			if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+postid+' .editable').length > 0) {
-				jQuery('#' + postid + ' .fee-field').each(FrontEndEditor.make_editable);
+			if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+loadid+' .editable').length > 0) {
+				jQuery('#' + loadid + ' .fee-field').each(FrontEndEditor.make_editable);
 			}
 			if(postid=='new'){
 				var id = jQuery('#new .save').attr('id').split('-')[1];
@@ -545,7 +554,6 @@ function mousemov() {
 	if (overslide>0 && jQuery('.slide:visible').length>0 ) {
 		var slide = jQuery('.slide:visible').last();
 		var mousex = window.ex - slide.offset().left;
-		var mousey = window.ey - slide.offset().top;
 		if(mousex < slide.width()/4) {
 			var speed = (slide.width()/4)/mousex;
 			if (speed > maxspeed) speed = maxspeed; 
@@ -555,16 +563,6 @@ function mousemov() {
 			if (speed > maxspeed) speed = maxspeed;
 			slide.scrollLeft(slide.scrollLeft()+ speed);
 		}
-		if(mousey < slide.height()/4) {
-			var speed = (slide.height()/4)/mousey;
-			if (speed > maxspeed) speed = maxspeed; 
-			slide.scrollTop(slide.scrollTop()- speed);
-		} else if(mousey > (slide.height()-slide.height()/4)) {
-			var speed = (slide.height()/4)/(slide.height()-mousey);
-			if (speed > maxspeed) speed = maxspeed;			
-			slide.scrollTop(slide.scrollTop()+ speed);
-		}
-		
 	}
 	var maxspeed = 10;
 	//scroll content of lightbox
@@ -759,7 +757,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 			event.stopPropagation();
 			jQuery('#scroller').slideUp();
 			jQuery('#'+markerid).fadeIn();
-			loadlightbox(markerid);
+			loadlightbox(markerid, markerid);
 			loadNewMap(markerpos[0], markerpos[1], 15, markers, type);
 		});
 		marker.hover(
