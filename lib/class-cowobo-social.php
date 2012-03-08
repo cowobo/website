@@ -1,42 +1,64 @@
 <?php
 /*
  *      class-cowobo-social.php
- *      
- *      Copyright 2011 Coders Without Borders
- *      
+ *
+ *      Copyright 2012 Coders Without Borders
+ *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 2 of the License, or
  *      (at your option) any later version.
- *      
+ *
  *      This program is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *      GNU General Public License for more details.
- *      
+ *
  *      You should have received a copy of the GNU General Public License
  *      along with this program; if not, write to the Free Software
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
- *      
- *      
+ *
+ *
  */
 
-/* This class regulates all front end user interaction */
+/**
+ * This class regulates all front end user interaction
+ *
+ * @package cowobo-social
+ */
+
 include_once('class-cowobo-social-options.php');
 
 class Cowobo_Social {
 
 	public $show_bubble = true;
 
-	function __construct( $skip_construct = false ) {
-		if ( $skip_construct ) return;		
+    /**
+     * Gives the user state, 1-4.
+     *
+     * State 1: not logged in.
+     * State 2: first login
+     * State 3: logged in, no profile
+     * State 4: Registration complete: logged in with profile.
+     *
+     * @var int
+     */
+    public $state;
+
+    /**
+     * Constructor for cowobo social
+     *
+     * @param boolean $skip_construct true skips constructor
+     */
+	public function __construct( $skip_construct = false ) {
+		if ( $skip_construct ) return;
 		if ( is_admin ) {
 			$options = new Cowobo_Social_Options();
 			add_action('admin_menu',array( &$options, 'add_menu_pages' ));
 			unset($options);
 		}
-		
+
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
 		$this->state = get_user_meta($userid, 'cowobo_state', true);
@@ -46,10 +68,10 @@ class Cowobo_Social {
 		}
 		// New user profile page
 		add_action('user_register',array( &$this, 'new_user_profile'));
-		
+
 		// RSS
 		add_filter('pre_get_posts',array( &$this, 'feed_filter' ));
-			
+
 		// Give the profile a fancy link ( profile/username )
 		/*global $wp_rewrite;
 		$wp_rewrite->author_base = 'profile'; */
@@ -57,13 +79,18 @@ class Cowobo_Social {
 		// Share
 		add_action('init', array ( &$this, 'share_scripts') );
 		//add_action ( 'wp_footer',array ( &$this, 'total_sharing' ) );
-		
+
 		// Schedule share cron job
 		add_action('daily_events', array ( &$this, 'update_total_count' ) );
 	}
 
 	/* === User Profiles === */
-	// New user
+	/**
+     * Creates the new user profile
+     *
+     * @param int $userid
+     * @return boolean true on success, false on failure
+     */
 	public function new_user_profile ( $userid ) {
 		$user = get_userdata($userid);
 		if ( ! empty($user->cowobo_profile) ) return false;
@@ -82,65 +109,105 @@ class Cowobo_Social {
 		if ( !update_user_meta( $userid, 'cowobo_profile', $profileid) ) return false;
 		return true;
 	}
-	
+
 	/* === RSS === */
-	// General filter calling all the mods
-	function feed_filter($query) {
+    /**
+     * General filter calling all the mods
+     *
+     * @param type $query
+     * @return type
+     */
+	public function feed_filter($query) {
 		if ($query->is_feed) {
 			add_filter('the_content', array( &$this, 'feedContentFilter' ) );
 		}
 		return $query;
 	}
 
-	function add_to_feed($userid,$feed_query) {
+    /**
+     *
+     *
+     * @param int $userid
+     * @param int $feed_query
+     * @return boolean true on success
+     */
+	public function add_to_feed($userid,$feed_query) {
 		$currentfeed = get_user_meta($userid,'cowobo_feed',true);
 		if (empty($currentfeed)) $currentfeed = array();
 		$currentfeed[] = $feed_query;
 		update_user_meta($userid,'cowobo_feed',$currentfeed);
 		return true;
 	}
-	
-	function reset_feed($userid) {
+
+    /**
+     * Full reset on user's personal feed
+     *
+     * @param int $userid
+     * @return boolean true on success
+     */
+	public function reset_feed($userid) {
 		update_user_meta($userid,'cowobo_feed', '');
 		return true;
 	}
 
-	// Add thumbs
-	function feedContentFilter($content) {
+	/**
+     * Add thumbs to feed
+     *
+     * @param object $content
+     * @return object content with image
+     */
+	public function feedContentFilter($content) {
 		$img = cwob_get_first_image($post->ID);
 		if($img) {
 			$image = '<img align="left" src="'. $img .'" alt="" />';
 			echo $image;
-		}	 
+		}
 		return $content;
 	}
 
 	/* === Add your profile === */
-	// The profile nags
-	function speechbubble() {
+	/**
+     * The profile nags
+     *
+     * @return str $profile_nag
+     */
+	public function speechbubble() {
 		$nags = get_option('cwob_nags');
 		if (is_user_logged_in()) { // State 2 & 3 (logged in, no profile)
 			$userid = wp_get_current_user()->ID;
 			if ( empty ( $this->state ) ) $this->state = 2;
 			$current_display_name = get_userdata($userid)->display_name;
-			$current_profile_url = get_bloginfo('siteurl') . "/profile/" . get_userdata($userid)->user_nicename;
+			$current_profile_url = $this->get_profile_url ( $userid );
 			$profile_nag = stripslashes ( strtr ( $nags[$this->state], array ( 'DISPLAYNAME' => $current_display_name, 'PROFILEURL' => $current_profile_url ) ) );
 			if ( $this->state == 2 ) update_user_meta($userid,'cowobo_state','3');
 		}
-		else {	// State 1: Not logged in 
+		else {	// State 1: Not logged in
 			$profile_nag = stripslashes ( strtr ( $nags[1], array ('COWOBOCONNECT' => $this->cowobo_connect() ) ) );
 		}
 		return $profile_nag;
 	}
 
-	// Stop showing the nag
-	function complete_register($userid) {
+    public function get_profile_url ( $userid ) {
+        $ret = get_bloginfo('siteurl') . "/category/coders/" . get_userdata($userid)->user_display_name;
+        return $ret;
+    }
+
+	/**
+     * Completes registration and stops showing the nags
+     *
+     * @param int $userid
+     */
+	public function complete_register($userid) {
 		if (get_user_meta($userid, 'cowobo_state', true) == '3') update_user_meta($userid,'cowobo_state','4');
 	}
 
 	/* === Social login === */
-	// Social login buttons (extension of Social Connect plugin)
-	function cowobo_connect( $args = NULL ) {
+	/**
+     * Social login buttons (extension of Social Connect plugin)
+     * @param array $args
+     * @return str The social connect html
+     */
+	public function cowobo_connect( $args = NULL ) {
 
 		if( $args == NULL )
 			$display_label = true;
@@ -200,6 +267,11 @@ class Cowobo_Social {
 	<?php return ob_get_clean();
 	}
 
+    /**
+     * Echos the share buttons
+     *
+     * @param int $post_id
+     */
 	public function show_share($post_id) {
 		$option = $this->share_options();
 		$post_link = get_permalink( $post_id );
@@ -219,7 +291,7 @@ class Cowobo_Social {
 				<g:plusone size="medium" href="' . $post_link . '"'.$data_count.'></g:plusone>
 				</div>';
 		}
-		
+
 		if ($option['active_buttons']['twitter']==true) {
 			$data_count = ($option['twitter_count']) ? 'horizontal' : 'none';
 			if ($option['twitter_id'] != ''){
@@ -238,22 +310,26 @@ class Cowobo_Social {
 			$counter = ($option['linkedin_count']) ? 'right' : '';
 			$output .= '<div style="float:left; width:' .$option['linkedin_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><script type="in/share" data-url="' . $post_link . '" data-counter="' .$counter. '"></script></div>';
 		}
-		
+
 		if ($option['active_buttons']['stumbleupon']==true) {
-			$output .= '			
+			$output .= '
 				<div style="float:left; width:' .$option['stumbleupon_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><!--<script src="http://www.stumbleupon.com/hostedbadge.php?s=1&amp;r='.$post_link.'"></script>-->
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
 
 		}
-		
+
 		$output .= '';
-			
+
 		echo $output;
 	}
 
+    /**
+     * Gets the options for social share from db
+     * @return array options
+     */
 	public function share_options () {
 		$option = get_option('cowobo_share');
-		
+
 		if ($option===false) {
 			$option = $this->share_default();
 			add_option('cowobo_share', $option);
@@ -261,11 +337,18 @@ class Cowobo_Social {
 		return $option;
 	}
 
+    /**
+     * Enqueues share scripts
+     */
 	public function share_scripts() {
 		wp_enqueue_script('cowobo_share_gplus', 'https://apis.google.com/js/plusone.js','','',true);
 		wp_enqueue_script('cowobo_share_twitter', 'http://platform.twitter.com/widgets.js','','',true);
 	}
 
+    /**
+     * Sets the defaults for sharing
+     * @return array defaults
+     */
 	private function share_default() {
 		$option = array(
 			'auto' => true,
@@ -284,7 +367,12 @@ class Cowobo_Social {
 		);
 		return $option;
 	}
-	
+
+    /**
+     * Updates the total-like count from ShareThis into the database
+     * @global object $wpdb
+     * @param array $postids
+     */
 	public function update_total_count( $postids = false ) {
 		$pubkey = "4a45176a-73d4-4e42-8be9-c015a589c031";
 		$accesskey = "b7766bcf68b38dc47009f4e8eec78957";
@@ -296,9 +384,14 @@ class Cowobo_Social {
 			update_post_meta ( $postid, 'cowobo_share_count', $share_count );
 			update_post_meta ( $postid, 'cowobo_popularity', $this->get_popularity_count( $postid, true ) );
 		}
-		return $share_count;
+		// return $share_count;
 	}
 
+    /**
+     * Gets the total share / like count from ShareThis
+     * @param str $url
+     * @return var $total_count
+     */
 	public function get_total_count_sharethis ( $url ) {
 		$total_share_url = "http://rest.sharethis.com/reach/getUrlInfo.php?"
 							."url=".urlencode($url)
@@ -309,13 +402,13 @@ class Cowobo_Social {
 		$total_count = $total_count->inbound + $total_count->outbound;
 		return $total_count;
 	}
-	
+
 	/* Get the current count from the database.
-	 * 
+	 *
 	 * name: get_total_count
 	 * @param $postids (optional) - array of post ids
 	 * @return array ( postid => count )
-	 * 
+	 *
 	 */
 	public function get_total_shares ( $postids = false, $is_single = false ) {
 		if ( $postids && ! is_array ( $postids ) ) $postids = array ( $postids );
@@ -326,7 +419,15 @@ class Cowobo_Social {
 		}
 		return ($is_single) ? $total_count[$postids[0]] : $total_count;
 	}
-	
+
+    /**
+     * Compute the full popularity count, based on shares and comments
+     *
+     * @param array $postids
+     * @param boolean $is_single
+     * @param boolean (optional) $only_comments
+     * @return var or array with the total count
+     */
 	public function get_popularity_count ( $postids = false, $is_single = false, $only_comments = false  ) {
 		if ( $postids && ! is_array ( $postids ) ) $postids = array ( $postids );
 		elseif ( ! $postids ) $postids = get_published_ids();
@@ -337,7 +438,14 @@ class Cowobo_Social {
 		}
 		return ($is_single) ? $total_count[$postids[0]] : $total_count;
 	}
-	
+
+    /**
+     * Sort an array of post-objects by popularity
+     *
+     * @param array $posts
+     * @param boolean (optional) $only_comments
+     * @return array sorted posts
+     */
 	private function sort_by_popularity ( $posts, $only_comments = false ) {
 		$postids = array();
 		foreach ( $posts as $key => $post ) {
@@ -352,12 +460,25 @@ class Cowobo_Social {
 		}
 		return $newposts;
 	}
-	
+
+    /**
+     * Randomize array of post objects
+     *
+     * @param array $posts
+     * @return array $posts
+     */
 	private function sort_random ( $posts ) {
 		shuffle ( $posts );
 		return $posts;
 	}
 
+    /**
+     * Sort array of post objects by criterium
+     *
+     * @param array $posts
+     * @param str $sort_by popularity, comments or random
+     * @return type
+     */
 	public function sort_posts ( $posts, $sort_by ) {
 		switch ( $sort_by ) {
 			case 'popularity' :
@@ -372,12 +493,18 @@ class Cowobo_Social {
 		}
 		return $posts;
 	}
-	
-	// List all feeds a user is subscribed to
+
+	/**
+     * List all feeds a user is subscribed to
+     *
+     * @param int $userid
+     * @param str $type (optional) default is categories, alternative is posts
+     * @return array posts or categories
+     */
 	public function list_user_feeds ( $userid, $type = 'categories' ) {
 		$feed_query = get_user_meta($userid,'cowobo_feed',true);
 		if (!is_array($feed_query)) return null;
-		
+
 		// Stored as type => id  ('p' or 'c')
 		$categories = array();
 		$posts = array();
@@ -388,6 +515,5 @@ class Cowobo_Social {
 		if ($type == 'posts' ) return $posts;
 		else return $cats;
 	}
-	
+
 }
-?>
