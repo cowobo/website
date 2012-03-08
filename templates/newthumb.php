@@ -1,4 +1,16 @@
-<div class="medium" id="medium-new">
+<div class="medium" id="medium-<?php switch ( $state ) :
+    case 1:
+        echo 'join';
+        break;
+    case 2:
+    case 3:
+        echo $social->profile_id;
+        break;
+    case 4:
+        echo 'new';
+        break;
+    endswitch;
+    ?>">
 	<div class="holder">
 	<div class="content">
 		<div class="image newimage">
