@@ -67,7 +67,9 @@ class Cowobo_Social {
 
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
-		$this->state = get_user_meta($userid, 'cowobo_state', true);
+
+        $this->set_cowobo_state();
+
 		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
@@ -96,7 +98,7 @@ class Cowobo_Social {
      * Creates the new user profile
      *
      * @param int $userid
-     * @return boolean true on success, false on failure
+     * @return int profile id
      */
 	public function new_user_profile ( $userid ) {
 		$user = get_userdata($userid);
@@ -114,12 +116,12 @@ class Cowobo_Social {
 
 		if ( !$profileid = wp_insert_post($post) ) return false;
 		if ( !update_user_meta( $userid, 'cowobo_profile', $profileid) ) return false;
-		return true;
+		return $profileid;
 	}
 
 	/* === RSS === */
     /**
-     * General filter calling all the mods
+     * General filter calling all the RSS mods
      *
      * @param type $query
      * @return type
@@ -132,7 +134,7 @@ class Cowobo_Social {
 	}
 
     /**
-     *
+     * Add query to user feed
      *
      * @param int $userid
      * @param int $feed_query
@@ -172,6 +174,22 @@ class Cowobo_Social {
 		return $content;
 	}
 
+    /**
+     * Does the state magic
+     *
+     * @return int $state
+     */
+    protected function set_cowobo_state () {
+        if ( is_user_logged_in() ) {
+            $registered_state = get_user_meta($userid, 'cowobo_state', true);
+            if ( empty ( $registered_state ) ) $this->state = 2;
+            else $this->state = $registered_state;
+        } else {
+            $this->state = 1;
+        }
+        return $tis->state;
+    }
+
 	/* === Add your profile === */
 	/**
      * The profile nags
@@ -180,9 +198,8 @@ class Cowobo_Social {
      */
 	public function speechbubble() {
 		$nags = get_option('cwob_nags');
-		if (is_user_logged_in()) { // State 2 & 3 (logged in, no profile)
+		if ( $this->state == 2 || $this->state == 3 ) { // State 2 & 3 (logged in, no profile)
 			$userid = wp_get_current_user()->ID;
-			if ( empty ( $this->state ) ) $this->state = 2;
 			$current_display_name = get_userdata($userid)->display_name;
 			$current_profile_url = $this->get_profile_url ( $userid );
 			$profile_nag = stripslashes ( strtr ( $nags[$this->state], array ( 'DISPLAYNAME' => $current_display_name, 'PROFILEURL' => $current_profile_url ) ) );
