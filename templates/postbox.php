@@ -1,7 +1,14 @@
+<?php 
+//check type of post and authors
+$posttype = cwob_get_category($post->ID)->slug;
+$profiles = get_post_meta($post->ID, 'coder', false);
+$profileid = '533'; // should be $social->userprofileid
+if(in_array($profileid, $profiles)) $author = true; else $author = false;?>
+
 <div class="large single" id="<?php echo $post->ID;?>">
 	<div class="holder">
 		<div class="content">
-		<div class="gallery editable">
+		<div class="gallery<?php if($author) echo ' editable';?>">
 			<div class="topshadow">
 				<h1><?php echo $typepost->name;?><div class="prev">< </div><div class="next"> ></div></h1>
 			</div><?php
@@ -14,7 +21,6 @@
 			endif;?>
 		</div>
 		<a class="title" href="<?php the_permalink();?>"><?php the_title();?></a><br/><?php
-		$posttype = cwob_get_category($post->ID)->slug;
 		if(file_exists(TEMPLATEPATH.'/templates/'.$post->post_name.'.php')):
 			include(TEMPLATEPATH.'/templates/'.$post->post_name.'.php');
 		elseif ( file_exists(TEMPLATEPATH.'/templates/' . $posttype . '.php') ):

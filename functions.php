@@ -237,23 +237,46 @@ function loadgallery_callback(){
 
 function savechanges_callback(){
 	global $wpdb;
-	$postid = $_POST["saveid"];
-	$cats = explode(',', $_POST["catids"]);
+	$postid = $_POST["postid"];
+	$feeds = explode(',', $_POST["feeds"]);
+	$coders = explode(',', $_POST["coders"]);
+	$related_posts = explode(',' , $_POST['posts']);
+	$subscriptions = explode(',' , $_POST['subscriptions']);
+	
+	//update feeds
 	wp_update_post( array(
-			'ID' => $postid,
-			'post_status' => 'publish',
-			'post_category' => $cats,
+		'ID' => $postid,
+		'post_status' => 'publish',
+		'post_category' => $feeds,
 	));
+	
+	//update coders
+	delete_post_meta($postid, 'coder');
+	if(!empty($coders)):
+		foreach ($coders as $coder):
+			add_post_meta($postid, 'coder', $coder);
+		endforeach;
+	endif;
+	
+	//update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	
-	if($related_posts = explode(',' , $_POST['postids'])):
-	foreach($related_posts as $related_post):
-		$related_post = (int) $related_post;
-		$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $related_post )";
-		$result = $wpdb->query($query);
-	endforeach;
+	if(!empty($related_posts)):
+		foreach($related_posts as $related_post):
+			$related_post = (int) $related_post;
+			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $related_post )";
+			$result = $wpdb->query($query);
+		endforeach;
 	endif;
+	
+	//update subscriptions
+	if(!empty($subscriptions)):
+		foreach ($subscriptions as $subscription):
+			//mike's feed shizzle
+		endforeach;
+	endif;
+	
+	//update locations
 	update_post_meta($postid, 'coordinates', $_POST['coordinates']);	
 }
 

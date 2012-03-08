@@ -121,7 +121,7 @@ a.rss {cursor: pointer;}
 .prev {right:40px;}
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
-.loadinggallery {width:110px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
+.loadinggallery {width:120px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */

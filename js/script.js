@@ -348,7 +348,8 @@ function cowobo_editpost_listeners() {
 	jQuery('.typelist li').live('click', function() {
 		var id = jQuery(this).attr('class').split(' ')[0];
 		jQuery(this).addClass('selected').siblings().removeClass('selected');
-		if(jQuery(this).parent().children('#sugg').length<1) //empty primary cat list if choosing new type
+		//empty primary feed list if choosing new feed
+		if(jQuery(this).parents('.feeds').length > 0) 
 			jQuery(this).parents('.container').children('.listbox').empty();
 		jQuery('.selectbox .slide').fadeOut();
 		jQuery('.cat'+id).fadeIn();
@@ -356,35 +357,55 @@ function cowobo_editpost_listeners() {
 	
 	
 	jQuery('.save').live('click', function() {
-		var catids = new Array(); var postids = new Array();
+		var feeds = new Array(); 
+		var posts = new Array(); 
+		var coders = new Array(); 
+		var subscriptions = new Array();
+		
 		var post = jQuery(this).parents('.large');
-		var saveid = post.attr('id');
+		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
 		post.find('.container').each(function(){
-			if(jQuery(this).find('#sugg').length>0){
+			if(jQuery(this).hasClass('posts')) {
 				jQuery(this).find('.listitem').each(function(){
-					postids.push(jQuery(this).attr('class').split(' ')[0]);
+					posts.push(jQuery(this).attr('class').split(' ')[0]);
 				});
-			} else {
+			} else if (jQuery(this).hasClass('feeds')) { 
 				jQuery(this).find('.listitem').each(function(){
-					catids.push(jQuery(this).attr('class').split(' ')[0]);
+					feeds.push(jQuery(this).attr('class').split(' ')[0]);
+				});	
+			} else if (jQuery(this).hasClass('coders')) { 
+				jQuery(this).find('.listitem').each(function(){
+					coders.push(jQuery(this).attr('class').split(' ')[0]);
+				});
+			} else if (jQuery(this).hasClass('subscriptions')) { 
+				jQuery(this).find('.listitem').each(function(){
+					subscriptions.push(jQuery(this).attr('class').split(' ')[0]);
 				});	
 			}
 		});
-		
-		jQuery.ajax({
-			type: "POST",
-			url: 'wp-admin/admin-ajax.php',
-			data: {	action: 'savechanges', 
-					saveid: saveid, 
-					catids:catids.join(','), 
-					postids: postids.join(','), 
+		//make sure the post has a feed and author
+		if (feeds.length<0) {
+			alert('You must specify atleast one feed');
+		} else if (feeds.length<0) {
+			alert('You must specify atleast one author');
+		} else {
+			jQuery.ajax({
+				type: "POST",
+				url: 'wp-admin/admin-ajax.php',
+				data: {	action: 'savechanges', 
+					postid: postid, 
+					feeds: feeds.join(','), 
+					posts: posts.join(','), 
+					coders: coders.join(','), 
+					subscriptions: subscriptions.join(','), 
 					coordinates: newlatlng},
-			success: function (permalink){
-				alert('Your changes have been saved');
-				location.href='';
-			}
-		});
+				success: function (permalink){
+					alert('Your changes have been saved');
+					location.href='';
+				}
+			});	
+		}
   	});	
 
 	jQuery('.delete').live('click', function() {
@@ -434,7 +455,7 @@ function loadlightbox(postid) {
 			cowobo_jquery_ui_listeners();
 			update_scrollbars(postid);
 			loadlike(postid);
-			if(typeof(FrontEndEditor) != 'undefined') {
+			if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+postid+' .editable').length > 0) {
 				jQuery('#' + postid + ' .fee-field').each(FrontEndEditor.make_editable);
 			}
 			if(postid=='new'){

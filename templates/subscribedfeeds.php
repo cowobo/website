@@ -1,17 +1,16 @@
-<div class="container"><?php
+<div class="container subscriptions"><?php
 global $social; 
-$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
-$relatedposts = $relatedposts->get_related();?>
+//$subscriptions = new Cowobo_Feed(array('posts' => $post->ID));?>
 
-<h3>Subscriptions </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+<h3>Subscriptions </h3><?php if(count($subscriptions)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
-	if($social->state > 3):?>
+	if($author):?>
 		<div class="column left">
-			<h3>1. Choose Type</h3>
+			<h3>1. Choose Category</h3>
 			<ul class="typelist">
-				<li id="sugg" class="selected">Suggested Posts >></li><?php
+				<li id="sugg" class="selected">Suggested Feeds >></li><?php
 				foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
 					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name.'s';?> >></li><?php
 				endforeach;?>
@@ -19,7 +18,7 @@ $relatedposts = $relatedposts->get_related();?>
 		</div>
 		<div class="column right">
 			<div class="slide catsugg" style="display:block">
-				<h3>2. Choose Posts</h3>
+				<h3>2. Choose Feeds</h3>
 				<ul class="verlist"><?php
 				$suggestedposts  = new Cowobo_Related_Posts();
 				if ($suggestedposts = $suggestedposts->find_similar_posts()) :
@@ -46,8 +45,8 @@ $relatedposts = $relatedposts->get_related();?>
 </div>
 
 <div class="listbox <?php if(count($relatedposts)>2):?>restrict<?php endif;?>"><?php
-if (!empty($relatedposts)):
-	foreach ($relatedposts as $related): unset($images);?>
+if (!empty($subscriptions)):
+	foreach ($subscriptions as $related): unset($images);?>
 		<div class="<?php echo $related->ID;?> listitem">
 			<div class="thumbnail"><?php
 				$images = get_children(array('post_parent' => $related->ID, 'numberposts' => 1, 'post_mime_type' =>'image'));
@@ -67,7 +66,7 @@ if (!empty($relatedposts)):
 		</div><?php
 	endforeach;
 elseif(!current_user_can('edit_posts')):
-	echo '<br/>This post is not yet related to other content';
+	echo '<br/>This coder is not yet subscribed to feeds on our site';
 endif;?>
 </div>
 
