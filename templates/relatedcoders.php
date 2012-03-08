@@ -1,6 +1,8 @@
 <div class="container coders"><?php
-global $social; 
-$relatedcoders = get_posts(array('post__in' => $profiles));
+global $social;
+if(!empty($profiles)):
+	$relatedcoders = get_posts(array('post__in' => $profiles));
+endif;
 $codercats = get_categories(array('child_of'=>get_cat_ID('Coders'), 'hide_empty'=>false, 'parent'=>get_cat_ID('Coders')));?>
 
 <h3>Coders </h3><?php if(count($relatedcoders)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>

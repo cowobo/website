@@ -1,9 +1,9 @@
 <?php 
 //check type of post and authors
+global $social; unset($profiles);
 $posttype = cwob_get_category($post->ID)->slug;
 $profiles = get_post_meta($post->ID, 'coder', false);
-$profileid = '533'; // should be $social->userprofileid
-if(in_array($profileid, $profiles)) $author = true; else $author = false;?>
+if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
 
 <div class="large single" id="<?php echo $post->ID;?>">
 	<div class="holder">
