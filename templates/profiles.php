@@ -22,11 +22,11 @@ endif;?>
 the_content();
 			
 // Include Related Feeds
-if(file_exists(TEMPLATEPATH.'/templates/relatedfeeds.php')) include(TEMPLATEPATH.'/templates/relatedfeeds.php');
+if(file_exists(TEMPLATEPATH.'/templates/editfeeds.php')) include(TEMPLATEPATH.'/templates/editfeeds.php');
 // Include Related Posts
-if(file_exists(TEMPLATEPATH.'/templates/relatedposts.php')) include(TEMPLATEPATH.'/templates/relatedposts.php');
+if(file_exists(TEMPLATEPATH.'/templates/editposts.php')) include(TEMPLATEPATH.'/templates/editposts.php');
 // Include Related Feeds
-if(file_exists(TEMPLATEPATH.'/templates/subscribedfeeds.php')) include(TEMPLATEPATH.'/templates/subscribedfeeds.php');
+if(file_exists(TEMPLATEPATH.'/templates/editsubscriptions.php')) include(TEMPLATEPATH.'/templates/editsubscriptions.php');
 // Include Related Comments
 $withcomments = true;
 comments_template();

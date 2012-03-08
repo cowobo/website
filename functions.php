@@ -50,60 +50,6 @@ function comment_notice($comment_id) {
 	return true;
 }
 
-add_action('register_form','show_first_name_field');
-function show_first_name_field(){?>
-	First Name:<br/>
-	<input id="user_email" class="input" type="text" style="width:100%" value="<?php echo $_POST['first']; ?>" name="first" tabindex="3"/><br/>
-	Last Name:<br/>
-	<input id="user_email" class="input" type="text" style="width:100%" value="<?php echo $_POST['last']; ?>" name="last" tabindex="4"/><br/>
-	Organization:<br/>
-	<input id="user_organization" class="input" type="text" style="width:100%" value="<?php echo $_POST['organization']; ?>" name="organization" tabindex="5"/><br/>
-	<?php
-}
-
-add_action('register_post','check_fields',10,3);
-function check_fields($login, $email, $errors) {
-	global $firstname, $lastname;
-	if ($_POST['first'] == '') {
-		$errors->add('empty_realname', "<strong>ERROR</strong>: Please Enter in First Name");
-	} else { $firstname = $_POST['first'];}
-	if ($_POST['last'] == '') {
-		$errors->add('empty_realname', "<strong>ERROR</strong>: Please Enter in Last Name");
-	} else { $lastname = $_POST['last'];}
-	if ($_POST['organization'] == '') {
-		$errors->add('empty_organization', "<strong>ERROR</strong>: Please Enter in Organization");
-	} else { $organization = $_POST['organization'];}
-}
-
-add_action('user_register', 'register_extra_fields');
-function register_extra_fields($user_id, $password="", $meta=array())  {
-	$userdata = array(); $userdata['ID'] = $user_id;
-	$userdata['first_name'] = $_POST['first'];
-	$userdata['last_name'] = $_POST['last'];
-	$userdata['organization'] = $_POST['organization'];
-	wp_update_user($userdata);
-}
-
-add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
-add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
-function my_show_extra_profile_fields( $user ) { ?>
-	<h3>Work</h3>
-	<table class="form-table">
-		<tr><th><label>Organization:</label></th>
-			<td><input type="text" name="organization" id="user_organization" value="<?php echo esc_attr( get_the_author_meta( 'organization', $user->ID ) ); ?>"/><br />
-			</td>
-		</tr>
-	</table>
-<?php }
-
-add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
-add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
-function my_save_extra_profile_fields( $user_id ) {
-	if ( !current_user_can( 'edit_user', $user_id ) )
-		return false;
-	update_usermeta( $user_id, 'organization', $_POST['organization'] );
-}
-
 //get primal category of post
 function cwob_get_category($postid) {
 	$cat = get_the_category($postid);
@@ -237,23 +183,46 @@ function loadgallery_callback(){
 
 function savechanges_callback(){
 	global $wpdb;
-	$postid = $_POST["saveid"];
-	$cats = explode(',', $_POST["catids"]);
+	$postid = $_POST["postid"];
+	$feeds = explode(',', $_POST["feeds"]);
+	$authors = explode(',', $_POST["authors"]);
+	$related_posts = explode(',' , $_POST['posts']);
+	$subscriptions = explode(',' , $_POST['subscriptions']);
+	
+	//update feeds
 	wp_update_post( array(
-			'ID' => $postid,
-			'post_status' => 'publish',
-			'post_category' => $cats,
+		'ID' => $postid,
+		'post_status' => 'publish',
+		'post_category' => $feeds,
 	));
+	
+	//update authors
+	delete_post_meta($postid, 'author');
+	if(!empty($authors)):
+		foreach ($authors as $author):
+			add_post_meta($postid, 'author', $author);
+		endforeach;
+	endif;
+	
+	//update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	
-	if($related_posts = explode(',' , $_POST['postids'])):
-	foreach($related_posts as $related_post):
-		$related_post = (int) $related_post;
-		$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $related_post )";
-		$result = $wpdb->query($query);
-	endforeach;
+	if(!empty($related_posts)):
+		foreach($related_posts as $related_post):
+			$related_post = (int) $related_post;
+			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $related_post )";
+			$result = $wpdb->query($query);
+		endforeach;
 	endif;
+	
+	//update subscriptions
+	if(!empty($subscriptions)):
+		foreach ($subscriptions as $subscription):
+			//mike's feed shizzle
+		endforeach;
+	endif;
+	
+	//update locations
 	update_post_meta($postid, 'coordinates', $_POST['coordinates']);	
 }
 
@@ -297,4 +266,59 @@ function activate_daily_events() {
 	if ( !wp_next_scheduled( 'daily_events' ) ) {
 		wp_schedule_event(time(), 'daily', 'daily_events' );
 	}
+}
+
+// Manual Registration stuff
+add_action('register_form','show_first_name_field');
+function show_first_name_field(){?>
+	First Name:<br/>
+	<input id="user_email" class="input" type="text" style="width:100%" value="<?php echo $_POST['first']; ?>" name="first" tabindex="3"/><br/>
+	Last Name:<br/>
+	<input id="user_email" class="input" type="text" style="width:100%" value="<?php echo $_POST['last']; ?>" name="last" tabindex="4"/><br/>
+	Organization:<br/>
+	<input id="user_organization" class="input" type="text" style="width:100%" value="<?php echo $_POST['organization']; ?>" name="organization" tabindex="5"/><br/>
+	<?php
+}
+
+add_action('register_post','check_fields',10,3);
+function check_fields($login, $email, $errors) {
+	global $firstname, $lastname;
+	if ($_POST['first'] == '') {
+		$errors->add('empty_realname', "<strong>ERROR</strong>: Please Enter in First Name");
+	} else { $firstname = $_POST['first'];}
+	if ($_POST['last'] == '') {
+		$errors->add('empty_realname', "<strong>ERROR</strong>: Please Enter in Last Name");
+	} else { $lastname = $_POST['last'];}
+	if ($_POST['organization'] == '') {
+		$errors->add('empty_organization', "<strong>ERROR</strong>: Please Enter in Organization");
+	} else { $organization = $_POST['organization'];}
+}
+
+add_action('user_register', 'register_extra_fields');
+function register_extra_fields($user_id, $password="", $meta=array())  {
+	$userdata = array(); $userdata['ID'] = $user_id;
+	$userdata['first_name'] = $_POST['first'];
+	$userdata['last_name'] = $_POST['last'];
+	wp_update_user($userdata);
+}
+
+// Add profile id box to user profile backend for debugging
+add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
+function my_show_extra_profile_fields( $user ) { ?>
+	<table class="form-table">
+		<tr>
+			<th><label>Profile ID:</label></th>
+			<td><input type="text" name="cowobo_profile" id="cowobo_profile" value="<?php echo esc_attr( get_the_author_meta( 'cowobo_profile', $user->ID ) ); ?>"/><br />
+			</td>
+		</tr>
+	</table>
+<?php }
+
+add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
+add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+function my_save_extra_profile_fields( $user_id ) {
+	if ( !current_user_can( 'edit_user', $user_id ) )
+		return false;
+	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }

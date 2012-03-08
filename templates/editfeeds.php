@@ -1,4 +1,4 @@
-<div class="container"><?php
+<div class="container feeds"><?php
 global $social; 
 $relatedfeeds = get_the_category();?>
 
@@ -6,7 +6,7 @@ $relatedfeeds = get_the_category();?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
-	if($social->state > 3):?>
+	if($author):?>
 	<div class="column left">
 		<h3>1. Choose Type</h3>
 		<ul class="typelist"><?php

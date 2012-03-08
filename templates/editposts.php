@@ -1,19 +1,19 @@
-<div class="container"><?php
+<div class="container posts"><?php
 global $social; 
 $relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
 $relatedposts = $relatedposts->get_related();?>
 
-<h3>Subscriptions </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+<h3>Posts </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
-	if($social->state > 3):?>
+	if($author):?>
 		<div class="column left">
 			<h3>1. Choose Type</h3>
 			<ul class="typelist">
 				<li id="sugg" class="selected">Suggested Posts >></li><?php
 				foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
-					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name.'s';?> >></li><?php
+					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
 				endforeach;?>
 			</ul>
 		</div>
@@ -41,7 +41,7 @@ $relatedposts = $relatedposts->get_related();?>
 			endforeach;?>
 		</div><?php
 	else:
-		global $social; echo $social->speechbubble();
+		echo $social->speechbubble();
 	endif;?>
 </div>
 
