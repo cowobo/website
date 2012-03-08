@@ -47,6 +47,12 @@ class Cowobo_Social {
     public $state;
 
     /**
+     * Gives the profile id of the logged in user
+     *
+     * @var int
+     */
+    public $profile_id;
+    /**
      * Constructor for cowobo social
      *
      * @param boolean $skip_construct true skips constructor
@@ -62,6 +68,7 @@ class Cowobo_Social {
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
 		$this->state = get_user_meta($userid, 'cowobo_state', true);
+		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
 			add_action('profile_update',array( &$this, 'complete_register'));
