@@ -1,40 +1,27 @@
-<div class="container subscriptions"><?php
+<div class="container locations"><?php
 global $social; 
-//$locations = new Cowobo_Feed(array('posts' => $post->ID));?>
+$locationcats = get_categories(array('child_of'=>get_cat_ID('Locations'), 'hide_empty'=>false, 'parent'=>get_cat_ID('Locations')));
+if($locationids = get_post_meta(get_the_ID(), 'location', false)):
+	$locations = get_posts(array('post__in' => $locationids));
+endif;?>
 
 <h3>Locations </h3><?php if(count($locations)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 
-<div class="edit relocate button">+ Add</div>
-<ul class="coordinates horlist">
-	<li id="<?php echo $coordinates;?>"><?php echo $coordinates;?><span> (x)</span></li>
-</ul>
-
+<div class="edit button">+ Add</div>
 <div class="selectbox"><?php
 	if($author):?>
 		<div class="column left">
 			<h3>1. Choose Country</h3>
-			<ul class="typelist">
-				<li id="sugg" class="selected">Suggested Feeds >></li><?php
-				foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
+			<ul class="typelist"><?php
+				foreach($locationcats as $cat):?>
 					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name.'s';?> >></li><?php
 				endforeach;?>
 			</ul>
 		</div>
-		<div class="column right">
-			<div class="slide catsugg" style="display:block">
-				<h3>2. Choose City</h3>
-				<ul class="verlist"><?php
-				$suggestedposts  = new Cowobo_Related_Posts();
-				if ($suggestedposts = $suggestedposts->find_similar_posts()) :
-					foreach($suggestedposts as $suggested):?>
-						<li class="<?php echo $suggested->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $suggested->post_title;?></a></li><?php
-					endforeach;
-				endif;?>
-				</ul>
-			</div><?php	
-			foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
+		<div class="column right"><?php	
+			foreach($locationcats as $cat):?>
 			<div class="slide cat<?php echo $cat->term_id;?>">
-				<h3>2. Choose Posts</h3>
+				<h3>2. Choose City</h3>
 				<ul class="verlist"><?php 
 					foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
 						<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
@@ -42,14 +29,18 @@ global $social;
 				</ul>
 			</div><?php
 			endforeach;?>
-		</div><?php
+		</div>
+		<br><span class="addlocation">Can't find your location? Add it!</span><?php
 	else:
 		global $social; echo $social->speechbubble();
 	endif;?>
 </div>
 
-<div class="listbox <?php if(count($relatedposts)>2):?>restrict<?php endif;?>"><?php
-if (!empty($locationss)):
+<div class="listbox <?php if(count($relatedposts)>2):?>restrict<?php endif;?>">
+<ul class="coordinates horlist">
+	<li id="<?php echo $coordinates;?>"><?php echo $coordinates;?><span> (x)</span></li>
+</ul><?php
+if (!empty($locations)):
 	foreach ($locations as $related): unset($images);?>
 		<div class="<?php echo $related->ID;?> listitem">
 			<div class="thumbnail"><?php

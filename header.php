@@ -165,7 +165,8 @@ endif;?>
 		</li>
 		<li>Search
 			<ul>
-				<li><input type="text" id="keywords" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
+				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
+				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>			
 			</ul>
 		</li>
 		<li>
