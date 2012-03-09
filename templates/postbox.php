@@ -3,7 +3,20 @@
 global $social; unset($profiles);
 $postcat = cwob_get_category($post->ID);
 $posttype = $postcat->slug;
-$profiles = get_post_meta($post->ID, 'author', false);
+
+//sort relatedposts by type
+$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
+if($relatedposts = $relatedposts->get_related()):
+foreach($relatedposts as $relatedpost):
+	$type = cwob_get_category($relatedpost->ID);
+	$sorted[$type->term_id][] = $relatedpost;
+endforeach;
+endif;
+
+//check if user has a profile which can edit the post
+foreach($sorted[get_cat_ID('Profiles')] as $profile):
+	$profiles[] = $profile->ID;
+endforeach;
 if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
 
 <div class="large single" id="<?php echo $post->ID;?>">

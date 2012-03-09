@@ -1,15 +1,6 @@
 <?php
 global $social; 
 
-//sort relatedposts by type
-$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
-if($relatedposts = $relatedposts->get_related()):
-foreach($relatedposts as $relatedpost):
-	$type = cwob_get_category($relatedpost->ID);
-	$sorted[$type->term_id][] = $relatedpost;
-endforeach;
-endif;
-
 $exclude = get_cat_ID('Uncategorized').','.$postcat->term_id; //add more here based on template
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
