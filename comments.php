@@ -9,7 +9,7 @@ if ( post_password_required() ) { ?>
 
 $postcomments = get_comments(array('post_id' =>$post->ID));?>
 
-<h3>Comments</h3><?php if(count($postcomments)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
+<h3>Comments (<?php echo count($postcomments);?>)</h3><?php if(count($postcomments)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
 <div class="add button">+ Add</div>
 
 <div class="replybox"><?php 

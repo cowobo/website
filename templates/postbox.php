@@ -1,7 +1,8 @@
 <?php 
 //check type of post and authors
 global $social; unset($profiles);
-$posttype = cwob_get_category($post->ID)->slug;
+$postcat = cwob_get_category($post->ID);
+$posttype = $postcat->slug;
 $profiles = get_post_meta($post->ID, 'author', false);
 if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
 

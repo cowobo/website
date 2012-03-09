@@ -382,48 +382,33 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.save').live('click', function() {
-		var feeds = new Array();
-		var posts = new Array();
-		var authors = new Array();
-		var subscriptions = new Array();
-
+		var posts = new Array(); var feeds = new Array();
 		var post = jQuery(this).parents('.large');
 		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
 		post.find('.container').each(function(){
-			if(jQuery(this).hasClass('posts')) {
-				jQuery(this).find('.listitem').each(function(){
-					posts.push(jQuery(this).attr('class').split(' ')[0]);
-				});
-			} else if (jQuery(this).hasClass('feeds')) {
+			var cat = cat + 1;
+			if (jQuery(this).hasClass('feeds')) {
 				jQuery(this).find('.listitem').each(function(){
 					feeds.push(jQuery(this).attr('class').split(' ')[0]);
 				});
-			} else if (jQuery(this).hasClass('authors')) {
+			} else {
 				jQuery(this).find('.listitem').each(function(){
-					authors.push(jQuery(this).attr('class').split(' ')[0]);
-				});
-			} else if (jQuery(this).hasClass('subscriptions')) {
-				jQuery(this).find('.listitem').each(function(){
-					subscriptions.push(jQuery(this).attr('class').split(' ')[0]);
+					posts.push(jQuery(this).attr('class').split(' ')[0]);
 				});
 			}
 		});
 		//make sure the post has a feed and author
 		if (feeds.length<0) {
 			alert('You must specify atleast one feed');
-		} else if (feeds.length<0) {
-			alert('You must specify atleast one author');
 		} else {
 			jQuery.ajax({
 				type: "POST",
 				url: 'wp-admin/admin-ajax.php',
-				data: {	action: 'savechanges',
+				data: {action: 'savechanges',
 					postid: postid,
 					feeds: feeds.join(','),
 					posts: posts.join(','),
-					authors: authors.join(','),
-					subscriptions: subscriptions.join(','),
 					coordinates: newlatlng},
 				success: function (permalink){
 					alert('Your changes have been saved');

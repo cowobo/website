@@ -2,7 +2,7 @@
 global $social; 
 $relatedfeeds = get_the_category();?>
 
-<h3>Feeds</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
+<h3>Feeds (<?php echo count($relatedfeeds);?>)</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php

@@ -185,7 +185,6 @@ function savechanges_callback(){
 	global $wpdb;
 	$postid = $_POST["postid"];
 	$feeds = explode(',', $_POST["feeds"]);
-	$authors = explode(',', $_POST["authors"]);
 	$related_posts = explode(',' , $_POST['posts']);
 	$subscriptions = explode(',' , $_POST['subscriptions']);
 	
@@ -195,15 +194,7 @@ function savechanges_callback(){
 		'post_status' => 'publish',
 		'post_category' => $feeds,
 	));
-	
-	//update authors
-	delete_post_meta($postid, 'author');
-	if(!empty($authors)):
-		foreach ($authors as $author):
-			add_post_meta($postid, 'author', $author);
-		endforeach;
-	endif;
-	
+		
 	//update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
@@ -225,7 +216,6 @@ function savechanges_callback(){
 	//update locations
 	update_post_meta($postid, 'coordinates', $_POST['coordinates']);	
 }
-
 
 function cowobo_pagination($pages = '', $range = 2){  
      $showitems = ($range * 2)+1;  
