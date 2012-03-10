@@ -185,8 +185,7 @@ function savechanges_callback(){
 	global $wpdb;
 	$postid = $_POST["postid"];
 	$feeds = explode(',', $_POST["feeds"]);
-	$authors = explode(',', $_POST["authors"]);
-	$related_posts = explode(',' , $_POST['posts']);
+	$relatedpostids = explode(',' , $_POST['posts']);
 	$subscriptions = explode(',' , $_POST['subscriptions']);
 	
 	//update feeds
@@ -195,24 +194,28 @@ function savechanges_callback(){
 		'post_status' => 'publish',
 		'post_category' => $feeds,
 	));
-	
-	//update authors
-	delete_post_meta($postid, 'author');
-	if(!empty($authors)):
-		foreach ($authors as $author):
-			add_post_meta($postid, 'author', $author);
-		endforeach;
-	endif;
-	
+		
 	//update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	if(!empty($related_posts)):
-		foreach($related_posts as $related_post):
-			$related_post = (int) $related_post;
-			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $related_post )";
+	if(!empty($relatedpostids)):
+		foreach($relatedpostids as $relatedpostid):
+			$type = cwob_get_category($relatedpostid);
+			$sorted[$type->term_id][] = $relatedpostid;
+			$relatedpostid = (int) $relatedpostid;
+			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $relatedpostid)";
 			$result = $wpdb->query($query);
 		endforeach;
+	endif;
+
+	//update locations
+	if($locations = $sorted[get_cat_ID('Locations')]):
+		foreach($locations as $locationid):
+			$coordinates = get_post_meta($locationid, 'coordinates', true);
+			update_post_meta($postid, 'coordinates', $coordinates);
+		endforeach;
+	else: 
+		update_post_meta($postid, 'coordinates', $_POST['coordinates']);
 	endif;
 	
 	//update subscriptions
@@ -221,11 +224,7 @@ function savechanges_callback(){
 			//mike's feed shizzle
 		endforeach;
 	endif;
-	
-	//update locations
-	update_post_meta($postid, 'coordinates', $_POST['coordinates']);	
 }
-
 
 function cowobo_pagination($pages = '', $range = 2){  
      $showitems = ($range * 2)+1;  
@@ -322,3 +321,4 @@ function my_save_extra_profile_fields( $user_id ) {
 		return false;
 	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }
+

@@ -1,9 +1,32 @@
 <?php 
 //check type of post and authors
-global $social; unset($profiles);
-$posttype = cwob_get_category($post->ID)->slug;
-$profiles = get_post_meta($post->ID, 'author', false);
-if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
+global $author; global $social;
+unset($profileids); 
+$postcat = cwob_get_category($post->ID);
+$posttype = $postcat->slug;
+
+//sort relatedposts by type
+$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
+if($relatedposts = $relatedposts->get_related()):
+	foreach($relatedposts as $relatedpost):
+		$type = cwob_get_category($relatedpost->ID);
+		$sorted[$type->term_id][] = $relatedpost;
+	endforeach;
+endif;
+
+//save post profile ids in array
+if($profiles = $sorted[get_cat_ID('Profiles')]):
+	foreach($profiles as $profile):
+		$profileids[] = $profile->ID;
+	endforeach;
+else: 
+	$profileids = array();
+endif;
+	
+//check if user has a profile which can edit the post
+if(in_array($social->profile_id, $profileids) or $post->post_author == get_current_user_id()):
+	 $author = true; else: $author = false;
+endif;?>
 
 <div class="large single" id="<?php echo $post->ID;?>">
 	<div class="holder">
@@ -38,11 +61,11 @@ if(in_array($social->profile_id, $profiles)) $author = true; else $author = fals
 			<span class='cowobo_social_like button'>Share</span>
 			<span class="delete button">Delete</span><?php
 		else:
-			$prev = get_adjacent_post(true,'',true); 
-			$next = get_adjacent_post(true,'',false);?>
-			<span class="lastpost button" id="last-<?php echo $prev->ID; ?>">Last</span>
+			$prev = get_adjacent_post(true,'',false); 
+			$next = get_adjacent_post(true,'',true);?>
+			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
 			<span class="cowobo_social_like button">Share</span>
-			<span class="nextpost button" id="next-<?php echo $next->ID;?>">Next</span><?php
+			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>
 	<div class="shadowclick"></div>

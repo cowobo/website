@@ -52,7 +52,9 @@ a.rss {cursor: pointer;}
 
 #keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
 #searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
-#profilelink {float:right; margin:3px 15px 0 0; font-size:14px}
+#profilelink {float:right; margin:3px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer}
+#profilelink span {margin-left:10px; color:#333}
+#profilelink span:hover {color:#000}
 #taketour {font-size:14px;}
 
 /* Speech bubble */

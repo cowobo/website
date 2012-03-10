@@ -17,11 +17,12 @@
 			<span class='cowobo_social_like button'>Share</span>
 			<span class="delete button">Delete</span><?php
 		else:
-			$prev = get_adjacent_post(true,'',true); 
-			$next = get_adjacent_post(true,'',false);?>
-			<span class="lastpost button" id="last-<?php echo $prev->ID; ?>">Last</span>
+			$wp_query->is_single = true;
+			$prev = get_adjacent_post(true,'',false); 
+			$next = get_adjacent_post(true,'',true);?>
+			<span class="<?php if(!empty($prev)) echo 'lastpost';?> button" id="last-<?php echo $prev->ID; ?>">Last</span>
 			<span class="cowobo_social_like button">Share</span>
-			<span class="nextpost button" id="next-<?php echo $next->ID;?>">Next</span><?php
+			<span class="<?php if(!empty($next)) echo 'nextpost';?> button" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>
 	<div class="shadowclick"></div>

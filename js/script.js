@@ -98,9 +98,11 @@ function cowobo_sidebar_listeners() {
 		var coordinates = jQuery(this).find('.markerdata').val();
 		jQuery('#scroller').slideToggle();
 		jQuery('#'+postid).fadeIn();
-		update_scrollbars(postid);
-		loadlightbox(postid, postid);
-
+		//only load when not already loaded
+		if(jQuery('#'+postid + '.container').length<1) {
+			update_scrollbars(postid);
+			loadlightbox(postid, postid);
+		}
 		//load new map if marker has coordinates
 		if(typeof(coordinates) != 'undefined' && coordinates.length>0) {
 			var markerpos = coordinates.split(',');
@@ -139,6 +141,7 @@ function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
 	jQuery('#map, .shadowclick, #cloud1, #cloud2').live('click', function() {
 		jQuery('.large').fadeOut();
+		jQuery('#scroller').slideToggle();
   	});
 
 	//switch between slides in gallery
@@ -211,15 +214,17 @@ function cowobo_lightbox_listeners() {
 
 //MESSENGER//
 function cowobo_messenger_listeners() {
-    jQuery('.messenger').click( function() {
-       var type = jQuery(this).attr('class').split(' ')[1];
-       if ( type == 'new_profile') {
-           jQuery('.speechbubble').fadeIn('slow');
-       } else if ( type == 'create_new_profile') {
-           alert ('Create new profile!');
-       } else if ( type == 'edit_profile') {
-           alert ('Edit profile!')
-       }
+	jQuery('.messenger').click( function() {
+		var type = jQuery(this).attr('class').split(' ');
+		var profileid = type[2].split('-')[1];
+		if (type[1] == 'join') {
+			jQuery('#join').fadeIn('slow');
+		} else {
+			jQuery('#'+profileid).fadeIn('slow');
+		}
+    });
+	jQuery('.logout').click( function() {
+     	location.href='http://www.cobowo.org/wp-login.php?action=logout';
     });
 }
 
@@ -382,48 +387,33 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.save').live('click', function() {
-		var feeds = new Array();
-		var posts = new Array();
-		var authors = new Array();
-		var subscriptions = new Array();
-
+		var posts = new Array(); var feeds = new Array();
 		var post = jQuery(this).parents('.large');
 		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
 		post.find('.container').each(function(){
-			if(jQuery(this).hasClass('posts')) {
-				jQuery(this).find('.listitem').each(function(){
-					posts.push(jQuery(this).attr('class').split(' ')[0]);
-				});
-			} else if (jQuery(this).hasClass('feeds')) {
+			var cat = cat + 1;
+			if (jQuery(this).hasClass('feeds')) {
 				jQuery(this).find('.listitem').each(function(){
 					feeds.push(jQuery(this).attr('class').split(' ')[0]);
 				});
-			} else if (jQuery(this).hasClass('authors')) {
+			} else {
 				jQuery(this).find('.listitem').each(function(){
-					authors.push(jQuery(this).attr('class').split(' ')[0]);
-				});
-			} else if (jQuery(this).hasClass('subscriptions')) {
-				jQuery(this).find('.listitem').each(function(){
-					subscriptions.push(jQuery(this).attr('class').split(' ')[0]);
+					posts.push(jQuery(this).attr('class').split(' ')[0]);
 				});
 			}
 		});
 		//make sure the post has a feed and author
 		if (feeds.length<0) {
 			alert('You must specify atleast one feed');
-		} else if (feeds.length<0) {
-			alert('You must specify atleast one author');
 		} else {
 			jQuery.ajax({
 				type: "POST",
 				url: 'wp-admin/admin-ajax.php',
-				data: {	action: 'savechanges',
+				data: {action: 'savechanges',
 					postid: postid,
 					feeds: feeds.join(','),
 					posts: posts.join(','),
-					authors: authors.join(','),
-					subscriptions: subscriptions.join(','),
 					coordinates: newlatlng},
 				success: function (permalink){
 					alert('Your changes have been saved');
@@ -476,7 +466,7 @@ function loadlightbox(postid , loadid) {
    		url: 'wp-admin/admin-ajax.php',
    		data: {action: 'loadlightbox', currentcat:cat, postid:postid},
    		success: function(msg){
-	    	jQuery('#' + loadid).html(jQuery(msg).html());
+			jQuery('#' + loadid).html(jQuery(msg).html());
 			cowobo_jquery_ui_listeners();
 			update_scrollbars(loadid);
 			loadlike(postid);

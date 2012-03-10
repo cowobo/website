@@ -1,53 +1,65 @@
-<div class="container posts"><?php
-global $social; 
-$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
-$relatedposts = $relatedposts->get_related();?>
+<?php
+$exclude = get_cat_ID('Uncategorized').','.$postcat->term_id; //add more here based on template
+$types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
-<h3>Posts </h3><?php if(count($relatedposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
-<div class="edit button">+ Add</div>
-
-<div class="selectbox"><?php
-	if($author):?>
-		<div class="column left">
-			<h3>1. Choose Type</h3>
-			<ul class="typelist">
-				<li id="sugg" class="selected">Suggested Posts >></li><?php
-				foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
-					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
-				endforeach;?>
-			</ul>
-		</div>
-		<div class="column right">
-			<div class="slide catsugg" style="display:block">
-				<h3>2. Choose Posts</h3>
-				<ul class="verlist"><?php
-				$suggestedposts  = new Cowobo_Related_Posts();
-				if ($suggestedposts = $suggestedposts->find_similar_posts()) :
-					foreach($suggestedposts as $suggested):?>
-						<li class="<?php echo $suggested->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $suggested->post_title;?></a></li><?php
-					endforeach;
-				endif;?>
-				</ul>
-			</div><?php	
-			foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false, 'parent'=>0)) as $cat):?>
-			<div class="slide cat<?php echo $cat->term_id;?>">
-				<h3>2. Choose Posts</h3>
-				<ul class="verlist"><?php 
-					foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
-						<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
+foreach($types as $type):
+	$catposts = $sorted[$type->term_id];
+	$subcats = get_categories(array('child_of'=>$type->term_id, 'hide_empty'=>false, 'parent'=>$type->term_id));?>
+	<div class="container <?php echo $type->slug;?>">
+	<h3><?php echo $type->name.' ('.count($catposts).')'?></h3><?php
+	if(count($catposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+	<div class="edit button">+ Add</div>
+	<div class="selectbox"><?php
+		if($author):?>
+			<div class="column left">
+				<h3>1. Choose Category</h3>
+				<ul class="typelist">
+					<li class="sugg">Suggested >></li><?php
+					foreach($subcats as $cat):?>
+						<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
 					endforeach;?>
+					<li class="addcat">+ Add Category >></li>
 				</ul>
+			</div>
+			<div class="column right">
+				<div class="slide cataddcat" style="display:block">
+					<h3>2. Add A Category</h3><br/>
+					Name of Category:<br/>
+					<input type="text" name="newcat" />
+					<span class="addcat">Add</span><br/>
+				</div>
+				<div class="slide catsugg" style="display:block">
+					<h3>2. Choose Posts</h3>
+					<ul class="verlist"><?php
+					$suggestedposts  = new Cowobo_Related_Posts();
+					if ($suggestedposts = $suggestedposts->find_similar_posts()) :
+						foreach($suggestedposts as $suggested):?>
+							<li class="<?php echo $suggested->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $suggested->post_title;?></a></li><?php
+						endforeach;
+					endif;?>
+					</ul>
+				</div>
+				<?php	
+				foreach($subcats as $cat):?>
+				<div class="slide cat<?php echo $cat->term_id;?>">
+					<h3>2. Choose Posts</h3>
+					<ul class="verlist"><?php 
+						foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
+							<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
+						endforeach;?>
+						<li class="addpost">+ Add New Post</li>
+					</ul>
+				</div><?php
+				endforeach;?>
 			</div><?php
-			endforeach;?>
-		</div><?php
-	else:
-		echo $social->speechbubble();
-	endif;?>
-</div>
+		else:
+			echo $social->speechbubble();
+		endif;?>
+	</div>
 
-<div class="listbox <?php if(count($relatedposts)>2):?>restrict<?php endif;?>"><?php
-if (!empty($relatedposts)):
-	foreach ($relatedposts as $related): unset($images);?>
+	<div class="listbox <?php if(count($sectionposts)>2):?>restrict<?php endif;?>"><?php
+	if(count($catposts)>0):
+	foreach ($catposts as $related): unset($images);?>
 		<div class="<?php echo $related->ID;?> listitem">
 			<div class="thumbnail"><?php
 				$images = get_children(array('post_parent' => $related->ID, 'numberposts' => 1, 'post_mime_type' =>'image'));
@@ -66,9 +78,8 @@ if (!empty($relatedposts)):
 			</div>
 		</div><?php
 	endforeach;
-elseif(!current_user_can('edit_posts')):
-	echo '<br/>This post is not yet related to other content';
-endif;?>
-</div>
-
-</div>
+	endif;?>
+	</div>
+</div><?php
+endforeach;
+?>
