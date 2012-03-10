@@ -1,17 +1,11 @@
-<b>Date Joined: </b><?php 
-	if(function_exists('editable_post_meta')):
-		echo editable_post_meta(get_the_ID(), 'datejoined', 'input');
-	else:
-		echo get_post_meta(get_the_ID(), 'datejoined', true);
-	endif;?><br/>
-<b>Looking for: </b><?php 			
-	if(function_exists('editable_post_meta')):
-		echo editable_post_meta(get_the_ID(), 'lookingfor', 'input');
-	else:
-		echo get_post_meta(get_the_ID(), 'lookingfor', true);
-	endif;?><br/>
-<b>Experience:</b><br/><?php
-
+<b>Coordinates: </b>
+	<ul class="coordinates horlist">
+		<li id="<?php echo $coordinates;?>"><?php echo $coordinates;
+		if($author):?>
+			<span class="relocate button"> Edit</span><?php
+		endif;?>
+		</li>
+	</ul><?php 
 the_content();
 			
 // Include Related Feeds

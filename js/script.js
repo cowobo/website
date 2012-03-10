@@ -98,9 +98,11 @@ function cowobo_sidebar_listeners() {
 		var coordinates = jQuery(this).find('.markerdata').val();
 		jQuery('#scroller').slideToggle();
 		jQuery('#'+postid).fadeIn();
-		update_scrollbars(postid);
-		loadlightbox(postid, postid);
-
+		//only load when not already loaded
+		if(jQuery('#'+postid + '.container').length<1) {
+			update_scrollbars(postid);
+			loadlightbox(postid, postid);
+		}
 		//load new map if marker has coordinates
 		if(typeof(coordinates) != 'undefined' && coordinates.length>0) {
 			var markerpos = coordinates.split(',');
