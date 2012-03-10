@@ -17,7 +17,7 @@ global $social; $state = $social->state; ?>
 switch ( $state ) :
     case 1:
         /**
-         * @todo make joinbox
+         * @todo edit joinbox
          */
         include(TEMPLATEPATH.'/templates/joinbox.php');
         break;
@@ -29,9 +29,13 @@ switch ( $state ) :
          * @todo something wrong here. postholder doesn't load profile post. perhaps due to draft status?
          */
         if ( $postid != $social->profile_id ) :
+
+            console_log ( $social->profile_id );
             $post = get_post ( $social->profile_id );
+            console_log ( $post->ID );
             setup_postdata($post);
             $wp_query->in_the_loop = true;
+            console_log ( $post->ID );
             include(TEMPLATEPATH.'/templates/postholder.php');
             break;
         endif;
