@@ -129,21 +129,16 @@ endif;?>
 		</div>
 	</div>
 
-	<div id="profilelink">
-        <?php
-            /**
-             * @todo make the links for new profile and edit profile
-             * @todo restyle speechbubble
-             */
-            $state = $social->state;
-            if ( $state == 1 ) : ?>
-                <a href="#" class="messenger new_profile">Login / Join us!</a><?php
-            elseif ( $state != 4 ): ?>
-                <a href="#" class="messenger create_new_profile profile<?php echo $social->get_profile_url();?>">Create Your Profile</a><?php
-            else : ?>
-                <a href="#" class="messenger edit_profile profile<?php echo $social->get_profile_url();?>">Create Your Profile</a><?php
-            endif;
-        ?>
+	<div id="profilelink"><?php
+	if ($social->state == 1 ) : ?>
+		<span class="messenger join_login">Join us! / Login</span><?php
+	elseif ($social->state != 4): ?>
+		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
+		<span class="logout">Logout</span><?php
+	else: ?>
+		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
+		<span class="logout">Logout</span><?php
+	endif;?>
 	</div>
 
 	<div id="menubar">

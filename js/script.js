@@ -141,6 +141,7 @@ function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
 	jQuery('#map, .shadowclick, #cloud1, #cloud2').live('click', function() {
 		jQuery('.large').fadeOut();
+		jQuery('#scroller').slideToggle();
   	});
 
 	//switch between slides in gallery
@@ -213,15 +214,17 @@ function cowobo_lightbox_listeners() {
 
 //MESSENGER//
 function cowobo_messenger_listeners() {
-    jQuery('.messenger').click( function() {
-       var type = jQuery(this).attr('class').split(' ')[1];
-       if ( type == 'new_profile') {
-           jQuery('.speechbubble').fadeIn('slow');
-       } else if ( type == 'create_new_profile') {
-           alert ('Create new profile!');
-       } else if ( type == 'edit_profile') {
-           alert ('Edit profile!')
-       }
+	jQuery('.messenger').click( function() {
+		var type = jQuery(this).attr('class').split(' ');
+		var profileid = type[2].split('-')[1];
+		if (type[1] == 'join') {
+			jQuery('#join').fadeIn('slow');
+		} else {
+			jQuery('#'+profileid).fadeIn('slow');
+		}
+    });
+	jQuery('.logout').click( function() {
+     	location.href='http://www.cobowo.org/wp-login.php?action=logout';
     });
 }
 

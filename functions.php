@@ -321,3 +321,4 @@ function my_save_extra_profile_fields( $user_id ) {
 		return false;
 	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }
+
