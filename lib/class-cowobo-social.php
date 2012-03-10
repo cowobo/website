@@ -68,9 +68,10 @@ class Cowobo_Social {
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
 
+		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
+
         $this->set_cowobo_state();
 
-		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
             add_action ( 'publish_post', array ( &$this, 'complete_profile') );
@@ -179,10 +180,10 @@ class Cowobo_Social {
      * @return int $state
      */
     protected function set_cowobo_state () {
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() ) { // State 2, 3 and 4;
             $registered_state = get_user_meta($userid, 'cowobo_state', true);
-            if ( empty ( $registered_state ) ) { // something's wrong.. but we can't do everything right, can we?
-                $this->change_user_state ( $userid, 2 );
+            if ( empty ( $registered_state ) || $registered_state == 2 ) { // Let's promote our first-logon users to state 3
+                $this->change_user_state ( $userid, 3 );
                 $this->state = 2;
             } elseif ( $registered_state == 3 ) { // only perform this check if user is in state 3
                 $profilepost = get_post ( $this->profile_id );
@@ -191,10 +192,10 @@ class Cowobo_Social {
                     $this->state = 4;
                 }
                 $this->state = 3; // if everythings right, just set it to 3.
-            } else {
-                $this->state = $registered_state; // State 2 or 4.
+            } else { // For the best of our users
+                $this->state = 4;
             }
-        } else {
+        } else { // State 1
             $this->state = 1;
         }
         return $tis->state;
