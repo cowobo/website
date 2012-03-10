@@ -1,5 +1,4 @@
 <div class="container feeds"><?php
-global $social; 
 $relatedfeeds = get_the_category();?>
 
 <h3>Feeds (<?php echo count($relatedfeeds);?>)</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>

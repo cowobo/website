@@ -1,5 +1,4 @@
 <div class="container subscriptions"><?php
-global $social; 
 //$subscriptions = new Cowobo_Feed(array('posts' => $post->ID));?>
 
 <h3>Subscriptions </h3><?php if(count($subscriptions)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>

@@ -26,6 +26,7 @@ global $newposts;
 global $currentcat;
 global $postid;
 global $social;
+global $author;
 
 // Query for the current feed
 $feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;

@@ -1,4 +1,6 @@
 <?php
+global $social; global $author;
+
 if (isset($_SERVER['SCRIPT_FILENAME']) && 'comments.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 	die ('Nerd alert: do not load this page directly. Thanks!'); }
 if ( post_password_required() ) { ?>
@@ -6,17 +8,15 @@ if ( post_password_required() ) { ?>
 <?php
 	return; };?>
 <div class="commentbox"><?php
-
+//get all comments sow
 $postcomments = get_comments(array('post_id' =>$post->ID));?>
 
 <h3>Comments (<?php echo count($postcomments);?>)</h3><?php if(count($postcomments)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
 <div class="add button">+ Add</div>
 
 <div class="replybox"><?php 
-global $social;
-if ($social->state != 4):
-	echo $social->speechbubble();
-else:?>
+
+if ($author):?>
 	<form action="wp-comments-post.php" method="post" class="commentform">
 		<div class="thumbnail"></div>
 		<div class="text">
@@ -28,6 +28,8 @@ else:?>
 		</div>
 		<?php do_action('comment_form', $post->ID);?>
 	</form><?php
+else:
+	echo $social->speechbubble();
 endif;?>
 </div><?php
 

@@ -461,7 +461,7 @@ function loadlightbox(postid , loadid) {
    		url: 'wp-admin/admin-ajax.php',
    		data: {action: 'loadlightbox', currentcat:cat, postid:postid},
    		success: function(msg){
-	    	jQuery('#' + loadid).html(jQuery(msg).html());
+			jQuery('#' + loadid).html(jQuery(msg).html());
 			cowobo_jquery_ui_listeners();
 			update_scrollbars(loadid);
 			loadlike(postid);

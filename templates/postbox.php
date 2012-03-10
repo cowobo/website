@@ -1,23 +1,32 @@
 <?php 
 //check type of post and authors
-global $social; unset($profiles);
+global $author; global $social;
+unset($profileids); 
 $postcat = cwob_get_category($post->ID);
 $posttype = $postcat->slug;
 
 //sort relatedposts by type
 $relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
 if($relatedposts = $relatedposts->get_related()):
-foreach($relatedposts as $relatedpost):
-	$type = cwob_get_category($relatedpost->ID);
-	$sorted[$type->term_id][] = $relatedpost;
-endforeach;
+	foreach($relatedposts as $relatedpost):
+		$type = cwob_get_category($relatedpost->ID);
+		$sorted[$type->term_id][] = $relatedpost;
+	endforeach;
 endif;
 
+//save post profile ids in array
+if($profiles = $sorted[get_cat_ID('Profiles')]):
+	foreach($profiles as $profile):
+		$profileids[] = $profile->ID;
+	endforeach;
+else: 
+	$profileids = array();
+endif;
+	
 //check if user has a profile which can edit the post
-foreach($sorted[get_cat_ID('Profiles')] as $profile):
-	$profiles[] = $profile->ID;
-endforeach;
-if(in_array($social->profile_id, $profiles)) $author = true; else $author = false;?>
+if(in_array($social->profile_id, $profileids) or $post->post_author == get_current_user_id()):
+	 $author = true; else: $author = false;
+endif;?>
 
 <div class="large single" id="<?php echo $post->ID;?>">
 	<div class="holder">

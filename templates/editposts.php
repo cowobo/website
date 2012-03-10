@@ -1,6 +1,4 @@
 <?php
-global $social; 
-
 $exclude = get_cat_ID('Uncategorized').','.$postcat->term_id; //add more here based on template
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
@@ -24,6 +22,12 @@ foreach($types as $type):
 				</ul>
 			</div>
 			<div class="column right">
+				<div class="slide cataddcat" style="display:block">
+					<h3>2. Add A Category</h3><br/>
+					Name of Category:<br/>
+					<input type="text" name="newcat" />
+					<span class="addcat">Add</span><br/>
+				</div>
 				<div class="slide catsugg" style="display:block">
 					<h3>2. Choose Posts</h3>
 					<ul class="verlist"><?php
@@ -34,12 +38,6 @@ foreach($types as $type):
 						endforeach;
 					endif;?>
 					</ul>
-				</div>
-				<div class="slide cataddcat" style="display:block">
-					<h3>2. Add A Category</h3><br/>
-					Name of Category:<br/>
-					<input type="text" name="newcat" />
-					<span class="addcat">Add</span><br/>
 				</div>
 				<?php	
 				foreach($subcats as $cat):?>
