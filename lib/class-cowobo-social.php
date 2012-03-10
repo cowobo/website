@@ -73,17 +73,14 @@ class Cowobo_Social {
 		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
-			add_action('profile_update',array( &$this, 'complete_register'));
+            add_action ( 'publish_post', array ( &$this, 'complete_profile') );
+			// add_action('profile_update',array( &$this, 'complete_register'));
 		}
 		// New user profile page
 		add_action('user_register',array( &$this, 'new_user_profile'));
 
 		// RSS
 		add_filter('pre_get_posts',array( &$this, 'feed_filter' ));
-
-		// Give the profile a fancy link ( profile/username )
-		/*global $wp_rewrite;
-		$wp_rewrite->author_base = 'profile'; */
 
 		// Share
 		add_action('init', array ( &$this, 'share_scripts') );
@@ -177,13 +174,26 @@ class Cowobo_Social {
     /**
      * Does the state magic
      *
+     * It checks for the registered state in the database and runs some tests on it to check if it is right. If it's wrong, it's rectified. This method sets the public variable Cowobo_Social::state
+     *
      * @return int $state
      */
     protected function set_cowobo_state () {
         if ( is_user_logged_in() ) {
             $registered_state = get_user_meta($userid, 'cowobo_state', true);
-            if ( empty ( $registered_state ) ) $this->state = 2;
-            else $this->state = $registered_state;
+            if ( empty ( $registered_state ) ) { // something's wrong.. but we can't do everything right, can we?
+                $this->change_user_state ( $userid, 2 );
+                $this->state = 2;
+            } elseif ( $registered_state == 3 ) { // only perform this check if user is in state 3
+                $profilepost = get_post ( $this->profile_id );
+                if ( $profilepost->post_status == 'publish' ) { // oh no! our user is a good boy and published his profile!
+                    $this->cange_user_state ( $userid, 4 );
+                    $this->state = 4;
+                }
+                $this->state = 3; // if everythings right, just set it to 3.
+            } else {
+                $this->state = $registered_state; // State 2 or 4.
+            }
         } else {
             $this->state = 1;
         }
@@ -217,13 +227,19 @@ class Cowobo_Social {
     }
 
 	/**
-     * Completes registration and stops showing the nags
+     * Changes the user state in the user db
      *
      * @param int $userid
+     * @param int $state
      */
-	public function complete_register($userid) {
-		if (get_user_meta($userid, 'cowobo_state', true) == '3') update_user_meta($userid,'cowobo_state','4');
+	protected function change_user_state ( $userid, $state ) {
+		update_user_meta($userid,'cowobo_state', $state);
+        return true;
 	}
+
+//    public function complete_profile ( $userid, $postid ) {
+//        if ( $this->state == 3 && $postid == $this->profile_id ) complete_register ( $userid );
+//    }
 
 	/* === Social login === */
 	/**
