@@ -28,25 +28,17 @@ switch ( $state ) :
         /**
          * @todo something wrong here. postholder doesn't load profile post. perhaps due to draft status?
          */
-        if ( $postid != $social->profile_id ) :
-
-            console_log ( $social->profile_id );
-            $post = get_post ( $social->profile_id );
-            console_log ( $post->ID );
+        if ($postid != $social->profile_id ) :
+            $post = get_post ($social->profile_id);
             setup_postdata($post);
             $wp_query->in_the_loop = true;
-            console_log ( $post->ID );
-            include(TEMPLATEPATH.'/templates/postholder.php');
+            include(TEMPLATEPATH.'/templates/postbox.php');
             break;
         endif;
-    endswitch;
+endswitch;
+
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
-	//if on a single page load the main post and hide the rest
-	if($postid == $post->ID):
-		include(TEMPLATEPATH.'/templates/postbox.php');
-	else:
-		include(TEMPLATEPATH.'/templates/postholder.php');
-	endif;
+	include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
 get_footer();?>
