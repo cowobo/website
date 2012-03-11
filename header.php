@@ -131,11 +131,11 @@ endif;?>
 
 	<div id="profilelink"><?php
 	if ($social->state == 1 ) : ?>
-		<span class="messenger join_login">Join us! / Login</span><?php
-	elseif ($social->state != 4): ?>
+		<span class="messenger join">Join us! / Login</span><?php
+	elseif ($social->state != 4) : ?>
 		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
 		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	else: ?>
+	else : ?>
 		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
 		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
 	endif;?>
@@ -162,7 +162,7 @@ endif;?>
 		<li>Search
 			<ul>
 				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
-				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>			
+				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
 			</ul>
 		</li>
 		<li>

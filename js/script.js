@@ -216,11 +216,11 @@ function cowobo_lightbox_listeners() {
 function cowobo_messenger_listeners() {
 	jQuery('.messenger').click( function() {
 		var type = jQuery(this).attr('class').split(' ');
-		var profileid = type[2].split('-')[1];
 		jQuery('#scroller').slideToggle();
 		if (type[1] == 'join') {
 			jQuery('#join').fadeIn('slow');
 		} else {
+            var profileid = type[2].split('-')[1];
 			jQuery('#'+profileid).fadeIn('slow');
 			loadlightbox(profileid, profileid);
 		}
@@ -457,6 +457,7 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox(postid , loadid) {
+    if ( postid == 'join' ) return true;
 	var cat = jQuery('#page h1').attr('id');
 	update_scrollbars(postid);
 	//load lightbox contents
