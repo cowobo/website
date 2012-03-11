@@ -29,7 +29,7 @@ switch ( $state ) :
          * @todo something wrong here. postholder doesn't load profile post. perhaps due to draft status?
          */
         if ($postid != $social->profile_id ) :
-            $post = get_post ($social->profile_id);
+            $post = get_post ( $social->profile_id );
             setup_postdata($post);
             $wp_query->in_the_loop = true;
             include(TEMPLATEPATH.'/templates/postbox.php');
