@@ -18,7 +18,7 @@ p {padding:5px 0 5px 0;}
 img {border:none;}
 input{margin-right:4px;}
 textarea {border:1px solid #eee;}
-h1 {font-family:'Century Gothic'; white-space: nowrap; font-size:32px; color:#fff; padding:10px 15px 0 20px; height:25px;}
+h1 {font-size:32px; color:#fff; padding:15px; height:25px;}
 h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
@@ -26,6 +26,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .left {float:left;}
 .right {float:right;}
 a.rss {cursor: pointer;}
+.pagetitle{white-space: nowrap; font-size:32px; color:#fff; padding:10px 0 0 15px; height:25px;}
 
 /* Page */
 #map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
@@ -84,7 +85,8 @@ a.rss {cursor: pointer;}
 .zoomin, .zoomout {height:25px;}
 
 /* Boxes Generic */
-.topshadow {position:absolute; top:0; left:0; width:100%; height:60px; background:url(images/topshadow.png) top repeat-x; z-index:10}
+.topshadow {position:absolute; top:0; left:0; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; z-index:10; }
+.topshadow p {padding:15px; color:#fff; font-size:16px; font-weight:bold; line-height:30px;}
 .data {margin-left:6px; color:#fff; font-weight:bold;}
 .holder {background:#fff;}
 .title {color:#333; font-weight:bold;}

@@ -9,6 +9,7 @@ global $social; $profile_in_feed = false; ?>
         if ( $social->state == 4 && $post->ID == $social->profile_id ) $profile_in_feed = true;
 		$typepost = cwob_get_category($post->ID);
 		include(TEMPLATEPATH.'/templates/postthumb.php');
+		$postids[] = $post->ID; //to determine whether or not to load the profile post
 	endforeach;?>
 </div>
 
@@ -16,31 +17,21 @@ global $social; $profile_in_feed = false; ?>
 <?php
 
 //Lightboxes
-switch ( $social->state ) :
-    case 1:
-        /**
-         * @todo edit joinbox
-         */
+include(TEMPLATEPATH.'/templates/newbox.php');
+
+if ($state > 1 && !in_array($social->profile_id, $postids)) :
+	$post = get_post ( $social->profile_id );
+	setup_postdata($post);
+	$wp_query->in_the_loop = true;
+	include(TEMPLATEPATH.'/templates/postbox.php');
+else:
+	$joinpost = get_posts(array('name' => 'reasons-for-joining'));
+	foreach ($joinpost as $post):
+		setup_postdata($post);
+		$wp_query->in_the_loop = true;
         include(TEMPLATEPATH.'/templates/joinbox.php');
-        break;
-    case 4:
-        include(TEMPLATEPATH.'/templates/newbox.php');
-        if ( $profile_in_feed ) break;
-    case 2:
-    case 3:
-        /**
-         * @todo something wrong here. postholder doesn't load profile post. perhaps due to draft status?
-         */
-        console_log ( "Postid: $postid; Profileid: {$social->profile_id}");
-        if ($postid != $social->profile_id ) :
-            $post = get_post ( $social->profile_id );
-            setup_postdata($post);
-            $wp_query->in_the_loop = true;
-            console_log ( "Postid profile: {$post->ID}");
-            include(TEMPLATEPATH.'/templates/postbox.php');
-            break;
-        endif;
-endswitch;
+	endforeach;
+endif;
 
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
 	include(TEMPLATEPATH.'/templates/postbox.php');
