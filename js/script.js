@@ -216,10 +216,10 @@ function cowobo_lightbox_listeners() {
 function cowobo_messenger_listeners() {
 	jQuery('.messenger').click( function() {
 		var type = jQuery(this).attr('class').split(' ');
-		var profileid = type[2].split('-')[1];
 		if (type[1] == 'join') {
 			jQuery('#join').fadeIn('slow');
 		} else {
+            var profileid = type[2].split('-')[1];
 			jQuery('#'+profileid).fadeIn('slow');
 		}
     });
