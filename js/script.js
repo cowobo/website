@@ -458,6 +458,7 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox(postid , loadid) {
+    if ( postid == 'join' ) return true;
 	var cat = jQuery('#page h1').attr('id');
 	update_scrollbars(postid);
 	//load lightbox contents
