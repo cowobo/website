@@ -67,10 +67,10 @@ class Cowobo_Social {
 
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
-
+		
+		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
         $this->set_cowobo_state();
 
-		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
             add_action ( 'publish_post', array ( &$this, 'complete_profile') );
@@ -187,7 +187,7 @@ class Cowobo_Social {
             } elseif ( $registered_state == 3 ) { // only perform this check if user is in state 3
                 $profilepost = get_post ( $this->profile_id );
                 if ( $profilepost->post_status == 'publish' ) { // oh no! our user is a good boy and published his profile!
-                    $this->cange_user_state ( $userid, 4 );
+                    $this->change_user_state ( $userid, 4 );
                     $this->state = 4;
                 }
                 $this->state = 3; // if everythings right, just set it to 3.
