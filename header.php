@@ -134,10 +134,10 @@ endif;?>
 		<span class="messenger join">Join us! / Login</span><?php
 	elseif ($social->state != 4) : ?>
 		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
-		<span class="logout">Logout</span><?php
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
 	else : ?>
 		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
-		<span class="logout">Logout</span><?php
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
 	endif;?>
 	</div>
 

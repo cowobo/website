@@ -216,15 +216,14 @@ function cowobo_lightbox_listeners() {
 function cowobo_messenger_listeners() {
 	jQuery('.messenger').click( function() {
 		var type = jQuery(this).attr('class').split(' ');
+		jQuery('#scroller').slideToggle();
 		if (type[1] == 'join') {
 			jQuery('#join').fadeIn('slow');
 		} else {
             var profileid = type[2].split('-')[1];
 			jQuery('#'+profileid).fadeIn('slow');
+			loadlightbox(profileid, profileid);
 		}
-    });
-	jQuery('.logout').click( function() {
-     	location.href='http://www.cobowo.org/wp-login.php?action=logout';
     });
 }
 
