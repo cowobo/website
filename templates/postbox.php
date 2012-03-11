@@ -40,18 +40,15 @@
 	<div class="arrow"><?php
 		if($author):?>
 			<span class="save button" id="save-<?php echo $post->ID;?>">
-                <?php if ( $post->post_status == 'draft' ) : ?>
-                    Create
+                <?php if ( $post->post_status == 'draft' && $post->ID == $social->profile_id ) : ?>
+                    Complete Profile</span>
                 <?php else: ?>
-                    Save
+                    Save</span>
+                    <span class='cowobo_social_like button'>Share</span>
+                    <?php if ( $post->ID != $social->profile_id ) : ?>
+                        <span class="delete button">Delete</span>
+                    <?php endif; ?>
                 <?php endif; ?>
-            </span>
-            <?php if ( $post->post_status == 'publish' ) : ?>
-                <span class='cowobo_social_like button'>Share</span>
-            <?php endif; ?>
-			<?php if ( $post->ID != $social->profile_id ) : ?>
-                <span class="delete button">Delete</span>
-            <?php endif; ?>
         <?php else:
 			$prev = get_adjacent_post(true,'',false);
 			$next = get_adjacent_post(true,'',true);?>
