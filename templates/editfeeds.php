@@ -53,8 +53,6 @@ if (!empty($relatedfeeds)):
 			</div>
 		</div><?php
 	endforeach;
-elseif(!current_user_can('edit_posts')):
-	echo '<br/>This post has not been asssigned to any feeds. Please notify the author.';
 endif;?>
 </div>
 

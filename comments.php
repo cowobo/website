@@ -15,7 +15,6 @@ $postcomments = get_comments(array('post_id' =>$post->ID));?>
 <div class="add button">+ Add</div>
 
 <div class="replybox"><?php 
-
 if ($author):?>
 	<form action="wp-comments-post.php" method="post" class="commentform">
 		<div class="thumbnail"></div>
@@ -24,7 +23,7 @@ if ($author):?>
 		<textarea name="comment" class="commenttext" aria-required="true"></textarea>
 		<input type='hidden' class='comment_post_ID' name='comment_post_ID' value='<?php echo $post->ID;?>'/>
 		<input type='hidden' class='comment_parent' name='comment_parent' value='0' />
-		<input name="submit" type="submit" class="submit" value="Submit Comment" /><span class="loading"></span>
+		<input name="submit" type="submit" class="submit" value="Submit Comment" /><span class="loading hide"></span>
 		</div>
 		<?php do_action('comment_form', $post->ID);?>
 	</form><?php

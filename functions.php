@@ -149,18 +149,18 @@ function loadlightbox_callback(){
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
 			'post_status' => 'auto-draft', 
-			'post_title' => 'Hover over this title and click edit', 
-			'post_content' => 'Hover over this text and click edit to paste in your content. If you have a lot of text consider splitting it into separate posts',
+			'post_title' => '2. Add a title by hovering here and clicking Edit', 
+			'post_content' => '<b>3. Add relevant text by hovering here and clicking Edit.</b><br/><br/>4. Add at least one Feed and other related posts by clicking on +Add',
 			'post_category' => array($catid),
 			'post_author' => $current_user->ID,
 		));
 		$newpost = query_posts(array('post_status'=>'auto-draft', 'posts_per_page'=>1));
 	else:
 		$newpost = query_posts(array('p'=>$_POST["postid"]));
-		$typepost = cwob_get_category($_POST["postid"]);
+		$postcat = cwob_get_category($_POST["postid"]);
 	endif;
 	if (class_exists('FEE_Core')) FEE_Core::add_filters();
-	foreach($newpost as $post): setup_postdata($post); the_post();
+	foreach($newpost as $post): setup_postdata($post); the_post(); $ajax = true;
 			include(TEMPLATEPATH.'/templates/postbox.php');
 	endforeach;
 	wp_reset_query();
@@ -182,7 +182,7 @@ function loadgallery_callback(){
 }
 
 function savechanges_callback(){
-	global $wpdb;
+	global $wpdb; global $social;
 	$postid = $_POST["postid"];
 	$feeds = explode(',', $_POST["feeds"]);
 	$relatedpostids = explode(',' , $_POST['posts']);
@@ -207,6 +207,10 @@ function savechanges_callback(){
 			$result = $wpdb->query($query);
 		endforeach;
 	endif;
+	
+	//Add the author as a profile to the post
+	$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $social->profile_id)";
+	$result = $wpdb->query($query);
 
 	//update locations
 	if($locations = $sorted[get_cat_ID('Locations')]):
