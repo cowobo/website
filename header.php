@@ -27,6 +27,7 @@ global $currentcat;
 global $postid;
 global $social;
 global $author;
+global $query_string;
 
 // Query for the current feed
 $feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;
@@ -57,7 +58,6 @@ if(empty($nextlink)) $backlink = '#';
 wp_delete_post($_GET["deleteid"]);
 
 // LOAD POSTS AND MENU LINKS
-// if is page display only child pages
 if(is_author()):
 	$curauth = (isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 	$args = array( 'posts' => $curauth->cowobo_profile );
@@ -76,7 +76,6 @@ elseif (isset($_GET['user'])):
 	$newposts = $newposts->get_feed();
 	$links = '<a href="">This feed has no additional categories</a>';
 else:
-	global $query_string;
 	$sort = '&orderby='.$_GET['sort'];
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'child_of'=>0, 'hide_empty'=>false, 'parent'=>0)) as $cat):
@@ -106,7 +105,7 @@ endif;?>
 </div>
 
 <div id="page">
-	<h1 id="<?php echo $currentcat->term_id;?>"><b><?php echo $pagetitle;?></b><?php
+	<div class="pagetitle" id="<?php echo $currentcat->term_id;?>"><b><?php echo $pagetitle;?></b><?php
 	if (is_user_logged_in()) :
 		if (isset($_GET['user'])) :
 			$rsspage = get_page_by_title('Favourite Feed');?>
@@ -117,7 +116,8 @@ endif;?>
 		endif;
 	else:?>
 		<span id="taketour">Take the Tour!</span><?php
-	endif; ?></h1>
+	endif; ?>
+	</div>
 
 	<div id='speaking_angel'>
 		<div id="angel"></div>
