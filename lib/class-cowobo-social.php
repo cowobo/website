@@ -180,11 +180,12 @@ class Cowobo_Social {
      * @return int $state
      */
     protected function set_cowobo_state () {
+		$userid = get_current_user_id( );
         if ( is_user_logged_in() ) { // State 2, 3 and 4;
             $registered_state = get_user_meta($userid, 'cowobo_state', true);
             if ( empty ( $registered_state ) || $registered_state == 2 ) { // Let's promote our first-logon users to state 3
                 $this->change_user_state ( $userid, 3 );
-                $this->state = 2;
+                $this->state = 3;
             } elseif ( $registered_state == 3 ) { // only perform this check if user is in state 3
                 $profilepost = get_post ( $this->profile_id );
                 if ( $profilepost->post_status == 'publish' ) { // oh no! our user is a good boy and published his profile!
@@ -198,7 +199,7 @@ class Cowobo_Social {
         } else { // State 1
             $this->state = 1;
         }
-        return $tis->state;
+        return $this->state;
     }
 
 	/* === Add your profile === */
@@ -210,7 +211,7 @@ class Cowobo_Social {
 	public function speechbubble() {
 		$nags = get_option('cwob_nags');
 		if ( $this->state == 2 || $this->state == 3 ) { // State 2 & 3 (logged in, no profile)
-			$userid = wp_get_current_user()->ID;
+			$userid = get_current_user_id( );
 			$current_display_name = get_userdata($userid)->display_name;
 			$current_profile_url = $this->get_profile_url ( $userid );
 			$profile_nag = stripslashes ( strtr ( $nags[$this->state], array ( 'DISPLAYNAME' => $current_display_name, 'PROFILEURL' => $current_profile_url ) ) );
