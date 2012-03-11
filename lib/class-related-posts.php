@@ -1,33 +1,45 @@
 <?php
 /*
  *      class-related-posts.php
- *      
+ *
  *      Copyright 2011 Coders Without Borders
- *      
+ *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation; either version 2 of the License, or
  *      (at your option) any later version.
- *      
+ *
  *      This program is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *      GNU General Public License for more details.
- *      
+ *
  *      You should have received a copy of the GNU General Public License
  *      along with this program; if not, write to the Free Software
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
- *      
+ *
  */
 
 new Cowobo_Related_Posts;
 
+/**
+ * This class makes the related posts and similar post suggestions
+ *
+ * @package related-posts
+ */
 class Cowobo_Related_Posts {
 
-	// Inverse weight of popularity in the similar posts algorithm
+    /**
+     * Inverse weight of popularity in the similar posts algorithm
+     *
+     * @var int
+     */
 	private $popularity_weight = 10;
 
+    /**
+     * Runs installation and cleans db on deletion of posts.
+     */
 	public function __construct() {
 		// Run at theme activation
 		global $pagenow;
@@ -41,7 +53,9 @@ class Cowobo_Related_Posts {
 		add_action("delete_post", array($this,'cwob_delete_relationships'));
 	}
 
-	//cwob_activate - Run when the plugin is first installed and after an upgrade
+    /**
+     * Run when the plugin is first installed and after an upgrade
+     */
 	private function cwob_activate() {
 		global $wpdb;
 		// Check if post_relationships table exists, if not, create it
@@ -55,15 +69,24 @@ class Cowobo_Related_Posts {
 			$create = $wpdb->query( $query );
 		}
 	}
-			
-	// cwob_delete_relationships - Delete all relationships for a post
+
+	/**
+     * Delete all relationships for a post
+     *
+     * @param int post_id
+     */
 	public function cwob_delete_relationships($post_id) {
 		global $wpdb;
 			$query = "DELETE FROM ".$wpdb->prefix."post_relationships WHERE post1_id = $post_id OR post2_id = $post_id";
 		$delete = $wpdb->query($query);
 	}
 
-	//cwob_get_related_posts - Get the related posts for a post
+	/**
+     * Get the related posts for a post
+     *
+     * @param int post_id
+     * @return array wpdb post objects of related posts
+     */
 	public function cwob_get_related_posts($post_id) {
 		global $wpdb;
 		$post_status = array("'publish'");
@@ -82,14 +105,16 @@ class Cowobo_Related_Posts {
 				",".$wpdb->prefix."posts					wp ".
 				"WHERE wpr.post2_id = $post_id ".
 				"AND wp.id = wpr.post1_id ".
-				"AND wp.post_status IN (".implode( ",", $post_status ).") ";			
+				"AND wp.post_status IN (".implode( ",", $post_status ).") ";
 			# Return all posts in one object
 			$results = $wpdb->get_results( $query );
 			if($results) return $results;
 			return null;
 	}
-	
-	// Similar posts functions
+
+	/**
+     *  Installs similar posts functionality on the db
+     */
 	public function activate_similar_posts() {
 		require(dirname(__FILE__).'/../../../../' .'wp-config.php');
 
@@ -118,16 +143,22 @@ class Cowobo_Related_Posts {
 			return false;
 		}
 	}
-	
+
+    /**
+     * Find similar posts by content
+     *
+     * @param int (optional) limit the number of posts
+     * @return array sorted similar posts by popularity and score
+     */
 	public function find_similar_posts ( $limit = 10 ) {
 		global $post, $wpdb;
-		
+
 		$terms = $this->current_post_keywords();
 
 		$time_difference = get_settings('gmt_offset');
 		$now = gmdate("Y-m-d H:i:s",(time()+($time_difference*3600)));
 
-		// Match	
+		// Match
 		$sql = "SELECT ID, post_title, post_content, "
 			. "MATCH (post_name, post_content) "
 			. "AGAINST ('$terms') AS score "
@@ -142,7 +173,13 @@ class Cowobo_Related_Posts {
 		$results = $this->sort_similar_posts ( $results );
 		return $results;
 	}
-	
+
+    /**
+     * Sort posts based on populairty and similarity scores
+     *
+     * @param array posts with scores
+     * @return array sorted posts
+     */
 	private function sort_similar_posts ( $posts ) {
 		// Get the highest matching score
 		$highest_score = 0;
@@ -156,7 +193,7 @@ class Cowobo_Related_Posts {
 			$popularity = $popularities[] = get_post_meta ( $post->ID, 'cowobo_popularity', true);
 			$highest_popularity = ( $highest_popularity < $popularity ) ? $popularity : $highest_popularity;
 		}
-		
+
 		// Grade them posts
 		$i = 0;
 		$popularity_score = array();
@@ -175,9 +212,15 @@ class Cowobo_Related_Posts {
 		return $results;
 	}
 
+    /**
+     * Extract the keywords from the postobject
+     *
+     * @param int (optional) number of terms to get
+     * @return array current post keywords
+     */
 	private function current_post_keywords( $num_to_ret = 20 ) {
 		global $post;
-				
+
 		$string =	$post->post_title.' '.
 				str_replace('-', ' ', $post->post_name).' '.
 				$post->post_content;
@@ -193,14 +236,13 @@ class Cowobo_Related_Posts {
 		foreach ($stopwords as $stopword) {
 			 unset($all[$stopword]);
 		}
-		
+
 		// Sort it, count it, slice it
 		arsort($all, SORT_NUMERIC);
 		$num_words = count($all);
 		$num_to_ret = $num_words > $num_to_ret ? $num_to_ret : $num_words;
 		$outwords = array_slice($all, 0, $num_to_ret);
-		
-		return implode(' ', array_keys($outwords));	
+
+		return implode(' ', array_keys($outwords));
 	}
 }
-?>
