@@ -92,6 +92,9 @@ class Cowobo_Social {
 
         // Change redirect social connect
         add_filter( 'social_connect_redirect_to', array ( &$this, 'redirect_after_social_login' ) );
+
+        // Restrict dashboard access
+        add_action( 'admin_head', array ( &$this, 'restrict_dashboard'), 0 );
 	}
 
 	/* === User Profiles === */
@@ -561,4 +564,22 @@ class Cowobo_Social {
 		else return $cats;
 	}
 
+    /**
+     * Restricts dashboard access to admins (user_can edit_dashboard)
+     */
+    public function restrict_dashboard() {
+        $userid = get_current_user_id( );
+        $redirect_url = $this->get_profile_url ( $userid );
+
+        if ( ! current_user_can( 'edit_dashboard' ) ) {
+            if ( headers_sent() ) {
+                echo "<meta http-equiv='refresh' content='0;url=$redirect_url'>";
+                echo "<script type='text/javascript'>document.location.href='$redirect_url'</script>";
+                die;
+            } else {
+                wp_redirect( $redirect_url );
+                exit();
+            }
+        }
+    }
 }
