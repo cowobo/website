@@ -17,9 +17,9 @@ global $social; $profile_in_feed = false; ?>
 <?php
 
 //Lightboxes
-include(TEMPLATEPATH.'/templates/newbox.php');
+if ( $social->state > 1 ) include( TEMPLATEPATH . '/templates/newbox.php' );
 
-if ($state > 1 && !in_array($social->profile_id, $postids)) :
+if ( $social->state > 1 && !in_array( $social->profile_id, $postids ) ) :
 	$post = get_post ( $social->profile_id );
 	setup_postdata($post);
 	$wp_query->in_the_loop = true;
@@ -37,4 +37,4 @@ foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = tru
 	include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
-get_footer();?>
+get_footer();
