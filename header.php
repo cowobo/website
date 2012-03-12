@@ -58,20 +58,14 @@ if(empty($nextlink)) $backlink = '#';
 wp_delete_post($_GET["deleteid"]);
 
 // LOAD POSTS AND MENU LINKS
-if(is_author()):
-	$curauth = (isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
-	$args = array( 'posts' => $curauth->cowobo_profile );
-	$wp_query = array('post_type'=>'page', 'author' => $curauth->ID, 'order' => 'ASC', 'exclude' => $curauth->cowobo_profile );
-	$newposts = new Cowobo_Feed ( $args, $wp_query );
-	$newposts = $newposts->get_feed();
-elseif(is_single()):
+if(is_single()):
 	$newposts = get_posts(array('cat'=>$currentcat->term_id));
 	foreach(get_categories(array('child_of'=>$currentcat->term_id, 'hide_empty'=>false, 'parent'=>$currentcat->term_id)) as $cat):
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.$cat->category_count.')</a></li>';
 	endforeach;
 	$postid = $post->ID; //store main post id before it is overwritten by the loop
-elseif (isset($_GET['user'])):
-	$args = array( 'users' => $_GET['user'] );
+elseif (isset($_GET['userfeed'])):
+	$args = array( 'userfeed' => $_GET['userfeed'] );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
 	$links = '<a href="">This feed has no additional categories</a>';
@@ -149,16 +143,10 @@ endif;?>
 
 <div id="page">
 	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><?php
-	if (is_user_logged_in()) :
-		if (isset($_GET['user'])) :
-			$rsspage = get_page_by_title('Favourite Feed');?>
-			<a href="<?php echo get_permalink($rsspage->ID);?>?user=<?php echo $userid; ?>" class="rss">RSS</a>
-			<a onclick="reset_feed(<?php echo $userid; ?>)" class="rss">Reset Feed</a><?php
-		else:?>
-			<a onclick="add_to_feed(<?php echo $feed_query; ?>)" class="rss">Subscribe to Feed</a><?php
-		endif;
-	else:?>
+	if (is_home()):?>
 		<a href="<?php echo get_category_link(get_cat_ID('Take The Tour'));?>">Take the Tour!</a></span><?php
+	else:?>
+		<a onclick="add_to_feed(<?php echo $feed_query; ?>)">Subscribe to Feed</a><?php
 	endif; ?>
 	</div>
 
