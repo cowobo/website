@@ -47,9 +47,9 @@ wp_head();
 
 if(isset($_GET['user'])) $pagetitle = "Favourite Feed";
 elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
-elseif(is_search()) $pagetitle = "Search Results";
-elseif(is_404()) $pagetitle = "Post not found..is it one of these?";
-else $pagetitle = $currentcat->name;
+elseif(is_search()) $pagetitle = "<b>Search Results</b>";
+elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
+else $pagetitle = '<b>'.$currentcat->name.'</b>';
 
 $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
@@ -93,55 +93,7 @@ endif;?>
 
 <body>
 
-<div id="map"></div>
-<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
-<div class="showlabels">Labels on/off</div>
-<div class="marker" id="editmarker">
-	<div class="mcontent">
-		<span class="savelocation">Save</span>
-		<span class="cancellocation">Cancel</span>
-	</div>
-	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
-</div>
-
-<div id="page">
-	<div class="pagetitle" id="<?php echo $currentcat->term_id;?>"><b><?php echo $pagetitle;?></b><?php
-	if (is_user_logged_in()) :
-		if (isset($_GET['user'])) :
-			$rsspage = get_page_by_title('Favourite Feed');?>
-			<a href="<?php echo get_permalink($rsspage->ID);?>?user=<?php echo $userid; ?>" class="rss">RSS</a>
-			<a onclick="reset_feed(<?php echo $userid; ?>)" class="rss">Reset Feed</a><?php
-		else:?>
-			<a onclick="add_to_feed(<?php echo $feed_query; ?>)" class="rss">Subscribe to Feed</a><?php
-		endif;
-	else:?>
-		<span id="taketour">Take the Tour!</span><?php
-	endif; ?>
-	</div>
-
-	<div id='speaking_angel'>
-		<div id="angel"></div>
-		<div class="speechbubble right">
-			<span class="close" onclick='jQuery(".speechbubble").fadeOut();'>close</span>
-			<span id='speech'>
-				<?php echo $social->speechbubble(); ?>
-			</span>
-		</div>
-	</div>
-
-	<div id="profilelink"><?php
-	if ($social->state == 1 ) : ?>
-		<span class="messenger join">Join us! / Login</span><?php
-	elseif ($social->state != 4) : ?>
-		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	else : ?>
-		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	endif;?>
-	</div>
-
-	<div id="menubar">
+<div id="menubar">
 	<ul id="menu">
 		<li>
 			<span id="backbutton">Back</span>
@@ -169,4 +121,51 @@ endif;?>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
 	</ul>
+	
+	<div id="profilelink"><?php
+	if ($social->state == 1 ) : ?>
+		<span class="messenger join">Join us! / Login</span><?php
+	elseif ($social->state != 4) : ?>
+		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
+	else : ?>
+		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
+	endif;?>
+	</div>
+</div>
+
+<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
+<div class="showlabels">Labels on/off</div>
+<div class="marker" id="editmarker">
+	<div class="mcontent">
+		<span class="savelocation">Save</span>
+		<span class="cancellocation">Cancel</span>
+	</div>
+	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
+</div>
+
+<div id="map"></div>
+
+<div id="page">
+	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><?php
+	if (is_user_logged_in()) :
+		if (isset($_GET['user'])) :
+			$rsspage = get_page_by_title('Favourite Feed');?>
+			<a href="<?php echo get_permalink($rsspage->ID);?>?user=<?php echo $userid; ?>" class="rss">RSS</a>
+			<a onclick="reset_feed(<?php echo $userid; ?>)" class="rss">Reset Feed</a><?php
+		else:?>
+			<a onclick="add_to_feed(<?php echo $feed_query; ?>)" class="rss">Subscribe to Feed</a><?php
+		endif;
+	else:?>
+		<a href="<?php echo get_category_link(get_cat_ID('Take The Tour'));?>">Take the Tour!</a></span><?php
+	endif; ?>
+	</div>
+
+	<div id='speaking_angel'>
+		<div id="angel"></div>
+		<div class="speechbubble right">
+			<span class="close" onclick='jQuery(".speechbubble").fadeOut();'>close</span>
+			<span id='speech'></span>
+		</div>
 	</div>

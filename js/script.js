@@ -87,7 +87,7 @@ function cowobo_sidebar_listeners() {
 	});
 
 	//toggle display of menubar
-	jQuery('#menubar').click(function() {
+	jQuery('#pagetitle').click(function() {
 		jQuery('.large').fadeOut();
 		jQuery('#scroller').slideToggle();
   	});
@@ -119,7 +119,7 @@ function cowobo_sidebar_listeners() {
 
 	jQuery('.medium').hover(
 		function() {jQuery(this).animate({opacity: 1},'fast');},
-		function() {jQuery(this).animate({opacity: 0.7},'fast');}
+		function() {jQuery(this).animate({opacity: 0.9},'fast');}
 	);
 
 	jQuery('.newprofile').click(function(){

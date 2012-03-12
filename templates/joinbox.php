@@ -7,7 +7,7 @@
 			</div><?php
 			loadgallery_callback();?>
 			</div>
-			<h2>Click on your favourite account:</h2><?php
+			<h3>Simply click on your favourite account:</h3><br/><?php
 			echo $social->speechbubble();?>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>

@@ -13,7 +13,7 @@ html, body {height:100%; background:#ccc;}
 body {font-family:arial, 'lucida console', sans-serif; color: #666; line-height:1.5em; font-size:13px; overflow:hidden;}
 a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
 a:hover {color: #888}
-li {padding-left:10px;}
+li {padding-left:15px;}
 p {padding:5px 0 5px 0;}
 img {border:none;}
 input{margin-right:4px;}
@@ -26,37 +26,28 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .left {float:left;}
 .right {float:right;}
 a.rss {cursor: pointer;}
-.pagetitle{white-space: nowrap; font-size:32px; color:#fff; padding:10px 0 0 15px; height:25px;}
-
-/* Page */
-#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
-#page {position:absolute; bottom:0; width:100%; background:url(images/page.png) repeat-x; z-index:4;}
-#angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
-#scroller {white-space: nowrap; overflow:hidden; clear:both; }
-#timeline {display:inline-block; padding-left:5px;}
-#speaking_angel { position:absolute; right:10px; top:0; margin-top:-46px;width:540px; }
-#editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
-#cloud1 {position:absolute; top:10%; left:10%; width:310px; height:230px; padding:45px 25px 0 25px; background:url(images/cloud1.png); z-index:3; text-align:center; font-size:16px; cursor:move;}
-#cloud2 {position:absolute; top:30%; right:10%; width:300px; height:200px; padding:20px 25px 0 25px;; background:url(images/cloud2.png); z-index:3; text-align:center; font-size:16px; cursor:move;}
-#cloud1 h1, #cloud2 h1 {color:#888; font-size:36px; margin-bottom:15px;}
-#closebutton1, #closebutton2 {position:absolute; width:15px; padding:5px; height:15px; cursor:pointer;}
-#closebutton1:hover, #closebutton2:hover {color:#000}
-#closebutton1 {top:47px; left: 34px;}
-#closebutton2 {top:24px; right: 60px;}
 
 /* Nav Menu */
-#menubar {position:relative; overflow:hidden; height:27px; color:#333; margin:0 5px 0 5px; cursor:n-resize;}
-#menu {white-space: nowrap; float:left; list-style:none; font-weight:bold; font-size:14px;}
+#menubar {position:absolute; height:30px; width:100%; color:#fff; background:url(images/black.png); z-index:100;}
+#menu {white-space: nowrap; float:left; margin-top:5px; list-style:none; font-weight:bold; font-size:14px;}
 #menu li, #menu ul {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer; overflow:hidden;}
-#menu li ul {width:1px; vertical-align:top; height:20px; color:#666}
-#menu li:hover, #menu a:hover {color:#000}
-
-#keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
+#menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
+#menu li:hover, #menu a:hover {color:#eee}
+#keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
 #searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
-#profilelink {float:right; margin:3px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#333}
-#profilelink:hover {color:#000}
+#profilelink {float:right; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
+#profilelink:hover {color:#eee}
 #taketour {font-size:14px;}
-#logout {color:#333; margin-left:10px;}
+#logout {color:#fff; margin-left:10px;}
+
+/* Feedbar */
+#page {position:absolute; bottom:0; width:100%;  z-index:4;}
+#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:33px; cursor:n-resize; background:url(images/black.png) bottom repeat-x;}
+#pagetitle a {font-size:14px; color:#fff;}
+#scroller {white-space: nowrap; overflow:hidden; clear:both; background:url(images/black.png); height:185px;}
+#angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
+#speaking_angel { position:absolute; right:10px; top:0; margin-top:-56px;width:540px; }
+#editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
 
 /* Speech bubble */
 .speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}
@@ -70,6 +61,7 @@ a.rss {cursor: pointer;}
 .speechbubble .close { float: right; cursor:pointer;}
 
 /* Map */
+#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:2; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
@@ -80,8 +72,8 @@ a.rss {cursor: pointer;}
 .buffer {z-index:0; }
 .maptiles, .streettiles {position:relative; z-index:1; }
 .maptiles {width:50%; height:50%;}
-.showlabels {position:absolute; right:10px; top:10px; width:80px; height:15px;  padding:2px; line-height:15px; background: #fff; z-index:50; text-align:center; cursor:pointer;}
-.zoom {position:absolute; left:10px; top:10px; width:25px; height:50px; background: url(images/zoom.png) no-repeat; z-index:50; cursor:pointer;}
+.showlabels {display:none; position:absolute; right:10px; top:35px; width:80px; height:15px;  padding:2px; line-height:15px; background: #fff; z-index:50; text-align:center; cursor:pointer;}
+.zoom {display:none; position:absolute; left:10px; top:35px; width:25px; height:50px; background: url(images/zoom.png) no-repeat; z-index:50; cursor:pointer;}
 .zoomin, .zoomout {height:25px;}
 
 /* Boxes Generic */
@@ -92,9 +84,9 @@ a.rss {cursor: pointer;}
 .title {color:#333; font-weight:bold;}
 
 /* Thumb Styles */
-.medium {position:relative; width:174px; padding:11px 6px 0 6px; opacity:0.6; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
+.medium {position:relative; width:174px; padding:0 6px 0 6px; opacity:0.9; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
 .medium .holder {position:relative; padding: 7px 7px 0 7px;}
-.medium .content {height:190px; overflow:hidden;}
+.medium .content {height:170px; overflow:hidden;}
 .medium .image {position:relative; height:110px; margin-bottom:5px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
 .medium .tags a {font-weight:normal}
