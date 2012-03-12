@@ -67,7 +67,7 @@ class Cowobo_Social {
 
 		// Profile nag
 		$userid = wp_get_current_user()->ID;
-		
+
 		$this->profile_id = get_user_meta($userid, 'cowobo_profile', true);
 
         $this->set_cowobo_state();
@@ -89,6 +89,12 @@ class Cowobo_Social {
 
 		// Schedule share cron job
 		add_action('daily_events', array ( &$this, 'update_total_count' ) );
+
+        // Change redirect social connect
+        add_filter( 'social_connect_redirect_to', array ( &$this, 'redirect_after_social_login' ) );
+
+        // Restrict dashboard access
+        add_action( 'admin_head', array ( &$this, 'restrict_dashboard'), 0 );
 	}
 
 	/* === User Profiles === */
@@ -239,9 +245,9 @@ class Cowobo_Social {
         return true;
 	}
 
-//    public function complete_profile ( $userid, $postid ) {
-//        if ( $this->state == 3 && $postid == $this->profile_id ) complete_register ( $userid );
-//    }
+    public function redirect_after_social_login( $redirect_to ){
+        return home_url();
+    }
 
 	/* === Social login === */
 	/**
@@ -558,4 +564,22 @@ class Cowobo_Social {
 		else return $cats;
 	}
 
+    /**
+     * Restricts dashboard access to admins (user_can edit_dashboard)
+     */
+    public function restrict_dashboard() {
+        $userid = get_current_user_id( );
+        $redirect_url = $this->get_profile_url ( $userid );
+
+        if ( ! current_user_can( 'edit_dashboard' ) ) {
+            if ( headers_sent() ) {
+                echo "<meta http-equiv='refresh' content='0;url=$redirect_url'>";
+                echo "<script type='text/javascript'>document.location.href='$redirect_url'</script>";
+                die;
+            } else {
+                wp_redirect( $redirect_url );
+                exit();
+            }
+        }
+    }
 }

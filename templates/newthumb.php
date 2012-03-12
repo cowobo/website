@@ -1,4 +1,4 @@
-<div class="medium" id="medium-<?php switch ( $state ) :
+<div class="medium" id="medium-<?php switch ( $social->state ) :
     case 1:
         echo 'join';
         break;
