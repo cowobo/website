@@ -218,9 +218,12 @@ function cowobo_messenger_listeners() {
 		var type = jQuery(this).attr('class').split(' ');
 		jQuery('#scroller').slideToggle();
 		if (type[1] == 'join') {
+            jQuery('.large').fadeOut('slow');
+            jQuery('#scroller').slideDown();
 			jQuery('#join').fadeIn('slow');
 		} else {
             var profileid = type[2].split('-')[1];
+            jQuery('.large').fadeOut('slow');
 			jQuery('#'+profileid).fadeIn('slow');
 			loadlightbox(profileid, profileid);
 		}
