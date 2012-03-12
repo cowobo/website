@@ -7,7 +7,7 @@
 			</div><?php
 			loadgallery_callback();?>
 			</div>
-			<h3>Simply click on your favourite account:</h3><br/><?php
+			<h3>To interact with our site simply use your favourite account:</h3><br/><?php
 			echo $social->speechbubble();?>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
