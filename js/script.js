@@ -6,6 +6,7 @@ var overslide;
 var scroller;
 var overlightbox;
 var markersvar;
+var storedHash;
 
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
@@ -35,6 +36,21 @@ jQuery(document).ready(function() {
 	if(jQuery('.single').length>0){
 		update_scrollbars(jQuery('.single').attr('id'));
 	}
+
+	//listen for change in hash value
+	window.setInterval(function () {
+		if (window.location.hash != storedHash && window.location.hash != '') { 
+			storedHash = window.location.hash;
+			jQuery('#scroller').slideDown();
+			jQuery('.large').fadeOut();
+			jQuery(storedHash).fadeIn();
+			if(jQuery(storedHash + '.container').length<1) {
+				postid = storedHash.split('#')[1];
+				loadlightbox(postid, postid);
+			}
+			//todo: also hide or show corresponding maplayer here
+		}
+	}, 200);
 
 	//SHARETHIS KEY//
 	/* var switchTo5x=true;
@@ -122,9 +138,6 @@ function cowobo_sidebar_listeners() {
 		function() {jQuery(this).animate({opacity: 0.9},'fast');}
 	);
 
-	jQuery('.newprofile').click(function(){
-
-	})
 }
 
 //jQuery UI
@@ -226,6 +239,7 @@ function cowobo_messenger_listeners() {
             jQuery('.large').fadeOut('slow');
 			jQuery('#'+profileid).fadeIn('slow');
 			loadlightbox(profileid, profileid);
+			//loadmap here
 		}
     });
 }
@@ -461,7 +475,8 @@ function cowobo_editpost_listeners() {
 
 function loadlightbox(postid , loadid) {
     if ( postid == 'join' ) return true;
-	var cat = jQuery('#page h1').attr('id');
+	var cat = jQuery('#page h1').attr('class');
+	window.location.hash = postid;
 	update_scrollbars(postid);
 	//load lightbox contents
 	jQuery.ajax({
