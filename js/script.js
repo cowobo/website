@@ -41,9 +41,9 @@ jQuery(document).ready(function() {
 	window.setInterval(function () {
 		if (window.location.hash != storedHash && window.location.hash != '') { 
 			storedHash = window.location.hash;
-			jQuery('#scroller').slideDown();
 			jQuery('.large').fadeOut();
 			jQuery(storedHash).fadeIn();
+			jQuery('#scroller').slideUp();
 			if(jQuery(storedHash + '.container').length<1) {
 				postid = storedHash.split('#')[1];
 				loadlightbox(postid, postid);
@@ -232,7 +232,7 @@ function cowobo_messenger_listeners() {
 		jQuery('#scroller').slideToggle();
 		if (type[1] == 'join') {
             jQuery('.large').fadeOut('slow');
-            jQuery('#scroller').slideDown();
+            jQuery('#scroller').slideUp();
 			jQuery('#join').fadeIn('slow');
 		} else {
             var profileid = type[2].split('-')[1];
@@ -474,9 +474,9 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox(postid , loadid) {
+	window.location.hash = postid;
     if ( postid == 'join' ) return true;
 	var cat = jQuery('#page h1').attr('class');
-	window.location.hash = postid;
 	update_scrollbars(postid);
 	//load lightbox contents
 	jQuery.ajax({
