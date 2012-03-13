@@ -87,6 +87,18 @@ endif;?>
 
 <body>
 
+<div id="map"></div>
+
+<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
+<div class="showlabels">Labels on/off</div>
+<div class="marker" id="editmarker">
+	<div class="mcontent">
+		<span class="savelocation">Save</span>
+		<span class="cancellocation">Cancel</span>
+	</div>
+	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
+</div>
+
 <div id="menubar">
 	<ul id="menu">
 		<li>
@@ -128,18 +140,6 @@ endif;?>
 	endif;?>
 	</div>
 </div>
-
-<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
-<div class="showlabels">Labels on/off</div>
-<div class="marker" id="editmarker">
-	<div class="mcontent">
-		<span class="savelocation">Save</span>
-		<span class="cancellocation">Cancel</span>
-	</div>
-	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
-</div>
-
-<div id="map"></div>
 
 <div id="page">
 	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><?php
