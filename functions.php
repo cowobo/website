@@ -126,6 +126,10 @@ function remove_doubles($postlist) {
 	return $postlist;
 }
 
+//sort types by number of related posts
+function sort_types($a,$b) {
+	return $b['posts'] - $a['posts'];
+}
 
 //AJAX CALLBACK FUNCTIONS
 
@@ -186,7 +190,7 @@ function savechanges_callback(){
 	$postid = $_POST["postid"];
 	$feeds = explode(',', $_POST["feeds"]);
 	$relatedpostids = explode(',' , $_POST['posts']);
-	$subscriptions = explode(',' , $_POST['subscriptions']);
+	$authors = explode(',', $_POST["authors"]);	
 	
 	//update feeds
 	wp_update_post( array(
@@ -208,10 +212,18 @@ function savechanges_callback(){
 		endforeach;
 	endif;
 	
-	//Add the author as a profile to the post
-	$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $social->profile_id)";
-	$result = $wpdb->query($query);
-
+	//add authors and make sure they are also related
+	global $social;
+	delete_post_meta($postid, 'author');
+	add_post_meta($postid, 'author', $social->profile_id);
+	if(!empty($authors)):
+		foreach ($authors as $author):
+			add_post_meta($postid, 'author', $author);
+			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
+			$result = $wpdb->query($query);
+		endforeach;
+	endif;
+	
 	//update locations
 	if($locations = $sorted[get_cat_ID('Locations')]):
 		foreach($locations as $locationid):
@@ -222,12 +234,6 @@ function savechanges_callback(){
 		update_post_meta($postid, 'coordinates', $_POST['coordinates']);
 	endif;
 	
-	//update subscriptions
-	if(!empty($subscriptions)):
-		foreach ($subscriptions as $subscription):
-			//mike's feed shizzle
-		endforeach;
-	endif;
 }
 
 function cowobo_pagination($pages = '', $range = 2){  

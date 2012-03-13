@@ -40,15 +40,15 @@ jQuery(document).ready(function() {
 	//listen for change in hash value
 	window.setInterval(function () {
 		if (window.location.hash != storedHash && window.location.hash != '') { 
+			var oldHash = storedHash;
 			storedHash = window.location.hash;
 			jQuery('.large').fadeOut();
 			jQuery(storedHash).fadeIn();
-			jQuery('#scroller').slideUp();
-			if(jQuery(storedHash + '.container').length<1) {
+			if (typeof(oldHash)== 'undefined') {
 				postid = storedHash.split('#')[1];
 				loadlightbox(postid, postid);
 			}
-			//todo: also hide or show corresponding maplayer here
+			//todo: also hide or show corresponding maplayer
 		}
 	}, 200);
 
@@ -104,7 +104,7 @@ function cowobo_sidebar_listeners() {
 
 	//toggle display of menubar
 	jQuery('#pagetitle').click(function() {
-		jQuery('.large').fadeOut();
+		//jQuery('.large').fadeOut();
 		jQuery('#scroller').slideToggle();
   	});
 
@@ -112,11 +112,9 @@ function cowobo_sidebar_listeners() {
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
 		var coordinates = jQuery(this).find('.markerdata').val();
-		jQuery('#scroller').slideToggle();
 		jQuery('#'+postid).fadeIn();
 		//only load when not already loaded
 		if(jQuery('#'+postid + '.container').length<1) {
-			update_scrollbars(postid);
 			loadlightbox(postid, postid);
 		}
 		//load new map if marker has coordinates
@@ -154,7 +152,6 @@ function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
 	jQuery('#map, .shadowclick, #cloud1, #cloud2').live('click', function() {
 		jQuery('.large').fadeOut();
-		jQuery('#scroller').slideToggle();
   	});
 
 	//switch between slides in gallery
@@ -216,23 +213,22 @@ function cowobo_lightbox_listeners() {
 	});
 
 	//resize text area to fit content (requires autoresize.js)
-   	jQuery(".commenttext").autoResize({
-    	onResize : function() {jQuery(this).css({opacity:0.8});},
-    	animateCallback : function() {jQuery(this).css({opacity:1});},
-    	animateDuration : 300,
-    	extraSpace : 20
-	});
-
+   	if(jQuery(".commenttext").length>0){
+		jQuery(".commenttext").autoResize({
+    		onResize : function() {jQuery(this).css({opacity:0.8});},
+    		animateCallback : function() {jQuery(this).css({opacity:1});},
+    		animateDuration : 300,
+    		extraSpace : 20
+		});
+	}
 }
 
 //MESSENGER//
 function cowobo_messenger_listeners() {
 	jQuery('.messenger').click( function() {
 		var type = jQuery(this).attr('class').split(' ');
-		jQuery('#scroller').slideToggle();
 		if (type[1] == 'join') {
             jQuery('.large').fadeOut('slow');
-            jQuery('#scroller').slideUp();
 			jQuery('#join').fadeIn('slow');
 		} else {
             var profileid = type[2].split('-')[1];
@@ -332,7 +328,12 @@ function cowobo_editpost_listeners() {
 		var selectbox = jQuery(this).siblings('.selectbox').eq(0);
 		if(selectbox.is(":visible")){
 			jQuery(this).html('+ Add');
+			if(jQuery(this).siblings('.listbox').children().length<1){
+				jQuery(this).siblings('h3').addClass('empty');
+			}
+			
 		} else {
+			jQuery(this).siblings('h3').removeClass('empty');
 			jQuery(this).html('- Hide');
 		}
 		selectbox.slideToggle();
@@ -343,6 +344,7 @@ function cowobo_editpost_listeners() {
 		var replylink = jQuery(this);
 		var post = replylink.parents('.large');
 		var postid = post.attr('id');
+		replylink.siblings('h3').removeClass('empty');
 		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(replylink).slideDown()});;
 		post.find('.comment_parent').val(0);
 		post.find('.comment_post_ID').val(postid);
@@ -403,7 +405,9 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.save').live('click', function() {
-		var posts = new Array(); var feeds = new Array();
+		var posts = new Array(); 
+		var feeds = new Array();
+		var authors = new Array();
 		var post = jQuery(this).parents('.large');
 		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
@@ -412,6 +416,10 @@ function cowobo_editpost_listeners() {
 			if (jQuery(this).hasClass('feeds')) {
 				jQuery(this).find('.listitem').each(function(){
 					feeds.push(jQuery(this).attr('class').split(' ')[0]);
+				});
+			} else if (jQuery(this).hasClass('authors')){
+				jQuery(this).find('.listitem').each(function(){
+					authors.push(jQuery(this).attr('class').split(' ')[0]);
 				});
 			} else {
 				jQuery(this).find('.listitem').each(function(){
@@ -429,11 +437,12 @@ function cowobo_editpost_listeners() {
 				data: {action: 'savechanges',
 					postid: postid,
 					feeds: feeds.join(','),
+					authors: authors.join(','),
 					posts: posts.join(','),
 					coordinates: newlatlng},
 				success: function (permalink){
 					alert('Your changes have been saved');
-					location.href='';
+					document.location.reload(true);
 				}
 			});
 		}
@@ -778,7 +787,6 @@ function loadNewMap(lat, lng, zoom, markers, type){
 		marker.appendTo(jQuery('.maplayer:last'));
 		marker.click(function(event){
 			event.stopPropagation();
-			jQuery('#scroller').slideUp();
 			jQuery('#'+markerid).fadeIn();
 			loadlightbox(markerid, markerid);
 			loadNewMap(markerpos[0], markerpos[1], 15, markers, type);

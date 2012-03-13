@@ -4,17 +4,18 @@ global $social; global $author;
 if (isset($_SERVER['SCRIPT_FILENAME']) && 'comments.php' == basename($_SERVER['SCRIPT_FILENAME'])){
 	die ('Nerd alert: do not load this page directly. Thanks!'); }
 if ( post_password_required() ) { ?>
-	<p class="nocomments">This post is password protected. Enter the password to view comments.</p>
-<?php
-	return; };?>
+	<p class="nocomments">This post is password protected. Enter the password to view comments.</p><?php
+return; };?>
+	
 <div class="commentbox"><?php
 //get all comments sow
-$postcomments = get_comments(array('post_id' =>$post->ID));?>
+$postcomments = get_comments(array('post_id' =>$post->ID));
+$count = count($postcomments);?>
 
-<h3>Comments (<?php echo count($postcomments);?>)</h3><?php if(count($postcomments)>2):?><span class="showall">Show All &darr;</span><?php endif;?>
+<h3><?php if($count<1) echo 'Be the first to comment!'; else echo 'Comments ('.$count.')';?></h3><?php if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="add button">+ Add</div>
 
-<div class="replybox"><?php 
+<div class="replybox" style="<?php if($count>0) echo 'display:none';?>"><?php 
 if ($author):?>
 	<form action="wp-comments-post.php" method="post" class="commentform">
 		<div class="thumbnail"></div>
@@ -53,7 +54,7 @@ if (!function_exists('cowobo_comments')) {
 	} 
 };?>
 
-<ol class="listbox <?php if(count($postcomments)>2):?>restrict<?php endif;?>" id="comments<?php echo $post->ID;?>"><?php
+<ol class="listbox <?php if($count>2):?>restrict<?php endif;?>" id="comments<?php echo $post->ID;?>"><?php
 	// get all comments for the current lightbox
 	if(!empty($postcomments)):
 		wp_list_comments(array('login_text'=> 'Login to reply', 'type'=> 'comment', 'callback'=> 'cowobo_comments'), $postcomments);

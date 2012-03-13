@@ -4,25 +4,11 @@
 		$postcat = cwob_get_category($post->ID);
 		$posttype = $postcat->slug;
 		global $author; global $social; unset($profileids);
-
-		//load related posts and check if user has a profile to edit post
-		$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
-		if($relatedposts = $relatedposts->get_related()):
-			foreach($relatedposts as $relatedpost):
-				$type = cwob_get_category($relatedpost->ID);
-				$sorted[$type->term_id][] = $relatedpost;
-			endforeach;
-		endif;
-		if($profiles = $sorted[get_cat_ID('Profiles')]):
-			foreach($profiles as $profile):
-				$profileids[] = $profile->ID;
-			endforeach;
-		else:
-			$profileids = array();
-		endif;
-		if(in_array($social->profile_id, $profileids) or $post->post_author == get_current_user_id()):
-	 		$author = true; else: $author = false;
-		endif;
+		
+		//check if user has been added to authors of post
+		$profiles = get_post_meta($post->ID, 'author', false);
+		
+		if(in_array($social->profile_id, $profiles) or $post->post_author == get_current_user_id()) $author = true; else $author = false;
 
 		//load the templates
 		if(file_exists(TEMPLATEPATH.'/templates/'.$post->post_name.'.php')):
@@ -44,7 +30,7 @@
                     Complete Profile</span>
                 <?php else: ?>
                     Save</span>
-                    <span class='cowobo_social_like button'>Share</span>
+                    <span class='cowobo_social_like button'>Like</span>
                     <?php if ( $post->ID != $social->profile_id ) : ?>
                         <span class="delete button">Delete</span>
                     <?php endif; ?>
@@ -53,7 +39,7 @@
 			$prev = get_adjacent_post(true,'',false);
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
-			<span class="cowobo_social_like button">Share</span>
+			<span class="cowobo_social_like button">Like</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>

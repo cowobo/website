@@ -1,14 +1,32 @@
 <?php
-$exclude = get_cat_ID('Uncategorized').','.$postcat->term_id; //add more here based on template
+$exclude = get_cat_ID('Uncategorized'); //add more here based on template
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
+//load and sort related posts by type
+$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
+if($relatedposts = $relatedposts->get_related()):
+	foreach($relatedposts as $relatedpost):
+		$typecat = cwob_get_category($relatedpost->ID);
+		$typeposts[$typecat->term_id][] = $relatedpost;
+	endforeach;
+endif;
+
+//Sort type by number of related posts
 foreach($types as $type):
-	$catposts = $sorted[$type->term_id];
-	$subcats = get_categories(array('child_of'=>$type->term_id, 'hide_empty'=>false, 'parent'=>$type->term_id));?>
-	<div class="container <?php echo $type->slug;?>">
-	<h3><?php echo $type->name.' ('.count($catposts).')'?></h3><?php
-	if(count($catposts)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+	$typearray[] = array('cat'=>$type, 'posts'=>count($typeposts[$type->term_id]));
+endforeach;
+usort($typearray, 'sort_types');
+
+foreach($typearray as $type):
+	$typeid = $type['cat']->term_id;
+	$catposts = $typeposts[$typeid];
+	$count = count($catposts);
+	$subcats = get_categories(array('child_of'=>$typeid, 'hide_empty'=>false, 'parent'=>$typeid));?>
+	<div class="container <?php echo $type['cat']->slug;?>">
+	<h3 <?php if($count<1) echo 'class="empty"';?>><?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
+	if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 	<div class="edit button">+ Add</div>
+	
 	<div class="selectbox"><?php
 		if($author):?>
 			<div class="column left">
@@ -18,7 +36,7 @@ foreach($types as $type):
 					foreach($subcats as $cat):?>
 						<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
 					endforeach;?>
-					<li class="addcat">+ Add Category >></li>
+					<li class="addcat"><b>Add Category >></b></li>
 				</ul>
 			</div>
 			<div class="column right">
@@ -43,15 +61,18 @@ foreach($types as $type):
 				foreach($subcats as $cat):?>
 				<div class="slide cat<?php echo $cat->term_id;?>">
 					<h3>2. Choose Posts</h3>
-					<ul class="verlist"><?php 
+					<ul class="verlist">
+						<li class="addpost"><b>+ Add New Post</b></li>
+						<?php 
 						foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
 							<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
 						endforeach;?>
-						<li class="addpost">+ Add New Post</li>
 					</ul>
 				</div><?php
 				endforeach;?>
 			</div><?php
+		elseif($social->state > 1):
+			echo 'Become a contributor to this post by sending a request to the author';
 		else:
 			echo $social->speechbubble();
 		endif;?>

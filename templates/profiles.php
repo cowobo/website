@@ -28,14 +28,12 @@
 the_content();
 
 if($ajax):		
+	// Include Comments
+	$withcomments = true; comments_template();
 	// Include Related Feeds
-	if(file_exists(TEMPLATEPATH.'/templates/editfeeds.php')) include(TEMPLATEPATH.'/templates/editfeeds.php');
-	// Include Related Locations
-	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')) include(TEMPLATEPATH.'/templates/editposts.php');
-	// Include Related Feeds
-	if(file_exists(TEMPLATEPATH.'/templates/editsubscriptions.php')) include(TEMPLATEPATH.'/templates/editsubscriptions.php');
-	// Include Related Comments
-	$withcomments = true;comments_template();
+	if(file_exists(TEMPLATEPATH.'/templates/editfeeds.php')): include(TEMPLATEPATH.'/templates/editfeeds.php'); endif;
+	// Include Related Posts
+	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
 else:?>
 	<span class="loading">Loading related posts</span><?php
 endif;?>

@@ -34,6 +34,7 @@ else:
 endif;
 
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
+	if($postid == $post->ID) $ajax = true; else $ajax = false;
 	include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
