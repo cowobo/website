@@ -87,18 +87,6 @@ endif;?>
 
 <body>
 
-<div id="map"></div>
-
-<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
-<div class="showlabels">Labels on/off</div>
-<div class="marker" id="editmarker">
-	<div class="mcontent">
-		<span class="savelocation">Save</span>
-		<span class="cancellocation">Cancel</span>
-	</div>
-	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
-</div>
-
 <div id="menubar">
 	<ul id="menu">
 		<li>
@@ -139,6 +127,18 @@ endif;?>
 		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
 	endif;?>
 	</div>
+</div>
+
+<div id="map"></div>
+
+<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
+<div class="showlabels">Labels on/off</div>
+<div class="marker" id="editmarker">
+	<div class="mcontent">
+		<span class="savelocation">Save</span>
+		<span class="cancellocation">Cancel</span>
+	</div>
+	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
 </div>
 
 <div id="page">
