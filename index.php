@@ -4,7 +4,9 @@ global $social; $profile_in_feed = false; ?>
 
 <div id="scroller" style="<?php if(is_single()) echo 'display:none';?>"><?php
 	include(TEMPLATEPATH.'/templates/newthumb.php');
-	foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true; $counter++;
+	foreach($newposts as $post): $counter++;
+		setup_postdata($post); 
+		$wp_query->in_the_loop = true; 
         // Check if the current user's profile is in the feed already
         if ( $social->state == 4 && $post->ID == $social->profile_id ) $profile_in_feed = true;
 		$typepost = cwob_get_category($post->ID);
@@ -16,10 +18,10 @@ global $social; $profile_in_feed = false; ?>
 </div><!-- end of #page defined in header-->
 <?php
 
-//Lightboxes
-if ( $social->state > 1 ) include( TEMPLATEPATH . '/templates/newbox.php' );
+include( TEMPLATEPATH . '/templates/newbox.php');
 
-if ( $social->state > 1 && !in_array( $social->profile_id, $postids ) ) :
+if(empty($postids)) $postids = array();
+if ($social->state > 1 && !in_array( $social->profile_id, $postids ) ) :
 	$post = get_post ( $social->profile_id );
 	setup_postdata($post);
 	$wp_query->in_the_loop = true;

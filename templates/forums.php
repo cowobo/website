@@ -1,5 +1,11 @@
-<b>Coders: </b><a href=""><?php echo get_the_author_meta('first_name').' '.get_the_author_meta('last_name'); ?></a><br/><?php
-the_content();
+<?php
+if($newpost):?>
+	<input type="text" class="newtitle" value="Click here to enter your question title" />
+	<textarea name="newcontent" class="newcontent">Click here to elaborate question here..</textarea><?php
+else:?>
+	<a class="title" href="<?php the_permalink();?>"><?php the_title();?></a><br/><?php
+	the_content();
+endif;
 
 if($ajax):
 	// Include Comments
@@ -11,5 +17,5 @@ if($ajax):
 	// Include Related Posts
 	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
 else:?>
-	<span class="loading">Loading related posts</span><?php
+	<h3 class="loading">Loading related posts</h3><?php
 endif;?>

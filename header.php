@@ -24,16 +24,16 @@ wp_enqueue_script('autosize_js', get_bloginfo('template_url').'/js/autoresize.jq
 global $wp_query;
 global $newposts;
 global $currentcat;
-global $postid;
+global $currentid;
+global $currenttype;
 global $social;
 global $author;
 global $query_string;
 
-// Query for the current feed
-$feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;
-$userid = wp_get_current_user()->ID;
-$feed_query .= ",".$userid;
+// if post was requested to be deleted do this first
+wp_delete_post($_GET["deleteid"]);
 
+// get current category 
 if (is_home()):
 	$catid = 0;
 elseif ($catid = get_query_var('cat')):
@@ -42,6 +42,14 @@ else:
 	$cat = get_the_category($post->ID);
 	$currentcat = $cat[0];
 endif;
+
+// get current type
+$currenttype = cwob_get_type($currentcat->term_id);
+
+// Query for the current feed
+$feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;
+$userid = wp_get_current_user()->ID;
+$feed_query .= ",".$userid;
 
 wp_head();
 
@@ -54,16 +62,13 @@ else $pagetitle = '<b>'.$currentcat->name.'</b>';
 $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
 
-// if post was requested to be deleted do this first
-wp_delete_post($_GET["deleteid"]);
-
 // LOAD POSTS AND MENU LINKS
 if(is_single()):
 	$newposts = get_posts(array('cat'=>$currentcat->term_id));
 	foreach(get_categories(array('child_of'=>$currentcat->term_id, 'hide_empty'=>false, 'parent'=>$currentcat->term_id)) as $cat):
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.$cat->category_count.')</a></li>';
 	endforeach;
-	$postid = $post->ID; //store main post id before it is overwritten by the loop
+	$currentid = $post->ID; //store main post id before it is overwritten by the loop
 elseif (isset($_GET['userfeed'])):
 	$args = array( 'userfeed' => $_GET['userfeed'] );
 	$newposts = new Cowobo_Feed($args);
@@ -92,6 +97,9 @@ endif;?>
 		<li>
 			<span id="backbutton">Back</span>
 		</li>
+		<li>
+			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
+		</li>
 		<li>Browse
 			<ul>
 				<?php echo $links;?>
@@ -110,9 +118,6 @@ endif;?>
 				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
 				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
 			</ul>
-		</li>
-		<li>
-			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
 	</ul>
 	
@@ -148,6 +153,7 @@ endif;?>
 	else:?>
 		<a onclick="add_to_feed(<?php echo $feed_query; ?>)">Subscribe to Feed</a><?php
 	endif; ?>
+	<span id='pagination'><?php cowobo_pagination();?></span>
 	</div>
 
 	<div id='speaking_angel'>

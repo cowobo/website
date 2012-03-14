@@ -1,15 +1,28 @@
+<?php 
+global $author; 
+global $social;
+
+//setup parameters
+$postcat = cwob_get_category($post->ID);		
+$posttype = $postcat->slug;
+
+if($coordinates = get_post_meta(get_the_ID(), 'coordinates', true)):
+	$xml = simplexml_load_string(file_get_contents('http://cbk0.google.com/cbk?output=xml&ll='.$coordinates));
+	$pano_id = $xml->data_properties['pano_id'];
+endif;
+		
+//check if user has been added to authors of post
+$profiles = get_post_meta($post->ID, 'author', false);
+if(empty($profiles)) $profiles = array();
+if(in_array($social->profile_id, $profiles) or $post->post_author == get_current_user_id()):
+	$author = true; 
+else:
+	$author = false;
+endif;?>
+
 <div class="large <?php if ($ajax == 'true') echo 'single';?>" id="<?php echo $post->ID;?>">
 	<div class="holder">
 		<div class="content"><?php
-		$postcat = cwob_get_category($post->ID);
-		$posttype = $postcat->slug;
-		global $author; global $social; unset($profileids);
-		
-		//check if user has been added to authors of post
-		$profiles = get_post_meta($post->ID, 'author', false);
-		
-		if(in_array($social->profile_id, $profiles) or $post->post_author == get_current_user_id()) $author = true; else $author = false;
-
 		//load the templates
 		if(file_exists(TEMPLATEPATH.'/templates/'.$post->post_name.'.php')):
 			include(TEMPLATEPATH.'/templates/'.$post->post_name.'.php');

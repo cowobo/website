@@ -11,6 +11,16 @@
 
 <a class="title" href="<?php the_permalink();?>"><?php the_title();?></a><br/>
 
+<b>Location: </b>
+<ul class="coordinates horlist">
+	<li id="<?php echo $coordinates;?>"><?php 
+	if(!empty($coordinates)) echo $coordinates; else echo 'Planet Earth';
+	if($author):?>
+		<span class="relocate button"> +Edit</span><?php
+	endif;?>
+	</li>
+</ul><br/>
+
 <b>Date Joined: </b><?php 
 	if(function_exists('editable_post_meta')):
 		echo editable_post_meta(get_the_ID(), 'datejoined', 'input');
@@ -35,6 +45,6 @@ if($ajax):
 	// Include Related Posts
 	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
 else:?>
-	<span class="loading">Loading related posts</span><?php
+	<h3 class="loading">Loading related posts</h3><?php
 endif;?>
 		

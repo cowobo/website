@@ -212,15 +212,14 @@ function cowobo_lightbox_listeners() {
       	return false;
 	});
 
-	//resize text area to fit content (requires autoresize.js)
-   	if(jQuery(".commenttext").length>0){
-		jQuery(".commenttext").autoResize({
-    		onResize : function() {jQuery(this).css({opacity:0.8});},
-    		animateCallback : function() {jQuery(this).css({opacity:1});},
-    		animateDuration : 300,
-    		extraSpace : 20
-		});
-	}
+	//resize text areas to fit content (requires autoresize.js)
+	jQuery(".commenttext, .newcontent").autoResize({
+    	onResize : function() {jQuery(this).css({opacity:0.8});},
+    	animateCallback : function() {jQuery(this).css({opacity:1});},
+    	animateDuration : 300,
+    	extraSpace : 20
+	});
+
 }
 
 //MESSENGER//
@@ -285,6 +284,11 @@ function cowobo_map_listeners() {
 
 //CONTRIBUTE//
 function cowobo_editpost_listeners() {
+	jQuery(".newtitle, .newcontent").live('click', function() {
+		jQuery(this).val('');
+		//todo return old title
+	});
+	
 	jQuery('.relocate').live('click', function() {
 		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
@@ -388,8 +392,6 @@ function cowobo_editpost_listeners() {
 		var container = jQuery(this).parents('.container');
 		jQuery(this).addClass('selected').siblings().removeClass('selected');
 		//empty primary feed list if choosing new feed
-		if(jQuery(this).parents('.feeds').length > 0)
-			container.children('.listbox').empty();
 		jQuery('.selectbox .slide').fadeOut();
 		container.find('.cat'+id).fadeIn();
 	});
@@ -485,7 +487,7 @@ function cowobo_editpost_listeners() {
 function loadlightbox(postid , loadid) {
 	window.location.hash = postid;
     if ( postid == 'join' ) return true;
-	var cat = jQuery('#page h1').attr('class');
+	var cat = jQuery('#pagetitle').attr('class');
 	update_scrollbars(postid);
 	//load lightbox contents
 	jQuery.ajax({

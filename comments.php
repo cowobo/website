@@ -12,7 +12,7 @@ return; };?>
 $postcomments = get_comments(array('post_id' =>$post->ID));
 $count = count($postcomments);?>
 
-<h3><?php if($count<1) echo 'Be the first to comment!'; else echo 'Comments ('.$count.')';?></h3><?php if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
+<h3><?php if($count<1) echo 'Share your thoughts:'; else echo 'Comments ('.$count.')';?></h3><?php if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="add button">+ Add</div>
 
 <div class="replybox" style="<?php if($count>0) echo 'display:none';?>"><?php 
