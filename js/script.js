@@ -185,7 +185,7 @@ function cowobo_lightbox_listeners() {
 	});
 
 	//resize text areas to fit content (requires autoresize.js)
-	jQuery(".commenttext, .newcontent").autoResize({
+	jQuery(".commenttext, .editcontent").autoResize({
     	onResize : function() {jQuery(this).css({opacity:0.8});},
     	animateCallback : function() {jQuery(this).css({opacity:1});},
     	animateDuration : 300,
@@ -256,7 +256,7 @@ function cowobo_map_listeners() {
 
 //CONTRIBUTE//
 function cowobo_editpost_listeners() {
-	jQuery(".newtitle, .newcontent").live('click', function() {
+	jQuery(".new").live('click', function() {
 		jQuery(this).val('');
 		//todo return old title
 	});
@@ -385,8 +385,8 @@ function cowobo_editpost_listeners() {
 		var post = jQuery(this).parents('.large');
 		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
-		var newtitle = post.find('.newtitle').val();
-		var newcontent = post.find('.newcontent').val();
+		var edittitle = post.find('.edittitle').val();
+		var editcontent = post.find('.editcontent').val();
 		post.find('.container').each(function(){
 			var cat = cat + 1;
 			if (jQuery(this).hasClass('feeds')) {
@@ -411,8 +411,8 @@ function cowobo_editpost_listeners() {
 				type: "POST",
 				url: 'wp-admin/admin-ajax.php',
 				data: {action: 'savechanges',
-					newtitle: newtitle,
-					newcontent: newcontent,
+					edittitle: edittitle,
+					editcontent: editcontent,
 					postid: postid,
 					feeds: feeds.join(','),
 					authors: authors.join(','),
@@ -471,10 +471,9 @@ function loadlightbox(postid , loadid) {
 	if(jQuery('.maplayer').length>1) {
 		jQuery('.maplayer:last').fadeOut('slow', function(){jQuery(this).remove()});
 	}
-	
 	//load new map if lightbox has coordinates
 	var latlng = jQuery('#'+postid).find('.coordinates li:first').attr('id');
-	if(latlng.length>0) {
+	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
 			var type = jQuery('.maplayer:last').data('map').type;

@@ -7,12 +7,12 @@ if($newpost):?>
 		wp_dropdown_categories();?>
 		</div>
 	</div>
-	<input type="text" class="newtitle" value="Click here to add a title.." />
-	<div class="newlocation relocate">
+	<input type="text" class="new edittitle" value="Click here to add a title" />
+	<div class="new relocate">
 		<b>Click here to add a location on the map (optional) </b>
 		<ul class="coordinates horlist"></ul>
 	</div>
-	<textarea name="newcontent" class="newcontent">Click here to add text to your post</textarea><?php
+	<textarea name="newcontent" class="new editcontent">Click here to add text to your post</textarea><?php
 //load content of post
 else:?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">

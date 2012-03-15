@@ -124,9 +124,9 @@ a.rss {cursor: pointer;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */
-.newtitle, .newcontent, .newlocation {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:5px;}
-.newtitle {font-size:18px; line-height:30px;}
-.newcontent {font-family:arial, 'lucida console', sans-serif;}
+.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:5px;}
+.edittitle {font-size:18px; line-height:30px;}
+.editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
 .selectbox {display:none; height:130px; clear:both; margin-bottom:5px;}
 .selectbox .slide {display:none; height:130px; overflow:hidden; padding:0 5px 0 5px;}
