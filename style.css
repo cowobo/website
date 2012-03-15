@@ -9,7 +9,7 @@ Author URI: http://www.cowobo.org
 
 /* Generic */
 * {margin:0; padding:0;}
-html, body {height:100%; background:#ccc;}
+html, body {height:100%; background:#ccc; overflow:hidden;}
 body {font-family:arial, 'lucida console', sans-serif; color: #333; line-height:1.5em; font-size:13px; overflow:hidden;}
 a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
 a:hover {color: #888}

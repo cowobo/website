@@ -10,11 +10,20 @@ $subcats = get_categories(array('parent'=>$currtype->term_id, 'hide_empty'=>fals
 
 <div class="selectbox"><?php
 	if($author):?>
-		<ul class="verlist"><?php 
-			foreach($subcats as $cat):?>
+		<div class="column left">
+			<h3>Choose Feeds:</h3>
+			<ul class="verlist"><?php 
+				foreach($subcats as $cat):?>
 					<li class="<?php echo $cat->term_id;?>"><a href="<?php echo get_category_link($cat->term_id);?>" onclick="return false"><?php echo $cat->name;?></a></li><?php
-			endforeach;?>
-		</ul><?php
+				endforeach;?>
+			</ul>
+		</div>
+		<div class="column right">
+			<h3>Add New Feeds:</h3><br/>
+			Name of Feed:<br/>
+			<input type="text" name="newcat" />
+			<span class="addcat">Add</span><br/>
+		</div><?php
 	else:
 		global $social; echo $social->speechbubble();
 	endif;?>

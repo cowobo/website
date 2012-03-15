@@ -6,7 +6,6 @@ var overslide;
 var scroller;
 var overlightbox;
 var markersvar;
-var storedHash;
 
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
@@ -37,20 +36,19 @@ jQuery(document).ready(function() {
 		update_scrollbars(jQuery('.single').attr('id'));
 	}
 
-	//listen for change in hash value
-	window.setInterval(function () {
-		if (window.location.hash != storedHash && window.location.hash != '') { 
-			var oldHash = storedHash;
-			storedHash = window.location.hash;
-			jQuery('.large').fadeOut();
-			jQuery(storedHash).fadeIn();
-			if (typeof(oldHash)== 'undefined') {
-				postid = storedHash.split('#')[1];
-				loadlightbox(postid, postid);
-			}
-			//todo: also hide or show corresponding maplayer
-		}
-	}, 200);
+	//load lightbox if hash is present onload
+	if(window.location.hash != '') {
+		var newhash = window.location.hash;
+		var postid = newhash.split('#')[1];
+		loadlightbox(postid, postid);
+	}
+	
+	//load lightbox when hash changes (requires haschange.min.js for ie7)
+	jQuery(window).hashchange( function(){
+		var newhash = window.location.hash;
+		var postid = newhash.split('#')[1];
+		loadlightbox(postid, postid);
+	})
 
 	//SHARETHIS KEY//
 	/* var switchTo5x=true;
@@ -82,19 +80,6 @@ function cowobo_sidebar_listeners() {
 		jQuery(this).siblings('li').children('ul').animate({width : 1});
 	});
 
-	//fade back previous maps and otherwise navigate back one page
-	jQuery('#backbutton').click(function() {
-		if(jQuery('.maplayer').length>1) {
-			jQuery('.maplayer:last').fadeOut('slow', function(){jQuery(this).remove()});
-			jQuery('.large').fadeOut('slow');
-		} else if(document.referrer) {
-			window.open(document.referrer,'_self');
-		} else {
-			history.go(-1);
-		}
-		return false;
-	});
-
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery("#scroller").mousewheel(function(event, delta) {
 		jQuery(this).scrollLeft(jQuery(this).scrollLeft()+delta * -30);
@@ -111,24 +96,11 @@ function cowobo_sidebar_listeners() {
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
-		var coordinates = jQuery(this).find('.markerdata').val();
-		jQuery('#'+postid).fadeIn();
-		//only load when not already loaded
-		if(jQuery('#'+postid + '.container').length<1) {
+		if(window.location.hash == '#'+postid) {
 			loadlightbox(postid, postid);
+		} else {
+			window.location.hash = postid;
 		}
-		//load new map if marker has coordinates
-		if(typeof(coordinates) != 'undefined' && coordinates.length>0) {
-			var markerpos = coordinates.split(',');
-			if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
-				var type = jQuery('.maplayer:last').data('map').type
-				loadNewMap(markerpos[0], markerpos[1], 15, jQuery(this).find('.markerdata'), type);
-			}
-		}
-
-		// Load awesome-count
-		jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
-
 	});
 
 	jQuery('.medium').hover(
@@ -413,6 +385,8 @@ function cowobo_editpost_listeners() {
 		var post = jQuery(this).parents('.large');
 		var postid = post.attr('id');
 		var newlatlng = post.find('.coordinates li').attr('id');
+		var newtitle = post.find('.newtitle').val();
+		var newcontent = post.find('.newcontent').val();
 		post.find('.container').each(function(){
 			var cat = cat + 1;
 			if (jQuery(this).hasClass('feeds')) {
@@ -437,6 +411,8 @@ function cowobo_editpost_listeners() {
 				type: "POST",
 				url: 'wp-admin/admin-ajax.php',
 				data: {action: 'savechanges',
+					newtitle: newtitle,
+					newcontent: newcontent,
 					postid: postid,
 					feeds: feeds.join(','),
 					authors: authors.join(','),
@@ -485,29 +461,51 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox(postid , loadid) {
-	window.location.hash = postid;
-    if ( postid == 'join' ) return true;
-	var cat = jQuery('#pagetitle').attr('class');
-	update_scrollbars(postid);
-	//load lightbox contents
-	jQuery.ajax({
-   		type: "POST",
-   		url: 'wp-admin/admin-ajax.php',
-   		data: {action: 'loadlightbox', currentcat:cat, postid:postid},
-   		success: function(msg){
-			jQuery('#' + loadid).html(jQuery(msg).html());
-			cowobo_jquery_ui_listeners();
-			update_scrollbars(loadid);
-			loadlike(postid);
-			if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+loadid+' .editable').length > 0) {
-				jQuery('#' + loadid + ' .fee-field').each(FrontEndEditor.make_editable);
-			}
-			if(postid=='new'){
-				var id = jQuery('#new .save').attr('id').split('-')[1];
-				jQuery('#new').attr('id', id);
-			}
+	jQuery('.large').fadeOut();
+	jQuery('#'+postid).fadeIn();
+	
+	//if its a joinbox then don't do anything else	
+	if (postid == 'join') return true;
+	
+	//fadeout last map
+	if(jQuery('.maplayer').length>1) {
+		jQuery('.maplayer:last').fadeOut('slow', function(){jQuery(this).remove()});
+	}
+	
+	//load new map if lightbox has coordinates
+	var latlng = jQuery('#'+postid).find('.coordinates li:first').attr('id');
+	if(latlng.length>0) {
+		var markerpos = latlng.split(',');
+		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
+			var type = jQuery('.maplayer:last').data('map').type;
+			loadNewMap(markerpos[0], markerpos[1], 15, jQuery(this).find('.markerdata'), type);
 		}
-	});
+	}
+	// Load awesome-count
+	jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
+
+	if(jQuery('#'+postid + '.container').length<1) {
+		var cat = jQuery('#pagetitle').attr('class');
+		//load lightbox contents
+		jQuery.ajax({
+   			type: "POST",
+   			url: 'wp-admin/admin-ajax.php',
+   			data: {action: 'loadlightbox', currentcat:cat, postid:postid},
+   			success: function(msg){
+				jQuery('#' + loadid).html(jQuery(msg).html());
+				cowobo_jquery_ui_listeners();
+				update_scrollbars(loadid);
+				loadlike(postid);
+				if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+loadid+' .editable').length > 0) {
+					jQuery('#' + loadid + ' .fee-field').each(FrontEndEditor.make_editable);
+				}
+				if(postid=='new'){
+					var id = jQuery('#new .save').attr('id').split('-')[1];
+					jQuery('#new').attr('id', id);
+				}
+			}
+		});
+	}
 }
 
 function loadlike(postid) {
@@ -752,6 +750,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 			var newlng = adjustLonByPx(lng, mousex, zoom);
 			var newlat = adjustLatByPx(lat, mousey, zoom);
 			if(zoom<18) {
+				window.location.hash = 'zoom'+zoom;
 				var midx = jQuery(window).width()/2;
 				var midy = jQuery(window).height()/2;
 				//only smooth zoom if map does not go into page
@@ -775,12 +774,12 @@ function loadNewMap(lat, lng, zoom, markers, type){
 
 	//append markers to map
 	markerlist.children('.markerdata').each(function(){
+		var postid = jQuery(this).attr('id').split('-')[1];
 		var markerpos = jQuery(this).val().split(',');
 		var markerthumb = jQuery(this).attr('name');
-		var markerid = jQuery(this).attr('id').split('-')[1];
 		var markertitle = jQuery(this).attr('title');
 		var markerimg = jQuery('.markerimg').val();
-		var marker = jQuery('<div class="marker" id="marker'+markerid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
+		var marker = jQuery('<div class="marker" id="marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
   		var delta_x  = (LonToX(markerpos[1]) - LonToX(lng)) >> (21 - zoom);
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(lat)) >> (21 - zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
@@ -789,9 +788,11 @@ function loadNewMap(lat, lng, zoom, markers, type){
 		marker.appendTo(jQuery('.maplayer:last'));
 		marker.click(function(event){
 			event.stopPropagation();
-			jQuery('#'+markerid).fadeIn();
-			loadlightbox(markerid, markerid);
-			loadNewMap(markerpos[0], markerpos[1], 15, markers, type);
+			if(window.location.hash = '#'+postid) {
+				loadlightbox(postid, postid);
+			} else {
+				window.location.hash = postid;
+			}
 		});
 		marker.hover(
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);},

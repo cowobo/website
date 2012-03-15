@@ -61,9 +61,7 @@ foreach($typearray as $type):
 				foreach($subcats as $cat):?>
 				<div class="slide cat<?php echo $cat->term_id;?>">
 					<h3>2. Choose Posts</h3>
-					<ul class="verlist">
-						<li class="addpost"><b>+ Add New Post</b></li>
-						<?php 
+					<ul class="verlist"><?php 
 						foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
 							<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
 						endforeach;?>

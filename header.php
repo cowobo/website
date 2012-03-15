@@ -14,11 +14,12 @@
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" /><?php
 
 wp_enqueue_script("jquery");
-wp_enqueue_script('comment-reply');
 wp_enqueue_script('mainscript', get_bloginfo('template_url').'/js/script.js', array('jquery'));
 wp_enqueue_script('horscroll', get_bloginfo('template_url').'/js/horscroll.js', array('mainscript'));
 wp_enqueue_script('jqueryui', get_bloginfo('template_url').'/js/jquery-ui-1.8.16.custom.min.js', array('horscroll'));
-wp_enqueue_script('autosize_js', get_bloginfo('template_url').'/js/autoresize.jquery.min.js',array('jqueryui'),'',true);
+wp_enqueue_script('hashchange', get_bloginfo('template_url').'/js/hashchange.min.js',array('jqueryui'),'',true);
+wp_enqueue_script('autosize', get_bloginfo('template_url').'/js/autoresize.min.js',array('hashchange'),'',true);
+
 
 // SETUP VARIABLES
 global $wp_query;
@@ -38,9 +39,11 @@ if (is_home()):
 	$catid = 0;
 elseif ($catid = get_query_var('cat')):
 	$currentcat = get_category($catid);
+	$catid = $currentcat->term_id;
 else:
 	$cat = get_the_category($post->ID);
 	$currentcat = $cat[0];
+	$catid = $currentcat->term_id;
 endif;
 
 // get current type
@@ -65,7 +68,7 @@ if(empty($nextlink)) $backlink = '#';
 // LOAD POSTS AND MENU LINKS
 if(is_single()):
 	$newposts = get_posts(array('cat'=>$currentcat->term_id));
-	foreach(get_categories(array('child_of'=>$currentcat->term_id, 'hide_empty'=>false, 'parent'=>$currentcat->term_id)) as $cat):
+	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid)) as $cat):
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.$cat->category_count.')</a></li>';
 	endforeach;
 	$currentid = $post->ID; //store main post id before it is overwritten by the loop
@@ -77,7 +80,7 @@ elseif (isset($_GET['userfeed'])):
 else:
 	$sort = '&orderby='.$_GET['sort'];
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
-	foreach(get_categories(array('exclude'=>get_cat_ID('Uncategorized'), 'child_of'=>0, 'hide_empty'=>false, 'parent'=>0)) as $cat):
+	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
 		$catposts = get_posts(array('cat'=>$cat->term_id, 'number'=>-1));
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.count($catposts).')</a></li>';
 	endforeach;
@@ -95,12 +98,9 @@ endif;?>
 <div id="menubar">
 	<ul id="menu">
 		<li>
-			<span id="backbutton">Back</span>
-		</li>
-		<li>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
-		<li>Browse
+		<li>Filter
 			<ul>
 				<?php echo $links;?>
 			</ul>
