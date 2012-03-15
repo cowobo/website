@@ -25,5 +25,8 @@
 		<div class="scrolltrack"><div class="slider"></div></div>
 		</div>
 	</div>
-	<div class="arrow"></div>
+	<div class="arrow">
+		<span class="save button" id="save-<?php echo $post->ID;?>">Save</span>
+		<span class="delete button">Delete</span>      
+	</div>
 </div>
