@@ -7,7 +7,7 @@ if($newpost):?>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<span class="title">Your Full Name:</span> Please keep it real
+	<span class="title">Your Full Name:</span> Please keep it real..
 	<input tabindex="1" type="text" class="new edittitle" value="" />
 	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
 	<input tabindex="2" type="text" class="new editaddress" value="" />

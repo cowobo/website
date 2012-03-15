@@ -10,7 +10,7 @@ if($newpost):?>
 	</div>
 	<span class="title">Short title of your post:</span>
 	<input tabindex="1" type="text" class="new edittitle" value="" />
-	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to zoom to a spot on our map
+	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
 	<input tabindex="2" type="text" class="new editaddress" value="" />
 	<ul class="coordinates horlist"></ul>
 	<h3>Text:</h3>
