@@ -3,7 +3,7 @@ switch ($social->state) :
     case 1: $postid = 'join'; break;
     case 2: $postid = 'welcome'; break;
     case 3:	$postid = $social->profile_id; break;
-    case 4: $postid = 'new'; break;
+    case 4: if(is_home()) $postid = 'selecttype'; else $postid = 'new'; break;
 endswitch;
 
 if(is_home()):

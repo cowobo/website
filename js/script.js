@@ -256,6 +256,11 @@ function cowobo_map_listeners() {
 
 //CONTRIBUTE//
 function cowobo_editpost_listeners() {
+	//load correct template for Add New post
+	jQuery('.choosetype').change(function() {
+ 		alert(jQuer(this).val());
+	});
+
 	jQuery('.relocate').live('click', function() {
 		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
@@ -452,6 +457,7 @@ function cowobo_editpost_listeners() {
 		});
 		window.original_tb_remove();
 	}
+	
 }
 
 //FUNCTIONS//
@@ -461,8 +467,8 @@ function loadlightbox(postid , loadid) {
 	jQuery('#'+loadid).fadeIn();
 	update_scrollbars(loadid);
 	
-	//if its a joinbox then don't do anything else	
-	if (postid == 'join') return true;
+	//if its a joinbox or selectbox then stop here	
+	if (postid == 'join' || postid == 'selecttype') return true;
 	
 	//fadeout last map
 	if(jQuery('.maplayer').length>1) {

@@ -155,8 +155,9 @@ add_action("wp_ajax_nopriv_savechanges", "savechanges_callback");
 function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
+	$postid = $_POST["postid"];
 	
-	if($_POST["postid"] == 'new'):
+	if($postid == 'new'):
 		$catid = $_POST["currentcat"];
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
@@ -168,7 +169,7 @@ function loadlightbox_callback(){
 		$loadpost = query_posts(array('post_status'=>'auto-draft', 'posts_per_page'=>1));
 		$newpost = true;
 	else:
-		$loadpost = query_posts(array('p'=>$_POST["postid"]));
+		$loadpost = query_posts(array('p'=>$postid));
 		$newpost = false;
 	endif;
 	if (class_exists('FEE_Core')) FEE_Core::add_filters();

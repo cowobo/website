@@ -1,10 +1,9 @@
-<?php
+<?php global $currenttype;
 //load form for post
 if($newpost):?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">
 		<div class="topshadow">
-		<h1>Choose type of post:</h1><?php
-		wp_dropdown_categories();?>
+		<h1><?php echo $currenttype->name;?></h1>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
