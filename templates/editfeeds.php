@@ -1,9 +1,7 @@
 <div class="container feeds"><?php
+global $currenttype; echo $currenttype->name;
 $relatedfeeds = get_the_category();
-
-$currtype = cwob_get_type($currentcat->term_id);
-
-$subcats = get_categories(array('parent'=>$currtype->term_id, 'hide_empty'=>false, 'child_of'=>$currtype->term_id));?>
+$subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>false, 'child_of'=>$currenttype->term_id));?>
 
 <h3>Feeds (<?php echo count($relatedfeeds);?>)</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>

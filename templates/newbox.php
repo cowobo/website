@@ -10,12 +10,14 @@
 				wp_dropdown_categories();?>
 				</div>
 			</div>
-			<input type="text" class="newtitle" value="Click here to add a title.." />
-			<div class="newlocation relocate">
-				<b>Click here to add a location on the map (optional) </b>
+			<span class="title">Short title of your post:</span>
+			<input type="text" class="new edittitle" value="" />
+			<b>Location (optional):</b> Click box to zoom to a spot on the map
+			<div class="new relocate">
 				<ul class="coordinates horlist"></ul>
 			</div>
-			<textarea name="newcontent" class="newcontent">Click here to add text to your post</textarea><?php
+			<b>Add or paste in text of your post:</b>
+			<textarea name="newcontent" class="newcontent"></textarea><?php
 		elseif (file_exists(TEMPLATEPATH.'/templates/' . $posttype . '.php') ):
 			include(TEMPLATEPATH.'/templates/' . $posttype . '.php');
 		else:

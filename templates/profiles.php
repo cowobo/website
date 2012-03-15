@@ -3,17 +3,21 @@
 if($newpost):?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">
 		<div class="topshadow">
-		<h1>Add New Profile</h1>
+		<h1>Profiles</h1>
 		</div>
+		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<input type="text" class="new edittitle" value="Click here to add a title" />
-	<div class="new relocate">
-		<b>Click here to add a location on the map (optional) </b>
-		<ul class="coordinates horlist"></ul>
-	</div>
-	<input type="text" class="new workexperience" value="Click here to add your work experience" />
-	<input type="text" class="new searchingfor" value="Click here to add what you are looking for" />
-	<textarea name="newcontent" class="new editcontent">Click here to add a description about you</textarea>
+	<span class="title">Your Full Name:</span> Please keep it real
+	<input tabindex="1" type="text" class="new edittitle" value="" />
+	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
+	<input tabindex="2" type="text" class="new editaddress" value="" />
+	<ul class="coordinates horlist"></ul>
+	<h3>Work Experience:</h3> Projects, Jobs, etc
+	<input tabindex="2" type="text" class="new workexperience" value="" />
+	<h3>Looking for:</h3> Coders, Fundings, etc
+	<input tabindex="3" type="text" class="new searchingfor" value="" />
+	<h3>More about you:</h3> Maximum 1000 characters
+	<textarea tabindex="4" name="newcontent" rows="5" class="new editcontent"></textarea>
 	<?php
 //load content of post
 else:?>
@@ -59,8 +63,6 @@ if($ajax):
 	$withcomments = true; comments_template();
 	// Include Related Feeds
 	if(file_exists(TEMPLATEPATH.'/templates/editfeeds.php')): include(TEMPLATEPATH.'/templates/editfeeds.php'); endif;
-	// Include Authors
-	if(file_exists(TEMPLATEPATH.'/templates/editauthors.php')): include(TEMPLATEPATH.'/templates/editauthors.php'); endif;
 	// Include Related Posts
 	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
 else:?>

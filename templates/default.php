@@ -6,13 +6,15 @@ if($newpost):?>
 		<h1>Choose type of post:</h1><?php
 		wp_dropdown_categories();?>
 		</div>
+		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<input type="text" class="new edittitle" value="Click here to add a title" />
-	<div class="new relocate">
-		<b>Click here to add a location on the map (optional) </b>
-		<ul class="coordinates horlist"></ul>
-	</div>
-	<textarea name="newcontent" class="new editcontent">Click here to add text to your post</textarea><?php
+	<span class="title">Short title of your post:</span>
+	<input tabindex="1" type="text" class="new edittitle" value="" />
+	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to zoom to a spot on our map
+	<input tabindex="2" type="text" class="new editaddress" value="" />
+	<ul class="coordinates horlist"></ul>
+	<h3>Text:</h3>
+	<textarea tabindex="3" name="newcontent" rows="5" class="new editcontent"></textarea><?php
 //load content of post
 else:?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">

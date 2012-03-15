@@ -1,7 +1,9 @@
 <?php
 if($newpost):?>
-	<input type="text" class="new edittitle" value="Click here to enter your question title" />
-	<textarea name="newcontent" class="new editcontent">Click here to elaborate question here..</textarea><?php
+	<span class="title">Short title of your question:</span>
+	<input type="text" class="new edittitle" value="" />
+	<h3>Elaborate question:</h3>
+	<textarea name="newcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
 	<a class="title" href="<?php the_permalink();?>"><?php the_title();?></a><br/><?php
 	the_content();

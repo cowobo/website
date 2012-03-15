@@ -105,7 +105,7 @@ a.rss {cursor: pointer;}
 .single {display:block;}
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
 .large .content {height:435px; overflow:hidden;}
-.large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ccc;}
+.large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ccc; background:#eee;}
 .large .title {font-size:18px; line-height:30px; margin-right:10px;}
 .large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:50px; font-weight:bold; cursor:move; clear:both;} 
 .large .like {padding-right:30px; margin-right:8px; background:url(images/largelike.png) right no-repeat;}
@@ -124,8 +124,7 @@ a.rss {cursor: pointer;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */
-.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:5px;}
-.edittitle {font-size:18px; line-height:30px;}
+.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:15px;}
 .editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
 .selectbox {display:none; height:130px; clear:both; margin-bottom:5px;}
@@ -140,6 +139,8 @@ a.rss {cursor: pointer;}
 .horlist span {color:#888; cursor:pointer;}
 .verlist, .typelist {color:#333; padding-left:10px; cursor:pointer; list-style:none; }
 .selected {background:#333; color:#fff;}
+.relocate {font-weight:bold; cursor:pointer;}
+.addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#eee;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none;}

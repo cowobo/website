@@ -256,11 +256,6 @@ function cowobo_map_listeners() {
 
 //CONTRIBUTE//
 function cowobo_editpost_listeners() {
-	jQuery(".new").live('click', function() {
-		jQuery(this).val('');
-		//todo return old title
-	});
-	
 	jQuery('.relocate').live('click', function() {
 		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
@@ -363,7 +358,6 @@ function cowobo_editpost_listeners() {
 		var id = jQuery(this).attr('class').split(' ')[0];
 		var container = jQuery(this).parents('.container');
 		jQuery(this).addClass('selected').siblings().removeClass('selected');
-		//empty primary feed list if choosing new feed
 		jQuery('.selectbox .slide').fadeOut();
 		container.find('.cat'+id).fadeIn();
 	});
@@ -437,6 +431,8 @@ function cowobo_editpost_listeners() {
  		var postid = jQuery(this).parents('.large').attr('id');
 		formfield = jQuery('#upload_image').attr('name');
  		tb_show('', 'wp-admin/media-upload.php?post_id='+postid+'&TB_iframe=true');
+		//prevent close button from resetting hash
+		jQuery('#TB_closeWindowButton').attr('href', 'javascript:void(0)');
  		return false;
 	});
 
@@ -462,7 +458,8 @@ function cowobo_editpost_listeners() {
 
 function loadlightbox(postid , loadid) {
 	jQuery('.large').fadeOut();
-	jQuery('#'+postid).fadeIn();
+	jQuery('#'+loadid).fadeIn();
+	update_scrollbars(loadid);
 	
 	//if its a joinbox then don't do anything else	
 	if (postid == 'join') return true;
