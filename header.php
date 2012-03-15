@@ -39,7 +39,6 @@ if (is_home()):
 	$catid = 0;
 elseif ($catid = get_query_var('cat')):
 	$currentcat = get_category($catid);
-	$catid = $currentcat->term_id;
 else:
 	$cat = get_the_category($post->ID);
 	$currentcat = $cat[0];
@@ -48,9 +47,9 @@ endif;
 
 // get current type
 $currenttype = cwob_get_type($currentcat->term_id);
-
 // Query for the current feed
-$feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;
+
+//$feed_query = ($catid = get_query_var('cat')) ? "'c',$catid" : "'p',".$post->ID;
 $userid = wp_get_current_user()->ID;
 $feed_query .= ",".$userid;
 
@@ -67,7 +66,7 @@ if(empty($nextlink)) $backlink = '#';
 
 // LOAD POSTS AND MENU LINKS
 if(is_single()):
-	$newposts = get_posts(array('cat'=>$currentcat->term_id));
+	$newposts = get_posts(array('cat'=>$catid));
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid)) as $cat):
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.$cat->category_count.')</a></li>';
 	endforeach;
@@ -85,7 +84,6 @@ else:
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.count($catposts).')</a></li>';
 	endforeach;
 endif;
-
 // Sort the query if needed
 if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
