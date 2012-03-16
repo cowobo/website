@@ -75,9 +75,8 @@ a.rss {cursor: pointer;}
 .buffer {z-index:0; }
 .maptiles, .streettiles {position:relative; z-index:1; }
 .maptiles {width:50%; height:50%;}
-.showlabels {display:none; position:absolute; right:10px; top:35px; width:80px; height:15px;  padding:2px; line-height:15px; background: #fff; z-index:50; text-align:center; cursor:pointer;}
-.zoom {display:none; position:absolute; left:10px; top:35px; width:25px; height:50px; background: url(images/zoom.png) no-repeat; z-index:50; cursor:pointer;}
-.zoomin, .zoomout {height:25px;}
+.citylabel {position:absolute; width:80px; height:10px; margin: -5px 0 0 -40px; cursor:pointer; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
+
 
 /* Boxes Generic */
 .topshadow {position:absolute; top:0; left:0; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; z-index:10; }

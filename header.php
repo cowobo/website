@@ -117,6 +117,12 @@ endif;?>
 				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
 			</ul>
 		</li>
+		<li>Zoom
+			<ul>
+				<li class="zoomin">In</li>
+				<li class="zoomout">Out</li>		
+			</ul>
+		</li>
 	</ul>
 	
 	<div id="profilelink"><?php
@@ -134,8 +140,7 @@ endif;?>
 
 <div id="map"></div>
 
-<div class="zoom"><div class="zoomin"></div><div class="zoomout"></div></div>
-<div class="showlabels">Labels on/off</div>
+
 <div class="marker" id="editmarker">
 	<div class="mcontent">
 		<span class="savelocation">Save</span>

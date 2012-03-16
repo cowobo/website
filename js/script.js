@@ -67,9 +67,12 @@ function cowobo_sidebar_listeners() {
 	jQuery('#menu li').click(function(event) {
 		//prevent page from closing
 		event.stopPropagation();
+		var childwidth;
 		var child = jQuery(this).children('ul');
-		var parent = jQuery(this).parent('ul')
-		var childwidth = child.get(0).scrollWidth;
+		var parent = jQuery(this).parent('ul');
+		if(child.length>0){
+			childwidth = child.get(0).scrollWidth;
+		}
 		if(child.width()>1) {
 			child.animate({width: 1});
 			parent.animate({width: parent.width()-childwidth});
@@ -233,12 +236,16 @@ function cowobo_map_listeners() {
 	});
 
 	jQuery('.zoomout').click(function(){
-		var zoom = jQuery('.maplayer:last').data('map').zoom;
-		if(zoom>2) {
-			var lat = jQuery('.maplayer:last').data('map').lat;
-			var lng = jQuery('.maplayer:last').data('map').lng;
-			var type = jQuery('.maplayer:last').data('map').type
-			loadNewMap(lat, lng, zoom-1, markersvar, type);
+		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
+			var zoom = jQuery('.maplayer:last').data('map').zoom;
+			if(zoom>2) {
+				var lat = jQuery('.maplayer:last').data('map').lat;
+				var lng = jQuery('.maplayer:last').data('map').lng;
+				var type = jQuery('.maplayer:last').data('map').type
+				loadNewMap(lat, lng, zoom-1, markersvar, type);
+			}
+		} else {
+			alert('Please wait for map to finish loading')
 		}
 	});
 
@@ -800,6 +807,23 @@ function loadNewMap(lat, lng, zoom, markers, type){
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);},
 			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 2);}
 		);
+	});
+	
+	if(zoom>4) var fileurl = 'allcities.xml'; else var fileurl = 'majorcities.xml';
+	jQuery.get(fileurl, function(xml) {
+		alert(fileurl);
+    	jQuery(xml).find("marker").each(function(){
+      		var mdata = jQuery(this).children('td');
+			var markertitle = mdata.eq(0).text();
+			var markerpos = new Array(mdata.eq(2).text(), mdata.eq(1).text());
+			var marker = jQuery('<div class="citylabel">'+markertitle+'</div>');
+  			var delta_x  = (LonToX(markerpos[1]) - LonToX(lng)) >> (21 - zoom);
+			var delta_y  = (LatToY(markerpos[0]) - LatToY(lat)) >> (21 - zoom);
+   			var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
+   			var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
+			marker.css({top:marker_y, left: marker_x});
+			marker.appendTo(jQuery('.maplayer:last'));
+		});
 	});
 }
 

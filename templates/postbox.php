@@ -14,7 +14,9 @@ endif;
 //check if user has been added to authors of post
 $profiles = get_post_meta($post->ID, 'author', false);
 if(empty($profiles)) $profiles = array();
-if(in_array($social->profile_id, $profiles) or $post->post_author == get_current_user_id()):
+$auth = $post->post_author;
+//make editable if the post author is admin, the user, or has assigned the user as author
+if($auth = 1 or $auth == get_current_user_id() or in_array($social->profile_id, $profiles)):
 	$author = true; 
 else:
 	$author = false;
