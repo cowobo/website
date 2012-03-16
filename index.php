@@ -5,10 +5,10 @@ global $social; $profile_in_feed = false; ?>
 <div id="scroller" style="<?php if(is_single()) echo 'display:none';?>"><?php
 	include(TEMPLATEPATH.'/templates/newthumb.php');
 	foreach($newposts as $post): $counter++;
-		setup_postdata($post); 
-		$wp_query->in_the_loop = true; 
+		setup_postdata($post);
+		$wp_query->in_the_loop = true;
         // Check if the current user's profile is in the feed already
-        if ( $social->state == 4 && $post->ID == $social->profile_id ) $profile_in_feed = true;
+        // if ( $social->state == 4 && $post->ID == $social->profile_id ) $profile_in_feed = true;
 		$typepost = cwob_get_category($post->ID);
 		include(TEMPLATEPATH.'/templates/postthumb.php');
 		$postids[] = $post->ID; //to determine whether or not to load the profile post
