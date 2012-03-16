@@ -65,7 +65,7 @@ a.rss {cursor: pointer;}
 
 /* Map */
 #map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
-.marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:2; opacity:0.7}
+.marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
@@ -75,7 +75,7 @@ a.rss {cursor: pointer;}
 .buffer {z-index:0; }
 .maptiles, .streettiles {position:relative; z-index:1; }
 .maptiles {width:50%; height:50%;}
-.citylabel {position:absolute; width:80px; height:10px; margin: -5px 0 0 -40px; cursor:pointer; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
+.citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 
 
 /* Boxes Generic */

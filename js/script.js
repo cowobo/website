@@ -225,13 +225,17 @@ function cowobo_map_listeners() {
 	});
 
 	jQuery('.zoomin').click(function(){
-		var zoom = jQuery('.maplayer:last').data('map').zoom;
-		if(zoom<18) {
-			jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft:'-50%', marginTop:'-50%' });
-			var lat = jQuery('.maplayer:last').data('map').lat;
-			var lng = jQuery('.maplayer:last').data('map').lng;
-			var type = jQuery('.maplayer:last').data('map').type
-			loadNewMap(lat, lng, zoom+1, markersvar, type);
+		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
+			var zoom = jQuery('.maplayer:last').data('map').zoom;
+			if(zoom<18) {
+				jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft:'-50%', marginTop:'-50%' });
+				var lat = jQuery('.maplayer:last').data('map').lat;
+				var lng = jQuery('.maplayer:last').data('map').lng;
+				var type = jQuery('.maplayer:last').data('map').type
+				loadNewMap(lat, lng, zoom+1, markersvar, type);
+			}
+		} else {
+			alert('Please wait for map to finish loading')
 		}
 	});
 
@@ -753,7 +757,8 @@ function loadNewMap(lat, lng, zoom, markers, type){
 
 	//zoom new layer on click if there are no lightboxes visible
 	newlayer.click(function(e){
-		if(jQuery('.large :visible').length <1) {
+		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
+			if(jQuery('.large :visible').length <1) {
 			var mousex = Math.round(e.clientX/jQuery('.maptiles').width()*xmid)-xmid;
 			var mousey = Math.round(e.clientY/jQuery('.maptiles').height()*ymid)-ymid;
 			var newlng = adjustLonByPx(lng, mousex, zoom);
@@ -770,7 +775,11 @@ function loadNewMap(lat, lng, zoom, markers, type){
 				}
 				loadNewMap(newlat, newlng, zoom+1, markers, type);
 			}
+			}
+		} else {
+			alert('Please wait for map to finish loading')
 		}
+		
 	});
 
 	//sort markers by latitude to ensure correct overlapping
@@ -811,7 +820,6 @@ function loadNewMap(lat, lng, zoom, markers, type){
 	
 	if(zoom>4) var fileurl = 'allcities.xml'; else var fileurl = 'majorcities.xml';
 	jQuery.get(fileurl, function(xml) {
-		alert(fileurl);
     	jQuery(xml).find("marker").each(function(){
       		var mdata = jQuery(this).children('td');
 			var markertitle = mdata.eq(0).text();
