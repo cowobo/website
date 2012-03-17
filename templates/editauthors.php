@@ -31,6 +31,8 @@ $codercats = get_categories(array('child_of'=>get_cat_ID('Profiles'), 'hide_empt
 			</div><?php
 			endforeach;?>
 		</div><?php
+	elseif($social->state > 1):
+			echo 'Become a contributor to this post by sending a request to the author';
 	else:
 		echo $social->speechbubble();
 	endif;?>

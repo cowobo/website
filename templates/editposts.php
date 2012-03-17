@@ -23,7 +23,7 @@ foreach($typearray as $type):
 	$count = count($catposts);
 	$subcats = get_categories(array('child_of'=>$typeid, 'hide_empty'=>false, 'parent'=>$typeid));?>
 	<div class="container <?php echo $type['cat']->slug;?>">
-	<h3 <?php if($count<1) echo 'class="empty"';?>><?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
+	<h3 <?php if($count<1) echo 'class="empty"';?>>Link <?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
 	if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 	<div class="edit button">+ Add</div>
 	

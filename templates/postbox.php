@@ -11,16 +11,13 @@ if($coordinates = get_post_meta(get_the_ID(), 'coordinates', true)):
 	$pano_id = $xml->data_properties['pano_id'];
 endif;
 		
-//check if user has been added to authors of post
+//check if user is author of post or added to the authors of post
+if($post->post_author == get_current_user_id()) $author = true; else $author = false; 
 $profiles = get_post_meta($post->ID, 'author', false);
-if(empty($profiles)) $profiles = array();
-$auth = $post->post_author;
-//make editable if the post author is admin, the user, or has assigned the user as author
-if($auth = 1 or $auth == get_current_user_id() or in_array($social->profile_id, $profiles)):
-	$author = true; 
-else:
-	$author = false;
-endif;?>
+if(!empty($profiles) && !empty($social->profile_id)):
+	if(in_array($social->profile_id, $profiles)) $author = true;
+endif;
+?>
 
 <div class="large <?php if ($ajax == 'true') echo 'single';?>" id="<?php echo $post->ID;?>">
 	<div class="holder">
@@ -54,7 +51,7 @@ endif;?>
 			$prev = get_adjacent_post(true,'',false);
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
-			<span class="cowobo_social_like button">Like</span>
+			<span class="cowobo_social_like button">Link</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>

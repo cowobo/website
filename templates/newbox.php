@@ -39,11 +39,13 @@ else:?>
 		'exclude'=>get_cat_ID('Uncategorized'),
 		'show_option_none' =>'',
 		));?>
-	<span class="title grey">Title of your post:</span>
+	<span class="title grey">Title of post:</span>
 	<input tabindex="1" type="text" class="new edittitle" value="" disabled="disabled"/>
 	<h3 class="title grey">Location (optional):</h3>
 	<input tabindex="2" type="text" class="new editaddress" value="" disabled="disabled"/>
 	<ul class="coordinates horlist"></ul>
+	<h3 class="title grey">Content of post:</h3>
+	<textarea tabindex="3" name="newcontent" rows="5" class="new editcontent" disabled="disabled"></textarea>
 	<div class="scrolltrack"><div class="slider"></div></div>
 	</div>
 	</div>

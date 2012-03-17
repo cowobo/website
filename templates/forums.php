@@ -5,7 +5,7 @@ if($newpost):?>
 	<h3>Elaborate question:</h3>
 	<textarea name="newcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
-	<a class="title" href="<?php the_permalink();?>"><?php the_title();?></a><br/><?php
+	<a class="title" href="<?php the_permalink();?>"><?php if($ajax) the_title(); else echo $post->post_title;?></a><br/><?php
 	the_content();
 endif;
 
@@ -18,6 +18,4 @@ if($ajax):
 	if(file_exists(TEMPLATEPATH.'/templates/editauthors.php')): include(TEMPLATEPATH.'/templates/editauthors.php'); endif;
 	// Include Related Posts
 	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
-else:?>
-	<h3 class="loading">Loading related posts</h3><?php
 endif;?>

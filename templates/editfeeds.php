@@ -1,5 +1,6 @@
 <div class="container feeds"><?php
-global $currenttype; echo $currenttype->name;
+global $currenttype;
+
 $relatedfeeds = get_the_category();
 $subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>false, 'child_of'=>$currenttype->term_id));?>
 
@@ -22,8 +23,10 @@ $subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>f
 			<input type="text" name="newcat" />
 			<span class="addcat">Add</span><br/>
 		</div><?php
+	elseif($social->state > 1):
+			echo 'Become a contributor to this post by sending a request to the author';
 	else:
-		global $social; echo $social->speechbubble();
+		echo $social->speechbubble();
 	endif;?>
 </div>
 

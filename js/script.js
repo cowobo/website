@@ -43,14 +43,14 @@ jQuery(document).ready(function() {
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
-		loadlightbox(postid, postid);
+		loadlightbox(postid, postid, 0);
 	}
 	
 	//load lightbox when hash changes (requires haschange.min.js for ie7)
 	jQuery(window).hashchange( function(){
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
-		loadlightbox(postid, postid);
+		loadlightbox(postid, postid, 0);
 	})
 
 	//SHARETHIS KEY//
@@ -102,8 +102,9 @@ function cowobo_sidebar_listeners() {
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
+		var catid = jQuery('#pagetitle').attr('class');
 		if(window.location.hash == '#'+postid) {
-			loadlightbox(postid, postid);
+			loadlightbox(postid, postid, catid);
 		} else {
 			window.location.hash = postid;
 		}
@@ -208,10 +209,10 @@ function cowobo_messenger_listeners() {
             jQuery('.large').fadeOut('slow');
 			jQuery('#join').fadeIn('slow');
 		} else {
-            var profileid = type[2].split('-')[1];
+            var postid = type[2].split('-')[1];
             jQuery('.large').fadeOut('slow');
-			jQuery('#'+profileid).fadeIn('slow');
-			loadlightbox(profileid, profileid);
+			jQuery('#'+postid).fadeIn('slow');
+			loadlightbox(postid, postid, 0);
 			//loadmap here
 		}
     });
@@ -272,9 +273,8 @@ function cowobo_map_listeners() {
 function cowobo_editpost_listeners() {
 	//load correct template for Add New post
 	jQuery('.choosetype').change(function() {
-		//var postid = 0;
-		//loadlightbox(postid, 'selectype')
-		alert(jQuery(this).val());
+		var catid = jQuery(this).val();
+		loadlightbox('new', 'selecttype', catid);
 	});
 
 	jQuery('.relocate').live('click', function() {
@@ -388,7 +388,7 @@ function cowobo_editpost_listeners() {
 		var postid = parent.attr('id');
 		var newid = jQuery(this).attr('id').split('-')[1];
 		parent.find('.content').fadeTo('slow', 0.5);
-		loadlightbox(newid, postid);
+		loadlightbox(newid, postid, 0);
 		//var type = jQuery('.maplayer:last').data('map').type
 		//loadNewMap(lat, lng, zoom, markers, type);
 	});
@@ -478,7 +478,7 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid , loadid) {
+function loadlightbox(postid, loadid, catid) {
 	jQuery('.large').fadeOut();
 	jQuery('#'+loadid).fadeIn();
 	update_scrollbars(loadid);
@@ -486,12 +486,11 @@ function loadlightbox(postid , loadid) {
 	//if its a joinbox or selectbox then stop here	
 	if (postid == 'join' || postid == 'selecttype') return true;
 	
-	//fadeout last map
+	//fadeout last map and load new map if lightbox has coordinates
+	var latlng = jQuery('#'+postid).find('.coordinates li:first').attr('id');
 	if(jQuery('.maplayer').length>1) {
 		jQuery('.maplayer:last').fadeOut('slow', function(){jQuery(this).remove()});
 	}
-	//load new map if lightbox has coordinates
-	var latlng = jQuery('#'+postid).find('.coordinates li:first').attr('id');
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
@@ -499,18 +498,21 @@ function loadlightbox(postid , loadid) {
 			loadNewMap(markerpos[0], markerpos[1], 15, jQuery(this).find('.markerdata'), type);
 		}
 	}
-	// Load awesome-count
-	jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
-
+	
+	//content if not already loaded
 	if(jQuery('#'+postid + '.container').length<1) {
-		var cat = jQuery('#pagetitle').attr('class');
-		//load lightbox contents
 		jQuery.ajax({
    			type: "POST",
    			url: rooturl+'wp-admin/admin-ajax.php',
-   			data: {action: 'loadlightbox', currentcat:cat, postid:postid},
+   			data: {
+				action: 'loadlightbox', 
+				currentcat:catid, 
+				postid:postid
+			},
    			success: function(msg){
+				var scrollpos = jQuery('#' + loadid + ' .content').scrollTop();
 				jQuery('#' + loadid).html(jQuery(msg).html());
+				jQuery('#' + loadid + ' .content').scrollTop(scrollpos);
 				cowobo_jquery_ui_listeners();
 				update_scrollbars(loadid);
 				loadlike(postid);
@@ -524,6 +526,9 @@ function loadlightbox(postid , loadid) {
 			}
 		});
 	}
+	
+	// Load awesome-count
+	jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
 }
 
 function loadlike(postid) {
@@ -812,7 +817,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 		marker.click(function(event){
 			event.stopPropagation();
 			if(window.location.hash = '#'+postid) {
-				loadlightbox(postid, postid);
+				loadlightbox(postid, postid, 0);
 			} else {
 				window.location.hash = postid;
 			}

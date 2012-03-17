@@ -16,7 +16,7 @@ $count = count($postcomments);?>
 <div class="add button">+ Add</div>
 
 <div class="replybox" style="<?php if($count>0) echo 'display:none';?>"><?php 
-if ($author):?>
+if ($social->state > 1):?>
 	<form action="wp-comments-post.php" method="post" class="commentform">
 		<div class="thumbnail"></div>
 		<div class="text">
