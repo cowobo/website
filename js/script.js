@@ -6,6 +6,7 @@ var overslide;
 var scroller;
 var overlightbox;
 var markersvar;
+var rooturl;
 
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
@@ -19,6 +20,8 @@ jQuery(window).resize(function() {
 
 //setup listeners after document loads
 jQuery(document).ready(function() {
+	//setup basic parameters
+	rooturl = jQuery('meta[name=rooturl]').attr("content");
 	winx = jQuery(window).width();
 	setInterval(mousemov, 10);
 
@@ -269,7 +272,9 @@ function cowobo_map_listeners() {
 function cowobo_editpost_listeners() {
 	//load correct template for Add New post
 	jQuery('.choosetype').change(function() {
- 		alert(jQuer(this).val());
+		//var postid = 0;
+		//loadlightbox(postid, 'selectype')
+		alert(jQuery(this).val());
 	});
 
 	jQuery('.relocate').live('click', function() {
@@ -419,7 +424,7 @@ function cowobo_editpost_listeners() {
 		} else {
 			jQuery.ajax({
 				type: "POST",
-				url: 'wp-admin/admin-ajax.php',
+				url: rooturl+'wp-admin/admin-ajax.php',
 				data: {action: 'savechanges',
 					edittitle: edittitle,
 					editcontent: editcontent,
@@ -446,7 +451,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.editable').live('click', function() {
  		var postid = jQuery(this).parents('.large').attr('id');
 		formfield = jQuery('#upload_image').attr('name');
- 		tb_show('', 'wp-admin/media-upload.php?post_id='+postid+'&TB_iframe=true');
+ 		tb_show('', rooturl+'wp-admin/media-upload.php?post_id='+postid+'&TB_iframe=true');
 		//prevent close button from resetting hash
 		jQuery('#TB_closeWindowButton').attr('href', 'javascript:void(0)');
  		return false;
@@ -458,7 +463,7 @@ function cowobo_editpost_listeners() {
 		var id = jQuery('.large:visible').attr('id');
 		jQuery.ajax({
    			type: "POST",
-   			url: 'wp-admin/admin-ajax.php',
+   			url: rooturl+'wp-admin/admin-ajax.php',
    			data: {action: 'loadgallery', postid:id},
    			success: function(msg){
 				var gallery = jQuery('#'+id).find('.editable');
@@ -502,7 +507,7 @@ function loadlightbox(postid , loadid) {
 		//load lightbox contents
 		jQuery.ajax({
    			type: "POST",
-   			url: 'wp-admin/admin-ajax.php',
+   			url: rooturl+'wp-admin/admin-ajax.php',
    			data: {action: 'loadlightbox', currentcat:cat, postid:postid},
    			success: function(msg){
 				jQuery('#' + loadid).html(jQuery(msg).html());
@@ -525,7 +530,7 @@ function loadlike(postid) {
 	// Load social share box
 	jQuery.ajax({
 		type: "POST",
-		url: 'wp-content/themes/cowobo/lib/ajax-show-share.php',
+		url: rooturl+'wp-content/themes/cowobo/lib/ajax-show-share.php',
 		data: {postid:postid},
 		success: function ( msg ){
 			jQuery('#' + postid).find('.cowobo_social_share').html( msg ).hide();
@@ -670,7 +675,7 @@ function removeMarkers() {
 function add_to_feed(feed_type,feed_id,user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: 'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
+		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
 		data: {feed_type:feed_type,feed_id:feed_id,user_id:user_id,add:true},
 		success: function(msg){
 			angel_talk("This feed is now part of your personal feed.");
@@ -681,7 +686,7 @@ function add_to_feed(feed_type,feed_id,user_id) {
 function reset_feed(user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: 'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
+		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
 		data: {user_id:user_id,reset:true},
 		success: function(msg){
 			angel_talk("Your feed has been succesfully reset.");
@@ -818,7 +823,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 		);
 	});
 	
-	if(zoom>4) var fileurl = 'allcities.xml'; else var fileurl = 'majorcities.xml';
+	if(zoom>4) var fileurl = rooturl+'allcities.xml'; else var fileurl = rooturl+'majorcities.xml';
 	jQuery.get(fileurl, function(xml) {
     	jQuery(xml).find("marker").each(function(){
       		var mdata = jQuery(this).children('td');

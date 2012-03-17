@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
 <meta name="generator" content="Dev-PHP 2.4.0" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta name="rooturl" content="<?php bloginfo('url'); ?>/"/>
 <link rel="shortcut icon" href="<?php bloginfo('template_url');?>/images/favicon.ico" />
 <link rel="icon" type="image/gif" href="<?php bloginfo('template_url');?>/images/animated_favicon1.gif" />
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_url') ?>/style.css" media="screen"/>
