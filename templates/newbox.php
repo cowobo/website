@@ -39,6 +39,11 @@ else:?>
 		'exclude'=>get_cat_ID('Uncategorized'),
 		'show_option_none' =>'',
 		));?>
+	<span class="title grey">Title of your post:</span>
+	<input tabindex="1" type="text" class="new edittitle" value="" disabled="disabled"/>
+	<h3 class="title grey">Location (optional):</h3>
+	<input tabindex="2" type="text" class="new editaddress" value="" disabled="disabled"/>
+	<ul class="coordinates horlist"></ul>
 	<div class="scrolltrack"><div class="slider"></div></div>
 	</div>
 	</div>
