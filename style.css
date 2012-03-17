@@ -123,7 +123,8 @@ a.rss {cursor: pointer;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */
-.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:15px;}
+.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:15px; background:#fff;}
+.choosetype {width:520px;}
 .editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
 .selectbox {display:none; height:130px; clear:both; margin-bottom:5px;}
@@ -140,6 +141,7 @@ a.rss {cursor: pointer;}
 .selected {background:#333; color:#fff;}
 .relocate {font-weight:bold; cursor:pointer;}
 .addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#eee;}
+.grey {color:#ccc;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none;}
