@@ -7,17 +7,17 @@ if($newpost):?>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<div class="title">Your Full Name:</div> Please keep it real..
-	<input tabindex="1" type="text" class="new edittitle" value="" />
+	<h3>Your Full Name:</h3> Please keep it real..
+	<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" />
 	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
-	<input tabindex="2" type="text" class="new editaddress" value="" />
+	<input tabindex="2" type="text" name="address" class="new address" value="" />
 	<ul class="coordinates horlist"></ul>
 	<h3>Work Experience:</h3> Projects, Jobs, etc
-	<input tabindex="2" type="text" class="new workexperience" value="" />
+	<input tabindex="2" type="text" name="workexperience" class="new workexperience" value="" />
 	<h3>Looking for:</h3> Coders, Fundings, etc
-	<input tabindex="3" type="text" class="new searchingfor" value="" />
+	<input tabindex="3" type="text" name="searchingfor" class="new searchingfor" value="" />
 	<h3>More about you:</h3> Maximum 1000 characters
-	<textarea tabindex="4" name="newcontent" rows="5" class="new editcontent"></textarea>
+	<textarea tabindex="4" name="editcontent" rows="5" class="new editcontent"></textarea>
 	<?php
 //load content of post
 else:?>

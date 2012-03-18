@@ -1,14 +1,14 @@
 <?php
 get_header();
-global $social; $profile_in_feed = false; ?>
+global $social;
+$postids = array();
 
+//load thumbs ?>
 <div id="scroller" style="<?php if(is_single()) echo 'display:none';?>"><?php
 	include(TEMPLATEPATH.'/templates/newthumb.php');
 	foreach($newposts as $post): $counter++;
 		setup_postdata($post);
 		$wp_query->in_the_loop = true;
-        // Check if the current user's profile is in the feed already
-        // if ( $social->state == 4 && $post->ID == $social->profile_id ) $profile_in_feed = true;
 		$typepost = cwob_get_category($post->ID);
 		include(TEMPLATEPATH.'/templates/postthumb.php');
 		$postids[] = $post->ID; //to determine whether or not to load the profile post
@@ -18,9 +18,18 @@ global $social; $profile_in_feed = false; ?>
 </div><!-- end of #page defined in header-->
 <?php
 
+//load add post box
 include( TEMPLATEPATH . '/templates/newbox.php');
 
-if(empty($postids)) $postids = array();
+//load add feed box
+$feedpost = get_posts(array('name' => 'add-rss-feed'));
+foreach ($feedpost as $post):
+	setup_postdata($post);
+	$wp_query->in_the_loop = true;
+    include(TEMPLATEPATH.'/templates/feedbox.php');
+endforeach;
+
+//load profile box or join box
 if ($social->state > 1 && !in_array( $social->profile_id, $postids ) ) :
 	$post = get_post ( $social->profile_id );
 	setup_postdata($post);
@@ -35,6 +44,7 @@ else:
 	endforeach;
 endif;
 
+//load posts in current category
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
 	if($postid == $post->ID) $ajax = true; else $ajax = false;
 	include(TEMPLATEPATH.'/templates/postbox.php');

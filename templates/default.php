@@ -1,4 +1,4 @@
-<?php global $currenttype;
+<?php
 //load form for post
 if($newpost):?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">
@@ -7,13 +7,13 @@ if($newpost):?>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<div class="title">Title of your post:</div> Please keep it short
-	<input tabindex="1" type="text" class="new edittitle" value="" />
+	<h3>Title:</h3> Please keep it short
+	<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" />
 	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
-	<input tabindex="2" type="text" class="new editaddress" value="" />
+	<input tabindex="2" type="text" name="address" class="new address" value="" />
 	<ul class="coordinates horlist"></ul>
 	<h3>Text:</h3> Maximum 1000 characters
-	<textarea tabindex="3" name="newcontent" rows="5" class="new editcontent"></textarea><?php
+	<textarea tabindex="3" name="editcontent" rows="5" class="new editcontent"></textarea><?php
 //load content of post
 else:?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">

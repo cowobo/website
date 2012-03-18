@@ -127,7 +127,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden;}
-.loadinggallery {width:120px; text-align:left; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
+.loadinggallery {width:150px; text-align:left; font-size: 18px; color:#888; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
 /* Edit Post Styles */

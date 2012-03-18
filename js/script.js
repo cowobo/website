@@ -394,19 +394,19 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.save').live('click', function() {
-		var posts = new Array(); 
-		var feeds = new Array();
-		var authors = new Array();
+		var posts = new Array(); var tags = new Array(); var authors = new Array(); var data = {};
 		var post = jQuery(this).parents('.large');
-		var postid = post.attr('id');
-		var newlatlng = post.find('.coordinates li').attr('id');
-		var edittitle = post.find('.edittitle').val();
-		var editcontent = post.find('.editcontent').val();
+		
+		// save all new text inputs 
+		post.find('.new').each(function(){
+			data[jQuery(this).attr('name')] = jQuery(this).val();
+		});
+		
+		// get all tags and linked posts (todo:condense this code)
 		post.find('.container').each(function(){
-			var cat = cat + 1;
-			if (jQuery(this).hasClass('feeds')) {
+			if (jQuery(this).hasClass('tags')) {
 				jQuery(this).find('.listitem').each(function(){
-					feeds.push(jQuery(this).attr('class').split(' ')[0]);
+					tags.push(jQuery(this).attr('class').split(' ')[0]);
 				});
 			} else if (jQuery(this).hasClass('authors')){
 				jQuery(this).find('.listitem').each(function(){
@@ -418,21 +418,23 @@ function cowobo_editpost_listeners() {
 				});
 			}
 		});
+		
+		//save all data as strings
+     	data['action'] = 'savechanges';
+		data['postid'] = post.find('.save').attr('id').split('-')[1];
+		data['coordinates'] = post.find('.coordinates li').attr('id');
+		data['tags'] = tags.join(',');
+		data['authors'] = authors.join(',');
+		data['posts'] = posts.join(',');
+			
 		//make sure the post has a feed and author
-		if (feeds.length<0) {
+		if (tags.length<0) {
 			alert('You must specify atleast one feed');
 		} else {
 			jQuery.ajax({
 				type: "POST",
 				url: rooturl+'wp-admin/admin-ajax.php',
-				data: {action: 'savechanges',
-					edittitle: edittitle,
-					editcontent: editcontent,
-					postid: postid,
-					feeds: feeds.join(','),
-					authors: authors.join(','),
-					posts: posts.join(','),
-					coordinates: newlatlng},
+				data: data,
 				success: function (permalink){
 					alert('Your changes have been saved');
 					document.location.reload(true);
@@ -449,7 +451,7 @@ function cowobo_editpost_listeners() {
 
 	//open image uploader when clicking on editable images
 	jQuery('.editable').live('click', function() {
- 		var postid = jQuery(this).parents('.large').attr('id');
+ 		var postid = jQuery(this).parents('.large').find('.save').attr('id').split('-')[1];
 		formfield = jQuery('#upload_image').attr('name');
  		tb_show('', rooturl+'wp-admin/media-upload.php?post_id='+postid+'&TB_iframe=true');
 		//prevent close button from resetting hash
@@ -510,18 +512,16 @@ function loadlightbox(postid, loadid, catid) {
 				postid:postid
 			},
    			success: function(msg){
-				var scrollpos = jQuery('#' + loadid + ' .content').scrollTop();
-				jQuery('#' + loadid).html(jQuery(msg).html());
-				jQuery('#' + loadid + ' .content').scrollTop(scrollpos);
+				var lightbox = jQuery('#'+loadid);
+				var scrollpos = lightbox.find('.content').scrollTop();
+				var newid = lightbox.find('.save').attr('id').split('-')[1];
+				lightbox.html(jQuery(msg).html());
+				lightbox.find('.content').scrollTop(scrollpos);
 				cowobo_jquery_ui_listeners();
 				update_scrollbars(loadid);
-				loadlike(postid);
-				if(typeof(FrontEndEditor) != 'undefined' && jQuery('#'+loadid+' .editable').length > 0) {
-					jQuery('#' + loadid + ' .fee-field').each(FrontEndEditor.make_editable);
-				}
-				if(postid=='new'){
-					var id = jQuery('#new .save').attr('id').split('-')[1];
-					jQuery('#new').attr('id', id);
+				loadlike(newid);
+				if(typeof(FrontEndEditor) != 'undefined' && lightbox.find('.editable').length > 0) {
+					lightbox.find('.fee-field').each(FrontEndEditor.make_editable);
 				}
 			}
 		});

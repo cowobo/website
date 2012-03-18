@@ -196,22 +196,18 @@ function loadgallery_callback(){
 
 function savechanges_callback(){
 	global $wpdb; global $social;
-	$postid = $_POST["postid"];
-	$feeds = explode(',', $_POST["feeds"]);
-	$relatedpostids = explode(',' , $_POST['posts']);
-	$authors = explode(',', $_POST["authors"]);	
 	
-	//update feeds
-	wp_update_post( array(
-		'ID' => $postid,
-		'post_status' => 'publish',
-		'post_category' => $feeds,
-	));
-		
-	//update related posts
+	// first update the main post attributes
+	$postid = $_POST["postid"];
+	$postdata = array('ID' => $postid, 'post_status' => 'publish','post_category' => explode(',', $_POST["tags"]));
+	if($title = $_POST["edittitle"]) $postdata['post_title'] = $title;
+	if($content = $_POST["editcontent"]) $postdata['post_content'] = $content;
+	wp_update_post($postdata);
+	
+	//then update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	if(!empty($relatedpostids)):
+	if($relatedpostids = explode(',' , $_POST['posts'])):
 		foreach($relatedpostids as $relatedpostid):
 			$type = cwob_get_category($relatedpostid);
 			$sorted[$type->term_id][] = $relatedpostid;
@@ -221,20 +217,24 @@ function savechanges_callback(){
 		endforeach;
 	endif;
 	
-	//add authors and make sure they are also related
-	global $social;
-	delete_post_meta($postid, 'author');
-	add_post_meta($postid, 'author', $social->profile_id);
-	if(!empty($authors)):
-		foreach ($authors as $author):
-			add_post_meta($postid, 'author', $author);
-			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
-			$result = $wpdb->query($query);
-		endforeach;
-	endif;
-	
-	//update locations
-	update_post_meta($postid, 'coordinates', $_POST['coordinates']);
+	//then add all the custom fields and make sure the author is listed 
+	update_post_meta($postid, 'author', $social->profile_id);
+	foreach ($_POST as $key => $value) :	
+		if($value != ''):
+			delete_post_meta($postid, $key);
+			if($key == 'author'):
+				if($authors = explode(',', $_POST["authors"])):
+					foreach ($authors as $author):
+						add_post_meta($postid, 'author', $author);
+						$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
+						$result = $wpdb->query($query);
+					endforeach;
+				endif;
+			else:
+				update_post_meta($postid, $key, $value);
+			endif;
+		endif;
+	endforeach;
 }
 
 function cowobo_pagination($pages = '', $range = 2){  

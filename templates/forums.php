@@ -1,9 +1,9 @@
 <?php
 if($newpost):?>
-	<div class="title">Short title of your question:</div>
-	<input type="text" class="new edittitle" value="" />
+	<h3>Short title of your question:</h3>
+	<input type="text" name="edittitle" class="new edittitle" value="" />
 	<h3>Elaborate question:</h3>
-	<textarea name="newcontent" rows="5" class="new editcontent"></textarea><?php
+	<textarea name="editcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
 	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?></div><?php
 	the_content();
