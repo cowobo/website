@@ -3,11 +3,11 @@
 if($newpost):?>
 	<div class="gallery<?php if($author):?> editable<?php endif;?>">
 		<div class="topshadow">
-		<h1><?php echo $currenttype->name;?></h1>
+		<h1><?php echo $postcat->name;?></h1>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<span class="title">Title of your post:</span> Please keep it short
+	<div class="title">Title of your post:</div> Please keep it short
 	<input tabindex="1" type="text" class="new edittitle" value="" />
 	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
 	<input tabindex="2" type="text" class="new editaddress" value="" />
@@ -27,7 +27,7 @@ else:?>
 			<div class="slide"><div class="loadinggallery">Loading images</div></div><?php
 		endif;?>
 	</div>
-	<a class="title" href="<?php the_permalink();?>"><?php if($ajax) the_title(); else echo $post->post_title;?></a><br/>
+	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?></div>
 	<b>Location: </b>
 	<ul class="coordinates horlist">
 		<li id="<?php echo $coordinates;?>"><?php 
@@ -43,10 +43,10 @@ endif;
 if($ajax):
 	// Include Comments
 	$withcomments = true; comments_template();
-	// Include Related Feeds
-	if(file_exists(TEMPLATEPATH.'/templates/editfeeds.php')): include(TEMPLATEPATH.'/templates/editfeeds.php'); endif;
+	// Include Tags
+	if(file_exists(TEMPLATEPATH.'/templates/edittags.php')): include(TEMPLATEPATH.'/templates/edittags.php'); endif;
 	// Include Authors
 	if(file_exists(TEMPLATEPATH.'/templates/editauthors.php')): include(TEMPLATEPATH.'/templates/editauthors.php'); endif;
-	// Include Related Posts
+	// Include Linked Posts
 	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
 endif;?>

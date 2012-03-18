@@ -442,7 +442,7 @@ function cowobo_editpost_listeners() {
   	});
 
 	jQuery('.delete').live('click', function() {
-		var deleteid = jQuery(this).parents('.large').attr('id');
+		var deleteid = jQuery(this).siblings('.save').attr('id');
 		if(confirm('Are you sure you want to delete this post?'))
 			location.href='?deleteid='+deleteid;
   	});
@@ -467,13 +467,13 @@ function cowobo_editpost_listeners() {
    			data: {action: 'loadgallery', postid:id},
    			success: function(msg){
 				var gallery = jQuery('#'+id).find('.editable');
+				if(gallery.children('.slide').length >1)
 				gallery.children('.slide').remove();
 				gallery.append(jQuery(msg));
 			}
 		});
 		window.original_tb_remove();
 	}
-	
 }
 
 //FUNCTIONS//

@@ -128,7 +128,8 @@ endif;?>
 	
 	<div id="profilelink"><?php
 	if ($social->state == 1 ) : ?>
-		<span class="messenger join">Join us! / Login</span><?php
+		<span class="messenger join">Join us!</span>
+		<span class="messenger join">Login</span><?php
 	elseif ($social->state != 4) : ?>
 		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
 		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php

@@ -1,16 +1,16 @@
-<div class="container feeds"><?php
+<div class="container tags"><?php
 global $currenttype;
 
-$relatedfeeds = get_the_category();
-$subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>false, 'child_of'=>$currenttype->term_id));?>
+$relatedtags = get_the_category();
+$subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false, 'child_of'=>$postcat->term_id,));?>
 
-<h3>Feeds (<?php echo count($relatedfeeds);?>)</h3><?php if(count($relatedfeeds)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
+<h3><span class="tag icon"></span>Tags (<?php echo count($relatedtags);?>)</h3><?php if(count($relatedtags)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php
 	if($author):?>
 		<div class="column left">
-			<h3>Choose Feeds:</h3>
+			<h3>Choose Tags:</h3>
 			<ul class="verlist"><?php 
 				foreach($subcats as $cat):?>
 					<li class="<?php echo $cat->term_id;?>"><a href="<?php echo get_category_link($cat->term_id);?>" onclick="return false"><?php echo $cat->name;?></a></li><?php
@@ -18,8 +18,8 @@ $subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>f
 			</ul>
 		</div>
 		<div class="column right">
-			<h3>Add New Feeds:</h3><br/>
-			Name of Feed:<br/>
+			<h3>Add New Tags:</h3><br/>
+			Name of Tag:<br/>
 			<input type="text" name="newcat" />
 			<span class="addcat">Add</span><br/>
 		</div><?php
@@ -30,9 +30,9 @@ $subcats = get_categories(array('parent'=>$currenttype->term_id, 'hide_empty'=>f
 	endif;?>
 </div>
 
-<div class="listbox <?php if(count($relatedfeeds)>2):?>restrict<?php endif;?>" ><?php
-if (!empty($relatedfeeds)):
-	foreach($relatedfeeds as $cat): unset($images);?>
+<div class="listbox <?php if(count($relatedtags)>2):?>restrict<?php endif;?>" ><?php
+if (!empty($relatedtags)):
+	foreach($relatedtags as $cat): unset($images);?>
 		<div class="<?php echo $cat->term_id;?> listitem">
 			<div class="thumbnail"><?php
 				$posts = get_posts(array('cat'=>$cat->term_id, 'number'=>1)); 

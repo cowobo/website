@@ -6,7 +6,7 @@ endif;
 
 $codercats = get_categories(array('child_of'=>get_cat_ID('Profiles'), 'hide_empty'=>false, 'parent'=>get_cat_ID('Profiles')));?>
 
-<h3>Authors (<?php echo count($authorprofiles);?>)</h3><?php if(count($authorprofiles)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
+<h3><span class="author icon"></span>Authors (<?php echo count($authorprofiles);?>)</h3><?php if(count($authorprofiles)>2):?><span class="showall  button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
 <div class="selectbox"><?php 

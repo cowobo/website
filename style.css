@@ -25,7 +25,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .clear {clear:both;}
 .left {float:left;}
 .right {float:right;}
-a.rss {cursor: pointer;}
 
 /* Nav Menu */
 #menubar {position:absolute; height:30px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
@@ -34,7 +33,7 @@ a.rss {cursor: pointer;}
 #menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
 #menu li:hover, #menu a:hover {color:#eee}
 #keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
-#searchbutton {width:20px; height:15px; border:none; background:url(images/search.png) right no-repeat; cursor:pointer;}
+#searchbutton {width:20px; height:15px; border:none; cursor:pointer;}
 #profilelink {float:right; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
 #profilelink:hover {color:#eee}
 #taketour {font-size:14px;}
@@ -42,7 +41,7 @@ a.rss {cursor: pointer;}
 
 /* Feedbar */
 #page {position:absolute; bottom:0; width:100%;  z-index:4;}
-#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:33px; cursor:n-resize; background:url(images/black.png) bottom repeat-x;}
+#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:34px; cursor:n-resize; background:url(images/black.png) bottom repeat-x;}
 #pagetitle a {font-size:14px; color:#fff;}
 #scroller {white-space: nowrap; overflow:hidden; clear:both; background:url(images/black.png); height:185px;}
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
@@ -84,6 +83,15 @@ a.rss {cursor: pointer;}
 .data {margin-left:6px; color:#fff; font-weight:bold;}
 .holder {background:#fff;}
 .title {color:#333; font-weight:bold;}
+.icon {display: inline-block; width: 15px; height: 15px; margin: 0 5px -2px 0; background: url(images/icons.png) no-repeat;}
+.tag  {background-position: 0px 0px}
+.link {background-position:-15px 0px}
+.author{background-position:-30px 0px}
+.rss {background-position:-45px 0px}
+.home {background-position:-60px 0px}
+.zoom {background-position:-75px 0px}
+.prev {background-position:-90px 0px}
+.next {background-position:-105px 0px}
 .empty {color:#888;}
 
 /* Thumb Styles */
@@ -104,15 +112,15 @@ a.rss {cursor: pointer;}
 .single {display:block;}
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
 .large .content {height:435px; overflow:hidden;}
-.large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ccc; background:#eee;}
-.large .title {font-size:18px; line-height:30px; margin-right:10px;}
-.large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:50px; font-weight:bold; cursor:move; clear:both;} 
-.large .arrow span {margin:0 5px 0 5px}
+.large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; background:#ccc;}
+.large .title {font-size:21px; line-height:30px; margin-right:10px;}
+.large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:40px; font-weight:bold; cursor:move; clear:both;} 
+.large .arrow span {margin:0 5px 0 5px; color:#888;}
 .large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
 .navarrow {padding-right:20px; margin-right:8px; cursor:pointer;}
 .scrolltrack, .slider {position:absolute; top:0; right:0; width:15px; height:100%; overflow:hidden; }
 .slider {margin-top:15px; background:#eee;}
-.slide {position:absolute; top:0; left:0; width:100%; height:100%; background:#eee; overflow:hidden; z-index:1;}
+.slide {position:absolute; top:0; left:0; width:100%; height:100%; background:#ccc; overflow:hidden; z-index:1;}
 .prev, .next {position:absolute; top:15px; width:30px; height:15px; font-weight:bold; font-size:15px; color:#fff; cursor:pointer;}
 .shadowclick {position:absolute; top:0; right:0; width:50px; height:100%;}
 .prev {right:40px;}
@@ -140,7 +148,7 @@ a.rss {cursor: pointer;}
 .verlist, .typelist {color:#333; padding-left:10px; cursor:pointer; list-style:none; }
 .selected {background:#333; color:#fff;}
 .relocate {font-weight:bold; cursor:pointer;}
-.addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#eee;}
+.addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#ccc;}
 .grey {color:#ccc;}
 
 /* Related Boxes */
