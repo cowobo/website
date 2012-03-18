@@ -462,7 +462,7 @@ function cowobo_editpost_listeners() {
  	//reload the image gallery after closing media uploader
 	window.original_tb_remove = window.tb_remove;
 	window.tb_remove = function() {
-		var id = jQuery('.large:visible').attr('id');
+		var id = jQuery('.large:visible').find('.save').attr('id');
 		jQuery.ajax({
    			type: "POST",
    			url: rooturl+'wp-admin/admin-ajax.php',
