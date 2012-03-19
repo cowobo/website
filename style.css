@@ -9,7 +9,7 @@ Author URI: http://www.cowobo.org
 
 /* Generic */
 * {margin:0; padding:0;}
-html, body {height:100%; background:#ccc; overflow:hidden;}
+html, body {height:100%; background:#03030d; overflow:hidden;}
 body {font-family:arial, 'lucida console', sans-serif; color: #333; line-height:1.5em; font-size:13px; overflow:hidden;}
 a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
 a:hover {color: #888}
@@ -126,7 +126,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .prev {right:40px;}
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
-.streetholder {width:1024px; height:410px; overflow:hidden;}
+.streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
 .loadinggallery {width:150px; text-align:left; font-size: 18px; color:#888; margin: 150px auto; background: url(images/ajax-loader.gif) center right no-repeat;}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
 
@@ -145,11 +145,12 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .horlist {display:inline; list-style:none;}
 .horlist li {display:inline; padding-left:3px;}
 .horlist span {color:#888; cursor:pointer;}
-.verlist, .typelist {color:#333; padding-left:10px; cursor:pointer; list-style:none; }
+.verlist, .typelist {color:#333; padding-left:10px; cursor:pointer; list-style:none; font-weight:bold;}
 .selected {background:#333; color:#fff;}
 .relocate {font-weight:bold; cursor:pointer;}
 .addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#ccc;}
 .grey {color:#ccc;}
+.address {border:none; width:100%;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none;}

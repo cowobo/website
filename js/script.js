@@ -331,6 +331,25 @@ function cowobo_editpost_listeners() {
 		selectbox.slideToggle();
   	});
 
+	jQuery('.addtag').live('click', function() {
+		var tagname = jQuery(this).siblings('.newtag').val();
+		var selectbox = jQuery(this).parents('.selectbox');
+		var parent = selectbox.attr('id').split('-')[1];
+		if(typeof(tagname)== 'undefined') {
+			alert('Please enter the name of your tag');
+		} else {
+			jQuery.ajax({
+   				type: "POST",
+   				url: rooturl+'wp-admin/admin-ajax.php',
+   				data: {action: 'addtag', tagname:tagname, parent:parent},
+   				success: function(msg){
+					selectbox.find('.verlist').append(msg);
+					selectbox.find('.newtag').val('');
+				}
+			});
+		}
+  	});
+
 	//move commentbox back to top
 	jQuery('.add').live('click', function() {
 		var replylink = jQuery(this);
@@ -402,7 +421,17 @@ function cowobo_editpost_listeners() {
 			data[jQuery(this).attr('name')] = jQuery(this).val();
 		});
 		
-		// get all tags and linked posts (todo:condense this code)
+		// get coordinates and geocode first if necessary
+		var coordinates = post.find('.coordinates li').attr('id');
+		if(coordinates == 'geocode'){
+			var address = jQuery(this).children('.address').val();
+			jQuery.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+address+'&sensor=false', function(data, texStatus) {
+				alert(data);
+				coordinates = jQuery(data);
+			});
+		}
+		
+		// get all tags and linked posts 
 		post.find('.container').each(function(){
 			if (jQuery(this).hasClass('tags')) {
 				jQuery(this).find('.listitem').each(function(){

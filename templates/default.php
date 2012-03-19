@@ -7,11 +7,13 @@ if($newpost):?>
 		</div>
 		<div class="slide addimage">Click here to add images</div>
 	</div>
-	<h3>Title:</h3> Please keep it short
+	<h3>Title:</h3> Keep it short and sweet
 	<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" />
-	<h3>Location (optional):</h3> Enter address or <span class="relocate">click here</span> to use our map
-	<input tabindex="2" type="text" name="address" class="new address" value="" />
-	<ul class="coordinates horlist"></ul>
+	<h3>Address:</h3> Enter City,Country or <span class="relocate">click here</span> to zoom to a location
+	<ul class="coordinates new">
+		<li id="geocode"><input tabindex="2" type="text" name="address" class="address" value="" /></li>
+	</ul>
+	
 	<h3>Text:</h3> Maximum 1000 characters
 	<textarea tabindex="3" name="editcontent" rows="5" class="new editcontent"></textarea><?php
 //load content of post
@@ -33,6 +35,7 @@ else:?>
 		<li id="<?php echo $coordinates;?>"><?php 
 		if(!empty($coordinates)) echo $coordinates; else echo 'Planet Earth';
 		if($author):?>
+			<span class="remove button"> (x)</span>
 			<span class="relocate button"> +Edit</span><?php
 		endif;?>
 		</li>

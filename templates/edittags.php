@@ -7,24 +7,24 @@ $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false
 <h3><span class="tag icon"></span>Tags (<?php echo count($relatedtags);?>)</h3><?php if(count($relatedtags)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 <div class="edit button">+ Add</div>
 
-<div class="selectbox"><?php
+<div class="selectbox" id="new-<?php echo $postcat->term_id;?>"><?php
 	if($author):?>
 		<div class="column left">
 			<h3>Choose Tags:</h3>
 			<ul class="verlist"><?php 
 				foreach($subcats as $cat):?>
-					<li class="<?php echo $cat->term_id;?>"><a href="<?php echo get_category_link($cat->term_id);?>" onclick="return false"><?php echo $cat->name;?></a></li><?php
+					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?></li><?php
 				endforeach;?>
 			</ul>
 		</div>
 		<div class="column right">
-			<h3>Add New Tags:</h3><br/>
+			<h3>Create New Tags:</h3><br/>
 			Name of Tag:<br/>
-			<input type="text" name="newcat" />
-			<span class="addcat">Add</span><br/>
+			<input type="text" name="newtag" class="newtag"/>
+			<span class="addtag button">Add</span><br/>
 		</div><?php
 	elseif($social->state > 1):
-			echo 'Become a contributor to this post by sending a request to the author';
+		echo 'Become a contributor to this post by sending a request to the author';
 	else:
 		echo $social->speechbubble();
 	endif;?>

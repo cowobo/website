@@ -152,6 +152,9 @@ add_action("wp_ajax_nopriv_loadgallery", "loadgallery_callback");
 add_action("wp_ajax_savechanges", "savechanges_callback");
 add_action("wp_ajax_nopriv_savechanges", "savechanges_callback");
 
+add_action("wp_ajax_addtag", "addtag_callback");
+add_action("wp_ajax_nopriv_addtag", "addtag_callback");
+
 function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
@@ -235,6 +238,16 @@ function savechanges_callback(){
 			endif;
 		endif;
 	endforeach;
+}
+
+function addtag_callback(){
+	$catdata = array(
+		'cat_name'=> $_POST["tagname"],
+		'cat_parent'=> $_POST["parent"],
+		);
+	$catid = wp_insert_category($catdata);
+	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
+	die();
 }
 
 function cowobo_pagination($pages = '', $range = 2){  
