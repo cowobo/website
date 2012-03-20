@@ -18,16 +18,9 @@ $postids = array();
 </div><!-- end of #page defined in header-->
 <?php
 
-//load add post box
+//load rrs and new post box
 include( TEMPLATEPATH . '/templates/newbox.php');
-
-//load add feed box
-$feedpost = get_posts(array('name' => 'add-rss-feed'));
-foreach ($feedpost as $post):
-	setup_postdata($post);
-	$wp_query->in_the_loop = true;
-    include(TEMPLATEPATH.'/templates/feedbox.php');
-endforeach;
+include(TEMPLATEPATH.'/templates/rssbox.php');
 
 //load profile box or join box
 if ($social->state > 1 && !in_array( $social->profile_id, $postids ) ) :

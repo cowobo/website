@@ -46,8 +46,7 @@ endif;
 			else:?>
                 <span class="save button" id="save-<?php echo $post->ID;?>">Save</span><?php
 				if(!$newpost):?>
-				<span class="link icon"></span><span class='cowobo_social_like button'>Link</span>
-				<span class="rss icon"></span><span class="button">RSS</span><?php
+				<span class="link icon"></span><span class='cowobo_social_like button'>Link</span><?php
 				endif;
 				if ($post->ID != $social->profile_id):?>
 					<span class="delete button">Delete</span><?php                     
@@ -58,7 +57,6 @@ endif;
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
 			<span class="link icon"></span><span class="cowobo_social_like button link">Link</span>
-			<span class="rss icon"></span><span class="button">RSS</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>

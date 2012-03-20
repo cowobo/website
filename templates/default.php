@@ -29,7 +29,7 @@ else:?>
 			<div class="slide"><div class="loadinggallery">Loading images</div></div><?php
 		endif;?>
 	</div>
-	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?></div>
+	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>
 	<b>Location: </b>
 	<ul class="coordinates horlist">
 		<li id="<?php echo $coordinates;?>"><?php 

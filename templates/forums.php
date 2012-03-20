@@ -5,7 +5,7 @@ if($newpost):?>
 	<h3>Elaborate question:</h3>
 	<textarea name="editcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
-	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?></div><?php
+	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div><?php
 	the_content();
 endif;
 

@@ -97,7 +97,7 @@ endif;?>
 <div id="menubar">
 	<div id="profilelink"><?php
 	if ($social->state == 1 ) : ?>
-		<span class="messenger join">Join us!</span>
+		<a href="<?php echo get_category_link(get_cat_ID('Cowobo Tour'));?>">Take A Tour!</a></span>
 		<span class="messenger join">Login</span><?php
 	elseif ($social->state != 4) : ?>
 		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
@@ -127,8 +127,8 @@ endif;?>
 		</li>
 		<li>Search
 			<ul>
-				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
-				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" id="searchbutton"></button></li>
+				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" class="searchbutton"></button></li>
+				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" class="searchbutton"></button></li>
 			</ul>
 		</li>
 		<li>Zoom
@@ -152,12 +152,7 @@ endif;?>
 </div>
 
 <div id="page">
-	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><?php
-	if (is_home()):?>
-		<a href="<?php echo get_category_link(get_cat_ID('Cowobo Tour'));?>">Take the Tour!</a></span><?php
-	else:?>
-		<a onclick="add_to_feed(<?php echo $feed_query; ?>)">Subscribe to Feed</a><?php
-	endif; ?>
+	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><span class="largerss"></span>
 	<span id='pagination'><?php cowobo_pagination();?></span>
 	</div>
 

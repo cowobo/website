@@ -115,6 +115,10 @@ function cowobo_sidebar_listeners() {
 		function() {jQuery(this).animate({opacity: 0.9},'fast');}
 	);
 
+	jQuery('.largerss, .rss').live('click', function(event) {
+		event.preventDefault();
+		jQuery("#rss").fadeIn();
+	});
 }
 
 //jQuery UI

@@ -34,14 +34,16 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 #menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
 #menu li ul li {color:#0099CC}
 #menu li:hover, #menu a:hover {color:#ccc}
-#keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
-#searchbutton {width:20px; height:15px; border:none; cursor:pointer;}
+#keywords, #address {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
 #profilelink {position:absolute; top:0; right:0; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
 #profilelink:hover {color:#eee}
+#profilelink a {margin-right:5px}
 #taketour {font-size:14px;}
 #logout {color:#fff; margin-left:10px;}
+.searchbutton {width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-75px 0px}
 
 /* Feedbar */
+#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
 #page {position:absolute; bottom:0; width:100%;  z-index:4;}
 #pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:34px; cursor:n-resize; background:url(images/black.png) bottom repeat-x;}
 #pagetitle a {font-size:14px; color:#fff;}
@@ -49,13 +51,12 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
 #speaking_angel { position:absolute; right:0; top:0; margin-top:-56px;width:540px; }
 #editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
-#pagination {position:absolute; right:160px; top:4px; height:20px; width:100px; text-align:right; font-size:16px;}
+#pagination {position:absolute; right:140px; top:4px; height:20px; width:100px; text-align:right; font-size:16px;}
 #pagination a {color:#fff; margin-left:5px;}
 .current {font-size:20px;}
 
 /* Speech bubble */
 .speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}
-/*.speechbubble.right{background:#075698; width:365px;} */
 .speechbubble.right{background:#075698; width:auto;}
 .speechbubble:after{border-color:#075698 transparent; border-style:solid; border-width:20px 0 0 20px; bottom:-20px;content:"";display:block;left:50px;position:absolute;width:0;}
 .speechbubble.right:after{border-color:transparent #075698; border-width:15px 0 0 40px; top:auto; left:auto; right:-40px; bottom:30px;}
@@ -65,7 +66,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .speechbubble .close { float: right; cursor:pointer;}
 
 /* Map */
-#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
@@ -78,7 +78,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .maptiles {width:50%; height:50%;}
 .citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 
-
 /* Boxes Generic */
 .topshadow {position:absolute; top:0; left:0; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; z-index:10; }
 .topshadow p {padding:15px; color:#fff; font-size:16px; font-weight:bold; line-height:30px;}
@@ -89,14 +88,9 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .tag  {background-position: 0px 0px}
 .link {background-position:-15px 0px}
 .author{background-position:-30px 0px}
-.rss {background-position:-45px 0px}
-.home {background-position:-60px 0px}
-.zoom {background-position:-75px 0px}
-.prev {background-position:-90px 0px}
-.next {background-position:-105px 0px}
-.empty {color:#888;}
+.rss {background-position:-45px 0px; margin: 0 0 -2px 5px; cursor:pointer}
 
-/* Thumb Styles */
+/* Feedbar Styles */
 .medium {position:relative; width:174px; padding:0 6px 0 6px; opacity:0.9; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
 .medium .holder {position:relative; padding: 7px 7px 0 7px;}
 .medium .content {height:170px; overflow:hidden;}
@@ -106,10 +100,11 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
 .medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
 .medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
-.timepassed {position:absolute; left:0; bottom:8px; width:100px; text-align:center; margin-left: -45px; font-weight:bold; color:#999;}
-.writepost {border:1px solid #ccc; height:60px; padding:5px; margin-top:5px; color:#999;}
+.largerss {background:url(images/largerss.png) no-repeat; margin-left:7px; display: inline-block; width: 20px; height: 20px; cursor:pointer;}
+.largerss2 {background:url(images/largerss2.png) no-repeat;}
 
 /* Lightboxes Styles*/
+#rss {z-index:21; margin:-290px 0 0 -270px;}
 .large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-270px 0 0 -250px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
 .single {display:block;}
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
