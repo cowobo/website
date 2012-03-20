@@ -1,5 +1,11 @@
 <?php
 if($newpost):?>
+	<div class="gallery<?php if($author):?> editable<?php endif;?>">
+		<div class="topshadow">
+		<h1><?php echo $postcat->name;?></h1>
+		</div>
+		<div class="slide loading">Click here to add images</div>
+	</div>
 	<h3>Name of Location</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />
 	<h3>Coordinates</h3> Enter City,Country or <span class="relocate">click here</span> to zoom to a location

@@ -1,5 +1,11 @@
 <?php
 if($newpost):?>
+	<div class="gallery<?php if($author):?> editable<?php endif;?>">
+		<div class="topshadow">
+		<h1><?php echo $postcat->name;?></h1>
+		</div>
+		<div class="slide loading">Add images or screenshots..</div>
+	</div>
 	<h3>Short title of your question:</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />
 	<h3>Elaborate question:</h3>
