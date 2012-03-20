@@ -17,14 +17,14 @@ $count = count($postcomments);?>
 
 <div class="replybox" style="<?php if($count>0) echo 'display:none';?>"><?php 
 if ($social->state > 1):?>
-	<form action="wp-comments-post.php" method="post" class="commentform">
+	<form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" class="commentform">
 		<div class="thumbnail"></div>
 		<div class="text">
 		<a href="<?php echo admin_url('profile.php');?>"><?php echo $user_identity;?></a> just now:<br/>
 		<textarea name="comment" class="commenttext" aria-required="true"></textarea>
 		<input type='hidden' class='comment_post_ID' name='comment_post_ID' value='<?php echo $post->ID;?>'/>
 		<input type='hidden' class='comment_parent' name='comment_parent' value='0' />
-		<input name="submit" type="submit" class="submit" value="Submit Comment" /><span class="loading hide"></span>
+		<input name="submit" type="submit" class="submit" value="Submit Comment" /><span class="sendingcomment"></span>
 		</div>
 		<?php do_action('comment_form', $post->ID);?>
 	</form><?php

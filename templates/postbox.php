@@ -42,9 +42,9 @@ endif;
 	<div class="arrow"><?php
 		if($author):
 			if ($post->post_status == 'draft' && $post->ID == $social->profile_id) : ?>
-				<span class="save button" id="save-<?php echo $post->ID;?>">Complete Profile</span><?php
+				<span class="save button">Complete Profile</span><?php
 			else:?>
-                <span class="save button" id="save-<?php echo $post->ID;?>">Save</span><?php
+                <span class="save button">Save</span><?php
 				if(!$newpost):?>
 				<span class="link icon"></span><span class='cowobo_social_like button'>Link</span><?php
 				endif;

@@ -1,5 +1,5 @@
 <?php
-$exclude = get_cat_ID('Uncategorized'); //add more here based on template
+$exclude = get_cat_ID('Uncategorized');
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
 //load and sort related posts by type
@@ -11,9 +11,10 @@ if($relatedposts = $relatedposts->get_related()):
 	endforeach;
 endif;
 
-//Sort type by number of related posts
+//Sort type by number of related posts and put locations on top
 foreach($types as $type):
-	$typearray[] = array('cat'=>$type, 'posts'=>count($typeposts[$type->term_id]));
+	if($type->slug == 'locations') $count = 100; else $count = count($typeposts[$type->term_id]); 
+	$typearray[] = array('cat'=>$type, 'posts'=>$count);
 endforeach;
 usort($typearray, 'sort_types');
 
@@ -26,9 +27,11 @@ foreach($typearray as $type):
 	<h3 class="<?php if($count<1) echo ' empty';?>"><span class="link icon"></span><?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
 	if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 	<div class="edit button">+ Add</div>
-	
-	<div class="selectbox"><?php
-		if($author):?>
+	<div class="selectbox" id="new-<?php echo $postcat->term_id;?>"><?php
+		if($author):
+			if($type['cat']->slug == 'locations'):
+				include(TEMPLATEPATH.'/templates/editlocations.php');
+			else:?>
 			<div class="column left">
 				<h3>1. Choose Category</h3>
 				<ul class="typelist">
@@ -42,9 +45,9 @@ foreach($typearray as $type):
 			<div class="column right">
 				<div class="slide cataddcat" style="display:block">
 					<h3>2. Add A Category</h3><br/>
-					Name of Category:<br/>
-					<input type="text" name="newcat" />
-					<span class="addcat">Add</span><br/>
+					Name of category:<br/>
+					<input type="text" name="newtag" class="newtag"/>
+					<span class="addtag button">Add</span><br/>
 				</div>
 				<div class="slide catsugg" style="display:block">
 					<h3>2. Choose Posts</h3>
@@ -69,13 +72,14 @@ foreach($typearray as $type):
 				</div><?php
 				endforeach;?>
 			</div><?php
+			endif;
 		elseif($social->state > 1):
 			echo 'Become a contributor to this post by sending a request to the author';
 		else:
 			echo $social->speechbubble();
 		endif;?>
 	</div>
-
+	
 	<div class="listbox <?php if(count($sectionposts)>2):?>restrict<?php endif;?>"><?php
 	if(count($catposts)>0):
 	foreach ($catposts as $related): unset($images);?>

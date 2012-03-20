@@ -155,6 +155,9 @@ add_action("wp_ajax_nopriv_savechanges", "savechanges_callback");
 add_action("wp_ajax_addtag", "addtag_callback");
 add_action("wp_ajax_nopriv_addtag", "addtag_callback");
 
+add_action("wp_ajax_addtag", "addtag_callback");
+add_action("wp_ajax_nopriv_addtag", "addtag_callback");
+
 function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
@@ -176,8 +179,8 @@ function loadlightbox_callback(){
 		$newpost = false;
 	endif;
 	if (class_exists('FEE_Core')) FEE_Core::add_filters();
-	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;
-			include(TEMPLATEPATH.'/templates/postbox.php');
+	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;?>
+	<div><?php include(TEMPLATEPATH.'/templates/postbox.php');?></div><?php
 	endforeach;
 	wp_reset_query();
 	die;
@@ -246,6 +249,20 @@ function addtag_callback(){
 		'category_parent'=> $_POST["parent"],
 		);
 	$catid = wp_insert_category($catdata);
+	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
+	die();
+}
+
+function addlocation_callback(){
+	//first create country category
+	$catdata = array(
+		'cat_name'=> $_POST["tagname"],
+		'category_parent'=> $_POST["parent"],
+		);
+	$catid = wp_insert_category($catdata);
+	
+	//then add city post to that new category
+	//$catid = wp_insert_post($catdata);
 	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
 	die();
 }

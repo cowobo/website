@@ -43,14 +43,14 @@ jQuery(document).ready(function() {
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
-		loadlightbox(postid, postid, 0);
+		loadlightbox(postid, 0);
 	}
 	
 	//load lightbox when hash changes (requires haschange.min.js for ie7)
 	jQuery(window).hashchange( function(){
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
-		loadlightbox(postid, postid, 0);
+		loadlightbox(postid, 0);
 	})
 
 	//SHARETHIS KEY//
@@ -104,7 +104,7 @@ function cowobo_sidebar_listeners() {
 		var postid = jQuery(this).attr('id').split('-')[1];
 		var catid = jQuery('#pagetitle').attr('class');
 		if(window.location.hash == '#'+postid) {
-			loadlightbox(postid, postid, catid);
+			loadlightbox(postid, catid);
 		} else {
 			window.location.hash = postid;
 		}
@@ -126,8 +126,6 @@ function cowobo_jquery_ui_listeners() {
 	jQuery('.large').draggable({cancel:'.content'});
 	jQuery('#cloud1, #cloud2,').draggable();
 	jQuery("#scroller, #map, #cloud1, #cloud2, .slider").disableSelection();
-	jQuery("#scroller").sortable();
-
 }
 
 //LIGHTBOX//
@@ -168,11 +166,12 @@ function cowobo_lightbox_listeners() {
 	jQuery(".commentform").live("submit", function() {
 		var newform = jQuery(this);
 		var commentlist = newform.parents('.commentbox');
+		var postid = commentlist.parents('.large').attr('id');
 		var message = jQuery('<span class="errormessage"></span>').appendTo(newform);
 		jQuery.ajax({
         		beforeSend:function(msg){
             		msg.setRequestHeader("If-Modified-Since","0");
-					newform.find('.loading').show();
+					newform.find('.sendingcomment').show();
          		},
          		type:'post',
          		url:jQuery(this).attr('action'),
@@ -189,7 +188,7 @@ function cowobo_lightbox_listeners() {
          		success:function(data){
             		var newComList = jQuery(data).find('.commentbox');
 					commentlist.replaceWith(newComList);
-					update_scrollbars(commentlist.parents('.large').attr('id'));
+					update_scrollbars(postid);
          		}
        		});
       	return false;
@@ -216,7 +215,7 @@ function cowobo_messenger_listeners() {
             var postid = type[2].split('-')[1];
             jQuery('.large').fadeOut('slow');
 			jQuery('#'+postid).fadeIn('slow');
-			loadlightbox(postid, postid, 0);
+			loadlightbox(postid, 0);
 			//loadmap here
 		}
     });
@@ -279,7 +278,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.choosetype').change(function() {
 		var catid = jQuery(this).val();
 		jQuery(this).parents('.content').fadeTo('slow', 0.3);
-		loadlightbox('new', 'selecttype', catid);
+		loadlightbox('new', catid);
 	});
 
 	jQuery('.relocate').live('click', function() {
@@ -355,6 +354,38 @@ function cowobo_editpost_listeners() {
 			});
 		}
   	});
+	
+	//this still needs some work
+	jQuery('.addlocation').live('click', function() {
+		var country = jQuery(this).siblings('.newtag').val();
+		var city = jQuery(this).siblings('.newtag').val();
+		var selectbox = jQuery(this).parents('.selectbox');
+		var parent = selectbox.attr('id').split('-')[1];
+		if(typeof(country)== 'undefined') {
+			alert('Please enter the name of your City');
+		} else if(typeof(city)== 'undefined') {
+			alert('Please enter the name of your City');	
+		} else if(selectbox.find('#'+country).length>0) {
+			alert('Country already exists');
+		} else if(selectbox.find('#'+city).length>0) {
+			alert('City already exists');
+		} else {
+			jQuery.ajax({
+   				type: "POST",
+   				url: rooturl+'wp-admin/admin-ajax.php',
+   				data: {
+					action: 'addlocation', 
+					country:country,
+					city:city, 
+					parent:parent
+				},
+   				success: function(msg){
+					selectbox.find('.verlist').append(msg);
+					selectbox.find('.newtag').val('');
+				}
+			});
+		}
+  	});
 
 	//move commentbox back to top
 	jQuery('.add').live('click', function() {
@@ -409,11 +440,9 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.nextpost, .lastpost').live('click', function() {
-		var parent = jQuery(this).parents('.large');
-		var postid = parent.attr('id');
 		var newid = jQuery(this).attr('id').split('-')[1];
-		parent.find('.content').fadeTo('slow', 0.5);
-		loadlightbox(newid, postid, 0);
+		jQuery(this).parents('.large').find('.content').fadeTo('slow', 0.5);
+		loadlightbox(newid, 0);
 		//var type = jQuery('.maplayer:last').data('map').type
 		//loadNewMap(lat, lng, zoom, markers, type);
 	});
@@ -456,7 +485,7 @@ function cowobo_editpost_listeners() {
 		
 		//save all data as strings
      	data['action'] = 'savechanges';
-		data['postid'] = post.find('.save').attr('id').split('-')[1];
+		data['postid'] = post.attr('id');
 		data['coordinates'] = post.find('.coordinates li').attr('id');
 		data['tags'] = tags.join(',');
 		data['authors'] = authors.join(',');
@@ -479,14 +508,14 @@ function cowobo_editpost_listeners() {
   	});
 
 	jQuery('.delete').live('click', function() {
-		var deleteid = jQuery(this).siblings('.save').attr('id');
+		var deleteid = jQuery(this).parents('.large').attr('id');
 		if(confirm('Are you sure you want to delete this post?'))
 			location.href='?deleteid='+deleteid;
   	});
 
 	//open image uploader when clicking on editable images
 	jQuery('.editable').live('click', function() {
- 		var postid = jQuery(this).parents('.large').find('.save').attr('id').split('-')[1];
+ 		var postid = jQuery(this).parents('.large').attr('id');
 		formfield = jQuery('#upload_image').attr('name');
  		tb_show('', rooturl+'wp-admin/media-upload.php?post_id='+postid+'&TB_iframe=true');
 		//prevent close button from resetting hash
@@ -497,7 +526,7 @@ function cowobo_editpost_listeners() {
  	//reload the image gallery after closing media uploader
 	window.original_tb_remove = window.tb_remove;
 	window.tb_remove = function() {
-		var id = jQuery('.large:visible').find('.save').attr('id');
+		var id = jQuery('.large:visible').attr('id');
 		jQuery.ajax({
    			type: "POST",
    			url: rooturl+'wp-admin/admin-ajax.php',
@@ -515,10 +544,14 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid, loadid, catid) {
-	jQuery('.large').fadeOut();
-	jQuery('#'+loadid).fadeIn();
-	update_scrollbars(loadid);
+function loadlightbox(postid, catid) {
+
+	//if postholder is already loaded
+	if(jQuery('#'+postid).length>0) {
+		jQuery('.large').fadeOut();
+		jQuery('#'+postid).fadeIn(); 
+		update_scrollbars(postid);	
+	}
 	
 	//if its a joinbox or selectbox then stop here	
 	if (postid == 'join' || postid == 'selecttype') return true;
@@ -547,16 +580,23 @@ function loadlightbox(postid, loadid, catid) {
 				postid:postid
 			},
    			success: function(msg){
-				var lightbox = jQuery('#'+loadid);
-				var scrollpos = lightbox.find('.content').scrollTop();
-				var newid = lightbox.find('.save').attr('id').split('-')[1];
-				lightbox.html(jQuery(msg).html());
-				lightbox.find('.content').scrollTop(scrollpos);
+				var newbox = jQuery(msg);
+				var oldbox = jQuery('#'+postid);
+				var newid = newbox.children('.large').attr('id');
+				var scrollpos = oldbox.find('.content').scrollTop();
+				//if oldbox doesnt exist then add it
+				if(oldbox.length<1){
+					jQuery('.large').hide();
+					jQuery('body').append(newbox);
+				} else {
+					oldbox.replaceWith(newbox);
+					newbox.find('.content').scrollTop(scrollpos);
+				}
 				cowobo_jquery_ui_listeners();
-				update_scrollbars(loadid);
+				update_scrollbars(newid);
 				loadlike(newid);
-				if(typeof(FrontEndEditor) != 'undefined' && lightbox.find('.editable').length > 0) {
-					lightbox.find('.fee-field').each(FrontEndEditor.make_editable);
+				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.editable').length > 0) {
+					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
 				}
 			}
 		});
@@ -852,14 +892,14 @@ function loadNewMap(lat, lng, zoom, markers, type){
 		marker.click(function(event){
 			event.stopPropagation();
 			if(window.location.hash = '#'+postid) {
-				loadlightbox(postid, postid, 0);
+				loadlightbox(postid, 0);
 			} else {
 				window.location.hash = postid;
 			}
 		});
 		marker.hover(
-			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);},
-			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 2);}
+			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
+			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
 	
