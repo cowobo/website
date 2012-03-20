@@ -44,10 +44,12 @@ endif;
 			if ($post->post_status == 'draft' && $post->ID == $social->profile_id) : ?>
 				<span class="save button" id="save-<?php echo $post->ID;?>">Complete Profile</span><?php
 			else:?>
-                <span class="save button" id="save-<?php echo $post->ID;?>">Save</span>
+                <span class="save button" id="save-<?php echo $post->ID;?>">Save</span><?php
+				if(!$newpost):?>
 				<span class="link icon"></span><span class='cowobo_social_like button'>Link</span>
 				<span class="rss icon"></span><span class="button">RSS</span><?php
-				if ( $post->ID != $social->profile_id ) : ?>
+				endif;
+				if ($post->ID != $social->profile_id):?>
 					<span class="delete button">Delete</span><?php                     
 				endif;
             endif;

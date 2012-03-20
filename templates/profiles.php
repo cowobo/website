@@ -38,7 +38,6 @@ else:?>
 		<li id="<?php echo $coordinates;?>"><?php 
 		if(!empty($coordinates)) echo $coordinates; else echo 'Planet Earth';
 		if($author):?>
-			<span class="remove button"> (x)</span>
 			<span class="edit relocate button"> +Edit</span><?php
 		endif;?>
 		</li>

@@ -41,7 +41,7 @@ else:?>
 		));?>
 	<span class="title grey">Title of post:</span>
 	<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" disabled="disabled"/>
-	<h3 class="title grey">Location (optional):</h3>
+	<h3 class="title grey">Address:</h3>
 	<input tabindex="2" type="text" name="editaddress" class="new editaddress" value="" disabled="disabled"/>
 	<ul class="coordinates horlist"></ul>
 	<h3 class="title grey">Content of post:</h3>

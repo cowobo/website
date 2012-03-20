@@ -13,7 +13,7 @@ $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false
 			<h3>Choose Tags:</h3>
 			<ul class="verlist"><?php 
 				foreach($subcats as $cat):?>
-					<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?></li><?php
+					<li class="<?php echo $cat->term_id;?>" id="<?php echo $cat->name;?>"><?php echo $cat->name;?></li><?php
 				endforeach;?>
 			</ul>
 		</div>

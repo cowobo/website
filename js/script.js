@@ -63,7 +63,7 @@ jQuery(document).ready(function() {
 //SIDEBAR//
 function cowobo_sidebar_listeners() {
 	//check if the mouse is over a scrollable div
-	jQuery('#menubar').hover(function() {overmenu = 1}, function () {overmenu = 0;});
+	jQuery('#menu').hover(function() {overmenu = 1}, function () {overmenu = 0;});
 	jQuery('#scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
 
 	//animate the menu
@@ -274,6 +274,7 @@ function cowobo_editpost_listeners() {
 	//load correct template for Add New post
 	jQuery('.choosetype').change(function() {
 		var catid = jQuery(this).val();
+		jQuery(this).parents('.content').fadeTo('slow', 0.3);
 		loadlightbox('new', 'selecttype', catid);
 	});
 
@@ -323,7 +324,6 @@ function cowobo_editpost_listeners() {
 			if(jQuery(this).siblings('.listbox').children().length<1){
 				jQuery(this).siblings('h3').addClass('empty');
 			}
-			
 		} else {
 			jQuery(this).siblings('h3').removeClass('empty');
 			jQuery(this).html('- Hide');
@@ -337,6 +337,8 @@ function cowobo_editpost_listeners() {
 		var parent = selectbox.attr('id').split('-')[1];
 		if(typeof(tagname)== 'undefined') {
 			alert('Please enter the name of your tag');
+		} else if(selectbox.find('#'+tagname).length>0) {
+			alert('Tag already exists');
 		} else {
 			jQuery.ajax({
    				type: "POST",
@@ -375,8 +377,8 @@ function cowobo_editpost_listeners() {
 
 	jQuery('.remove').live('click', function() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
-		jQuery(this).parents('.listitem').remove();
 		listbox.css('height', 'auto');
+		jQuery(this).parents('.listitem').remove();
 	});
 
 	jQuery('.verlist li').live('click', function() {
@@ -669,7 +671,7 @@ function mousemov() {
 		slider.css('top', sliderpos + "px");
 		return;
 	}
-	else if(overmenu>0) var scbar = jQuery('#menubar');
+	else if(overmenu>0) var scbar = jQuery('#menu');
 	else if(overscroller>0) var scbar = jQuery('#scroller');
 	else return;
 

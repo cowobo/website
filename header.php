@@ -69,7 +69,7 @@ if(empty($nextlink)) $backlink = '#';
 if(is_single()):
 	$newposts = get_posts(array('cat'=>$catid));
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid)) as $cat):
-		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.$cat->category_count.')</a></li>';
+		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.'</a></li>';
 	endforeach;
 	$currentid = $post->ID; //store main post id before it is overwritten by the loop
 elseif (isset($_GET['userfeed'])):
@@ -82,7 +82,7 @@ else:
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
 		$catposts = get_posts(array('cat'=>$cat->term_id, 'number'=>-1));
-		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.count($catposts).')</a></li>';
+		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.'</a></li>';
 	endforeach;
 endif;
 // Sort the query if needed
@@ -95,7 +95,20 @@ endif;?>
 <body>
 
 <div id="menubar">
-	<ul id="menu">
+	<div id="profilelink"><?php
+	if ($social->state == 1 ) : ?>
+		<span class="messenger join">Join us!</span>
+		<span class="messenger join">Login</span><?php
+	elseif ($social->state != 4) : ?>
+		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
+	else : ?>
+		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
+		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
+	endif;?>
+	</div>
+	
+	<div id="menu"><ul>
 		<li>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
@@ -124,20 +137,7 @@ endif;?>
 				<li class="zoomout">Out</li>		
 			</ul>
 		</li>
-	</ul>
-	
-	<div id="profilelink"><?php
-	if ($social->state == 1 ) : ?>
-		<span class="messenger join">Join us!</span>
-		<span class="messenger join">Login</span><?php
-	elseif ($social->state != 4) : ?>
-		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	else : ?>
-		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	endif;?>
-	</div>
+	</ul></div>
 </div>
 
 <div id="map"></div>
@@ -154,7 +154,7 @@ endif;?>
 <div id="page">
 	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><?php
 	if (is_home()):?>
-		<a href="<?php echo get_category_link(get_cat_ID('Take The Tour'));?>">Take the Tour!</a></span><?php
+		<a href="<?php echo get_category_link(get_cat_ID('Cowobo Tour'));?>">Take the Tour!</a></span><?php
 	else:?>
 		<a onclick="add_to_feed(<?php echo $feed_query; ?>)">Subscribe to Feed</a><?php
 	endif; ?>

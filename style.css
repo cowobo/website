@@ -28,13 +28,15 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 
 /* Nav Menu */
 #menubar {position:absolute; height:30px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
-#menu {white-space: nowrap; float:left; margin-top:5px; list-style:none; font-weight:bold; font-size:14px;}
+#menu {margin:5px 150px 0 0; overflow:hidden;}
+#menu ul {white-space: nowrap; list-style:none; font-weight:bold; font-size:14px;}
 #menu li, #menu ul {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer; overflow:hidden;}
 #menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
-#menu li:hover, #menu a:hover {color:#eee}
+#menu li ul li {color:#0099CC}
+#menu li:hover, #menu a:hover {color:#ccc}
 #keywords {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
 #searchbutton {width:20px; height:15px; border:none; cursor:pointer;}
-#profilelink {float:right; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
+#profilelink {position:absolute; top:0; right:0; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
 #profilelink:hover {color:#eee}
 #taketour {font-size:14px;}
 #logout {color:#fff; margin-left:10px;}
@@ -45,7 +47,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 #pagetitle a {font-size:14px; color:#fff;}
 #scroller {white-space: nowrap; overflow:hidden; clear:both; background:url(images/black.png); height:185px;}
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
-#speaking_angel { position:absolute; right:10px; top:0; margin-top:-56px;width:540px; }
+#speaking_angel { position:absolute; right:0; top:0; margin-top:-56px;width:540px; }
 #editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
 #pagination {position:absolute; right:160px; top:4px; height:20px; width:100px; text-align:right; font-size:16px;}
 #pagination a {color:#fff; margin-left:5px;}
@@ -150,7 +152,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .relocate {font-weight:bold; cursor:pointer;}
 .addimage {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#ccc;}
 .grey {color:#ccc;}
-.address {border:none; width:100%;}
+.address {border:none; margin:0; width:100%;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none;}

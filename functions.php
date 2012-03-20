@@ -243,7 +243,7 @@ function savechanges_callback(){
 function addtag_callback(){
 	$catdata = array(
 		'cat_name'=> $_POST["tagname"],
-		'cat_parent'=> $_POST["parent"],
+		'category_parent'=> $_POST["parent"],
 		);
 	$catid = wp_insert_category($catdata);
 	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
