@@ -7,6 +7,7 @@ var scroller;
 var overlightbox;
 var markersvar;
 var rooturl;
+var oldhash = '#';
 var xmid = screen.width/2;
 var ymid = screen.height/2;
 if(xmid>640) xmid = 640;
@@ -43,18 +44,23 @@ jQuery(document).ready(function() {
 		update_scrollbars(jQuery('.single').attr('id'));
 	}
 
-	//load lightbox if hash is present onload
+	//check if there is a hash onload
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
 		loadlightbox(postid, 0);
+		oldhash = newhash;
 	}
 	
-	//load lightbox when hash changes (requires haschange.min.js for ie7)
-	jQuery(window).hashchange( function(){
+	//load lightbox when hash changes
+	jQuery(window).hashchange(function(){
 		var newhash = window.location.hash;
-		var postid = newhash.split('#')[1];
-		if(!isNaN(postid)) loadlightbox(postid, 0);
+		var newid = newhash.split('#')[1];
+		var oldid = oldhash.split('#')[1];
+		jQuery('.map'+oldid).fadeOut();
+		jQuery('#'+oldid).fadeOut();
+		if(typeof(newid) != "undefined") loadlightbox(newid, 0);
+		oldhash = newhash;
 	})
 
 	//SHARETHIS KEY//
@@ -136,6 +142,8 @@ function cowobo_jquery_ui_listeners() {
 function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
 	jQuery('#map, .shadowclick, #cloud1, #cloud2').live('click', function() {
+		var oldhash = window.location.hash;
+		//window.location.hash = oldhash + '_show'
 		jQuery('.large').fadeOut();
   	});
 
@@ -232,36 +240,37 @@ function cowobo_map_listeners() {
 			var lat = jQuery('.maplayer:last').data('map').lat;
 			var lng = jQuery('.maplayer:last').data('map').lng;
 			var type = jQuery('.maplayer:last').data('map').type;
+			var postid = jQuery('.maplayer:last').data('map').postid;
 			
 			if(jQuery(this).hasClass('labels')) {
 					if(type=='satellite') type = 'hybrid'; else type = 'satellite';
-					loadNewMap(lat, lng, zoom, markersvar, type);
+					loadNewMap(lat, lng, zoom, markersvar, type, postid);
 			}else if(jQuery(this).hasClass('mapleft')) {
 					var newlng = adjustLonByPx(lng, xmid/2*-1, zoom);
 					//window.location.hash = 'lng-'+newlng;
-					loadNewMap(lat, newlng, zoom, markersvar, type);
+					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapright')) {
 					var newlng = adjustLonByPx(lng, xmid/2*1, zoom);
 					//window.location.hash = 'lng-'+newlng;
-					loadNewMap(lat, newlng, zoom, markersvar, type);
+					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapup')) {
 					var newlat = adjustLatByPx(lat, ymid/2*-1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
-					loadNewMap(newlat, lng, zoom, markersvar, type);
+					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapdown')) {
 					var newlat = adjustLatByPx(lat, ymid/2*1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
-					loadNewMap(newlat, lng, zoom, markersvar, type);
+					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapin')) {
 				if(zoom<18) {
 					jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft:'-50%', marginTop:'-50%' });
 					//window.location.hash = 'zoom-'+zoom+1;										
-					loadNewMap(lat, lng, zoom+1, markersvar, type);
+					loadNewMap(lat, lng, zoom+1, markersvar, type, postid);
 				}
 			} else if(jQuery(this).hasClass('mapout')) {
 				if(zoom>2) {
 					//window.location.hash = 'zoom-'+zoom+1;
-					loadNewMap(lat, lng, zoom+1, markersvar, type);
+					loadNewMap(lat, lng, zoom+1, markersvar, type, postid);
 				}
 			}
 		} else {
@@ -453,7 +462,7 @@ function cowobo_editpost_listeners() {
 		jQuery(this).parents('.large').find('.content').fadeTo('slow', 0.5);
 		loadlightbox(newid, 0);
 		//var type = jQuery('.maplayer:last').data('map').type
-		//loadNewMap(lat, lng, zoom, markers, type);
+		//loadNewMap(lat, lng, zoom, markers, type, postid);
 	});
 
 	jQuery('.save').live('click', function() {
@@ -554,10 +563,8 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox(postid, catid) {
-
 	//if postholder is already loaded
 	if(jQuery('#'+postid).length>0) {
-		jQuery('.large').fadeOut();
 		jQuery('#'+postid).fadeIn(); 
 		update_scrollbars(postid);	
 	}
@@ -565,20 +572,14 @@ function loadlightbox(postid, catid) {
 	//if its a joinbox or selectbox then stop here	
 	if (postid == 'join' || postid == 'selecttype') return true;
 	
-	//fadeout last map and load new map if lightbox has coordinates
-	var latlng = jQuery('#'+postid).find('.coordinates li:first').attr('id');
-	if(jQuery('.maplayer').length>1) {
-		jQuery('.maplayer:last').fadeOut('slow', function(){jQuery(this).remove()});
-	}
+	//load new map if lightbox has coordinates
+	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
-		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
-			var type = jQuery('.maplayer:last').data('map').type;
-			loadNewMap(markerpos[0], markerpos[1], 15, jQuery(this).find('.markerdata'), type);
-		}
+		loadNewMap(markerpos[0], markerpos[1], 15, markersvar, 'satellite', postid);
 	}
 	
-	//content if not already loaded
+	//content of postholder if not already loaded
 	if(jQuery('#'+postid + '.container').length<1) {
 		jQuery.ajax({
    			type: "POST",
@@ -793,8 +794,8 @@ function angel_talk(msg) {
 
 //MAP FUNCTIONS
 function initialize() {
-	//load map centered on africa (this should be replaced with bounds of markers)
-	loadNewMap(0.49860809171295, 10.932544165625036, 3, jQuery('.markerdata'), 'satellite');
+	//load map centered on africa (this should eventually be replaced with bounds of markers)
+	loadNewMap(0.49860809171295, 10.932544165625036, 3, jQuery('.markerdata'), 'satellite', 0);
 }
 
 // map to pixels conversion functions
@@ -818,25 +819,24 @@ function adjustLatByPx(lat, amount, zoom) {
 	return YToLat(LatToY(lat) + (amount << (21 - zoom)));
 }
 
-function loadNewMap(lat, lng, zoom, markers, type){
-	//show loading div and update global vars
+function loadNewMap(lat, lng, zoom, markers, type, postid){
+	//show loading div and update markers var
 	jQuery('.maploading').fadeIn();
 	markersvar = markers;
-	
 	//setup static map image urls
 	var map = jQuery('#map');
 	var size = xmid + 'x'+ ymid;
 	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+type+'&sensor=false&size='+size;
 	var bufferurl = mapurl+'&format=jpg'+'&zoom='+(zoom-1)+'&center='+lat+','+lng;
 	var baseurl = mapurl+'&format=jpg-baseline'+'&zoom='+zoom+'&center=';
-	var newlayer = jQuery('<div class="maplayer"><img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%"></div>');
+	var newlayer = jQuery('<div class="maplayer map'+postid+'"><img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%"></div>');
 
 	map.append(newlayer);
 	//add high res tiles when buffer has faded in
 	jQuery('.maplayer:last .buffer').load(function(){
 		jQuery('.maplayer:last').fadeIn(function() {
 			jQuery('.maploading').fadeOut();
-			jQuery(this).data('map', {zoom:zoom, lat:lat, lng:lng, type:type});
+			jQuery(this).data('map', {zoom:zoom, lat:lat, lng:lng, type:type, postid:postid});
 			if(jQuery('.maplayer').length>1)
 				jQuery(this).prev().css({width:'100%', height:'100%', margin:0});
 		});
@@ -866,7 +866,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 					var topmargin =  -(e.clientY*2)+ midy + 'px';
 					jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft: leftmargin, marginTop: topmargin });
 				}
-				loadNewMap(newlat, newlng, zoom+1, markers, type);
+				loadNewMap(newlat, newlng, zoom+1, markers, type, postid);
 			}
 			}
 		} else {
@@ -885,7 +885,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
 
 	//append markers to map
 	markerlist.children('.markerdata').each(function(){
-		var postid = jQuery(this).attr('id').split('-')[1];
+		var markerid = jQuery(this).attr('id').split('-')[1];
 		var markerpos = jQuery(this).val().split(',');
 		var markerthumb = jQuery(this).attr('name');
 		var markertitle = jQuery(this).attr('title');
@@ -896,13 +896,13 @@ function loadNewMap(lat, lng, zoom, markers, type){
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
 		marker.css({top:marker_y, left: marker_x});
-		marker.appendTo(jQuery('.maplayer:last'));
+		marker.appendTo(newlayer);
 		marker.click(function(event){
 			event.stopPropagation();
-			if(window.location.hash = '#'+postid) {
-				loadlightbox(postid, 0);
+			if(window.location.hash = '#'+markerid) {
+				loadlightbox(markerid, 0);
 			} else {
-				window.location.hash = postid;
+				window.location.hash = markerid;
 			}
 		});
 		marker.hover(
@@ -910,7 +910,6 @@ function loadNewMap(lat, lng, zoom, markers, type){
 			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
-	
 	if(zoom>4) var fileurl = rooturl+'allcities.xml'; else var fileurl = rooturl+'majorcities.xml';
 	jQuery.get(fileurl, function(xml) {
     	jQuery(xml).find("marker").each(function(){
@@ -923,7 +922,7 @@ function loadNewMap(lat, lng, zoom, markers, type){
    			var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    			var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
 			marker.css({top:marker_y, left: marker_x});
-			marker.appendTo(jQuery('.maplayer:last'));
+			marker.appendTo(newlayer);
 		});
 	});
 }

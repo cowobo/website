@@ -34,7 +34,7 @@ endif;
 		else:
 			include(TEMPLATEPATH.'/templates/default.php');
 		endif;?>
-
+		<input type="hidden" class="coordinates" value="<?php echo $coordinates;?>"/>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
 	</div>
