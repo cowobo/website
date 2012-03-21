@@ -88,30 +88,27 @@ endif;
 // Sort the query if needed
 if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
-endif;?>
+endif;
 
+if ($social->state == 1 ) : 
+	$profile = '<li class="messenger join">Profile</li>';
+	$loginout = '<li class="messenger join">Login</li>';
+else: 
+	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Profile</li>';
+	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
+endif;
+?>
+		
 </head>
 
 <body>
 
-<div id="menubar">
-	<div id="profilelink"><?php
-	if ($social->state == 1 ) : ?>
-		<a href="<?php echo get_category_link(get_cat_ID('Cowobo Tour'));?>">Take A Tour!</a></span>
-		<span class="messenger join">Login</span><?php
-	elseif ($social->state != 4) : ?>
-		<span class="messenger create_new_profile profile-<?php echo $social->profile_id; ?>">Create Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	else : ?>
-		<span class="messenger edit_profile profile-<?php echo $social->profile_id;?>">Update Profile</span>
-		<a id="logout" href="<?php echo wp_logout_url( home_url() ); ?>" title="Logout">Logout</a><?php
-	endif;?>
-	</div>
-	
+<div id="menubar">	
 	<div id="menu"><ul>
 		<li>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
+		<?php echo $profile;?>
 		<li>Filter
 			<ul>
 				<?php echo $links;?>
@@ -131,12 +128,14 @@ endif;?>
 				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" class="searchbutton"></button></li>
 			</ul>
 		</li>
-		<li>Zoom
-			<ul>
-				<li class="zoomin">In</li>
-				<li class="zoomout">Out</li>		
-			</ul>
-		</li>
+		<li class="icon mapleft"></li>
+		<li class="icon mapright"></li>
+		<li class="icon mapup"></li>
+		<li class="icon mapdown"></li>
+		<li class="icon mapout"></li>
+		<li class="icon mapin"></li>
+		<li><span class="maploading">Loading map...</span></li>	
+		<?php //echo $loginout;?>
 	</ul></div>
 </div>
 
@@ -152,8 +151,10 @@ endif;?>
 </div>
 
 <div id="page">
-	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?><span class="largerss"></span>
-	<span id='pagination'><?php cowobo_pagination();?></span>
+	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>">
+		<?php echo $pagetitle;?>
+		<span class="largerss"></span>
+		<span id='pagination'><?php cowobo_pagination();?></span>
 	</div>
 
 	<div id='speaking_angel'>

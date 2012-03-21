@@ -8,8 +8,8 @@ if($newpost):?>
 	</div>
 	<h3>Name of Location</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />
-	<h3>Coordinates</h3> Enter City,Country or <span class="relocate">click here</span> to zoom to a location
-	<input tabindex="2" type="text" name="address" class="address" value="" />
+	<h3>Coordinates</h3> Search for address or <span class="relocate">click here</span> to zoom to a location
+	<input tabindex="2" type="text" name="address" class="new address" value="" />
 	<h3>Description:</h3> Maximum 1000 characters
 	<textarea name="editcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
