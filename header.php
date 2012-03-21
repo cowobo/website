@@ -66,13 +66,7 @@ $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
 
 // LOAD POSTS AND MENU LINKS
-if(is_single()):
-	$newposts = get_posts(array('cat'=>$catid));
-	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid)) as $cat):
-		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.'</a></li>';
-	endforeach;
-	$currentid = $post->ID; //store main post id before it is overwritten by the loop
-elseif (isset($_GET['userfeed'])):
+if (isset($_GET['userfeed'])):
 	$args = array( 'userfeed' => $_GET['userfeed'] );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();

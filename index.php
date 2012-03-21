@@ -39,7 +39,6 @@ endif;
 
 //load posts in current category
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
-	if($currentid == $post->ID) $ajax = true; else $ajax = false;
 	include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
