@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
 	jQuery(window).hashchange( function(){
 		var newhash = window.location.hash;
 		var postid = newhash.split('#')[1];
-		loadlightbox(postid, 0);
+		if(!isNaN(postid)) loadlightbox(postid, 0);
 	})
 
 	//SHARETHIS KEY//
