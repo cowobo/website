@@ -23,8 +23,7 @@ h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
 .clear {clear:both;}
-.left {float:left;}
-.right {float:right;}
+
 
 /* Nav Menu */
 #menubar {position:absolute; height:30px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
@@ -34,13 +33,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 #menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
 #menu li ul li {color:#0099CC}
 #menu li:hover, #menu a:hover {color:#ccc}
-#keywords, #address {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#eee;}
-#profilelink {position:absolute; top:0; right:0; margin:5px 15px 0 0; font-size:14px; font-weight:bold; cursor:pointer; color:#fff}
-#profilelink:hover {color:#eee}
-#profilelink a {margin-right:5px}
-#taketour {font-size:14px;}
-#logout {color:#fff; margin-left:10px;}
-.searchbutton {width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-75px 0px}
+.searchform {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
+.searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-60px -15px}
 
 /* Feedbar */
 #map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
@@ -90,18 +84,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .link {background-position:-15px 0}
 .author{background-position:-30px 0}
 .rss {background-position:-45px 0; margin: 0 0 -2px 5px; cursor:pointer}
-.mapleft {background-position:-75px -15px; margin: 0 5px -2px 15px;}
-.mapright {background-position:-90px -15px}
-.mapup {background-position:-105px -15px}
-.mapdown {background-position:-120px -15px}
-.mapout {background-position:-135px -15px}
-.mapin {background-position:-150px -15px}
-.mapleft:hover{background-position:-75px 0}
-.mapright:hover {background-position:-90px 0}
-.mapup:hover {background-position:-105px 0}
-.mapdown:hover {background-position:-120px 0}
-.mapout:hover {background-position:-135px 0}
-.mapin:hover {background-position:-150px 0}
 .maploading {display:none; font-weight:normal}
 
 /* Feedbar Styles */
@@ -145,10 +127,10 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .choosetype {width:520px;}
 .editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
-.selectbox {display:none; height:130px; clear:both; margin-bottom:5px;}
-.selectbox .slide {display:none; height:130px; overflow:hidden; padding:0 5px 0 5px;}
+.selectbox {display:none; clear:both; margin-bottom:5px;}
+.selectbox .slide {display:none; overflow:hidden; padding:0 5px 0 5px;}
 .selectbox li:hover {background:#333; color:#fff;}
-.column {position:relative; width:46%; padding:0 5px 0 5px; height:100%; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
+.column {display:inline-block; position:relative; width:46%; padding:0 5px 0 5px; height:130px; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
 .button {color:#ccc; cursor:pointer;}
 .button:hover {color:#888;}
 .edit, .add, .reply {float:right;}
@@ -160,7 +142,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .relocate {font-weight:bold; cursor:pointer;}
 .loading {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#ccc;}
 .grey {color:#ccc;}
-.address {border:none; margin:0; width:100%;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none;}

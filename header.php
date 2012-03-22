@@ -26,7 +26,6 @@ wp_enqueue_script('autosize', get_bloginfo('template_url').'/js/autoresize.min.j
 global $wp_query;
 global $newposts;
 global $currentcat;
-global $currentid;
 global $currenttype;
 global $social;
 global $author;
@@ -85,10 +84,10 @@ if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 endif;
 
 if ($social->state == 1 ) : 
-	$profile = '<li class="messenger join">Profile</li>';
+	$profile = '<li class="messenger join">Create Profile</li>';
 	$loginout = '<li class="messenger join">Login</li>';
 else: 
-	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Profile</li>';
+	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Update Profile</li>';
 	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
 endif;
 ?>
@@ -98,17 +97,22 @@ endif;
 <body>
 
 <div id="menubar">	
-	<div id="menu"><ul>
+	<div id="menu"><ul class="menu">
 		<li>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
-		<?php echo $profile;?>
-		<li>Filter
+		<li><b>Profile</b>
+			<ul>
+				<?php echo $profile;?>
+				<?php echo $loginout;?>
+			</ul>
+		</li>
+		<li><b>Filter</b>
 			<ul>
 				<?php echo $links;?>
 			</ul>
 		</li>
-		<li>Sort
+		<li><b>Sort</b>
 			<ul>
 				<li><a href="?sort=popularity">Most Popular</a></li>
 				<li><a href="?sort=comments">Most Commented</a></li>
@@ -116,18 +120,32 @@ endif;
 				<li><a href='?sort=random'>Random</a></li>
 			</ul>
 		</li>
-		<li>Search
-			<ul>
-				<li>Keywords <input type="text" id="keywords" value=""><button type="submit" name="submit" class="searchbutton"></button></li>
-				<li>Address <input type="text" id="address" value=""><button type="submit" name="submit" class="searchbutton"></button></li>
+		<li><b>Search</b>
+			<ul class="searchmenu">
+				<li>
+					<form method="get" action="<?php bloginfo('url'); ?>/">
+					Keywords <input type="text" name="s" class="searchform" id="searchform"/>
+					<button type="submit" name="submit" class="searchbutton keywords"></button>
+					</form>
+				</li>
+				<li>
+					Address <input type="text" class="searchform" value=""/>
+					<span class="searchbutton address"></span>
+				</li>
 			</ul>
 		</li>
-		<li class="icon mapleft"></li>
-		<li class="icon mapright"></li>
-		<li class="icon mapup"></li>
-		<li class="icon mapdown"></li>
-		<li class="icon mapout"></li>
-		<li class="icon mapin"></li>
+		<li><b>Map</b>
+			<ul class="mapmenu">
+				<li class="mapin">Zoom In</li>
+				<li class="mapout">Out</li>
+				<li class="mapleft">Left</li>
+				<li class="mapright">Right</li>
+				<li class="mapup">Up</li>
+				<li class="mapdown">Down</li>
+				<li class="labels">Labels On</li>
+			</ul>
+		</li>
+		
 		<li><span class="maploading">Loading map...</span></li>	
 		<?php //echo $loginout;?>
 	</ul></div>

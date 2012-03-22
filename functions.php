@@ -213,15 +213,6 @@ function savechanges_callback(){
 	//then update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	if($relatedpostids = explode(',' , $_POST['posts'])):
-		foreach($relatedpostids as $relatedpostid):
-			$type = cwob_get_category($relatedpostid);
-			$sorted[$type->term_id][] = $relatedpostid;
-			$relatedpostid = (int) $relatedpostid;
-			$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $relatedpostid)";
-			$result = $wpdb->query($query);
-		endforeach;
-	endif;
 	
 	//then add all the custom fields and make sure the author is listed 
 	update_post_meta($postid, 'author', $social->profile_id);
@@ -229,13 +220,24 @@ function savechanges_callback(){
 		if($value != ''):
 			delete_post_meta($postid, $key);
 			if($key == 'author'):
-				if($authors = explode(',', $_POST["authors"])):
-					foreach ($authors as $author):
-						add_post_meta($postid, 'author', $author);
-						$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
-						$result = $wpdb->query($query);
-					endforeach;
-				endif;
+				$authors = explode(',', $value);
+				foreach ($authors as $author):
+					add_post_meta($postid, 'author', $author);
+					$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
+					$result = $wpdb->query($query);
+				endforeach;
+			elseif($key == 'posts'):
+				$relatedpostids = explode(',' , $value);
+				foreach($relatedpostids as $relatedpostid):
+					$type = cwob_get_category($relatedpostid);
+					$relatedpostid = (int) $relatedpostid;
+					if($type->slug == 'locations'):
+						$coordinates = get_post_meta($relatedpostid, 'coordinates', false);
+						update_post_meta($postid, 'coordinates', $coordinates);
+					endif;
+					$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $relatedpostid)";
+					$result = $wpdb->query($query);
+				endforeach;
 			else:
 				update_post_meta($postid, $key, $value);
 			endif;

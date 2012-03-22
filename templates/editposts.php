@@ -1,5 +1,6 @@
 <?php
 $exclude = get_cat_ID('Uncategorized');
+if($postcat->slug == 'locations') $exclude .= ','.get_cat_ID('Locations');
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
 //load and sort related posts by type

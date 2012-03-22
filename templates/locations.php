@@ -8,21 +8,40 @@ if($newpost):?>
 	</div>
 	<h3>Name of Location</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />
-	<h3>Coordinates</h3> Search for address or <span class="relocate">click here</span> to zoom to a location
-	<input tabindex="2" type="text" name="address" class="new address" value="" />
+	<div class="container" style="margin:0;">
+		<b>Coordinates:</b><span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
+		<div class="edit button">+ Edit</div>
+		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
+			Search for address or <span class="relocate">click here</span> to zoom to a location
+			<input type="text" class="searchform" value=""/>
+			<span class="searchbutton address"></span>
+		</div>
+	</div>
 	<h3>Description:</h3> Maximum 1000 characters
 	<textarea name="editcontent" rows="5" class="new editcontent"></textarea><?php
 else:?>
-	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>
-	<b>Coordinates:</b>
-	<ul class="coordinates horlist">
-		<li id="<?php echo $coordinates;?>"><?php 
-		if(!empty($coordinates)) echo $coordinates; else echo 'Planet Earth';
-		if($author):?>
-			<span class="relocate button"> +Edit</span><?php
+	<div class="gallery<?php if($author):?> editable<?php endif;?>">
+		<div class="topshadow">
+			<h1><?php echo $postcat->name;?><div class="prev">< </div><div class="next"> ></div></h1>
+		</div><?php
+		if($ajax):
+			loadgallery_callback();
+			if(!empty($pano_id)):?><div class="streetview" id="<?php echo $pano_id;?>">Streetview!</div><?php endif;
+		else:?>
+		<div class="slide loading">Loading post..</div><?php
 		endif;?>
-		</li>
-	</ul><br/><?php 
+	</div>
+	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>
+	<div class="container" style="margin:0;">
+		<b>Coordinates:</b><span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
+		<div class="edit button">+ Edit</div>
+		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
+			Search for address or <span class="relocate">click here</span> to zoom to a location
+			<input type="text" class="searchform" value=""/>
+			<span class="searchbutton address"></span>
+			<br/>
+		</div>
+	</div><br/><?php 
 	the_content();
 endif;
 
