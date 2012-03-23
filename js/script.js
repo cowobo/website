@@ -103,7 +103,7 @@ function cowobo_sidebar_listeners() {
 			geocoder.geocode({ 'address': address }, function (results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				var latlng = results[0].geometry.location;
-				loadNewMap(latlng.lat(), latlng.lng(), 15, jQuery('.markerdata'), 'satellite', 0);
+				loadNewMap(latlng.lat(), latlng.lng(), 17, jQuery('.markerdata'), 'satellite', 0);
 				}
 			else {
 				alert("We couldn't locate that address, please try fewer keywords");
@@ -244,7 +244,7 @@ function cowobo_messenger_listeners() {
 }
 
 function cowobo_map_listeners() {
-	jQuery('.mapmenu li').click(function(){
+	jQuery('.mapli').click(function(){
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
 			var zoom = jQuery('.maplayer:last').data('map').zoom;
 			var lat = jQuery('.maplayer:last').data('map').lat;
@@ -255,29 +255,29 @@ function cowobo_map_listeners() {
 			if(jQuery(this).hasClass('labels')) {
 					if(type=='satellite') type = 'hybrid'; else type = 'satellite';
 					loadNewMap(lat, lng, zoom, markersvar, type, postid);
-			}else if(jQuery(this).hasClass('mapleft')) {
+			}else if(jQuery(this).hasClass('moveleft')) {
 					var newlng = adjustLonByPx(lng, xmid*-1, zoom);
 					//window.location.hash = 'lng-'+newlng;
 					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
-			} else if(jQuery(this).hasClass('mapright')) {
+			} else if(jQuery(this).hasClass('moveright')) {
 					var newlng = adjustLonByPx(lng, xmid*1, zoom);
 					//window.location.hash = 'lng-'+newlng;
 					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
-			} else if(jQuery(this).hasClass('mapup')) {
+			} else if(jQuery(this).hasClass('moveup')) {
 					var newlat = adjustLatByPx(lat, ymid*-1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
 					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
-			} else if(jQuery(this).hasClass('mapdown')) {
+			} else if(jQuery(this).hasClass('movedown')) {
 					var newlat = adjustLatByPx(lat, ymid*1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
 					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
-			} else if(jQuery(this).hasClass('mapin')) {
+			} else if(jQuery(this).hasClass('movein')) {
 				if(zoom<18) {
 					jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft:'-50%', marginTop:'-50%' });
 					//window.location.hash = 'zoom-'+zoom+1;										
 					loadNewMap(lat, lng, zoom+1, markersvar, type, postid);
 				}
-			} else if(jQuery(this).hasClass('mapout')) {
+			} else if(jQuery(this).hasClass('moveout')) {
 				if(zoom>2) {
 					//window.location.hash = 'zoom-'+zoom-1;
 					loadNewMap(lat, lng, zoom-1, markersvar, type, postid);

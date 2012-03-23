@@ -134,18 +134,13 @@ endif;
 				</li>
 			</ul>
 		</li>
-		<li><b>Map</b>
-			<ul class="mapmenu">
-				<li class="mapin">Zoom In</li>
-				<li class="mapout">Out</li>
-				<li class="mapleft">Left</li>
-				<li class="mapright">Right</li>
-				<li class="mapup">Up</li>
-				<li class="mapdown">Down</li>
-				<li class="labels">Labels On</li>
-			</ul>
-		</li>
-		
+		<li class="mapli movein">Zoom In</li>
+		<li class="mapli moveout">Out</li>
+		<li class="mapli moveleft">Left</li>
+		<li class="mapli moveright">Right</li>
+		<li class="mapli moveup">Up</li>
+		<li class="mapli movedown">Down</li>
+		<li class="mapli labels">Labels On</li>
 		<li><span class="maploading">Loading map...</span></li>	
 		<?php //echo $loginout;?>
 	</ul></div>
