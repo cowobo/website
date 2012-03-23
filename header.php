@@ -153,7 +153,6 @@ endif;
 
 <div id="map"></div>
 
-
 <div class="marker" id="editmarker">
 	<div class="mcontent">
 		<span class="savelocation">Save</span>

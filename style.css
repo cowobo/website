@@ -37,11 +37,11 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-60px -15px}
 
 /* Feedbar */
-#map {height:100%; width:100%; cursor: url(images/zoomin.cur),default;}
-#page {position:absolute; bottom:0; width:100%;  z-index:4;}
-#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:34px; cursor:n-resize; background:url(images/black.png) bottom repeat-x;}
+#map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
+#page {position:absolute; bottom:0; width:100%; z-index:4; background:url(images/pagetitle.png) top repeat-x;}
+#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:34px; }
 #pagetitle a {font-size:14px; color:#fff;}
-#scroller {white-space: nowrap; overflow:hidden; clear:both; background:url(images/black.png); height:185px;}
+#scroller {white-space: nowrap; overflow:hidden; clear:both; height:190px;}
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
 #speaking_angel { position:absolute; right:0; top:0; margin-top:-56px;width:540px; }
 #editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
@@ -60,16 +60,20 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .speechbubble .close { float: right; cursor:pointer;}
 
 /* Map */
+.maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
+.maplayer {display:none; z-index:2; width:100%; height:100%;}
+.mainmap {position:absolute; left:0; top:0; bottom:203px; width:100%; overflow:hidden;}
+.reflection {position:absolute; left:0; bottom:0; width:100%; height:203px; overflow:hidden;}
+.reflection img {-o-transform: scaleY(-1); -webkit-transform: scaleY(-1); transform: scaleY(-1); filter: FlipV; -ms-filter: "FlipV";}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
 .mtitle span {margin:-2px 0 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px;}
-.maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
-.maplayer {display:none; z-index:2; width:100%; height:100%;}
+
 .buffer {z-index:0; }
 .maptiles, .streettiles {position:relative; z-index:1; }
-.maptiles {width:50%; height:50%;}
+.maptiles {width:50%; height:100%;}
 .citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 .move {color:#0099CC;}
 
@@ -87,9 +91,9 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .maploading {display:none; font-weight:normal}
 
 /* Feedbar Styles */
-.medium {position:relative; width:174px; padding:0 6px 0 6px; opacity:0.9; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
+.medium {position:relative; width:174px; padding:0 6px 0 6px; opacity:0.85; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
 .medium .holder {position:relative; padding: 7px 7px 0 7px;}
-.medium .content {height:170px; overflow:hidden;}
+.medium .content {height:180px; overflow:hidden;}
 .medium .image {position:relative; height:110px; margin-bottom:5px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
 .medium .tags a {font-weight:normal}

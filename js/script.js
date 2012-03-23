@@ -8,10 +8,8 @@ var overlightbox;
 var markersvar;
 var rooturl;
 var oldhash;
-var xmid = screen.width/2;
-var ymid = screen.height/2;
-if(xmid>640) xmid = 640;
-if(ymid>640) ymid = 640;
+var xmid = 640;
+var ymid = 320;
 	
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
@@ -120,12 +118,6 @@ function cowobo_sidebar_listeners() {
 		event.preventDefault();
 		removeMarkers();
 	});
-
-	//toggle display of menubar
-	jQuery('#pagetitle').click(function() {
-		//jQuery('.large').fadeOut();
-		jQuery('#scroller').slideToggle();
-  	});
 
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
@@ -264,19 +256,19 @@ function cowobo_map_listeners() {
 					if(type=='satellite') type = 'hybrid'; else type = 'satellite';
 					loadNewMap(lat, lng, zoom, markersvar, type, postid);
 			}else if(jQuery(this).hasClass('mapleft')) {
-					var newlng = adjustLonByPx(lng, xmid/2*-1, zoom);
+					var newlng = adjustLonByPx(lng, xmid*-1, zoom);
 					//window.location.hash = 'lng-'+newlng;
 					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapright')) {
-					var newlng = adjustLonByPx(lng, xmid/2*1, zoom);
+					var newlng = adjustLonByPx(lng, xmid*1, zoom);
 					//window.location.hash = 'lng-'+newlng;
 					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapup')) {
-					var newlat = adjustLatByPx(lat, ymid/2*-1, zoom);
+					var newlat = adjustLatByPx(lat, ymid*-1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
 					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapdown')) {
-					var newlat = adjustLatByPx(lat, ymid/2*1, zoom);
+					var newlat = adjustLatByPx(lat, ymid*1, zoom);
 					//window.location.hash = 'lat-'+newlat;					
 					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('mapin')) {
@@ -834,54 +826,45 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 	markersvar = markers;
 	//setup static map image urls
 	var map = jQuery('#map');
-	var size = xmid + 'x'+ ymid;
-	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+type+'&sensor=false&size='+size;
-	var bufferurl = mapurl+'&format=jpg'+'&zoom='+(zoom-1)+'&center='+lat+','+lng;
-	var baseurl = mapurl+'&format=jpg-baseline'+'&zoom='+zoom+'&center=';
-	var newlayer = jQuery('<div class="maplayer map'+postid+'"><img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%"></div>');
+	var tilesize = xmid + 'x'+ ymid *2;
+	var buffersize = xmid + 'x'+ ymid;
+	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+type+'&sensor=false&size=';
+	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(zoom-1)+'&center='+lat+','+lng;
+	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+zoom+'&center=';
+	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">';
+	var newlayer = jQuery('<div class="maplayer map'+postid+'"><div class="mainmap">'+bufferimg+'</div><div class="reflection">'+bufferimg+'</div></div>');
 
 	map.append(newlayer);
+	
 	//add high res tiles when buffer has faded in
-	jQuery('.maplayer:last .buffer').load(function(){
+	newlayer.find('.buffer:first').load(function(){
 		jQuery('.maplayer:last').fadeIn(function() {
 			jQuery('.maploading').fadeOut();
 			jQuery(this).data('map', {zoom:zoom, lat:lat, lng:lng, type:type, postid:postid});
+			//reset zoom of buffer
 			if(jQuery('.maplayer').length>1)
 				jQuery(this).prev().css({width:'100%', height:'100%', margin:0});
 		});
 		for (var y=-1; y<=1; y+=2) {
-			for (var x=-1; x<=1; x+=2) {
-				var url = baseurl + adjustLatByPx(lat, ymid/2*y, zoom) + ',' + adjustLonByPx(lng, xmid/2*x, zoom);
-				newlayer.append('<img src="'+url+'" alt="" class="maptiles">');
-			}
+			var url = baseurl + lat + ',' + adjustLonByPx(lng, xmid/2*y, zoom);
+			newlayer.find('.mainmap').append('<img src="'+url+'" alt="" class="maptiles">');
+			newlayer.find('.reflection').append('<img src="'+url+'" alt="" class="maptiles">');
 		}
 	});
-
+	
 	//zoom new layer on click if there are no lightboxes visible
 	newlayer.click(function(e){
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
 			if(jQuery('.large :visible').length <1) {
-			var mousex = Math.round(e.clientX/jQuery('.maptiles').width()*xmid)-xmid;
-			var mousey = Math.round(e.clientY/jQuery('.maptiles').height()*ymid)-ymid;
-			var newlng = adjustLonByPx(lng, mousex, zoom);
-			var newlat = adjustLatByPx(lat, mousey, zoom);
-			if(zoom<18) {
-				//window.location.hash = 'zoom'+zoom;
-				var midx = jQuery(window).width()/2;
-				var midy = jQuery(window).height()/2;
-				//only smooth zoom if map does not go into page
-				if(e.clientX > midx/2 && e.clientX < midx*3/2 && e.clientY > midy/2 && e.clientY < midy*3/2) {
-					var leftmargin = -(e.clientX*2) + midx + 'px';
-					var topmargin =  -(e.clientY*2)+ midy + 'px';
-					jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft: leftmargin, marginTop: topmargin });
-				}
-				loadNewMap(newlat, newlng, zoom+1, markers, type, postid);
-			}
+				var mousex = Math.round(e.clientX/jQuery('.maptiles').width()*xmid)-xmid;
+				var mousey = Math.round(e.clientY/jQuery('.maptiles').height()*2*ymid)-ymid;
+				var newlng = adjustLonByPx(lng, mousex, zoom);
+				var newlat = adjustLatByPx(lat, mousey, zoom);
+				if(zoom<18) loadNewMap(newlat, newlng, zoom+1, markers, type, postid);
 			}
 		} else {
 			alert('Please wait for map to finish loading')
-		}
-		
+		}	
 	});
 
 	//sort markers by latitude to ensure correct overlapping
@@ -905,7 +888,7 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
 		marker.css({top:marker_y, left: marker_x});
-		marker.appendTo(newlayer);
+		marker.appendTo(newlayer.find('.mainmap'));
 		marker.click(function(event){
 			event.stopPropagation();
 			if(window.location.hash = '#'+markerid) {
@@ -919,6 +902,7 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
+	
 	if(zoom>4) var fileurl = rooturl+'allcities.xml'; 
 	else if(zoom>2) var fileurl = rooturl+'majorcities.xml';
 	else var fileurl = '';
@@ -933,7 +917,7 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
    			var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    			var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
 			marker.css({top:marker_y, left: marker_x});
-			marker.appendTo(newlayer);
+			marker.appendTo(newlayer.find('.mainmap'));
 		});
 	});
 }
