@@ -32,4 +32,14 @@ else:?>
 		<br/><a href="<?php echo "$source";?>"><?php echo editable_post_meta(get_the_ID(), 'source', 'input')?></a><?php
 	endif;
 endif;
-?>
+
+if($ajax):
+	// Include Comments
+	$withcomments = true; comments_template();
+	// Include Tags
+	if(file_exists(TEMPLATEPATH.'/templates/edittags.php')): include(TEMPLATEPATH.'/templates/edittags.php'); endif;
+	// Include Authors
+	if(file_exists(TEMPLATEPATH.'/templates/editauthors.php')): include(TEMPLATEPATH.'/templates/editauthors.php'); endif;
+	// Include Linked Posts
+	if(file_exists(TEMPLATEPATH.'/templates/editposts.php')): include(TEMPLATEPATH.'/templates/editposts.php'); endif;
+endif;?>
