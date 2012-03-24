@@ -1,12 +1,14 @@
 <?php 
 global $author; 
 global $social;
+unset($coordinates);
 
 //setup parameters
 $postcat = cwob_get_category($post->ID);		
 $posttype = $postcat->slug;
+$coordinates = get_post_meta($post->ID, 'coordinates', true);
 
-if($coordinates = get_post_meta(get_the_ID(), 'coordinates', true)):
+if(!empty($coordinates)):
 	$url = 'http://cbk0.google.com/cbk?output=xml&ll='.$coordinates;
 	if(file_exists($url)):
 		$contents = file_get_contents($url);
@@ -26,6 +28,9 @@ endif;
 <div class="large <?php if ($ajax == 'true') echo 'single';?>" id="<?php echo $post->ID;?>">
 	<div class="holder">
 		<div class="content"><?php
+		if(!empty($coordinates)):?>
+			<input type="hidden" class="coordinates" value="<?php echo $coordinates;?>"/><?php 
+		endif;
 		//load the templates
 		if(file_exists(TEMPLATEPATH.'/templates/'.$post->post_name.'.php')):
 			include(TEMPLATEPATH.'/templates/'.$post->post_name.'.php');
@@ -34,7 +39,6 @@ endif;
 		else:
 			include(TEMPLATEPATH.'/templates/default.php');
 		endif;?>
-		<input type="hidden" class="coordinates" value="<?php echo $coordinates;?>"/>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
 	</div>

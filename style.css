@@ -45,7 +45,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 #scroller {white-space: nowrap; overflow:hidden; clear:both; height:190px;}
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
 #speaking_angel { position:absolute; right:0; top:0; margin-top:-56px;width:540px; }
-#editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000;}
+#editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 #pagination {font-size:16px;}
 #pagination a {color:#fff; margin-left:5px;}
 .current {font-size:20px;}

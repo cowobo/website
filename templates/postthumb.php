@@ -21,7 +21,8 @@
 				foreach(get_the_category() as $cat): $catarray[] = $cat->name; endforeach;
 				if(!empty($catarray)) echo implode(', ',$catarray);?>
 			</span><br/><?php 
-			if($coordinates = get_post_meta(get_the_ID(), 'coordinates', true)):
+			$coordinates = get_post_meta(get_the_ID(), 'coordinates', true);
+			if(!empty($coordinates)):
 				echo '<input type="hidden" class="markerdata" id="markerdata-'.$post->ID.'" value="'.$coordinates.'" name="'.$smallimg[0].'" title="'.$typepost->name.'"/>';
 				echo '<input type="hidden" class="markerimg" value="'.get_bloginfo('template_url').'/images/smallarrow.png"/>';
 			endif;?>

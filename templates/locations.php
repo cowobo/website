@@ -9,7 +9,7 @@ if($newpost):?>
 	<h3>Name of Location</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />
 	<div class="container" style="margin:0;">
-		<b>Coordinates:</b><span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
+		<b>Coordinates:</b> <span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
 		<div class="edit button">+ Edit</div>
 		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
 			Search for address or <span class="relocate">click here</span> to zoom to a location
@@ -33,7 +33,7 @@ else:?>
 	</div>
 	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>
 	<div class="container" style="margin:0;">
-		<b>Coordinates:</b><span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
+		<b>Coordinates:</b> <span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span>
 		<div class="edit button">+ Edit</div>
 		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
 			Search for address or <span class="relocate">click here</span> to zoom to a location

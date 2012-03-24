@@ -140,8 +140,7 @@ function cowobo_sidebar_listeners() {
 		function() {jQuery(this).animate({opacity: 0.9},'fast');}
 	);
 
-	jQuery('.largerss, .rss').click(function(event){
-		event.preventDefault();
+	jQuery('.largerss, .rss').click(function(){
 		jQuery("#rss").fadeIn();
 	});
 }
@@ -317,7 +316,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.relocate').live('click', function() {
 		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
-		jQuery('#editmarker').show();
+		jQuery('#editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
   	});
 
 	jQuery('.savelocation').click(function() {
@@ -327,7 +326,7 @@ function cowobo_editpost_listeners() {
 			var lng = jQuery('.maplayer:last').data('map').lng;
 			var newlatlng = lat+','+lng;
 			jQuery('#'+id+', .marker').fadeIn();
-			jQuery('#'+id+' .coordinates').html('<li id="'+newlatlng+'">'+newlatlng+'</li><span> (x)</span>');
+			jQuery('#'+id+' .latlng').attr('id',newlatlng).html(newlatlng)
 			jQuery('#editmarker').hide();
 		} else {
 			alert('Please wait for map to finish loading');
@@ -482,7 +481,6 @@ function cowobo_editpost_listeners() {
 			if(jQuery(this).parents('.container').hasClass('locations')){
 				listbox.html(listitem);	
 			} else {
-				alert('test1');
 				listitem.prependTo(listbox);
 				listbox.css('height', 'auto');
 			}
