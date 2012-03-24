@@ -155,8 +155,8 @@ add_action("wp_ajax_nopriv_savechanges", "savechanges_callback");
 add_action("wp_ajax_addtag", "addtag_callback");
 add_action("wp_ajax_nopriv_addtag", "addtag_callback");
 
-add_action("wp_ajax_addtag", "addtag_callback");
-add_action("wp_ajax_nopriv_addtag", "addtag_callback");
+add_action("wp_ajax_addlocation", "addlocation_callback");
+add_action("wp_ajax_nopriv_addlocation", "addlocation_callback");
 
 function loadlightbox_callback(){
 	global $wp_query;
@@ -215,7 +215,8 @@ function savechanges_callback(){
 	$postclass->cwob_delete_relationships($postid);
 	
 	//then add all the custom fields and make sure the author is listed 
-	update_post_meta($postid, 'author', $social->profile_id);
+	delete_post_meta($postid, 'author');
+	delete_post_meta($postid, 'coordinates');
 	foreach ($_POST as $key => $value) :	
 		if($value != ''):
 			delete_post_meta($postid, $key);
@@ -229,11 +230,11 @@ function savechanges_callback(){
 			elseif($key == 'posts'):
 				$relatedpostids = explode(',' , $value);
 				foreach($relatedpostids as $relatedpostid):
-					$type = cwob_get_category($relatedpostid);
 					$relatedpostid = (int) $relatedpostid;
-					if($type->slug == 'locations'):
-						$coordinates = get_post_meta($relatedpostid, 'coordinates', false);
-						update_post_meta($postid, 'coordinates', $coordinates);
+					$type = cwob_get_category($relatedpostid);
+					if($type->slug == "locations"):
+						$coordinates = get_post_meta($relatedpostid, 'coordinates', true);
+						add_post_meta($postid, 'coordinates', $coordinates);
 					endif;
 					$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $relatedpostid)";
 					$result = $wpdb->query($query);
@@ -243,6 +244,7 @@ function savechanges_callback(){
 			endif;
 		endif;
 	endforeach;
+	update_post_meta($postid, 'author', $social->profile_id);
 }
 
 function addtag_callback(){
@@ -250,22 +252,51 @@ function addtag_callback(){
 		'cat_name'=> $_POST["tagname"],
 		'category_parent'=> $_POST["parent"],
 		);
-	$catid = wp_insert_category($catdata);
-	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
+	$catid = wp_insert_category($catdata);?>
+	<div class="<?php echo $catid;?> listitem">
+		<div class="thumbnail"></div>
+		<div class="text"><a href="<?php echo get_category_link($catid);?>"><?php echo $_POST["tagname"];?></a>
+		<span class="remove button"> (x)</span><br/>Updated just now</div>
+	</div><?php
 	die();
 }
 
 function addlocation_callback(){
-	//first create country category
-	$catdata = array(
-		'cat_name'=> $_POST["tagname"],
-		'category_parent'=> $_POST["parent"],
-		);
-	$catid = wp_insert_category($catdata);
+	$current_user = wp_get_current_user();
+	//convert titles to 
+	$catslug = sanitize_title($_POST["country"]);
+	$postslug = sanitize_title($_POST["city"]);
 	
-	//then add city post to that new category
-	//$catid = wp_insert_post($catdata);
-	echo '<li class="'.$catid.'">'.$_POST["tagname"].'</li>';
+	//check if country exists and otherwise add it
+	$checkcat = get_category_by_slug($catslug);
+	if(!$checkcat):
+		$catid = wp_insert_category(array(
+			'cat_name'=> $_POST["country"],
+			'category_parent'=> $_POST["parent"],
+		));
+	else:
+		$catid = $checkcat->term_id;
+	endif;
+	
+	//check if city exists and otherwise add it
+	$checkpost = get_posts(array('name' => $postslug, 'cat' => $catid, 'post_status' => 'publish'));
+	if(!$checkpost):
+		$postid = wp_insert_post( array(
+			'post_status' => 'publish', 
+			'post_title' => $_POST["city"], 
+			'post_category' => array($catid),
+			'post_author' => $current_user->ID,
+		));
+		update_post_meta($postid, 'coordinates', $_POST["coordinates"], true);
+	else:
+		$postid = $checkpost->ID;
+	endif;?>
+	
+	<div class="<?php echo $postid;?> listitem">
+		<div class="thumbnail"></div>
+		<div class="text"><a href="<?php echo get_permalink($postid);?>"><?php echo $_POST["city"];?></a>
+		<span class="remove button"> (x)</span><br/>Updated just now</div>
+	</div><?php
 	die();
 }
 

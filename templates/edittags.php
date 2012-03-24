@@ -10,7 +10,7 @@ $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false
 <div class="selectbox" id="new-<?php echo $postcat->term_id;?>"><?php
 	if($author):?>
 		<div class="column left">
-			<h3>Choose Tags:</h3>
+			<h3>Choose existing tags:</h3>
 			<ul class="verlist"><?php 
 				foreach($subcats as $cat):?>
 					<li class="<?php echo $cat->term_id;?>" id="<?php echo $cat->name;?>"><?php echo $cat->name;?></li><?php
@@ -18,7 +18,7 @@ $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false
 			</ul>
 		</div>
 		<div class="column right">
-			<h3>Create New Tags:</h3><br/>
+			<h3>Or create new tags:</h3><br/>
 			Name of Tag:<br/>
 			<input type="text" name="newtag" class="newtag"/>
 			<span class="addtag button">Add</span><br/>

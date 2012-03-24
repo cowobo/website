@@ -8,9 +8,10 @@ var overlightbox;
 var markersvar;
 var rooturl;
 var oldhash;
+var geocoder;
 var xmid = 640;
 var ymid = 320;
-	
+
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
     window.ex = e.clientX;
@@ -41,7 +42,12 @@ jQuery(document).ready(function() {
 	if(jQuery('.single').length>0){
 		update_scrollbars(jQuery('.single').attr('id'));
 	}
-
+	
+	//setup geocoder if script has been loaded
+	if(typeof(google)!="undefined"){
+		geocoder =  new google.maps.Geocoder();
+	} 
+	
 	//check if there is a hash onload
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
@@ -98,8 +104,7 @@ function cowobo_sidebar_listeners() {
 	jQuery('.address').live('click', function(event) {
 		event.preventDefault();
 		var address = jQuery(this).siblings('.searchform').val();
-		var geocoder = new google.maps.Geocoder();
-   		if (geocoder) {
+		if (geocoder) {
 			geocoder.geocode({ 'address': address }, function (results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				var latlng = results[0].geometry.location;
@@ -376,8 +381,9 @@ function cowobo_editpost_listeners() {
    				url: rooturl+'wp-admin/admin-ajax.php',
    				data: {action: 'addtag', tagname:tagname, parent:parent},
    				success: function(msg){
-					selectbox.find('.verlist').append(msg);
-					selectbox.find('.newtag').val('');
+					var listbox = selectbox.siblings('.listbox');
+					selectbox.find('input').val('');
+					listbox.prepend(msg).css('height', 'auto');
 				}
 			});
 		}
@@ -385,33 +391,43 @@ function cowobo_editpost_listeners() {
 	
 	//this still needs some work
 	jQuery('.addlocation').live('click', function() {
-		var country = jQuery(this).siblings('.newtag').val();
-		var city = jQuery(this).siblings('.newtag').val();
+		var country = jQuery(this).siblings('.newcountry').val();
+		var city = jQuery(this).siblings('.newcity').val();
 		var selectbox = jQuery(this).parents('.selectbox');
 		var parent = selectbox.attr('id').split('-')[1];
+		
 		if(typeof(country)== 'undefined') {
-			alert('Please enter the name of your City');
+			alert('Please enter a Country');
 		} else if(typeof(city)== 'undefined') {
-			alert('Please enter the name of your City');	
-		} else if(selectbox.find('#'+country).length>0) {
-			alert('Country already exists');
-		} else if(selectbox.find('#'+city).length>0) {
-			alert('City already exists');
+			alert('Please enter a City');	
 		} else {
-			jQuery.ajax({
-   				type: "POST",
-   				url: rooturl+'wp-admin/admin-ajax.php',
-   				data: {
-					action: 'addlocation', 
-					country:country,
-					city:city, 
-					parent:parent
-				},
-   				success: function(msg){
-					selectbox.find('.verlist').append(msg);
-					selectbox.find('.newtag').val('');
-				}
+			if(geocoder) {
+			geocoder.geocode({ 'address': city + ',' + country }, function (results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					var latlng = results[0].geometry.location;
+					var coordinates = latlng.lat()+','+latlng.lng();
+					alert(coordinates);
+					jQuery.ajax({
+   						type: "POST",
+   						url: rooturl+'wp-admin/admin-ajax.php',
+   						data: {
+							action: 'addlocation', 
+							country:country,
+							city:city, 
+							parent:parent,
+							coordinates:coordinates,
+						},
+   						success: function(msg){
+							var listbox = selectbox.siblings('.listbox');
+							selectbox.find('input').val('');
+							listbox.html(msg);
+						}
+					});
+				} else {
+					alert("Google couldn't find this location, please check your connection and try another town or city.");
+        		}
 			});
+   			} 
 		}
   	});
 
@@ -445,6 +461,14 @@ function cowobo_editpost_listeners() {
 		jQuery(this).parents('.listitem').remove();
 	});
 
+	jQuery('.typelist li').live('click', function() {
+		var id = jQuery(this).attr('class').split(' ')[0];
+		var container = jQuery(this).parents('.container');
+		jQuery(this).addClass('selected').siblings().removeClass('selected');
+		jQuery('.selectbox .slide').fadeOut();
+		container.find('.cat'+id).fadeIn();
+	});
+
 	jQuery('.verlist li').live('click', function() {
 		var id = jQuery(this).attr('class').split(' ')[0];
 		var listbox = jQuery(this).parents('.container').children('.listbox');
@@ -455,17 +479,14 @@ function cowobo_editpost_listeners() {
 			+ '<div class="thumbnail"></div><div class="text">'
 			+ jQuery(this).html()
 			+ '<span class="remove button"> (x)</span><br/>Updated just now</div></div>');
-			listitem.prependTo(listbox);
-			listbox.css('height', 'auto');
+			if(jQuery(this).parents('.container').hasClass('locations')){
+				listbox.html(listitem);	
+			} else {
+				alert('test1');
+				listitem.prependTo(listbox);
+				listbox.css('height', 'auto');
+			}
 		};
-	});
-
-	jQuery('.typelist li').live('click', function() {
-		var id = jQuery(this).attr('class').split(' ')[0];
-		var container = jQuery(this).parents('.container');
-		jQuery(this).addClass('selected').siblings().removeClass('selected');
-		jQuery('.selectbox .slide').fadeOut();
-		container.find('.cat'+id).fadeIn();
 	});
 
 	jQuery('.nextpost, .lastpost').live('click', function() {
@@ -577,7 +598,7 @@ function loadlightbox(postid, catid) {
 	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
-		loadNewMap(markerpos[0], markerpos[1], 15, markersvar, 'satellite', postid);
+		loadNewMap(markerpos[0], markerpos[1], 17, markersvar, 'satellite', postid);
 	}
 	
 	//content of postholder if not already loaded

@@ -28,7 +28,7 @@ foreach($typearray as $type):
 	<h3 class="<?php if($count<1) echo ' empty';?>"><span class="link icon"></span><?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
 	if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
 	<div class="edit button">+ Add</div>
-	<div class="selectbox" id="new-<?php echo $postcat->term_id;?>"><?php
+	<div class="selectbox" id="new-<?php echo $typeid;?>"><?php
 		if($author):
 			if($type['cat']->slug == 'locations'):
 				include(TEMPLATEPATH.'/templates/editlocations.php');
@@ -67,7 +67,7 @@ foreach($typearray as $type):
 					<h3>2. Choose Posts</h3>
 					<ul class="verlist"><?php 
 						foreach(get_posts(array('cat'=>$cat->term_id)) as $feedpost):?>
-							<li class="<?php echo $feedpost->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
+							<li class="<?php echo $feedpost->ID;?>" id="<?php echo $cat->name;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $feedpost->post_title;?></a></li><?php
 						endforeach;?>
 					</ul>
 				</div><?php
