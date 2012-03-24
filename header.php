@@ -84,10 +84,10 @@ if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 endif;
 
 if ($social->state == 1 ) : 
-	$profile = '<li class="messenger join">Create Profile</li>';
+	$profile = '<li class="messenger join">Profile</li>';
 	$loginout = '<li class="messenger join">Login</li>';
 else: 
-	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Update Profile</li>';
+	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Profile</li>';
 	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
 endif;
 ?>
@@ -101,12 +101,7 @@ endif;
 		<li>
 			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
 		</li>
-		<li><b>Profile</b>
-			<ul>
-				<?php echo $profile;?>
-				<?php echo $loginout;?>
-			</ul>
-		</li>
+		<?php echo $profile;?>
 		<li><b>Filter</b>
 			<ul>
 				<?php echo $links;?>
@@ -134,6 +129,7 @@ endif;
 				</li>
 			</ul>
 		</li>
+		<?php echo $loginout;?>
 		<li class="mapli movein">Zoom In</li>
 		<li class="mapli moveout">Out</li>
 		<li class="mapli moveleft">Left</li>

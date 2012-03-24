@@ -24,27 +24,27 @@ h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
 .clear {clear:both;}
 
-
 /* Nav Menu */
-#menubar {position:absolute; height:30px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
+#menubar {position:absolute; height:50px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
 #menu {margin:5px 0; overflow:hidden;}
 #menu ul {white-space: nowrap; list-style:none; font-weight:bold; font-size:14px;}
 #menu li, #menu ul {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer; overflow:hidden;}
 #menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
 #menu li ul li {color:#0099CC}
 #menu li:hover, #menu a:hover {color:#ccc}
+#logout {color:#fff}
 .searchform {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-60px -15px}
 .mapli {color:#0099CC}
 
 /* Feedbar */
 #map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
-#page {position:absolute; bottom:0; width:100%; z-index:4; background:url(images/pagetitle.png) top repeat-x;}
-#pagetitle {white-space: nowrap; font-size:32px; color:#fff; padding-left: 10px; height:34px; }
+#page {position:absolute; bottom:0; width:100%; z-index:4; background:url(images/black.png);}
+#pagetitle {white-space: nowrap; font-size:32px; height:45px; line-height:45px; color:#fff; padding-left: 10px;}
 #pagetitle a {font-size:14px; color:#fff;}
 #scroller {white-space: nowrap; overflow:hidden; clear:both; height:190px;}
 #angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
-#speaking_angel { position:absolute; right:0; top:0; margin-top:-56px;width:540px; }
+#speaking_angel { position:absolute; right:0; top:0; margin-top:-45px; width:540px; }
 #editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 #pagination {font-size:16px;}
 #pagination a {color:#fff; margin-left:5px;}
@@ -63,8 +63,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 /* Map */
 .maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
 .maplayer {display:none; z-index:2; width:100%; height:100%;}
-.mainmap {position:absolute; left:0; top:0; bottom:203px; width:100%; overflow:hidden;}
-.reflection {position:absolute; left:0; bottom:0; width:100%; height:203px; overflow:hidden;}
+.mainmap {position:absolute; left:0; top:0; bottom:233px; width:100%; overflow:hidden;}
+.reflection {position:absolute; left:0; bottom:0; width:100%; height:233px; overflow:hidden;}
 .reflection img {-o-transform: scaleY(-1); -webkit-transform: scaleY(-1); transform: scaleY(-1); filter: FlipV; -ms-filter: "FlipV";}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
