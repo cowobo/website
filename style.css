@@ -92,8 +92,9 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .maploading {display:none; font-weight:normal}
 
 /* Feedbar Styles */
-.medium {position:relative; width:174px; padding:0 6px 0 6px; opacity:0.85; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
-.medium .holder {position:relative; padding: 7px 7px 0 7px;}
+.medium {position:relative; width:174px; padding:0 6px 0 6px; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
+.medium .holder {position:relative; padding: 7px 7px 0 7px; background:#eee}
+.medium .holder:hover {background:#fff}
 .medium .content {height:180px; overflow:hidden;}
 .medium .image {position:relative; height:110px; margin-bottom:5px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}

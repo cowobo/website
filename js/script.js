@@ -138,11 +138,6 @@ function cowobo_sidebar_listeners() {
 		}
 	});
 
-	jQuery('.medium').hover(
-		function() {jQuery(this).animate({opacity: 1},'fast');},
-		function() {jQuery(this).animate({opacity: 0.9},'fast');}
-	);
-
 	jQuery('.largerss, .rss').click(function(){
 		jQuery("#rss").fadeIn();
 	});
