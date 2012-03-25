@@ -25,17 +25,17 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .clear {clear:both;}
 
 /* Nav Menu */
-#menubar {position:absolute; height:50px; width:100%; color:#fff; background:url(images/black.png); z-index:15;}
-#menu {margin:5px 0; overflow:hidden;}
-#menu ul {white-space: nowrap; list-style:none; font-weight:bold; font-size:14px;}
-#menu li, #menu ul {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer; overflow:hidden;}
-#menu li ul {width:1px; vertical-align:top; height:20px; color:#fff}
-#menu li ul li {color:#0099CC}
-#menu li:hover, #menu a:hover {color:#ccc}
-#logout {color:#fff}
-.searchform {background:#fff; margin-top:-4px; width:125px; font-size:14px; color:#888;}
+.topmenu, .bottommenu {position:absolute; top:0; left:0; height:25px; width:100%; color:#fff; background:url(images/black.png); z-index:15; line-height:25px;}
+.bottommenu {top:25px; height:30px; display:none; overflow:hidden;}
+.bottommenu ul, .topmenu ul {white-space: nowrap; list-style:none; font-weight:bold; font-size:14px; }
+.bottommenu li, .topmenu li {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer;}
+.bottommenu ul {display:none; color:#ccc;}
+.bottommenu a {color:#ccc;}
+.bottommenu li:hover, .bottommenu a:hover, .topmenu li:hover, .menuselect, .zoomselect {color:#0099CC}
+.searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-60px -15px}
-.mapli {color:#0099CC}
+.leftmenu {float:left;}
+.rightmenu {float:right; margin-right:15px;}
 
 /* Feedbar */
 #map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       

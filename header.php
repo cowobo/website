@@ -96,53 +96,54 @@ endif;
 
 <body>
 
-<div id="menubar">	
-	<div id="menu"><ul class="menu">
-		<li>
-			<span id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</span>
-		</li>
+<div class="topmenu">	
+	<ul class="leftmenu">
+		<li id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</li>
+		<li class="sort">Sort</li>
+		<li class="filter">Filter</li>
+		<li class="search">Search</li>
+		<li class="zoom level-1">Zoom</li>
+		<li class="zoom level-3 zoomselect">1</li>
+		<li class="zoom level-5">2</li>
+		<li class="zoom level-7">3</li>
+		<li class="zoom level-9">4</li>
+		<li class="zoom level-11">5</li>
+		<li class="zoom level-13">6</li>
+		<li class="zoom level-15">7</li>
+		<li class="zoom level-17">8</li>
+		<li><span class="maploading">Loading Map...</span></li>
+	</ul>
+	<ul class="rightmenu">
 		<?php echo $profile;?>
-		<li><b>Filter</b>
-			<ul>
-				<?php echo $links;?>
-			</ul>
-		</li>
-		<li><b>Sort</b>
-			<ul>
-				<li><a href="?sort=popularity">Most Popular</a></li>
-				<li><a href="?sort=comments">Most Commented</a></li>
-				<li><a href="?sort=editor">Editors Choice</a></li>
-				<li><a href='?sort=random'>Random</a></li>
-			</ul>
-		</li>
-		<li><b>Search</b>
-			<ul class="searchmenu">
-				<li>
-					<form method="get" action="<?php bloginfo('url'); ?>/">
-					Keywords <input type="text" name="s" class="searchform" id="searchform"/>
-					<button type="submit" name="submit" class="searchbutton keywords"></button>
-					</form>
-				</li>
-				<li>
-					Address <input type="text" class="searchform" value=""/>
-					<span class="searchbutton address"></span>
-				</li>
-			</ul>
-		</li>
 		<?php echo $loginout;?>
-		<li class="mapli movein">Zoom In</li>
-		<li class="mapli moveout">Out</li>
-		<li class="mapli moveleft">Left</li>
-		<li class="mapli moveright">Right</li>
-		<li class="mapli moveup">Up</li>
-		<li class="mapli movedown">Down</li>
-		<li class="mapli labels">Labels On</li>
-		<li><span class="maploading">Loading map...</span></li>	
-		<?php //echo $loginout;?>
-	</ul></div>
+	</ul>
 </div>
 
-<div id="map"></div>
+<div class="bottommenu">
+	<ul class="sortmenu">
+		<li><a href="?sort=popularity">Most Popular</a></li>
+		<li><a href="?sort=comments">Most Commented</a></li>
+		<li><a href="?sort=editor">Editors Choice</a></li>
+		<li><a href='?sort=random'>Random</a></li>
+	</ul>
+	<ul class="filtermenu">
+		<?php echo $links;?>
+	</ul>
+	<ul class="searchmenu">
+		<li>
+		<form method="get" action="<?php bloginfo('url'); ?>/">
+		Keywords <input type="text" name="s" class="searchform" id="searchform"/>
+		<button type="submit" name="submit" class="searchbutton keywords"></button>
+		</form>
+		</li>
+		<li>
+		Address <input type="text" class="searchform" value=""/>
+		<span class="searchbutton address"></span>
+		</li>
+	</ul>
+</div>
+
+<div class="map"></div>
 
 <div class="marker" id="editmarker">
 	<div class="mcontent">

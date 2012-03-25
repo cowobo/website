@@ -81,23 +81,26 @@ jQuery(document).ready(function() {
 //SIDEBAR//
 function cowobo_sidebar_listeners() {
 	//check if the mouse is over a scrollable div
-	jQuery('#menu').hover(function() {overmenu = 1}, function () {overmenu = 0;});
+	jQuery('.bottommenu').hover(function() {overmenu = 1}, function () {overmenu = 0;});
 	jQuery('#scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
 
-	//animate the menu
-	jQuery('#menu b').click(function(event) {
-		var childwidth;
-		var child = jQuery(this).siblings('ul');
-		var parent = jQuery(this).parent('li');
-		if(child.length>0){
-			childwidth = child.get(0).scrollWidth;
-			if(child.width()>1) {
-				child.animate({width: 1});
+	//animate the submenus
+	jQuery('.leftmenu li').click(function() {
+		var subclass = '.'+jQuery(this).attr('class').split(' ')[0]+'menu';
+		if(jQuery(subclass).length>0){
+			if(jQuery(subclass).is(":visible")){
+				jQuery(this).removeClass('menuselect');
+				jQuery('.bottommenu').slideUp();
 			} else {
-				child.animate({width: childwidth});
+				jQuery(this).siblings('li').removeClass('menuselect');
+				jQuery(this).addClass('menuselect');
+				jQuery('.bottommenu').slideUp(function() {
+					jQuery(this).children('ul').hide();
+					jQuery(subclass).show();	
+					jQuery(this).slideDown();
+				});	
 			}
-		}
-		parent.siblings('li').children('ul').animate({width : 1});
+		}	
 	});
 
 	//ajax search for address
@@ -148,14 +151,13 @@ function cowobo_sidebar_listeners() {
 //jQuery UI
 function cowobo_jquery_ui_listeners() {
 	jQuery('.large').draggable({cancel:'.content'});
-	jQuery('#cloud1, #cloud2,').draggable();
-	jQuery("#scroller, #map, #cloud1, #cloud2, .slider").disableSelection();
+	jQuery("#scroller, .map, .slider").disableSelection();
 }
 
 //LIGHTBOX//
 function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
-	jQuery('#map, .shadowclick, #cloud1, #cloud2').live('click', function() {
+	jQuery('.map, .shadowclick').live('click', function() {
 		var oldhash = window.location.hash;
 		//window.location.hash = oldhash + '_show'
 		jQuery('.large').fadeOut();
@@ -248,44 +250,45 @@ function cowobo_messenger_listeners() {
 }
 
 function cowobo_map_listeners() {
-	jQuery('.mapli').click(function(){
+	jQuery('.zoom, .move').click(function(){
+		jQuery('.bottommenu').slideUp();
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
 			var zoom = jQuery('.maplayer:last').data('map').zoom;
 			var lat = jQuery('.maplayer:last').data('map').lat;
 			var lng = jQuery('.maplayer:last').data('map').lng;
 			var type = jQuery('.maplayer:last').data('map').type;
 			var postid = jQuery('.maplayer:last').data('map').postid;
-			
 			if(jQuery(this).hasClass('labels')) {
-					if(type=='satellite') type = 'hybrid'; else type = 'satellite';
-					loadNewMap(lat, lng, zoom, markersvar, type, postid);
+				if(type=='satellite') type = 'hybrid'; else type = 'satellite';
+				loadNewMap(lat, lng, zoom, markersvar, type, postid);
 			}else if(jQuery(this).hasClass('moveleft')) {
-					var newlng = adjustLonByPx(lng, xmid*-1, zoom);
-					//window.location.hash = 'lng-'+newlng;
-					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
+				var newlng = adjustLonByPx(lng, xmid*-1, zoom);
+				//window.location.hash = 'lng-'+newlng;
+				loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('moveright')) {
-					var newlng = adjustLonByPx(lng, xmid*1, zoom);
-					//window.location.hash = 'lng-'+newlng;
-					loadNewMap(lat, newlng, zoom, markersvar, type, postid);
+				var newlng = adjustLonByPx(lng, xmid*1, zoom);
+				//window.location.hash = 'lng-'+newlng;
+				loadNewMap(lat, newlng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('moveup')) {
-					var newlat = adjustLatByPx(lat, ymid*-1, zoom);
-					//window.location.hash = 'lat-'+newlat;					
-					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
+				var newlat = adjustLatByPx(lat, ymid*-1, zoom);
+				//window.location.hash = 'lat-'+newlat;					
+				loadNewMap(newlat, lng, zoom, markersvar, type, postid);
 			} else if(jQuery(this).hasClass('movedown')) {
-					var newlat = adjustLatByPx(lat, ymid*1, zoom);
-					//window.location.hash = 'lat-'+newlat;					
-					loadNewMap(newlat, lng, zoom, markersvar, type, postid);
-			} else if(jQuery(this).hasClass('movein')) {
-				if(zoom<18) {
-					jQuery('.maplayer:last').animate({width:'200%', height:'200%', marginLeft:'-50%', marginTop:'-50%' });
-					//window.location.hash = 'zoom-'+zoom+1;										
-					loadNewMap(lat, lng, zoom+1, markersvar, type, postid);
+				var newlat = adjustLatByPx(lat, ymid*1, zoom);
+				//window.location.hash = 'lat-'+newlat;					
+				loadNewMap(newlat, lng, zoom, markersvar, type, postid);
+			} else if(jQuery(this).hasClass('zoom')) {
+				var level = jQuery(this).attr('class').split(' ')[1];
+				var amount = level.split('-')[1];
+				jQuery('.zoom').removeClass('zoomselect');
+				if(amount < 3) {
+					amount = parseInt(zoom) + 2;
+					jQuery('.level-'+amount).addClass('zoomselect');
+				} else {
+					jQuery(this).addClass('zoomselect');
 				}
-			} else if(jQuery(this).hasClass('moveout')) {
-				if(zoom>2) {
-					//window.location.hash = 'zoom-'+zoom-1;
-					loadNewMap(lat, lng, zoom-1, markersvar, type, postid);
-				}
+				loadNewMap(lat, lng, amount, markersvar, type, postid);
+				//window.location.hash = 'zoom-'+zoom+1;										
 			}
 		} else {
 			alert('Please wait for map to finish loading')
@@ -745,7 +748,7 @@ function mousemov() {
 		slider.css('top', sliderpos + "px");
 		return;
 	}
-	else if(overmenu>0) var scbar = jQuery('#menu');
+	else if(overmenu>0) var scbar = jQuery('.bottommenu');
 	else if(overscroller>0) var scbar = jQuery('#scroller');
 	else return;
 
@@ -844,7 +847,7 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 	jQuery('.maploading').fadeIn();
 	markersvar = markers;
 	//setup static map image urls
-	var map = jQuery('#map');
+	var map = jQuery('.map');
 	var tilesize = xmid + 'x'+ ymid *2;
 	var buffersize = xmid + 'x'+ ymid;
 	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+type+'&sensor=false&size=';
@@ -874,12 +877,15 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 	//zoom new layer on click if there are no lightboxes visible
 	newlayer.click(function(e){
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
-			if(jQuery('.large :visible').length <1) {
+			if(jQuery('.large :visible').length <1 && zoom < 17) {
 				var mousex = Math.round(e.clientX/jQuery('.maptiles').width()*xmid)-xmid;
 				var mousey = Math.round(e.clientY/jQuery('.maptiles').height()*2*ymid)-ymid;
 				var newlng = adjustLonByPx(lng, mousex, zoom);
 				var newlat = adjustLatByPx(lat, mousey, zoom);
-				if(zoom<18) loadNewMap(newlat, newlng, zoom+1, markers, type, postid);
+				var newzoom = zoom + 2;
+				jQuery('.zoom').removeClass('zoomselect');
+				jQuery('.level-'+newzoom).addClass('zoomselect');
+				loadNewMap(newlat, newlng, newzoom, markers, type, postid);
 			}
 		} else {
 			alert('Please wait for map to finish loading')
