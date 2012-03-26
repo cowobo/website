@@ -142,7 +142,8 @@ endif;
 	</ul>
 	<ul class="menu right">
 		<?php echo $profile;?>
-		<li><a href="<?php bloginfo('url');?>">Home</a>
+		<li class="home"><a href="<?php bloginfo('url');?>">Home</a><li>
+		<li class="logout"><div></div>
 			<ul><?php echo $loginout;?></ul>
 		</li>
 	</ul>
@@ -163,6 +164,5 @@ endif;
 	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
 </div>
 
-
-<div class="page">
 <div class='angel'></div>
+<div class="page">

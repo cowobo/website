@@ -28,12 +28,17 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:15; }
-.menu {list-style:none; color:#fff; font-size:14px; margin-right:15px; font-weight:bold;}
-.menu a:hover {color:#0099CC}
-.menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer;}
+.menu {list-style:none; color:#fff; font-size:14px; font-weight:bold;}
+.menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer; }
 .menu ul {position:absolute; display:none; top:35px; left:0px; list-style:none; z-index:15;}
-.menu ul li {background:url(images/black.png); padding:10px; line-height:20px; margin:0;}
+.menu ul li {background:url(images/black.png); padding:10px; line-height:20px; margin:0; color:#0099CC;}
+.menu a:hover, .menu li:hover, .zoomselect {color:#ccc}
 .menu li:hover ul {display:block;}
+.logout {margin-left:5px;}
+.logout div {margin:12px 0; width:15px; height:15px; background:url(images/smallicons.png); background-position:-75px -15px; }
+.logout:hover {background-position:-75px 0;}
+.logout ul {margin: 0 0 0 -50px; width:80px;}
+.home a {color:#fff}
 .sort li {width:150px;}
 .filter li {width:100px;}
 .search li {width:150px;}
@@ -48,8 +53,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
 .scroller {white-space: nowrap; overflow:hidden; clear:both; height:182px; padding-top:10px; background:url(images/black.png);}
-.angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
-.speaking_angel { position:absolute; right:0; top:0; margin-top:-38px; width:540px; }
+.angel {position:absolute; cursor:pointer; left:30px; bottom:167px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .pagination {font-size:16px; float:right; margin-right:140px;}
 .pagination a {color:#fff; margin:0 5px 0 5px;}
@@ -97,7 +101,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .author{background-position:-30px 0}
 
 /* Pan map buttons */
-.pan, .pan div {position:absolute; z-index:10}
+.pan, .pan div {position:absolute; z-index:10; cursor:pointer}
 .pan div {background:url(images/largeicons.png); cursor:pointer;}
 .moveleft, .moveright {top:0; bottom:220px; width:20px;}
 .moveleft div, .moveright div {top:50%; width:10px; height:20px; margin-top:-10px;}
