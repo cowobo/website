@@ -4,7 +4,7 @@ global $social;
 $postids = array();
 
 //load thumbs ?>
-<div id="scroller" style="<?php if(is_single()) echo 'display:none';?>"><?php
+<div class="scroller" style="<?php if(is_single()) echo 'display:none';?>"><?php
 	include(TEMPLATEPATH.'/templates/newthumb.php');
 	foreach($newposts as $post): $counter++;
 		setup_postdata($post);

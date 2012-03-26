@@ -82,7 +82,7 @@ jQuery(document).ready(function() {
 function cowobo_sidebar_listeners() {
 	//check if the mouse is over a scrollable div
 	jQuery('.bottommenu').hover(function() {overmenu = 1}, function () {overmenu = 0;});
-	jQuery('#scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
+	jQuery('.scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
 
 	//animate the submenus
 	jQuery('.leftmenu li').click(function() {
@@ -121,7 +121,7 @@ function cowobo_sidebar_listeners() {
 	});
 	
 	//add horizontal scroll with mousewheel (requires horscroll.js)
-	jQuery("#scroller").mousewheel(function(event, delta) {
+	jQuery(".scroller").mousewheel(function(event, delta) {
 		jQuery(this).scrollLeft(jQuery(this).scrollLeft()+delta * -30);
 		event.preventDefault();
 		removeMarkers();
@@ -130,7 +130,7 @@ function cowobo_sidebar_listeners() {
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
-		var catid = jQuery('#pagetitle').attr('class');
+		var catid = jQuery('.pagetitle').attr('id');
 		if(window.location.hash == '#'+postid) {
 			loadlightbox(postid, catid);
 		} else {
@@ -146,7 +146,7 @@ function cowobo_sidebar_listeners() {
 //jQuery UI
 function cowobo_jquery_ui_listeners() {
 	jQuery('.large').draggable({cancel:'.content'});
-	jQuery("#scroller, .map, .slider").disableSelection();
+	jQuery(".scroller, .map, .slider").disableSelection();
 }
 
 //LIGHTBOX//
@@ -245,7 +245,7 @@ function cowobo_messenger_listeners() {
 }
 
 function cowobo_map_listeners() {
-	jQuery('.zoom, .move').click(function(){
+	jQuery('.zoom, .pan').click(function(){
 		jQuery('.bottommenu').slideUp();
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
 			var zoom = jQuery('.maplayer:last').data('map').zoom;
@@ -312,29 +312,29 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.relocate').live('click', function() {
-		jQuery('#editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
+		jQuery('.editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
 		jQuery('.large, .marker').fadeOut();
-		jQuery('#editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
+		jQuery('.editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
   	});
 
 	jQuery('.savelocation').click(function() {
 		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
-			var id = jQuery(this).parents('#editmarker').data('postid');
+			var id = jQuery(this).parents('.editmarker').data('postid');
 			var lat = jQuery('.maplayer:last').data('map').lat;
 			var lng = jQuery('.maplayer:last').data('map').lng;
 			var newlatlng = lat+','+lng;
 			jQuery('#'+id+', .marker').fadeIn();
 			jQuery('#'+id+' .latlng').attr('id',newlatlng).html(newlatlng)
-			jQuery('#editmarker').hide();
+			jQuery('.editmarker').hide();
 		} else {
 			alert('Please wait for map to finish loading');
 		}
   	});
 
 	jQuery('.cancellocation').click(function() {
-		var id = jQuery(this).parents('#editmarker').data('postid');
+		var id = jQuery(this).parents('.editmarker').data('postid');
 		jQuery('#'+id+', .marker').fadeIn();
-		jQuery('#editmarker').hide();
+		jQuery('.editmarker').hide();
   	});
 
 	jQuery('.showall').live('click', function() {
@@ -744,7 +744,7 @@ function mousemov() {
 		return;
 	}
 	else if(overmenu>0) var scbar = jQuery('.bottommenu');
-	else if(overscroller>0) var scbar = jQuery('#scroller');
+	else if(overscroller>0) var scbar = jQuery('.scroller');
 	else return;
 
 	//horizontal scrolling
@@ -765,7 +765,7 @@ function mousemov() {
 var number = 0;
 // hide markers on map corresponding to timeline
 function removeMarkers() {
-	var newnumber = Math.floor(jQuery('#scroller').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
+	var newnumber = Math.floor(jQuery('.scroller').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
 	if(newnumber != number) {number = newnumber;
 		jQuery('.medium').each(function(){
 		if(jQuery(this).index() <= number) {
@@ -993,4 +993,4 @@ jQuery('.fee-hover-edit').live('click', function() {
 		}
 		else return true;
 	});
-});
+});f
