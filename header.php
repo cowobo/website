@@ -84,10 +84,10 @@ if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 endif;
 
 if ($social->state == 1 ) : 
-	$profile = '<li class="messenger join">Profile</li>';
+	$profile = '<li class="messenger join">Create Profile</li>';
 	$loginout = '<li class="messenger join">Login</li>';
 else: 
-	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Profile</li>';
+	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Update Profile</li>';
 	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
 endif;
 ?>
@@ -143,9 +143,14 @@ endif;
 	</ul>
 </div>
 
-<div class="map"></div>
+<div class="map">
+	<div class="pan moveleft"><div></div></div>
+	<div class="pan moveright"><div></div></div>
+	<div class="pan moveup"><div></div></div>
+	<div class="pan movedown"><div></div></div>
+</div>
 
-<div class="marker" id="editmarker">
+<div class="marker editmarker">
 	<div class="mcontent">
 		<span class="savelocation">Save</span>
 		<span class="cancellocation">Cancel</span>
@@ -153,17 +158,17 @@ endif;
 	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
 </div>
 
-<div id="page">
-	<div id="pagetitle" class="<?php echo $currentcat->term_id;?>">
+<div class="page">
+	<div class="pagetitle" id="<?php echo $currentcat->term_id;?>">
 		<?php echo $pagetitle;?>
 		<span class="largerss"></span>
-		<span id='pagination'><?php cowobo_pagination();?></span>
+		<span class="pagination"><?php cowobo_pagination();?></span>
 	</div>
 
-	<div id='speaking_angel'>
-		<div id="angel"></div>
+	<div class='speaking_angel'>
+		<div class="angel"></div>
 		<div class="speechbubble right">
 			<span class="close" onclick='jQuery(".speechbubble").fadeOut();'>close</span>
-			<span id='speech'></span>
+			<span class='speech'></span>
 		</div>
 	</div>
