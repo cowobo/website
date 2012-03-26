@@ -96,49 +96,54 @@ endif;
 
 <body>
 
-<div class="topmenu">	
-	<ul class="leftmenu">
-		<li id="homebutton" onclick="document.location.href='<?php bloginfo('url');?>'">Home</li>
-		<li class="sort">Sort</li>
-		<li class="filter">Filter</li>
-		<li class="search">Search</li>
-		<li class="zoom level-1">Zoom</li>
-		<li class="zoom level-3 zoomselect">1</li>
-		<li class="zoom level-5">2</li>
-		<li class="zoom level-7">3</li>
-		<li class="zoom level-9">4</li>
-		<li class="zoom level-11">5</li>
-		<li class="zoom level-13">6</li>
-		<li class="zoom level-15">7</li>
-		<li class="zoom level-17">8</li>
+<div class="topmenu">
+	<ul class="menu left">
+		<li class="largerss"></li> 
+		<li class="pagetitle"><?php echo $pagetitle;?></li>
+		<li class="filter"><b>Filter</b>
+			<ul><?php echo $links;?></ul>
+		</li>
+		<li class="sort"><b>Sort</b>
+			<ul>
+				<li><a href="?sort=popularity">Most Popular</a></li>
+				<li><a href="?sort=comments">Most Commented</a></li>
+				<li><a href="?sort=editor">Editors Choice</a></li>
+				<li><a href='?sort=random'>Random</a></li>
+			</ul>
+		</li>
+		
+		<li class="search"><b>Search</b>
+			<ul>
+				<li>
+					<form method="get" action="<?php bloginfo('url'); ?>/">
+					Keywords <input type="text" name="s" class="searchform" id="searchform"/>
+					<button type="submit" name="submit" class="searchbutton keywords"></button>
+					</form>
+				</li>
+				<li>
+					Address <input type="text" class="searchform" value=""/>
+					<span class="searchbutton address"></span>
+				</li>
+			</ul>	
+		</li>
+		<li class="zoom"><b>Zoom</b>
+			<ul>
+				<li class="zoom level-3 zoomselect">Level 1</li>
+				<li class="zoom level-5">Level 2</li>
+				<li class="zoom level-7">Level 3</li>
+				<li class="zoom level-9">Level 4</li>
+				<li class="zoom level-11">Level 5</li>
+				<li class="zoom level-13">Level 6</li>
+				<li class="zoom level-15">Level 7</li>
+				<li class="zoom level-17">Level 8</li>
+			</ul>
+		</li>
 		<li><span class="maploading">Loading Map...</span></li>
 	</ul>
-	<ul class="rightmenu">
+	<ul class="menu right">
 		<?php echo $profile;?>
-		<?php echo $loginout;?>
-	</ul>
-</div>
-
-<div class="bottommenu">
-	<ul class="sortmenu">
-		<li><a href="?sort=popularity">Most Popular</a></li>
-		<li><a href="?sort=comments">Most Commented</a></li>
-		<li><a href="?sort=editor">Editors Choice</a></li>
-		<li><a href='?sort=random'>Random</a></li>
-	</ul>
-	<ul class="filtermenu">
-		<?php echo $links;?>
-	</ul>
-	<ul class="searchmenu">
-		<li>
-		<form method="get" action="<?php bloginfo('url'); ?>/">
-		Keywords <input type="text" name="s" class="searchform" id="searchform"/>
-		<button type="submit" name="submit" class="searchbutton keywords"></button>
-		</form>
-		</li>
-		<li>
-		Address <input type="text" class="searchform" value=""/>
-		<span class="searchbutton address"></span>
+		<li><a href="<?php bloginfo('url');?>">Home</a>
+			<ul><?php echo $loginout;?></ul>
 		</li>
 	</ul>
 </div>
@@ -158,17 +163,6 @@ endif;
 	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
 </div>
 
-<div class="page">
-	<div class="pagetitle" id="<?php echo $currentcat->term_id;?>">
-		<?php echo $pagetitle;?>
-		<span class="largerss"></span>
-		<span class="pagination"><?php cowobo_pagination();?></span>
-	</div>
 
-	<div class='speaking_angel'>
-		<div class="angel"></div>
-		<div class="speechbubble right">
-			<span class="close" onclick='jQuery(".speechbubble").fadeOut();'>close</span>
-			<span class='speech'></span>
-		</div>
-	</div>
+<div class="page">
+<div class='angel'></div>

@@ -993,4 +993,4 @@ jQuery('.fee-hover-edit').live('click', function() {
 		}
 		else return true;
 	});
-});f
+});

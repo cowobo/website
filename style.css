@@ -23,27 +23,31 @@ h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
 .clear {clear:both;}
+.left {float:left;}
+.right {float:right;}
 
 /* Nav Menu */
-.topmenu, .bottommenu {position:absolute; top:0; left:0; height:25px; width:100%; color:#fff; background:url(images/black.png); z-index:15; line-height:25px;}
-.bottommenu {top:25px; height:30px; display:none; overflow:hidden;}
-.bottommenu ul, .topmenu ul {white-space: nowrap; list-style:none; font-weight:bold; font-size:14px; }
-.bottommenu li, .topmenu li {position:relative; display:inline-block!important; zoom: 1; *display: inline!important; cursor:pointer;}
-.bottommenu ul {display:none; color:#ccc;}
-.bottommenu a {color:#ccc;}
-.bottommenu li:hover, .bottommenu a:hover, .topmenu li:hover, .menuselect, .zoomselect {color:#0099CC}
+.topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:15; }
+.menu {list-style:none; color:#fff; font-size:14px; margin-right:15px; font-weight:bold;}
+.menu a:hover {color:#0099CC}
+.menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer;}
+.menu ul {position:absolute; display:none; top:35px; left:0px; list-style:none; z-index:15;}
+.menu ul li {background:url(images/black.png); padding:10px; line-height:20px; margin:0;}
+.menu li:hover ul {display:block;}
+.sort li {width:150px;}
+.filter li {width:100px;}
+.search li {width:150px;}
+.zoom li {width:60px;}
+.pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
-.searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/icons.png); background-position:-60px -15px}
-.leftmenu {float:left;}
-.rightmenu {float:right; margin-right:15px;}
+.searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
 .maploading {display:none; font-weight:normal}
+.largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
+.largerss:hover {background-position:0 -20px}
 
 /* Feedbar */
-.map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
-.page {position:absolute; bottom:0; width:100%; z-index:4; background:url(images/black.png);}
-.pagetitle {white-space: nowrap; font-size:26px; height:40px; line-height:40px; color:#fff; padding-left: 10px; overflow:hidden;}
-.pagetitle a {font-size:14px; color:#fff;}
-.scroller {white-space: nowrap; overflow:hidden; clear:both; height:182px;}
+.page {position:absolute; bottom:0; width:100%; z-index:4;}
+.scroller {white-space: nowrap; overflow:hidden; clear:both; height:182px; padding-top:10px; background:url(images/black.png);}
 .angel {position:absolute; cursor:pointer; right:0; top:0; width:125px; height:80px; background:url(images/angel.png) no-repeat}
 .speaking_angel { position:absolute; right:0; top:0; margin-top:-38px; width:540px; }
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
@@ -63,17 +67,17 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .speechbubble .close { float: right; cursor:pointer;}
 
 /* Map */
+.map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
 .maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
 .maplayer {display:none; z-index:2; width:100%; height:100%;}
-.mainmap {position:absolute; left:0; top:0; bottom:220px; width:100%; overflow:hidden;}
-.reflection {position:absolute; left:0; bottom:0; width:100%; height:220px; overflow:hidden;}
+.mainmap {position:absolute; left:0; top:0; bottom:190px; width:100%; overflow:hidden;}
+.reflection {position:absolute; left:0; bottom:0; width:100%; height:190px; overflow:hidden;}
 .reflection img {-o-transform: scaleY(-1); -webkit-transform: scaleY(-1); transform: scaleY(-1); filter: FlipV; -ms-filter: "FlipV";}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
 .mtitle span {margin:-2px 0 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px;}
-
 .buffer {z-index:0; }
 .maptiles, .streettiles {position:relative; z-index:1; }
 .maptiles {width:50%; height:100%;}
@@ -91,8 +95,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .tag  {background-position: 0px 0}
 .link {background-position:-15px 0}
 .author{background-position:-30px 0}
-.largerss {margin-left:7px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
-.largerss:hover {background-position:0 -20px}
 
 /* Pan map buttons */
 .pan, .pan div {position:absolute; z-index:10}
@@ -102,17 +104,17 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .moveup, .movedown {width:100%; height:20px;}
 .moveup div, .movedown div {width:20px; height:10px; left:50%; margin-left:-10px;}
 .moveleft {left:0;}
-.moveleft div {background-position: 50px 0; left:0}
-.moveleft:hover div {background-position:50px -20px;}
+.moveleft div {background-position:18px 0; right:0}
+.moveleft:hover div {background-position:18px -20px; }
 .moveright {right:0;}
-.moveright div {background-position:18px 0; right:0}
-.moveright:hover div {background-position:18px -20px;}
-.moveup {top:25px;}
-.moveup div {background-position:40px 0; top:0;}
-.moveup:hover div {background-position:40px -20px}
-.movedown {bottom:220px; }
-.movedown div {background-position:40px -10px; bottom:0}
-.movedown:hover div {background-position:40px -30px}
+.moveright div {background-position: 50px 0; left:0}
+.moveright:hover div {background-position:50px -20px;}
+.moveup {top:35px;}
+.moveup div {background-position:40px -10px; bottom:0}
+.moveup:hover div {background-position:40px -30px}
+.movedown {bottom:210px; }
+.movedown div {background-position:40px 0; top:0;}
+.movedown:hover div {background-position:40px -20px}
 
 /* Feedbar Styles */
 .medium {position:relative; width:174px; padding:0 6px 0 6px; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
