@@ -147,16 +147,24 @@ class Cowobo_Related_Posts {
     /**
      * Find similar posts by content
      *
-     * @param int (optional) limit the number of posts
+     * @param int (optional) limit the number of posts. Standard 10 for all posts, 30 for categorized.
+     * @param bool (optional) if true, method returns posts in a multidimensional array of categories
+     * @param int (optional) postid if not in the loop.
      * @return array sorted similar posts by popularity and score
      */
-	public function find_similar_posts ( $limit = 10 ) {
-		global $post, $wpdb;
+	public function find_similar_posts ( $limit = false, $cat = false, $postid = false ) {
+		global $wpdb;
 
-		$terms = $this->current_post_keywords();
+        if ( $postid ) $post = get_post ( $postid );
+        else global $post;
+
+		$terms = $this->current_post_keywords( $post );
 
 		$time_difference = get_settings('gmt_offset');
 		$now = gmdate("Y-m-d H:i:s",(time()+($time_difference*3600)));
+
+        if ( ! $limit )
+            $limit = ( $cat ) ? 30 : 10;
 
 		// Match
 		$sql = "SELECT ID, post_title, post_content, "
@@ -168,11 +176,33 @@ class Cowobo_Related_Posts {
 			. "AND post_date <= '$now' "
 			. "AND (post_status IN ( 'publish', 'static' ) && ID != '{$post->ID}') "
 			. "AND post_password ='' "
+            . "AND post_type = 'post' "
 			. "ORDER BY score DESC LIMIT $limit";
 		$results = $wpdb->get_results($sql);
 		$results = $this->sort_similar_posts ( $results );
-		return $results;
+
+        if ( ! $cat ) return $results;
+
+        return $this->categorize_posts ( $results );
 	}
+
+    /**
+     * Takes an array of posts and returns an array of categories holding the posts
+     * @param arr $results
+     * @return arr Postobjects in an array of categories.
+     */
+    protected function categorize_posts ( $results ) {
+        $cat_results = array();
+        foreach ( $results as $result ) {
+            $category = cwob_get_category ( $result->ID )->term_id;
+            if ( array_key_exists ( $category, $cat_results ) )
+                $cat_results[ $category ][] = $result;
+            else
+                $cat_results[ $category ] = array ( $result );
+        }
+
+		return $cat_results;
+    }
 
     /**
      * Sort posts based on populairty and similarity scores
@@ -215,11 +245,12 @@ class Cowobo_Related_Posts {
     /**
      * Extract the keywords from the postobject
      *
+     * @param obj (optional) post, if not in the loop
      * @param int (optional) number of terms to get
      * @return array current post keywords
      */
-	private function current_post_keywords( $num_to_ret = 20 ) {
-		global $post;
+	private function current_post_keywords( $post = false, $num_to_ret = 20 ) {
+		if ( ! $post ) global $post;
 
 		$string =	$post->post_title.' '.
 				str_replace('-', ' ', $post->post_name).' '.
