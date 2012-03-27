@@ -84,23 +84,22 @@ function cowobo_sidebar_listeners() {
 	jQuery('.bottommenu').hover(function() {overmenu = 1}, function () {overmenu = 0;});
 	jQuery('.scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
 
-	//animate the submenus
-	jQuery('.leftmenu li').click(function() {
-		var subclass = '.'+jQuery(this).attr('class').split(' ')[0]+'menu';
-		if(jQuery(subclass).length>0){
-			if(jQuery(subclass).is(":visible")){
-				jQuery(this).removeClass('menuselect');
-				jQuery('.bottommenu').slideUp();
-			} else {
-				jQuery(this).siblings('li').removeClass('menuselect');
-				jQuery(this).addClass('menuselect');
-				jQuery('.bottommenu').slideUp(function() {
-					jQuery(this).children('ul').hide();
-					jQuery(subclass).show();	
-					jQuery(this).slideDown();
-				});	
-			}
-		}	
+	//animate the submenus with intent
+	jQuery('.menu li').hover(
+		function() {
+			var child = jQuery(this).children('ul');
+			var t = setTimeout(function() {child.slideDown()}, 200);
+			jQuery(this).data('timeout', t);
+		},
+		function() {
+			var child = jQuery(this).children('ul');
+			clearTimeout(jQuery(this).data('timeout'));
+			child.slideUp();
+		}
+	);
+	
+	jQuery('.homebutton').click(function() {
+		window.location = rooturl;
 	});
 
 	//ajax search for address
@@ -848,7 +847,7 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+type+'&sensor=false&size=';
 	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(zoom-1)+'&center='+lat+','+lng;
 	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+zoom+'&center=';
-	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">';
+	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">'
 	var newlayer = jQuery('<div class="maplayer map'+postid+'"><div class="mainmap">'+bufferimg+'</div><div class="reflection">'+bufferimg+'</div></div>');
 
 	map.append(newlayer);
@@ -865,7 +864,6 @@ function loadNewMap(lat, lng, zoom, markers, type, postid){
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + lat + ',' + adjustLonByPx(lng, xmid/2*y, zoom);
 			newlayer.find('.mainmap').append('<img src="'+url+'" alt="" class="maptiles">');
-			newlayer.find('.reflection').append('<img src="'+url+'" alt="" class="maptiles">');
 		}
 	});
 	

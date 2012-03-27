@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="smallicons.svg"
-   inkscape:export-filename="G:\xampplite\htdocs\public_html\wp-content\themes\cowobo\images\icons.png"
+   inkscape:export-filename="G:\xampplite\htdocs\public_html\wp-content\themes\cowobo\images\smallicons.png"
    inkscape:export-xdpi="90.05455"
    inkscape:export-ydpi="90.05455">
   <defs
@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="40.414265"
-     inkscape:cy="23.789207"
+     inkscape:cx="61.664265"
+     inkscape:cy="19.14635"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -77,7 +77,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

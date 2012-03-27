@@ -142,9 +142,14 @@ endif;
 	</ul>
 	<ul class="menu right">
 		<?php echo $profile;?>
-		<li class="home"><a href="<?php bloginfo('url');?>">Home</a><li>
-		<li class="logout"><div></div>
-			<ul><?php echo $loginout;?></ul>
+		<li class="home">
+			<span class="homebutton">Home</span>
+			<div class="droparrow"></div>
+			<ul>
+				<li>Account Settings</li>
+				<li>Disclaimer</li>
+				<?php echo $loginout;?>
+			</ul>
 		</li>
 	</ul>
 </div>
