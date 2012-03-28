@@ -365,6 +365,13 @@ class Cowobo_Social {
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
 
 		}
+		/*if ($option['active_buttons']['rss']==true) {
+			$output .= '
+				<div style="float:left; width:' .$option['rss_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;">
+                    <a href="'. $post_link .'feed"><img src=""></a>
+				</div>';
+
+		}*/
 
 		$output .= '';
 
