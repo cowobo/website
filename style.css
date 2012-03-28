@@ -50,8 +50,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
-.scroller {white-space: nowrap; overflow:hidden; clear:both; height:182px; padding-top:10px; background:url(images/black.png);}
-.angel {position:absolute; cursor:pointer; left:30px; bottom:167px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
+.scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
+.angel {position:absolute; cursor:pointer; left:30px; bottom:160px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .pagination {font-size:16px; float:right; margin-right:140px;}
 .pagination a {color:#fff; margin:0 5px 0 5px;}
@@ -72,8 +72,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
 .maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
 .maplayer {display:none; z-index:2; width:100%; height:100%;}
-.mainmap {position:absolute; left:0; top:0; bottom:190px; width:100%; overflow:hidden;}
-.reflection {position:absolute; left:0; bottom:0; width:100%; height:190px; overflow:hidden; -webkit-transform: scaleY(-1);}
+.mainmap {position:absolute; left:0; top:0; bottom:175px; width:100%; overflow:hidden;}
+.reflection {position:absolute; left:0; bottom:0; width:100%; height:175px; overflow:hidden; -webkit-transform: scaleY(-1);}
 .reflection img {margin-top:-15px; height:205px!important; -moz-transform:scaleY(-1); -o-transform: scaleY(-1); transform: scaleY(-1); filter: flipv; /*IE*/}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
@@ -114,22 +114,20 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .moveup {top:35px;}
 .moveup div {background-position:40px -10px; bottom:0}
 .moveup:hover div {background-position:40px -30px}
-.movedown {bottom:210px; }
+.movedown {bottom:190px; }
 .movedown div {background-position:40px 0; top:0;}
 .movedown:hover div {background-position:40px -20px}
 
 /* Feedbar Styles */
-.medium {position:relative; width:174px; padding:0 6px 0 6px; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
-.medium .holder {position:relative; padding: 7px 7px 0 7px; background:#ccc}
+.medium {position:relative; width:155px; height:165px; overflow:hidden; padding:0 5px 0 5px; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
+.medium .holder {position:relative; padding: 6px 6px 0 6px; background:#eee; height:159px;}
 .medium .holder:hover {background:#fff}
-.medium .content {height:175px; overflow:hidden;}
-.medium .image {position:relative; height:110px; margin-bottom:5px; overflow:hidden;}
+.medium .image {position:relative; height:95px; margin-bottom:4px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
 .medium .tags a {font-weight:normal}
 .medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
 .medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
 .medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
-
 
 /* Lightboxes Styles*/
 #rss {z-index:21; margin:-290px 0 0 -270px;}
