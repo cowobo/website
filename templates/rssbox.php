@@ -5,6 +5,9 @@
 			<div class="topshadow"><h1>Add RSS</h1></div>
 			</div>
 			<h3>Choose the feed reader you prefer:</h3><br/>
+            <ul>
+                <?php $social->print_rss_links(false, '<li>', '</li>'); ?>
+            </ul>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
 	</div>
