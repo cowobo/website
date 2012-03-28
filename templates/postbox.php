@@ -9,12 +9,8 @@ $posttype = $postcat->slug;
 $coordinates = get_post_meta($post->ID, 'coordinates', true);
 
 if(!empty($coordinates)):
-	$url = 'http://cbk0.google.com/cbk?output=xml&ll='.$coordinates;
-	if(file_exists($url)):
-		$contents = file_get_contents($url);
-		$xml = simplexml_load_string($contents);
-		$pano_id = $xml->data_properties['pano_id'];
-	endif;
+	$xml = simplexml_load_string(file_get_contents('http://cbk0.google.com/cbk?output=xml&ll='.$coordinates));
+	$pano_id = $xml->data_properties['pano_id'];
 endif;
 		
 //check if user is author of post or added to the authors of post

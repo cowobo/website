@@ -126,7 +126,7 @@ endif;
 				</li>
 			</ul>	
 		</li>
-		<li class="zoom"><b>Zoom</b>
+		<li class="zoomlevels"><b>Zoom</b>
 			<ul>
 				<li class="zoom level-3 zoomselect">Level 1</li>
 				<li class="zoom level-5">Level 2</li>
