@@ -82,6 +82,7 @@ jQuery(document).ready(function() {
 		
 		//fadein map if it has already been loaded and otherwise loadit
 		if(typeof(prevmap) != 'undefined') {
+			mapdata = prevmap.data('mapdata');
 			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
 				jQuery('.maplayer').not(this).hide();
 			});
@@ -883,7 +884,7 @@ function loadNewMap(data){
 			jQuery('.maplayer').not(this).hide();
 			jQuery('.maploading').fadeOut();
 			jQuery(this).data('hash', window.location.hash);
-			jQuery(this).attr('id', window.location.hash);
+			jQuery(this).data('mapdata', mapdata);
 			//reset zoom of buffer
 			if(jQuery('.maplayer').length>1)
 				jQuery(this).prev().css({width:'100%', height:'100%', margin:0});
@@ -891,6 +892,7 @@ function loadNewMap(data){
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
 			newlayer.find('.mainmap').append('<img src="'+url+'" alt="" class="maptiles">');
+			newlayer.find('.reflection').append('<img src="'+url+'" alt="" class="maptiles">');
 		}
 	});
 	
@@ -898,8 +900,8 @@ function loadNewMap(data){
 	newlayer.click(function(e){
 		if(jQuery('.large :visible').length <1 && data.zoom < 17) {
 			if(typeof(newlayer.data('hash')) !='undefined'){
-				var mousex = Math.round(e.clientX/jQuery('.maptiles:last').width()*xmid)-xmid;
-				var mousey = Math.round(e.clientY/jQuery('.maptiles:last').height()*2*ymid)-ymid;
+				var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
+				var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
 				newlat = adjustLatByPx(data.lat, mousey, data.zoom);
 				newlng = adjustLonByPx(data.lng, mousex, data.zoom);
 				newzoom = parseFloat(data.zoom) + 2;
