@@ -582,4 +582,82 @@ class Cowobo_Social {
             }
         }
     }
+
+    /**
+     * Prints RSS links for current feed
+     *
+     * @param str (optional) feedlink
+     * @param str (optional) what to print before the link
+     * @param str (optional) what to print after the link
+     * @return boolean
+     * @todo feed the link here :)
+     */
+    public function print_rss_links( $feed_link = false, $before = '', $after = '' ) {
+        $rss_services = array(
+            'rss_feed' => array(
+                'name' => 'RSS Reader',
+                'url' => '%feed%',
+                ),
+            'bloglines' => array(
+                'name' => 'Bloglines',
+                'url' => 'http://www.bloglines.com/sub/%feed%',
+                ),
+            'google' => array(
+                'name' => 'Google Reader',
+                'url' => 'http://fusion.google.com/add?feedurl=%enc_feed%',
+                ),
+            'netvibes' => array(
+                'name' => 'Netvibes',
+                'url' => 'http://www.netvibes.com/subscribe.php?url=%enc_feed%',
+                ),
+            'newsgator' => array(
+                'name' => 'Newsgator',
+                'url' => 'http://www.newsgator.com/ngs/subscriber/subext.aspx?url=%enc_feed%',
+                ),
+            'yahoo' => array(
+                'name' => 'Yahoo!',
+                'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
+                )
+        );
+
+        function get_feed_url ( $url, $feed_url ) {
+            $url = str_replace(
+                        array(
+                            '%enc_feed%', '%feed%'
+                            ),
+                        array(
+                            urlencode($feed_url),
+                            esc_url($feed_url),
+                            ),
+                        $url );
+            return $url;
+        }
+
+        if ( ! $feed_link ) $feed_link = $this->current_feed_url();
+
+        $output = "";
+        foreach ( $rss_services as $rss ) {
+            $output .= "$before<a href ='" . get_feed_url ( $rss['url'], $feed_link ) . "'>{$rss['name']}</a>$after";
+        }
+
+        echo $output;
+        return true;
+    }
+
+    public function current_feed_url() {
+        $url = 'http';
+        if ($_SERVER["HTTPS"] == "on") {$url .= "s";}
+        $url .= "://";
+        if ($_SERVER["SERVER_PORT"] != "80") {
+            $url .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+        } else {
+            $url .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+        }
+
+        if ( substr ( $url, -1 ) != '/' ) $url .= '/';
+
+        $url .= "feed";
+        return $url;
+    }
+
 }
