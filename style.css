@@ -44,7 +44,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
-.maploading {display:none; font-weight:normal}
+.maploading {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
 .largerss:hover {background-position:0 -20px}
 

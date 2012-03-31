@@ -60,42 +60,40 @@ jQuery(document).ready(function() {
 	}
 	
 	//load lightbox when hash changes
-	jQuery(window).hashchange(function(){
+	jQuery(window).hashchange(function(){		
 		var newhash = window.location.hash;
 		var hasharray = newhash.split('#');
 		var prevmap;
 		
-		//find the previous map
+		//find the layer if has already been loaded
 		jQuery('.maplayer').each(function(){
-			if(jQuery(this).data('hash') == newhash) prevmap = jQuery(this);
-		});
-		
-		//update mapdata with new values and fadein post if required
-		for (var x = 1; x < hasharray.length; x++) {
-			var part = hasharray[x].split('=');
-			mapdata[part[0]] = part[1];
-			if(part[0] == 'post') {
-				jQuery('.large').fadeOut();
-				jQuery('#' + part[1]).fadeIn();
+			if(jQuery(this).data('hash') === newhash) {
+				prevmap = jQuery(this);
 			}
-		}
-		
-		//fadein map if it has already been loaded and otherwise loadit
+		});
+			
+		//fadein map if it has already been loaded and update mapdata, else load the new map
 		if(typeof(prevmap) != 'undefined') {
-			mapdata = prevmap.data('mapdata');
+			jQuery.each(prevmap.data(),function(key, value) {mapdata[key] = value;});
 			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
 				jQuery('.maplayer').not(this).hide();
 			});
 		} else {
+			for (var x = 1; x < hasharray.length; x++) {
+				var part = hasharray[x].split('=');
+				mapdata[part[0]] = part[1];
+				if(part[0] == 'post') {
+					jQuery('.large').fadeOut();
+					jQuery('#' + part[1]).fadeIn();
+				}
+			}
 			loadlightbox(mapdata['post']);
 		}
-
 	})
 
 	//SHARETHIS KEY//
 	/* var switchTo5x=true;
 	if (typeof(stLight)!= 'undefined') stLight.options({publisher:'4a45176a-73d4-4e42-8be9-c015a589c031'});*/
-
 });
 
 
@@ -306,7 +304,23 @@ function cowobo_map_listeners() {
 			alert('Please wait for map to finish loading')
 		}
 	});
-
+	
+	//zoom new layer on click if there are no lightboxes visible
+	jQuery('.maplayer').live('click', function(e){ 
+			var oldlat = jQuery(this).data('lat');
+			var oldlng = jQuery(this).data('lng');
+			var oldzoom = jQuery(this).data('zoom');
+			if(jQuery('.large :visible').length<1 && oldzoom < 17) {
+				var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
+				var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
+				newlat = adjustLatByPx(oldlat, mousey, oldzoom);
+				newlng = adjustLonByPx(oldlng, mousex, oldzoom);
+				newzoom = parseFloat(oldzoom) + 2;
+				window.location.hash = '#lat='+newlat+'#lng='+newlng+'#zoom='+newzoom;
+			} else {
+				alert('Please wait for map to finish loading')
+			}
+	});
 	jQuery('#savemarker').click(function(){
 		var lat = jQuery('.maplayer:last').data('map').lat;
 		var lng = jQuery('.maplayer:last').data('map').lng;
@@ -335,10 +349,10 @@ function cowobo_editpost_listeners() {
   	});
 
 	jQuery('.savelocation').click(function() {
-		if(typeof(jQuery('.maplayer:last')).data('map') !='undefined'){
+		if(typeof(jQuery('.maplayer:last')).data('mapdata') !='undefined'){
 			var id = jQuery(this).parents('.editmarker').data('postid');
-			var lat = jQuery('.maplayer:last').data('map').lat;
-			var lng = jQuery('.maplayer:last').data('map').lng;
+			var lat = mapdata.lat;
+			var lng = mapdata.lng;
 			var newlatlng = lat+','+lng;
 			jQuery('#'+id+', .marker').fadeIn();
 			jQuery('#'+id+' .latlng').attr('id',newlatlng).html(newlatlng)
@@ -861,12 +875,6 @@ function adjustLatByPx(lat, amount, zoom) {
 }
 
 function loadNewMap(data){
-	//show loading div and update zoom level class
-	jQuery('.maploading').fadeIn();
-	jQuery('.zoom').removeClass('zoomselect');
-	jQuery('.level-'+data.zoom).addClass('zoomselect');
-	
-	//setup static map image urls
 	var map = jQuery('.map');
 	var tilesize = xmid + 'x'+ ymid *2;
 	var buffersize = xmid + 'x'+ ymid;
@@ -876,18 +884,25 @@ function loadNewMap(data){
 	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">'
 	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'</div><div class="reflection">'+bufferimg+'</div></div>');
 
-	map.append(newlayer);
+	//update menu
+	jQuery('.maploading').fadeIn();
+	jQuery('.zoom').removeClass('zoomselect');
+	jQuery('.level-'+data.zoom).addClass('zoomselect');
+		
+	//load new layer
+	for (key in data) {
+		newlayer.data(key, data[key]);
+	}
+	newlayer.data('hash', window.location.hash);
+	newlayer.attr('id', data.zoom);
 	
+	map.append(newlayer);
+
 	//add high res tiles when buffer has faded in
 	newlayer.find('.buffer:first').load(function(){
-		jQuery('.maplayer:last').fadeIn(function() {
+		newlayer.fadeIn(function() {
 			jQuery('.maplayer').not(this).hide();
 			jQuery('.maploading').fadeOut();
-			jQuery(this).data('hash', window.location.hash);
-			jQuery(this).data('mapdata', mapdata);
-			//reset zoom of buffer
-			if(jQuery('.maplayer').length>1)
-				jQuery(this).prev().css({width:'100%', height:'100%', margin:0});
 		});
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
@@ -896,22 +911,6 @@ function loadNewMap(data){
 		}
 	});
 	
-	//zoom new layer on click if there are no lightboxes visible
-	newlayer.click(function(e){
-		if(jQuery('.large :visible').length <1 && data.zoom < 17) {
-			if(typeof(newlayer.data('hash')) !='undefined'){
-				var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
-				var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
-				newlat = adjustLatByPx(data.lat, mousey, data.zoom);
-				newlng = adjustLonByPx(data.lng, mousex, data.zoom);
-				newzoom = parseFloat(data.zoom) + 2;
-				window.location.hash = '#lat='+newlat+'#lng='+newlng+'#zoom='+newzoom;
-			} else {
-				alert('Please wait for map to finish loading')
-			}
-		}
-	});
-
 	//sort markers by latitude to ensure correct overlapping
 	var markerlist = jQuery('<div></div>');
 	data.markers.sort(function(a,b){
