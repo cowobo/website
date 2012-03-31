@@ -72,7 +72,7 @@ jQuery(document).ready(function() {
 			}
 		});
 			
-		//fadein map if it has already been loaded and update mapdata, else load the new map
+		//if map has already loaded update mapdata and fade it in, else load the new map
 		if(typeof(prevmap) != 'undefined') {
 			jQuery.each(prevmap.data(),function(key, value) {mapdata[key] = value;});
 			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
@@ -307,19 +307,17 @@ function cowobo_map_listeners() {
 	
 	//zoom new layer on click if there are no lightboxes visible
 	jQuery('.maplayer').live('click', function(e){ 
-			var oldlat = jQuery(this).data('lat');
-			var oldlng = jQuery(this).data('lng');
-			var oldzoom = jQuery(this).data('zoom');
-			if(jQuery('.large :visible').length<1 && oldzoom < 17) {
-				var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
-				var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
-				newlat = adjustLatByPx(oldlat, mousey, oldzoom);
-				newlng = adjustLonByPx(oldlng, mousex, oldzoom);
-				newzoom = parseFloat(oldzoom) + 2;
-				window.location.hash = '#lat='+newlat+'#lng='+newlng+'#zoom='+newzoom;
-			} else {
-				alert('Please wait for map to finish loading')
-			}
+		var oldlat = jQuery(this).data('lat');
+		var oldlng = jQuery(this).data('lng');
+		var oldzoom = jQuery(this).data('zoom');
+		if(jQuery('.large :visible').length<1 && oldzoom < 17) {
+			var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
+			var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
+			newlat = adjustLatByPx(oldlat, mousey, oldzoom);
+			newlng = adjustLonByPx(oldlng, mousex, oldzoom);
+			newzoom = parseFloat(oldzoom) + 2;
+			window.location.hash = '#lat='+newlat+'#lng='+newlng+'#zoom='+newzoom;
+		}
 	});
 	jQuery('#savemarker').click(function(){
 		var lat = jQuery('.maplayer:last').data('map').lat;
@@ -349,7 +347,7 @@ function cowobo_editpost_listeners() {
   	});
 
 	jQuery('.savelocation').click(function() {
-		if(typeof(jQuery('.maplayer:last')).data('mapdata') !='undefined'){
+		if(typeof(jQuery('.maplayer:last')).data('hash') !='undefined'){
 			var id = jQuery(this).parents('.editmarker').data('postid');
 			var lat = mapdata.lat;
 			var lng = mapdata.lng;
