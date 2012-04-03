@@ -605,16 +605,11 @@ function cowobo_editpost_listeners() {
 //FUNCTIONS//
 
 function loadlightbox() {
-	var catid;
 	var postid = mapdata.post
-	
-	//if postholder is already loaded
-	if(jQuery('#'+postid).length>0) {
-		update_scrollbars(postid);	
-	}
-	
-	//coordinates
+	var catid = jQuery('.pagetitle').attr('id').split('-')[1];
 	var latlng = jQuery('#'+postid).find('.coordinates').val();
+	
+	// get coordinates of post and load corresponding map
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
 		mapdata['lat'] = markerpos[0];
@@ -622,11 +617,12 @@ function loadlightbox() {
 		mapdata['zoom'] = 15;
 	}
 	loadNewMap(mapdata);
+	update_scrollbars(postid);
 	
 	//if its a joinbox or selectbox then stop here	
 	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined' || postid == 0) return true;
 	
-	//content of postholder if not already loaded
+	//load content of postholder
 	if(jQuery('#'+postid + '.container').length<1) {
 		jQuery.ajax({
    			type: "POST",
@@ -860,10 +856,16 @@ function YToLat(y) {
 	return (Math.PI / 2 - 2 * Math.atan(Math.exp((Math.round(y) - offset) / (offset/ Math.PI)))) * 180 / Math.PI;
 }
 function adjustLonByPx(lon, amount, zoom) {
-	return XToLon(LonToX(lon) + (amount << (21 - zoom)));
+	var newlon = XToLon(LonToX(lon) + (amount << (21 - zoom)));
+	if (newlon < -180) newlon = 360 + newlon;
+	else if (newlon > 180) newlon = newlon - 360;
+	return newlon;
 }
 function adjustLatByPx(lat, amount, zoom) {
-	return YToLat(LatToY(lat) + (amount << (21 - zoom)));
+	var newlat = YToLat(LatToY(lat) + (amount << (21 - zoom)));
+	if (newlat < -90) newlat = 180 + newlat;
+	else if (newlat > 90) newlat = newlat - 180;
+	return newlat;
 }
 
 function loadNewMap(data){
