@@ -4,9 +4,7 @@ var overscroller;
 var overslide;
 var overlightbox;
 var scroller;
-var markersvar;
 var rooturl;
-var oldhash;
 var geocoder;
 var mapdata = {};
 var xmid = 640;
@@ -150,7 +148,8 @@ function cowobo_sidebar_listeners() {
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
 		window.location.hash = '#post='+postid;
-		jQuery('#'+postid).fadeIn().siblings('.large').fadeOut(); 
+		jQuery('#'+postid).fadeIn(); 
+		jQuery('#'+postid).siblings('.large').fadeOut();
 	});
 
 	jQuery('.largerss, .rss').click(function(){
@@ -930,7 +929,8 @@ function loadNewMap(data){
 		marker.click(function(event){
 			event.stopPropagation();
 			window.location.hash = '#post='+postid;
-			jQuery('#'+postid).fadeIn().siblings('.large').fadeOut(); 
+			jQuery('#'+postid).fadeIn(); 
+			jQuery('#'+postid).siblings('.large').fadeOut();
 		});
 		marker.hover(
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
