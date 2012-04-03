@@ -47,6 +47,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .maploading {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
 .largerss:hover {background-position:0 -20px}
+.address {position:absolute; right:5px; top:0;}
 
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}

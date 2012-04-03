@@ -54,7 +54,8 @@ jQuery(document).ready(function() {
 			var part = hasharray[x].split('=');
 			mapdata[part[0]] = part[1];
 		}
-		loadlightbox();
+		jQuery('#'+mapdata.post).fadeIn();
+		loadlightbox(mapdata.post, 0);
 	}
 	
 	//load lightbox when hash changes
@@ -76,13 +77,14 @@ jQuery(document).ready(function() {
 			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
 				jQuery('.maplayer').not(this).hide();
 			});
-			jQuery('#'+mapdata.post).fadeIn().siblings('.large').fadeOut();
+			jQuery('#'+mapdata.post).fadeIn();
+			jQuery('#'+mapdata.post).siblings('.large').fadeOut();
 		} else {
 			for (var x = 1; x < hasharray.length; x++) {
 				var part = hasharray[x].split('=');
 				mapdata[part[0]] = part[1];
 			}
-			loadlightbox();
+			loadlightbox(mapdata.post, 0);
 		}
 	})
 
@@ -603,20 +605,18 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox() {
-	var postid = mapdata.post
-	var catid = jQuery('.pagetitle').attr('id').split('-')[1];
-	var latlng = jQuery('#'+postid).find('.coordinates').val();
-	
+function loadlightbox(postid, catid) {
 	// get coordinates of post and load corresponding map
+	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
 		var markerpos = latlng.split(',');
 		mapdata['lat'] = markerpos[0];
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}
+	
 	loadNewMap(mapdata);
-	update_scrollbars(postid);
+	//update_scrollbars(postid);
 	
 	//if its a joinbox or selectbox then stop here	
 	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined' || postid == 0) return true;
@@ -641,6 +641,7 @@ function loadlightbox() {
 					jQuery('.large').hide();
 					jQuery('body').append(newbox);
 				} else {
+					if(oldbox.css("display") == "none") newbox.children('.large').hide();
 					oldbox.replaceWith(newbox);
 					newbox.find('.content').scrollTop(scrollpos);
 				}
