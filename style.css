@@ -27,7 +27,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .right {float:right;}
 
 /* Nav Menu */
-.topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:15; }
+.topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:25; }
 .menu {list-style:none; color:#fff; font-size:14px; font-weight:bold; margin-right:15px;}
 .menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer; }
 .menu ul {position:absolute; display:none; top:35px; left:0px; list-style:none; z-index:15; margin-left:-10px; }

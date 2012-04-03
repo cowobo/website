@@ -56,7 +56,7 @@ jQuery(document).ready(function() {
 			var part = hasharray[x].split('=');
 			mapdata[part[0]] = part[1];
 		}
-		loadlightbox(mapdata['post']);
+		loadlightbox();
 	}
 	
 	//load lightbox when hash changes
@@ -78,16 +78,13 @@ jQuery(document).ready(function() {
 			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
 				jQuery('.maplayer').not(this).hide();
 			});
+			jQuery('#'+mapdata.post).fadeIn().siblings('.large').fadeOut();
 		} else {
 			for (var x = 1; x < hasharray.length; x++) {
 				var part = hasharray[x].split('=');
 				mapdata[part[0]] = part[1];
-				if(part[0] == 'post') {
-					jQuery('.large').fadeOut();
-					jQuery('#' + part[1]).fadeIn();
-				}
 			}
-			loadlightbox(mapdata['post']);
+			loadlightbox();
 		}
 	})
 
@@ -152,12 +149,8 @@ function cowobo_sidebar_listeners() {
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
 		var postid = jQuery(this).attr('id').split('-')[1];
-		var catid = jQuery('.pagetitle').attr('id');
-		if(window.location.hash == '#'+postid) {
-			loadlightbox(postid, catid);
-		} else {
-			window.location.hash = '#post='+postid;
-		}
+		window.location.hash = '#post='+postid;
+		jQuery('#'+postid).fadeIn().siblings('.large').fadeOut(); 
 	});
 
 	jQuery('.largerss, .rss').click(function(){
@@ -267,10 +260,13 @@ function cowobo_messenger_listeners() {
 
 function cowobo_map_listeners() {
 	jQuery('.zoom, .pan').click(function(){
-		jQuery('.menu ul').slideUp();
 		var map = jQuery('.maplayer:last').data('hash');
 		var hash = window.location.hash;
 		var newvalue = {};	
+		
+		jQuery('.menu ul').slideUp();
+		mapdata['post'] = 0;
+
 		//save new value with corresponding key
 		if(typeof(map) !='undefined'){
 			if(jQuery(this).hasClass('labels')) {
@@ -291,13 +287,13 @@ function cowobo_map_listeners() {
 			for (key in newvalue) {
 				if(hash.indexOf(key) != -1){		
     				var vars = hash.split("#");
-    				for (var i = 0; i < vars.length; i++) {
+					for (var i = 0; i < vars.length; i++) {
         				var part = vars[i].split("=");
         				if (part[0] == key) vars[i] = key+"="+newvalue[key];
-        			}
+					}
 					window.location.hash = vars.join('#');
 				} else {
-					window.location.hash += '#'+key+'='+newvalue[key];
+					window.location.hash = '#'+key+'='+newvalue[key];
 				}
 			}
 		} else {
@@ -608,13 +604,12 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid) {
+function loadlightbox() {
 	var catid;
+	var postid = mapdata.post
 	
 	//if postholder is already loaded
 	if(jQuery('#'+postid).length>0) {
-		jQuery('.large').fadeOut(); 
-		jQuery('#'+postid).fadeIn(); 
 		update_scrollbars(postid);	
 	}
 	
@@ -626,7 +621,6 @@ function loadlightbox(postid) {
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}
-	
 	loadNewMap(mapdata);
 	
 	//if its a joinbox or selectbox then stop here	
@@ -919,12 +913,12 @@ function loadNewMap(data){
 
 	//append markers to map
 	markerlist.children('.markerdata').each(function(){
-		var markerid = jQuery(this).attr('id').split('-')[1];
+		var postid = jQuery(this).attr('id').split('-')[1];
 		var markerpos = jQuery(this).val().split(',');
 		var markerthumb = jQuery(this).attr('name');
 		var markertitle = jQuery(this).attr('title');
 		var markerimg = jQuery('.markerimg').val();
-		var marker = jQuery('<div class="marker" id="marker'+markerid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
+		var marker = jQuery('<div class="marker" id="marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
   		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
@@ -933,11 +927,8 @@ function loadNewMap(data){
 		marker.appendTo(newlayer.find('.mainmap'));
 		marker.click(function(event){
 			event.stopPropagation();
-			if(window.location.hash = '#'+markerid) {
-				loadlightbox(markerid, 0);
-			} else {
-				window.location.hash = '#post='+markerid;
-			}
+			window.location.hash = '#post='+postid;
+			jQuery('#'+postid).fadeIn().siblings('.large').fadeOut(); 
 		});
 		marker.hover(
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
