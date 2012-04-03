@@ -52,7 +52,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
 .scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
-.angel {position:absolute; cursor:pointer; left:30px; bottom:160px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
+.angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .pagination {font-size:16px; float:right; margin-right:140px;}
 .pagination a {color:#fff; margin:0 5px 0 5px;}
