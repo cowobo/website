@@ -498,6 +498,8 @@ function cowobo_editpost_listeners() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
 		if(listbox.children('.'+id).length>0 ){
 			alert('You have already added this feed or post');
+		} else if(listbox.children().length>5 ){
+			alert('You can only add 5 posts to each section. Please remove some posts and try again');
 		} else {
 			var listitem = jQuery('<div class="'+ id +' listitem">'
 			+ '<div class="thumbnail"></div><div class="text">'
