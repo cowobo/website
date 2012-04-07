@@ -5,7 +5,7 @@
  * Syntax: <?php $posts = new Cowobo_Feed ( $args, $wp_query ); ?>
  * To get the feed sorted and arranged, use $posts->get_feed();
  *
- * @param arr Arguments:  'posts' => [ array or single post ], 'cats'=> [ array, comma separated or single category ] , 'users' => [ array or single user id ] (fetches personal feed), 'profile' => [ array or single user id ] (fetches profile feed), 'sort' => [ ASC or DESC ]
+ * @param arr Arguments:  'posts' => [ array or single post ], 'cats'=> [ array, comma separated or single category ] , 'users' => [ array or single user id ] (fetches personal feed), 'sort' => [ ASC or DESC ]
  * @param arr $wp_query = [ Normal WordPress query ]
  */
 
@@ -35,14 +35,6 @@ class Cowobo_Feed {
 			}
 		}
 		elseif ( !empty($args['users']) ) $this->get_user_feed($args['users']);
-
-        //  Get all queried profile feeds (array || single)
-		if ( is_array($args['profile']) ) {
-			foreach($args['profile'] as $uid) {
-				$this->get_profile_feed($uid);
-			}
-		}
-		elseif ( !empty($args['profile']) ) $this->get_user_feed($args['profile']);
 
 		// Merge optional wp_query
 		if ( $wp_query ) {
@@ -75,21 +67,6 @@ class Cowobo_Feed {
 		foreach ($feed_query as $query) {
 			if (key($query) == 'p') $this->get_post_feed(current($query));
 			elseif (key($query) == 'c') $this->get_cat_feed(current($query));
-		}
-		return true;
-	}
-
-	/**
-     * Feed for profiles
-     * @param int $userid
-     * @return null|boolean
-     */
-	function get_profile_feed( $userid ) {
-		$feed_query = get_user_meta($userid,'cowobo_profilefeed',true);
-		if (!is_array($feed_query)) return null;
-
-		foreach ($feed_query as $query) {
-			$this->get_post_feed( $query );
 		}
 		return true;
 	}
