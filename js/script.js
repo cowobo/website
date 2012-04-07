@@ -855,6 +855,7 @@ function add_to_profile(post_id,user_id) {
 		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
 		data: {post_id:post_id,user_id:user_id,profile:true},
 		success: function(msg){
+            console.log(msg);
 			alert("Post shared on profile.");
 		}
 	});

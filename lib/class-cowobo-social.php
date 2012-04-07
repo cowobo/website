@@ -365,6 +365,7 @@ class Cowobo_Social {
 		$option = $this->share_options();
 		$post_link = get_permalink( $post_id );
 		$post_title = get_the_title ( $post_id );
+        $userid = wp_get_current_user()->ID;
 
 		$output = '';
 		if ($option['active_buttons']['facebook_like']==true) {
@@ -407,7 +408,7 @@ class Cowobo_Social {
 		}
         // Share on Cowobo
         $output .= '
-            <div style="float:left; width:40px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><a href="javascript:void(0)" onclick="add_post_to_profile(' . $postid . ')">On Profile</a></div>';
+            <div style="float:left; width:40px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><a href="javascript:void(0)" onclick="add_to_profile(' . $post_id . ', '. $userid . ')">On Profile</a></div>';
 
 		echo $output;
 	}

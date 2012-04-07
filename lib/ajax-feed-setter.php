@@ -4,6 +4,8 @@ require_once('../../../../wp-blog-header.php');
 // Prevent the 404
 header("HTTP/1.1 200 OK");
 
+print_r ( $_REQUEST );
+
 $userid = $_POST['user_id'];
 if (empty($userid)) die;
 
