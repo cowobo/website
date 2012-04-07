@@ -688,7 +688,7 @@ class Cowobo_Social {
         global $wp,$wp_rewrite;
         $wp->add_query_var('userfeed');
         $wp_rewrite->add_rewrite_tag('%userfeed%','([^/]+)','userfeed=');
-        $wp_rewrite->add_permastruct('personal-feed', 'personal-feed/%userfeed%');
+        $wp_rewrite->add_permastruct('personal-feed', PERSONALFEEDSLUG . '/%userfeed%');
     }
 
     public function personal_feed_rss_template( $for_comments ) {

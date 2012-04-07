@@ -58,7 +58,7 @@ if ( $userfeed = is_userfeed() ) :
 	$args = array( 'users' => $userfeed->ID );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
-	$links = '<a href="">This feed has no additional categories</a>';
+	$links = '<a href="">None</a>';
 else:
     if ( is_404() ) :
         $query_string= '';
@@ -140,6 +140,7 @@ endif;
 			<span class="homebutton">Home</span>
 			<div class="droparrow"></div>
 			<ul>
+                <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
 				<li>Account Settings</li>
 				<li>Disclaimer</li>
 				<?php echo $loginout;?>

@@ -1,4 +1,9 @@
 <?php
+//Definitions
+define ( 'SITEURL', bloginfo('url') );
+define ( 'PERSONALFEEDSLUG', 'personal-feed' );
+define ( 'PERSONALFEEDURL', SITEURL . '/' . PERSONALFEEDSLUG );
+
 // Libraries
 include_once('lib/class-cowobo-feed.php');
 include_once('lib/class-cowobo-social.php');
