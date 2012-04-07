@@ -35,16 +35,8 @@ global $query_string;
 wp_delete_post($_GET["deleteid"]);
 
 // get current category
-if (is_home()):
-	$catid = 0;
-    $currentcat = false;
-elseif ($catid = get_query_var('cat')):
-	$currentcat = get_category($catid);
-else:
-	$cat = get_the_category($post->ID);
-	$currentcat = $cat[0];
-	$catid = $currentcat->term_id;
-endif;
+$current_category = cowobo_get_current_category();
+extract ( $current_category );
 
 // get current type
 $currenttype = cwob_get_type($currentcat->term_id);

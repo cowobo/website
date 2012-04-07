@@ -397,13 +397,37 @@ function my_save_extra_profile_fields( $user_id ) {
 	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }
 
+/**
+ * Return the current pagetitle
+ *
+ * @param obj (optional) Current category
+ * @return str $pagetitle
+ */
 function cowobo_get_pagetitle ( $currentcat = false ) {
     if(isset($_GET['user'])) $pagetitle = "Favourite Feed";
     elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
     elseif(is_search()) $pagetitle = "<b>Search Results</b>";
     elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
     else $pagetitle = '<b>'.$currentcat->name.'</b>';
-    
+
     return $pagetitle;
 }
 
+/**
+ * Returns an array with the current category (obj) and the category id (str)
+ *
+ * @return arr  current category (obj) and category id (str)
+ */
+function cowobo_get_current_category() {
+    if (is_home()) {
+        $catid = 0;
+        $currentcat = false;
+    } elseif ($catid = get_query_var('cat')) {
+        $currentcat = get_category($catid);
+    } else {
+        $cat = get_the_category($post->ID);
+        $currentcat = $cat[0];
+        $catid = $currentcat->term_id;
+    }
+    return array ('currentcat' => $currentcat, 'catid' => $catid );
+}
