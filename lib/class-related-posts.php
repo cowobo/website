@@ -21,7 +21,8 @@
  *
  */
 
-new Cowobo_Related_Posts;
+global $related;
+$related = new Cowobo_Related_Posts;
 
 /**
  * This class makes the related posts and similar post suggestions
@@ -276,4 +277,42 @@ class Cowobo_Related_Posts {
 
 		return implode(' ', array_keys($outwords));
 	}
+
+    /**
+     * Create relations for a post.
+     *
+     * @global obj $wpdb
+     * @param int $postid of the post to be related
+     * @param arr $relatedpostids of posts to be related
+     * @return arr wp queries
+     */
+    public function create_relations($postid, $relatedpostids) {
+        global $wpdb;
+
+        $results = array();
+        foreach($relatedpostids as $relatedpostid) {
+            $relatedpostid = (int) $relatedpostid;
+            $results[] = $this->create_relation( $postid, $relatedpostid );
+        }
+
+        return $results;
+    }
+
+    /**
+     * Creates one relation between two posts
+     *
+     * @param int $postid1
+     * @param int $postid2
+     * @return str Result of WP query.
+     */
+    public function create_relation ( $postid1, $postid2 ) {
+        $type = cwob_get_category($post2);
+        if($type->slug == "locations"):
+            $coordinates = get_post_meta($post2, 'coordinates', true);
+            add_post_meta($post1, 'coordinates', $coordinates);
+        endif;
+        $query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($post1, $post2)";
+        $result = $wpdb->query($query);
+        return $result;
+    }
 }
