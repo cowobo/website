@@ -26,7 +26,7 @@ else:?>
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 		endif;?>
 	</div>
-	<div class="title"><span class="rss icon"><?php if($ajax) the_title(); else echo $post->post_title;?></span></div><?php
+	<div class="title"><span class="postrss"><?php if($ajax) the_title(); else echo $post->post_title;?></span></div><?php
 	the_content();
 	if($source = get_post_meta(get_the_ID(), 'source', false)):?>
 		<br/><a href="<?php echo "$source";?>"><?php echo editable_post_meta(get_the_ID(), 'source', 'input')?></a><?php

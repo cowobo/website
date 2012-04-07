@@ -46,8 +46,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
 .loadicon {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
-.largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
-.largerss:hover {background-position:0 -20px}
+.catrss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
+.catrss:hover {background-position:0 -20px}
 .address {position:absolute; right:5px; top:0;}
 
 /* Feedbar */
@@ -88,7 +88,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .tag  {background-position: 0px 0}
 .link {background-position:-15px 0}
 .author{background-position:-30px 0}
-
 
 /* Pan map buttons */
 .pan, .pan div {position:absolute; z-index:10; cursor:pointer}
@@ -143,6 +142,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
+.postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:0 -20px!important;}
+.postrss:hover {background-position:0 0}
 
 /* Edit Post Styles */
 .new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin:2px 0 15px 0; background:#fff;}

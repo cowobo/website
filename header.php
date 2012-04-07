@@ -92,7 +92,7 @@ endif;
 
 <div class="topmenu">
 	<ul class="menu left">
-		<li class="largerss"></li>
+		<li class="catrss"></li>
 		<li class="pagetitle" id="cat-<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?></li>
 		<li class="filter"><b>Filter</b>
 			<ul><?php echo $links;?></ul>

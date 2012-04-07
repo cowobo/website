@@ -142,7 +142,7 @@ function cowobo_sidebar_listeners() {
 		jQuery('#'+postid).fadeIn();
 	});
 
-	jQuery('.largerss, .rss').click(function(){
+	jQuery('.catrss').click(function(){
 		jQuery("#rss").fadeIn();
 	});
 }
@@ -185,8 +185,11 @@ function cowobo_lightbox_listeners() {
 		return false; //to prevent default action
 	});
 
-	//todo: vertical scrollwheel on lightbox
-	//jQuery('.holder').bind('mousewheel');
+	jQuery('.postrss').live('click', function() {
+		//todo load related feed posts icons via ajax
+		jQuery("#rss").fadeIn();
+	});
+
 
 	//intercept submit of comment form
 	jQuery(".commentform").live("submit", function() {

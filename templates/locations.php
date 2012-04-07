@@ -27,7 +27,7 @@ else:?>
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 		endif;?>
 	</div>
-	<div class="title"><span class="rss icon"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div>
+	<div class="title"><span class="postrss"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div>
 	<div class="container" style="margin:0;">
 		<b>Coordinates:</b> <?php echo $coordinates;?>
 		<div class="edit button">+ Edit</div>

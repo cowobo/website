@@ -29,7 +29,7 @@ else:?>
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 		endif;?>
 	</div>
-	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>
+	<div class="title"><span class="postrss"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div>
 	<b>Date Joined: </b><?php 
 	if(function_exists('editable_post_meta')):
 		echo editable_post_meta(get_the_ID(), 'datejoined', 'input');
