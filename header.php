@@ -169,5 +169,6 @@ endif;
 	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
 </div>
 
-<div class='angel'></div>
+<div class="angel"></div>
+<div class="scrollarrow"></div>
 <div class="page">
