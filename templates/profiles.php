@@ -26,7 +26,7 @@ else:?>
 			loadgallery_callback();
 			if(!empty($pano_id)):?><div class="streetview" id="<?php echo $pano_id;?>">Streetview!</div><?php endif;
 		else:?>
-		<div class="slide loading">Loading post..</div><?php
+		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 		endif;?>
 	</div>
 	<div class="title"><?php if($ajax) the_title(); else echo $post->post_title;?><span class="rss icon"></span></div>

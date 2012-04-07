@@ -127,7 +127,7 @@ endif;
 				<li class="zoom level-17">Level 8</li>
 			</ul>
 		</li>
-		<li><span class="maploading">Loading Map...</span></li>
+		<li><span class="maploading loadicon">Loading Map...</span></li>
 	</ul>
 	<ul class="menu right">
 		<?php echo $profile;?>
@@ -159,5 +159,9 @@ endif;
 </div>
 
 <div class="angel"></div>
-<div class="scrollarrow"></div>
+
+<div class="scrollarrow">
+<div class="scrollicon"></div>more
+</div>
+
 <div class="page">

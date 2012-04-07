@@ -1,7 +1,7 @@
 <div class="container tags"><?php
 global $currenttype;
 
-$relatedtags = get_the_category();
+if(!$newpost) $relatedtags = get_the_category(); //to prevent users saveing post under parent cat
 $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false, 'child_of'=>$postcat->term_id,));?>
 
 <h3><span class="tag icon"></span>Tags (<?php echo count($relatedtags);?>)</h3><?php if(count($relatedtags)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
