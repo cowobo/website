@@ -597,7 +597,6 @@ class Cowobo_Social {
      * @param str (optional) what to print before the link
      * @param str (optional) what to print after the link
      * @return boolean
-     * @todo feed the link here :)
      */
     public function print_rss_links( $feed_link = false, $before = '', $after = '' ) {
         $rss_services = array(
