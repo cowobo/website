@@ -6,9 +6,15 @@ Template Name: Cowobo Favourite feed
 require_once('lib/class-cowobo-feed.php');
 
 $args = array('sort' => 'ASC');
-$args['cats'] = (isset($_GET['cats']))? $_GET['cats'] : false;
-$args['posts'] = (isset($_GET['posts']))? $_GET['posts'] : false;
-$args['users'] = (isset($_GET['user']))? $_GET['user'] : false;
+
+// Is this a userfeed?
+if ( isset ( $wp_query->query_vars['userfeed'] ) && $userfeed = get_user_by ( 'slug', $wp_query->query_vars['userfeed'] ) ) {
+	$args['users'] = $userfeed->ID;
+} else {
+    $args['cats'] = (isset($_GET['cats']))? $_GET['cats'] : false;
+    $args['posts'] = (isset($_GET['posts']))? $_GET['posts'] : false;
+    $args['users'] = (isset($_GET['user']))? $_GET['user'] : false;
+}
 $feed = new Cowobo_Feed($args);
 
 $feedposts = $feed->get_feed();
@@ -25,7 +31,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 		<language>en-us</language>
 		<pubDate><?php $feed->rss_date( strtotime($feedposts[$lastpost]->post_date_gmt) ); ?></pubDate>
 		<lastBuildDate><?php $feed->rss_date( strtotime($feedposts[$lastpost]->post_date_gmt) ); ?></lastBuildDate>
-		<managingEditor>contactus@cowobo.org</managingEditor>		
+		<managingEditor>contactus@cowobo.org</managingEditor>
 <?php foreach ($feedposts as $post) { ?>
 		<item>
 			<title><?php echo get_the_title($post->ID); ?></title>
