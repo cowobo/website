@@ -54,8 +54,8 @@ $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
 
 // LOAD POSTS AND MENU LINKS
-if (isset($_GET['userfeed'])):
-	$args = array( 'users' => $_GET['userfeed'] );
+if ( $userfeed = is_userfeed() ) :
+	$args = array( 'users' => $userfeed->ID );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
 	$links = '<a href="">This feed has no additional categories</a>';
