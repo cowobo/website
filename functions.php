@@ -244,6 +244,7 @@ function savechanges_callback(){
 			endif;
 		endif;
 	endforeach;
+	//in case original author was deleted restore it here
 	update_post_meta($postid, 'author', $social->profile_id);
 }
 

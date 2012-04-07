@@ -36,7 +36,7 @@ foreach($typearray as $type):
 			<div class="column left">
 				<h3>1. Choose Category</h3>
 				<ul class="typelist">
-					<li class="sugg">Suggested >></li><?php
+					<li class="sugg selected">Suggested >></li><?php
 					foreach($subcats as $cat):?>
 						<li class="<?php echo $cat->term_id;?>"><?php echo $cat->name;?> >></li><?php
 					endforeach;?>
@@ -54,7 +54,7 @@ foreach($typearray as $type):
 					<h3>2. Choose Posts</h3>
 					<ul class="verlist"><?php
 					$suggestedposts  = new Cowobo_Related_Posts();
-					if ($suggestedposts = $suggestedposts->find_similar_posts()) :
+					if ($suggestedposts = $suggestedposts->find_similar_posts(false, $typeid, false)) :
 						foreach($suggestedposts as $suggested):?>
 							<li class="<?php echo $suggested->ID;?>"><a href="<?php echo get_permalink($feedpost->term_id);?>" onclick="return false"><?php echo $suggested->post_title;?></a></li><?php
 						endforeach;

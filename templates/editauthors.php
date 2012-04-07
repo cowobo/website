@@ -2,6 +2,8 @@
 
 if(!empty($profiles)):
 	$authorprofiles = get_posts(array('post__in' => $profiles));
+elseif($author):
+	$authorprofiles = array(get_post($social->profile_id));
 endif;
 
 $codercats = get_categories(array('child_of'=>get_cat_ID('Profiles'), 'hide_empty'=>false, 'parent'=>get_cat_ID('Profiles')));?>

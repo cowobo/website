@@ -27,7 +27,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .right {float:right;}
 
 /* Nav Menu */
-.topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:15; }
+.topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:25; }
 .menu {list-style:none; color:#fff; font-size:14px; font-weight:bold; margin-right:15px;}
 .menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer; }
 .menu ul {position:absolute; display:none; top:35px; left:0px; list-style:none; z-index:15; margin-left:-10px; }
@@ -44,14 +44,15 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
-.maploading {display:none; font-weight:normal}
+.maploading {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
 .largerss:hover {background-position:0 -20px}
+.address {position:absolute; right:5px; top:0;}
 
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
 .scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
-.angel {position:absolute; cursor:pointer; left:30px; bottom:160px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
+.angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .pagination {font-size:16px; float:right; margin-right:140px;}
 .pagination a {color:#fff; margin:0 5px 0 5px;}
@@ -74,7 +75,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .maplayer {display:none; z-index:2; width:100%; height:100%;}
 .mainmap {position:absolute; left:0; top:0; bottom:175px; width:100%; overflow:hidden;}
 .reflection {position:absolute; left:0; bottom:0; width:100%; height:175px; overflow:hidden; -webkit-transform: scaleY(-1);}
-.reflection img {margin-top:-15px; height:205px!important; -moz-transform:scaleY(-1); -o-transform: scaleY(-1); transform: scaleY(-1); filter: flipv; /*IE*/}
+.reflection img { -moz-transform:scaleY(-1); -o-transform: scaleY(-1); transform: scaleY(-1); filter: flipv; /*IE*/}
 .marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
 .marker img {width:100%; height:100%;}
 .mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}

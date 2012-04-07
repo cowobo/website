@@ -9,8 +9,10 @@ $posttype = $postcat->slug;
 $coordinates = get_post_meta($post->ID, 'coordinates', true);
 
 if(!empty($coordinates)):
-	$xml = simplexml_load_string(file_get_contents('http://cbk0.google.com/cbk?output=xml&ll='.$coordinates));
-	$pano_id = $xml->data_properties['pano_id'];
+	if($xmlstring = file_get_contents('http://cbk0.google.com/cbk?output=xml&ll='.$coordinates)):
+		$xml = simplexml_load_string($xmlstring);
+		$pano_id = $xml->data_properties['pano_id'];
+	endif;
 endif;
 		
 //check if user is author of post or added to the authors of post
@@ -46,7 +48,7 @@ endif;
 			else:?>
                 <span class="save button">Save</span><?php
 				if(!$newpost):?>
-				<span class="link icon"></span><span class='cowobo_social_like button'>Link</span><?php
+				<span class="link icon"></span><span class='cowobo_social_like button'>Share</span><?php
 				endif;
 				if ($post->ID != $social->profile_id):?>
 					<span class="delete button">Delete</span><?php                     
@@ -56,7 +58,7 @@ endif;
 			$prev = get_adjacent_post(true,'',false);
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
-			<span class="link icon"></span><span class="cowobo_social_like button link">Link</span>
+			<span class="link icon"></span><span class="cowobo_social_like button link">Share</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>
 	</div>
