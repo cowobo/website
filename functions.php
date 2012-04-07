@@ -397,12 +397,13 @@ function my_save_extra_profile_fields( $user_id ) {
 	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }
 
-function cowobo_get_pagetitle() {
+function cowobo_get_pagetitle ( $currentcat = false ) {
     if(isset($_GET['user'])) $pagetitle = "Favourite Feed";
     elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
     elseif(is_search()) $pagetitle = "<b>Search Results</b>";
     elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
     else $pagetitle = '<b>'.$currentcat->name.'</b>';
+    
     return $pagetitle;
 }
 

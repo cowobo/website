@@ -37,6 +37,7 @@ wp_delete_post($_GET["deleteid"]);
 // get current category
 if (is_home()):
 	$catid = 0;
+    $currentcat = false;
 elseif ($catid = get_query_var('cat')):
 	$currentcat = get_category($catid);
 else:
@@ -55,7 +56,7 @@ $feed_query .= ",".$userid;
 
 wp_head();
 
-$pagetitle = cowobo_get_pagetitle();
+$pagetitle = cowobo_get_pagetitle( $currentcat );
 
 $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
@@ -94,7 +95,7 @@ endif;
 
 <div class="topmenu">
 	<ul class="menu left">
-		<li class="largerss"></li> 
+		<li class="largerss"></li>
 		<li class="pagetitle" id="cat-<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?></li>
 		<li class="filter"><b>Filter</b>
 			<ul><?php echo $links;?></ul>
