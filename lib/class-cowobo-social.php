@@ -650,7 +650,7 @@ class Cowobo_Social {
             $feed_id = $category['catid'];
             $user_id = wp_get_current_user()->ID;
 
-            $output .= "$before<a href ='' onclick='add_to_feed($feed_type,$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
+            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed($feed_type,$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
         }
 
         foreach ( $rss_services as $rss ) {
