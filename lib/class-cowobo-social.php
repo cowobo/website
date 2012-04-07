@@ -633,6 +633,13 @@ class Cowobo_Social {
                 )
         );
 
+        /**
+         * Converts the url to the right one
+         *
+         * @param str $url for the rss service with either %enc_feed% or %feed%
+         * @param str $feed_url url for the feed to be added
+         * @return str Url for the service with feed url
+         */
         function get_feed_url ( $url, $feed_url ) {
             $url = str_replace(
                         array(
@@ -668,6 +675,11 @@ class Cowobo_Social {
         return true;
     }
 
+    /**
+     * Returns the RSS URL for the current feed in the feederbar
+     *
+     * @return str RSS URL for the current feed in the feederbar
+     */
     public function current_feed_url() {
         $url = 'http';
         if ($_SERVER["HTTPS"] == "on") {$url .= "s";}
@@ -684,6 +696,12 @@ class Cowobo_Social {
         return $url;
     }
 
+    /**
+     * Makes rewrite rules for the personal feed
+     *
+     * @global obj $wp
+     * @global obj $wp_rewrite
+     */
     public function personal_feed_url() {
         global $wp,$wp_rewrite;
         $wp->add_query_var('userfeed');
@@ -691,6 +709,11 @@ class Cowobo_Social {
         $wp_rewrite->add_permastruct('personal-feed', PERSONALFEEDSLUG . '/%userfeed%');
     }
 
+    /**
+     * Makes sure we use our custom RSS template for the personal feed
+     *
+     * @param bool $for_comments
+     */
     public function personal_feed_rss_template( $for_comments ) {
         $rss_template = get_template_directory() . '/feeds.php';
         if( get_query_var( 'userfeed' ) and file_exists( $rss_template ) )
