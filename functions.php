@@ -206,7 +206,9 @@ function loadgallery_callback(){
 }
 
 function savechanges_callback(){
-	global $wpdb; global $social;
+	global $wpdb;
+    global $social;
+    global $related;
 
 	// first update the main post attributes
 	$postid = $_POST["postid"];
@@ -216,8 +218,8 @@ function savechanges_callback(){
 	wp_update_post($postdata);
 
 	//then update related posts
-	$postclass  = new Cowobo_Related_Posts();
-	$postclass->cwob_delete_relationships($postid);
+	//$postclass  = new Cowobo_Related_Posts();
+	$related->cwob_delete_relationships($postid);
 
 	//then add all the custom fields and make sure the author is listed
 	delete_post_meta($postid, 'author');
@@ -234,16 +236,7 @@ function savechanges_callback(){
 				endforeach;
 			elseif($key == 'posts'):
 				$relatedpostids = explode(',' , $value);
-				foreach($relatedpostids as $relatedpostid):
-					$relatedpostid = (int) $relatedpostid;
-					$type = cwob_get_category($relatedpostid);
-					if($type->slug == "locations"):
-						$coordinates = get_post_meta($relatedpostid, 'coordinates', true);
-						add_post_meta($postid, 'coordinates', $coordinates);
-					endif;
-					$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $relatedpostid)";
-					$result = $wpdb->query($query);
-				endforeach;
+                $related->create_relations( $relatedpostids );
 			else:
 				update_post_meta($postid, $key, $value);
 			endif;
