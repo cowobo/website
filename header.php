@@ -54,12 +54,17 @@ $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
 
 // LOAD POSTS AND MENU LINKS
-if (isset($_GET['userfeed'])):
-	$args = array( 'userfeed' => $_GET['userfeed'] );
+if ( $userfeed = is_userfeed() ) :
+	$args = array( 'users' => $userfeed->ID );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
-	$links = '<a href="">This feed has no additional categories</a>';
+	$links = '<a href="">None</a>';
 else:
+    if ( is_404() ) :
+        $query_string= '';
+        $_GET['sort'] = 'random';
+    endif;
+    //print_r ( $query_string ); die;
 	$sort = '&orderby='.$_GET['sort'];
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
@@ -135,6 +140,7 @@ endif;
 			<span class="homebutton">Home</span>
 			<div class="droparrow"></div>
 			<ul>
+                <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
 				<li>Account Settings</li>
 				<li>Disclaimer</li>
 				<?php echo $loginout;?>

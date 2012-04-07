@@ -95,6 +95,13 @@ class Cowobo_Social {
 
         // Restrict dashboard access
         add_action( 'admin_head', array ( &$this, 'restrict_dashboard'), 0 );
+
+        // Rewrite for the personal feed
+        add_action ( 'init', array ( &$this, 'personal_feed_url' ) );
+
+        // Template for personal feed rss
+        remove_all_actions( 'do_feed_rss2' );
+        add_action( 'do_feed_rss2', array ( &$this, 'personal_feed_rss_template' ), 10, 1 );
 	}
 
 	/* === User Profiles === */
@@ -626,6 +633,13 @@ class Cowobo_Social {
                 )
         );
 
+        /**
+         * Converts the url to the right one
+         *
+         * @param str $url for the rss service with either %enc_feed% or %feed%
+         * @param str $feed_url url for the feed to be added
+         * @return str Url for the service with feed url
+         */
         function get_feed_url ( $url, $feed_url ) {
             $url = str_replace(
                         array(
@@ -644,13 +658,13 @@ class Cowobo_Social {
         $output = "";
 
         // Add to CoWoBo favourite feed
-        if (is_user_logged_in() ) {
-            $feed_type = 'c'; // 'p' or 'c'
+        if (is_user_logged_in() && !is_userfeed() ) {
+            $feed_type = 'c';
             $category = cowobo_get_current_category();
             $feed_id = $category['catid'];
             $user_id = wp_get_current_user()->ID;
 
-            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed($feed_type,$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
+            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed(\"$feed_type\",$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
         }
 
         foreach ( $rss_services as $rss ) {
@@ -661,6 +675,11 @@ class Cowobo_Social {
         return true;
     }
 
+    /**
+     * Returns the RSS URL for the current feed in the feederbar
+     *
+     * @return str RSS URL for the current feed in the feederbar
+     */
     public function current_feed_url() {
         $url = 'http';
         if ($_SERVER["HTTPS"] == "on") {$url .= "s";}
@@ -675,6 +694,32 @@ class Cowobo_Social {
 
         $url .= "feed";
         return $url;
+    }
+
+    /**
+     * Makes rewrite rules for the personal feed
+     *
+     * @global obj $wp
+     * @global obj $wp_rewrite
+     */
+    public function personal_feed_url() {
+        global $wp,$wp_rewrite;
+        $wp->add_query_var('userfeed');
+        $wp_rewrite->add_rewrite_tag('%userfeed%','([^/]+)','userfeed=');
+        $wp_rewrite->add_permastruct('personal-feed', PERSONALFEEDSLUG . '/%userfeed%');
+    }
+
+    /**
+     * Makes sure we use our custom RSS template for the personal feed
+     *
+     * @param bool $for_comments
+     */
+    public function personal_feed_rss_template( $for_comments ) {
+        $rss_template = get_template_directory() . '/feeds.php';
+        if( get_query_var( 'userfeed' ) and file_exists( $rss_template ) )
+            load_template( $rss_template );
+        else
+            do_feed_rss2( $for_comments ); // Call default function
     }
 
 }

@@ -40,12 +40,12 @@ jQuery(document).ready(function() {
 	if(jQuery('.single').length>0){
 		update_scrollbars(jQuery('.single').attr('id'));
 	}
-	
+
 	//setup geocoder if script has been loaded
 	if(typeof(google)!="undefined"){
 		geocoder =  new google.maps.Geocoder();
-	} 
-	
+	}
+
 	//check if there is a hash onload
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
@@ -57,20 +57,20 @@ jQuery(document).ready(function() {
 		jQuery('#'+mapdata.post).fadeIn();
 		loadlightbox(mapdata.post, 0);
 	}
-	
+
 	//load lightbox when hash changes
-	jQuery(window).hashchange(function(){		
+	jQuery(window).hashchange(function(){
 		var newhash = window.location.hash;
 		var hasharray = newhash.split('#');
 		var prevmap;
-		
+
 		//find the layer if has already been loaded
 		jQuery('.maplayer').each(function(){
 			if(jQuery(this).data('hash') === newhash) {
 				prevmap = jQuery(this);
 			}
 		});
-			
+
 		//if map has already loaded update mapdata and fade it in, else load the new map
 		if(typeof(prevmap) != 'undefined') {
 			jQuery.each(prevmap.data(),function(key, value) {mapdata[key] = value;});
@@ -78,7 +78,7 @@ jQuery(document).ready(function() {
 				jQuery('.maplayer').not(this).hide();
 			});
 			jQuery('.large').fadeOut();
-			jQuery('#'+mapdata.post).fadeIn(); 
+			jQuery('#'+mapdata.post).fadeIn();
 		} else {
 			for (var x = 1; x < hasharray.length; x++) {
 				var part = hasharray[x].split('=');
@@ -114,7 +114,7 @@ function cowobo_sidebar_listeners() {
 			child.slideUp();
 		}
 	);
-	
+
 	jQuery('.homebutton').click(function() {
 		window.location = rooturl;
 	});
@@ -139,7 +139,7 @@ function cowobo_sidebar_listeners() {
 		var postid = jQuery(this).attr('id').split('-')[1];
 		window.location.hash = '#post='+postid;
 		jQuery('.large').fadeOut();
-		jQuery('#'+postid).fadeIn(); 
+		jQuery('#'+postid).fadeIn();
 	});
 
 	jQuery('.largerss, .rss').click(function(){
@@ -251,8 +251,8 @@ function cowobo_map_listeners() {
 	jQuery('.zoom, .pan').click(function(){
 		var map = jQuery('.maplayer:last').data('hash');
 		var hash = window.location.hash;
-		var newvalue = {};	
-		
+		var newvalue = {};
+
 		jQuery('.menu ul').slideUp();
 		mapdata['post'] = 0;
 
@@ -265,7 +265,7 @@ function cowobo_map_listeners() {
 			} else if(jQuery(this).hasClass('moveright')) {
 				newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*1, mapdata.zoom);
 			} else if(jQuery(this).hasClass('moveup')) {
-				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);					
+				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);
 			} else if(jQuery(this).hasClass('movedown')) {
 				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*1, mapdata.zoom);
 			} else if(jQuery(this).hasClass('zoom')) {
@@ -274,7 +274,7 @@ function cowobo_map_listeners() {
 			}
 			//update hash with new values
 			for (key in newvalue) {
-				if(hash.indexOf(key) != -1){		
+				if(hash.indexOf(key) != -1){
     				var vars = hash.split("#");
 					for (var i = 0; i < vars.length; i++) {
         				var part = vars[i].split("=");
@@ -289,9 +289,9 @@ function cowobo_map_listeners() {
 			alert('Please wait for map to finish loading')
 		}
 	});
-	
+
 	//zoom new layer on click if there are no lightboxes visible
-	jQuery('.maplayer').live('click', function(e){ 
+	jQuery('.maplayer').live('click', function(e){
 		var oldlat = jQuery(this).data('lat');
 		var oldlng = jQuery(this).data('lng');
 		var oldzoom = jQuery(this).data('zoom');
@@ -409,18 +409,18 @@ function cowobo_editpost_listeners() {
 			});
 		}
   	});
-	
+
 	//this still needs some work
 	jQuery('.addlocation').live('click', function() {
 		var country = jQuery(this).siblings('.newcountry').val();
 		var city = jQuery(this).siblings('.newcity').val();
 		var selectbox = jQuery(this).parents('.selectbox');
 		var parent = selectbox.attr('id').split('-')[1];
-		
+
 		if(typeof(country)== 'undefined') {
 			alert('Please enter a Country');
 		} else if(typeof(city)== 'undefined') {
-			alert('Please enter a City');	
+			alert('Please enter a City');
 		} else {
 			if(geocoder) {
 			geocoder.geocode({ 'address': city + ',' + country }, function (results, status) {
@@ -432,9 +432,9 @@ function cowobo_editpost_listeners() {
    						type: "POST",
    						url: rooturl+'wp-admin/admin-ajax.php',
    						data: {
-							action: 'addlocation', 
+							action: 'addlocation',
 							country:country,
-							city:city, 
+							city:city,
 							parent:parent,
 							coordinates:coordinates,
 						},
@@ -448,7 +448,7 @@ function cowobo_editpost_listeners() {
 					alert("Google couldn't find this location, please check your connection and try another town or city.");
         		}
 			});
-   			} 
+   			}
 		}
   	});
 
@@ -501,7 +501,7 @@ function cowobo_editpost_listeners() {
 			+ jQuery(this).html()
 			+ '<span class="remove button"> (x)</span><br/>Updated just now</div></div>');
 			if(jQuery(this).parents('.container').hasClass('locations')){
-				listbox.html(listitem);	
+				listbox.html(listitem);
 			} else {
 				listitem.prependTo(listbox);
 				listbox.css('height', 'auto');
@@ -537,7 +537,7 @@ function cowobo_editpost_listeners() {
 			data[jQuery(this).attr('name')] = jQuery(this).val();
 		});
 
-		// get all tags and linked posts 
+		// get all tags and linked posts
 		post.find('.container').each(function(){
 			if (jQuery(this).hasClass('tags')) {
 				jQuery(this).find('.listitem').each(function(){
@@ -553,14 +553,14 @@ function cowobo_editpost_listeners() {
 				});
 			}
 		});
-	
+
 		//save all data as strings
      	data['action'] = 'savechanges';
 		data['postid'] = post.attr('id');
 		data['tags'] = tags.join(',');
 		data['authors'] = authors.join(',');
 		data['posts'] = posts.join(',');
-			
+
 		//make sure the post has a feed and author
 		if (tags.length<0) {
 			alert('You must specify atleast one feed');
@@ -623,7 +623,7 @@ function loadlightbox(postid, catid) {
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}	
-	
+
 	//load the appropriate content
 	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined') {
 		return true;
@@ -632,14 +632,14 @@ function loadlightbox(postid, catid) {
 	} else if (postid != 'new') {
 		loadNewMap(mapdata);
 	}
-	
+
 	if(jQuery('#'+postid + '.container').length<1 && postid != 0) {
 		jQuery.ajax({
    			type: "POST",
    			url: rooturl+'wp-admin/admin-ajax.php',
    			data: {
-				action: 'loadlightbox', 
-				currentcat:catid, 
+				action: 'loadlightbox',
+				currentcat:catid,
 				postid:postid
 			},
    			success: function(msg){
@@ -665,7 +665,7 @@ function loadlightbox(postid, catid) {
 			}
 		});
 	}
-	
+
 	// Load awesome-count
 	jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
 }
@@ -839,7 +839,7 @@ function add_to_feed(feed_type,feed_id,user_id) {
 		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
 		data: {feed_type:feed_type,feed_id:feed_id,user_id:user_id,add:true},
 		success: function(msg){
-			angel_talk("This feed is now part of your personal feed.");
+			alert("This feed is now part of your personal feed.");
 		}
 	});
 }
@@ -850,7 +850,7 @@ function reset_feed(user_id) {
 		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
 		data: {user_id:user_id,reset:true},
 		success: function(msg){
-			angel_talk("Your feed has been succesfully reset.");
+			alert("Your feed has been succesfully reset.");
 		}
 	});
 }
@@ -911,7 +911,7 @@ function loadNewMap(data){
 	jQuery('.maploading').fadeIn();
 	jQuery('.zoom').removeClass('zoomselect');
 	jQuery('.level-'+data.zoom).addClass('zoomselect');
-		
+
 	//load new layer
 	for (key in data) {
 		newlayer.data(key, data[key]);
@@ -931,7 +931,7 @@ function loadNewMap(data){
 			newlayer.find('.reflection').append('<img src="'+url+'" alt="" class="maptiles">');
 		}
 	});
-	
+
 	//sort markers by latitude to ensure correct overlapping
 	var markerlist = jQuery('<div></div>');
 	data.markers.sort(function(a,b){
@@ -958,15 +958,15 @@ function loadNewMap(data){
 			event.stopPropagation();
 			window.location.hash = '#post='+postid;
 			jQuery('.large').fadeOut();
-			jQuery('#'+postid).fadeIn(); 
+			jQuery('#'+postid).fadeIn();
 		});
 		marker.hover(
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
 			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
-	
-	if(data.zoom>4) var fileurl = rooturl+'allcities.xml'; 
+
+	if(data.zoom>4) var fileurl = rooturl+'allcities.xml';
 	else if(data.zoom>2) var fileurl = rooturl+'majorcities.xml';
 	else var fileurl = '';
 	jQuery.get(fileurl, function(xml) {
