@@ -59,12 +59,17 @@ if ( $userfeed = is_userfeed() ) :
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
 	$links = '<a href="">None</a>';
+elseif ( is_cowobo_profile( $currentcat ) ) :
+    $profile_user_id = $social->get_user_from_profile_id ( $wp_query->queried_object_id  );
+    $profile_feed = get_user_meta($profile_user_id, 'cowobo_profilefeed', true );
+    if ( ! is_array ( $profile_feed ) ) $profile_feed = array();
+    $profile_feed[] = $profile_user_id;
+    $newposts = query_posts(array ( 'post__in' => $profile_feed, 'sort' => 'DESC' ) );
 else:
     if ( is_404() ) :
         $query_string= '';
         $_GET['sort'] = 'random';
     endif;
-    //print_r ( $query_string ); die;
 	$sort = '&orderby='.$_GET['sort'];
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
@@ -72,6 +77,7 @@ else:
 		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.'</a></li>';
 	endforeach;
 endif;
+
 // Sort the query if needed
 if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
