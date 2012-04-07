@@ -98,6 +98,10 @@ class Cowobo_Social {
 
         // Rewrite for the personal feed
         add_action ( 'init', array ( &$this, 'personal_feed_url' ) );
+
+        // Template for personal feed rss
+        remove_all_actions( 'do_feed_rss2' );
+        add_action( 'do_feed_rss2', array ( &$this, 'personal_feed_rss_template' ), 10, 1 );
 	}
 
 	/* === User Profiles === */
@@ -685,6 +689,14 @@ class Cowobo_Social {
         $wp->add_query_var('userfeed');
         $wp_rewrite->add_rewrite_tag('%userfeed%','([^/]+)','userfeed=');
         $wp_rewrite->add_permastruct('personal-feed', 'personal-feed/%userfeed%');
+    }
+
+    public function personal_feed_rss_template( $for_comments ) {
+        $rss_template = get_template_directory() . '/feeds.php';
+        if( get_query_var( 'userfeed' ) and file_exists( $rss_template ) )
+            load_template( $rss_template );
+        else
+            do_feed_rss2( $for_comments ); // Call default function
     }
 
 }
