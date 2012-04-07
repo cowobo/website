@@ -25,6 +25,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .clear {clear:both;}
 .left {float:left;}
 .right {float:right;}
+.hide {display:none;}
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:25; }
@@ -44,21 +45,19 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
-.maploading {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
-.largerss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
-.largerss:hover {background-position:0 -20px}
+.loadicon {font-weight:normal;  padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
+.catrss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
+.catrss:hover {background-position:0 -20px}
 .address {position:absolute; right:5px; top:0;}
 
 /* Feedbar */
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
 .scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
 .angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
-.scrollarrow {position:absolute; cursor:pointer; right:20px; bottom:190px;  width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
-.pagination {font-size:16px; float:right; margin-right:140px;}
-.pagination a {color:#fff; margin:0 5px 0 5px;}
-.pagination a:hover {color:#0099CC;}
-.current {font-size:20px;}
+.scrollarrow {position:absolute; right:20px; bottom:190px; height:15px; width:70px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
+.scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px; maring-top:2px;}
+
 
 /* Map */
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
@@ -143,9 +142,11 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
 .cowobo_social_share {display: none; background: #fff; width:550px;}
+.postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:0 -20px!important;}
+.postrss:hover {background-position:0 0}
 
 /* Edit Post Styles */
-.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin-bottom:15px; background:#fff;}
+.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin:2px 0 15px 0; background:#fff;}
 .choosetype {width:520px;}
 .editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}

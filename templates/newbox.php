@@ -29,6 +29,7 @@ else:?>
 			<div class="topshadow">
 				<h1>Add New Post</h1>
 			</div>
+			<div class="slide loading hide"><span class="loadicon">Loading form..</span></div>
 		</div>
 	<span class="title">Choose the type of post</span><?php
 		wp_dropdown_categories(array(

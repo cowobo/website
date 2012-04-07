@@ -92,7 +92,7 @@ endif;
 
 <div class="topmenu">
 	<ul class="menu left">
-		<li class="largerss"></li>
+		<li class="catrss"></li>
 		<li class="pagetitle" id="cat-<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?></li>
 		<li class="filter"><b>Filter</b>
 			<ul><?php echo $links;?></ul>
@@ -132,7 +132,7 @@ endif;
 				<li class="zoom level-17">Level 8</li>
 			</ul>
 		</li>
-		<li><span class="maploading">Loading Map...</span></li>
+		<li><span class="maploading loadicon">Loading Map...</span></li>
 	</ul>
 	<ul class="menu right">
 		<?php echo $profile;?>
@@ -165,5 +165,9 @@ endif;
 </div>
 
 <div class="angel"></div>
-<div class="scrollarrow"></div>
+
+<div class="scrollarrow">
+<div class="scrollicon"></div>more
+</div>
+
 <div class="page">
