@@ -53,21 +53,12 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .page {position:absolute; bottom:0; width:100%; z-index:4;}
 .scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
 .angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
+.scrollarrow {position:absolute; cursor:pointer; right:20px; bottom:190px;  width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .pagination {font-size:16px; float:right; margin-right:140px;}
 .pagination a {color:#fff; margin:0 5px 0 5px;}
 .pagination a:hover {color:#0099CC;}
 .current {font-size:20px;}
-
-/* Speech bubble */
-.speechbubble {display:none; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:#075698; color:#fff;margin:0 0 3em;padding:15px;position:absolute;right:150px;bottom:-85px;}
-.speechbubble.right{background:#075698; width:auto;}
-.speechbubble:after{border-color:#075698 transparent; border-style:solid; border-width:20px 0 0 20px; bottom:-20px;content:"";display:block;left:50px;position:absolute;width:0;}
-.speechbubble.right:after{border-color:transparent #075698; border-width:15px 0 0 40px; top:auto; left:auto; right:-40px; bottom:30px;}
-.speechbubble-title {color:#f0f8ff; font-size:18px; line-height:30px; margin-right:10px; }
-.speechbubble a:link, .speechbubble a:visited {text-decoration:none; font-weight:bold; color:#fff;}
-.speechbubble a:hover {color: #ddd;}
-.speechbubble .close { float: right; cursor:pointer;}
 
 /* Map */
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
@@ -176,7 +167,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .empty {color:#888;}
 
 /* Related Boxes */
-.listbox {overflow:hidden; list-style:none;}
+.listbox {overflow:hidden; list-style:none; clear:both;}
 .listbox li {padding:0;}
 .listbox ul {padding-left:15px;}
 .restrict {height:125px; }
