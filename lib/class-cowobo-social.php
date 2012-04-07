@@ -95,6 +95,9 @@ class Cowobo_Social {
 
         // Restrict dashboard access
         add_action( 'admin_head', array ( &$this, 'restrict_dashboard'), 0 );
+
+        // Rewrite for the personal feed
+        add_action ( 'init', array ( &$this, 'personal_feed_url' ) );
 	}
 
 	/* === User Profiles === */
@@ -650,7 +653,7 @@ class Cowobo_Social {
             $feed_id = $category['catid'];
             $user_id = wp_get_current_user()->ID;
 
-            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed($feed_type,$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
+            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed(\"$feed_type\",$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
         }
 
         foreach ( $rss_services as $rss ) {
@@ -675,6 +678,13 @@ class Cowobo_Social {
 
         $url .= "feed";
         return $url;
+    }
+
+    public function personal_feed_url() {
+        global $wp,$wp_rewrite;
+        $wp->add_query_var('userfeed');
+        $wp_rewrite->add_rewrite_tag('%userfeed%','([^/]+)','userfeed=');
+        $wp_rewrite->add_permastruct('personal-feed', 'personal-feed/%userfeed%');
     }
 
 }
