@@ -6,15 +6,12 @@ if($newpost):?>
 		</div>
 		<div class="slide loading">Click here to add images</div>
 	</div>
-	<h3>Name of Location:</h3> Leave out the country
+	<h3>Name of Town or City:</h3> Check it does not exist on our site
 	<input type="text" name="edittitle" class="new edittitle" value="" />
 	
-	<h3>Coordinates:</h3> Search for address below or <span class="relocate">click here</span> to use our map
-	<div style="position:relative">
-		<input type="text" class="searchform new" value=""/>
-		<span class="address searchbutton"></span>
-	</div>
-	<span class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></span><br/>
+	<h3>Coordinates:</h3> Enter address below and then <span class="relocate">click here</span>
+	<input type="text" class="searchform new" value=""/>
+	<div class="latlng" id="<?php echo $coordinates;?>"><?php echo $coordinates;?></div>
 	
 	<h3>Description:</h3> Maximum 1000 characters
 	<textarea name="editcontent" rows="5" class="new editcontent"></textarea><?php

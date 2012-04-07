@@ -119,26 +119,14 @@ function cowobo_sidebar_listeners() {
 		window.location = rooturl;
 	});
 
-	//ajax search for address
+	//search address from menubar
 	jQuery('.address').live('click', function(event) {
 		event.preventDefault();
-		var address = jQuery(this).siblings('.searchform').val();
-		if (geocoder) {
-			geocoder.geocode({ 'address': address }, function (results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				var latlng = results[0].geometry.location;
-				mapdata.lat = latlng.lat();
-				mapdata.lng = latlng.lng();
-				mapdata.zoom = 17;
-				loadNewMap(mapdata);
-				}
-			else {
-				alert("We couldn't locate that address, please try fewer keywords");
-        	}
-			});
-   		}    
+		var keywords = jQuery(this).siblings('.searchform').val();
+		searchaddress(keywords);
 	});
 	
+
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery(".scroller").mousewheel(function(event, delta) {
 		jQuery(this).scrollLeft(jQuery(this).scrollLeft()+delta * -30);
@@ -337,12 +325,21 @@ function cowobo_editpost_listeners() {
 		loadlightbox('new', catid);
 	});
 
+	//relocate marker
 	jQuery('.relocate').live('click', function() {
-		jQuery('.editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
-		jQuery('.large, .marker').fadeOut();
-		jQuery('.editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
+		var keywords = jQuery(this).siblings('.searchform').val();
+		if(keywords.length > 0) {
+			searchaddress(keywords);
+			jQuery('.editmarker').data('postid', jQuery(this).parents('.large').attr('id'));
+			jQuery('.large, .marker').fadeOut();
+			jQuery('.editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
+		} else {
+			alert('Please enter a town or city')
+		}
+
   	});
 
+	//save location
 	jQuery('.savelocation').click(function() {
 		if(typeof(jQuery('.maplayer:last')).data('hash') !='undefined'){
 			var id = jQuery(this).parents('.editmarker').data('postid');
@@ -350,7 +347,7 @@ function cowobo_editpost_listeners() {
 			var lng = mapdata.lng;
 			var newlatlng = lat+','+lng;
 			jQuery('#'+id+', .marker').fadeIn();
-			jQuery('#'+id+' .latlng').attr('id',newlatlng).html(newlatlng)
+			jQuery('#'+id+' .latlng').attr('id',newlatlng).html('<b>Coordinates</b>'+newlatlng+'<span>(x)</span>');
 			jQuery('.editmarker').hide();
 		} else {
 			alert('Please wait for map to finish loading');
@@ -359,6 +356,7 @@ function cowobo_editpost_listeners() {
 
 	jQuery('.cancellocation').click(function() {
 		var id = jQuery(this).parents('.editmarker').data('postid');
+		jQuery('#'+id+' .latlng').attr('id',newlatlng).html('');
 		jQuery('#'+id+', .marker').fadeIn();
 		jQuery('.editmarker').hide();
   	});
@@ -659,6 +657,25 @@ function loadlightbox(postid, catid) {
 	jQuery('#'+postid).find('.like').html( jQuery('#like_small' + postid ).html() );
 }
 
+function searchaddress(address) {
+	if (geocoder) {
+		geocoder.geocode({ 'address': address }, function (results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				var latlng = results[0].geometry.location;
+				mapdata.lat = latlng.lat();
+				mapdata.lng = latlng.lng();
+				mapdata.zoom = 17;
+				loadNewMap(mapdata);
+				alert(latlng.lat());
+				return latlng;
+			} else {
+				alert("We couldn't locate that address, please try fewer keywords");
+				return false;
+        	}
+		});
+   	}    
+}
+
 function loadlike(postid) {
 	// Load social share box
 	jQuery.ajax({
@@ -837,7 +854,7 @@ function angel_talk(msg) {
 //MAP FUNCTIONS
 function initialize() {
 	//load map centered on africa
-	mapdata = {'post':0, 'lat':0.49860809171295, 'lng':10.932544165625036, 'markers': jQuery('.markerdata'), 'zoom':3, 'type':'satellite'} // 'markers':markers, 
+	mapdata = {'post':0, 'lat':15.49860809171295, 'lng':10.932544165625036, 'markers': jQuery('.markerdata'), 'zoom':3, 'type':'satellite'} // 'markers':markers, 
 	loadNewMap(mapdata);
 }
 
