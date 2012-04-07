@@ -84,6 +84,10 @@ jQuery(document).ready(function() {
 				var part = hasharray[x].split('=');
 				mapdata[part[0]] = part[1];
 			}
+			if(jQuery('#'+mapdata.post).length>0){
+				jQuery('.large').fadeOut();
+				jQuery('#'+mapdata.post).fadeIn();
+			}
 			loadlightbox(mapdata.post, 0);
 		}
 	})
@@ -516,9 +520,8 @@ function cowobo_editpost_listeners() {
 
 	jQuery('.nextpost, .lastpost').live('click', function() {
 		var newid = jQuery(this).attr('id').split('-')[1];
-		jQuery(this).parents('.large').find('.content').fadeTo('slow', 0.5);
-		loadlightbox(newid, 0);
-		//loadNewMap(mapdata);
+		jQuery(this).addClass('loadicon');
+		window.location.hash = '#post='+newid;
 	});
 
 	jQuery('.save').live('click', function() {
@@ -649,16 +652,16 @@ function loadlightbox(postid, catid) {
 			},
    			success: function(msg){
 				var newbox = jQuery(msg);
-				var oldbox = jQuery('#'+postid);
 				var newid = newbox.children('.large').attr('id');
+				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();
-				//if oldbox doesnt exist then add it
+				//if oldbox doesnt exist then add it	;
 				if(oldbox.length<1){
 					jQuery('.large').hide();
 					jQuery('body').append(newbox);
 				} else {
 					if(oldbox.css("display") == "none") newbox.children('.large').hide();
-					oldbox.replaceWith(newbox);
+					oldbox.replaceWith(newbox.children('.large'));
 					newbox.find('.content').scrollTop(scrollpos);
 				}
 				cowobo_jquery_ui_listeners();

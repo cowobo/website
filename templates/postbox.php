@@ -8,7 +8,7 @@ $postcat = cwob_get_category($post->ID);
 $posttype = $postcat->slug;
 $coordinates = get_post_meta($post->ID, 'coordinates', true);
 
-if(!empty($coordinates)):
+if(!empty($coordinates) && checkdnsrr('google.com', 'ANY')):
 	if($xmlstring = file_get_contents('http://cbk0.google.com/cbk?output=xml&ll='.$coordinates)):
 		$xml = simplexml_load_string($xmlstring);
 		$pano_id = $xml->data_properties['pano_id'];
