@@ -201,6 +201,25 @@ class Cowobo_Social {
 	}
 
     /**
+     * Returns user object from profile post id
+     *
+     * Use with care - searches through the metafields of all posts.
+     *
+     * @global obj $wpdb
+     * @param int $profile_id
+     * @return int $userid
+     */
+    public function get_user_from_profile_id ( $profile_id ) {
+        global $wpdb;
+        $usermeta = $wpdb->prefix . 'usermeta';
+
+        $select_user = "SELECT user_id FROM $usermeta WHERE meta_key = 'cowobo_profile' AND meta_value = '$profile_id'";
+        $user_id = $wpdb->get_var( $select_user );
+
+        return $user_id;
+    }
+
+    /**
      * Does the state magic
      *
      * It checks for the registered state in the database and runs some tests on it to check if it is right. If it's wrong, it's rectified. This method sets the public variable Cowobo_Social::state
