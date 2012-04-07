@@ -347,7 +347,7 @@ function cowobo_editpost_listeners() {
 			var lng = mapdata.lng;
 			var newlatlng = lat+','+lng;
 			jQuery('#'+id+', .marker').fadeIn();
-			jQuery('#'+id+' .latlng').attr('id',newlatlng).html('<b>Coordinates</b>'+newlatlng+'<span>(x)</span>');
+			jQuery('#'+id+' .latlng').val(newlatlng);
 			jQuery('.editmarker').hide();
 		} else {
 			alert('Please wait for map to finish loading');
@@ -356,7 +356,7 @@ function cowobo_editpost_listeners() {
 
 	jQuery('.cancellocation').click(function() {
 		var id = jQuery(this).parents('.editmarker').data('postid');
-		jQuery('#'+id+' .latlng').attr('id',newlatlng).html('');
+		jQuery('#'+id+' .latlng').val('');
 		jQuery('#'+id+', .marker').fadeIn();
 		jQuery('.editmarker').hide();
   	});
@@ -519,7 +519,20 @@ function cowobo_editpost_listeners() {
 	jQuery('.save').live('click', function() {
 		var posts = new Array(); var tags = new Array(); var authors = new Array(); var data = {};
 		var post = jQuery(this).parents('.large');
+		var latlng = post.find('.latlng').val();
+		alert(latlng);
 		
+		//check coordinates entered into box are correct format
+		if(typeof(latlng)!= 'undefined') {
+			var testlat = /^[0-9\-\.\,]*$/;
+			if(!testlat.test(latlng)) {
+				alert('Please enter coordinates in the correct decimal format (ie 33.3242,12.134123) or enter an address and click on the link above');
+				return false;
+			} else {
+				data['coordinates'] = latlng;
+			}
+		}
+			
 		// save all new text inputs 
 		post.find('.new').each(function(){
 			data[jQuery(this).attr('name')] = jQuery(this).val();
@@ -545,7 +558,6 @@ function cowobo_editpost_listeners() {
 		//save all data as strings
      	data['action'] = 'savechanges';
 		data['postid'] = post.attr('id');
-		data['coordinates'] = post.find('.latlng').attr('id');
 		data['tags'] = tags.join(',');
 		data['authors'] = authors.join(',');
 		data['posts'] = posts.join(',');
@@ -664,7 +676,7 @@ function searchaddress(address) {
 				var latlng = results[0].geometry.location;
 				mapdata.lat = latlng.lat();
 				mapdata.lng = latlng.lng();
-				mapdata.zoom = 17;
+				mapdata.zoom = 10;
 				loadNewMap(mapdata);
 				alert(latlng.lat());
 				return latlng;
