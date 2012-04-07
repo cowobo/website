@@ -237,7 +237,6 @@ function savechanges_callback(){
 			elseif($key == 'posts'):
 				$relatedpostids = explode(',' , $value);
                 $related->create_relations( $relatedpostids );
-
 			else:
 				update_post_meta($postid, $key, $value);
 			endif;
