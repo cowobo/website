@@ -647,8 +647,8 @@ class Cowobo_Social {
         $output = "";
 
         // Add to CoWoBo favourite feed
-        if (is_user_logged_in() ) {
-            $feed_type = 'c'; // 'p' or 'c'
+        if (is_user_logged_in() && !is_userfeed() ) {
+            $feed_type = 'c';
             $category = cowobo_get_current_category();
             $feed_id = $category['catid'];
             $user_id = wp_get_current_user()->ID;
