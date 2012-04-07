@@ -55,11 +55,16 @@ if(empty($nextlink)) $backlink = '#';
 
 // LOAD POSTS AND MENU LINKS
 if (isset($_GET['userfeed'])):
-	$args = array( 'userfeed' => $_GET['userfeed'] );
+	$args = array( 'users' => $_GET['userfeed'] );
 	$newposts = new Cowobo_Feed($args);
 	$newposts = $newposts->get_feed();
 	$links = '<a href="">This feed has no additional categories</a>';
 else:
+    if ( is_404() ) :
+        $query_string= '';
+        $_GET['sort'] = 'random';
+    endif;
+    //print_r ( $query_string ); die;
 	$sort = '&orderby='.$_GET['sort'];
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
