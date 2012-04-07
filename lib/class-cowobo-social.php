@@ -148,7 +148,7 @@ class Cowobo_Social {
      * Add query to user feed
      *
      * @param int $userid
-     * @param int $feed_query
+     * @param arr $feed_query
      * @return boolean true on success
      */
 	public function add_to_feed($userid,$feed_query) {
@@ -156,6 +156,21 @@ class Cowobo_Social {
 		if (empty($currentfeed)) $currentfeed = array();
 		$currentfeed[] = $feed_query;
 		update_user_meta($userid,'cowobo_feed',$currentfeed);
+		return true;
+	}
+
+    /**
+     * Add post to user profile
+     *
+     * @param int $userid
+     * @param int $post_id
+     * @return boolean true on success
+     */
+	public function add_to_profile( $userid,$post_id ) {
+		$currentfeed = get_user_meta( $userid, 'cowobo_profilefeed', true );
+		if ( empty ( $currentfeed ) ) $currentfeed = array();
+		$currentfeed[] = $post_id;
+		update_user_meta($userid,'cowobo_profilefeed',$currentfeed);
 		return true;
 	}
 
@@ -370,17 +385,10 @@ class Cowobo_Social {
 			$output .= '
 				<div style="float:left; width:' .$option['stumbleupon_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><!--<script src="http://www.stumbleupon.com/hostedbadge.php?s=1&amp;r='.$post_link.'"></script>-->
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
-
 		}
-		/*if ($option['active_buttons']['rss']==true) {
-			$output .= '
-				<div style="float:left; width:' .$option['rss_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;">
-                    <a href="'. $post_link .'feed"><img src=""></a>
-				</div>';
-
-		}*/
-
-		$output .= '';
+        // Share on Cowobo
+        $output .= '
+            <div style="float:left; width:40px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><a href="javascript:void(0)" onclick="add_post_to_profile(' . $postid . ')">On Profile</a></div>';
 
 		echo $output;
 	}
