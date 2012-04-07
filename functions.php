@@ -32,7 +32,7 @@ function my_function_admin_bar(){
 add_action('comment_post', 'comment_notice');
 function comment_notice($comment_id) {
 	global $wpdb;
-	$comment = get_comment($comment_id);  
+	$comment = get_comment($comment_id);
 	$post = get_post($comment->comment_post_ID);
 	$siteurl = get_option('siteurl');
 	$user = get_userdata($post->post_author);
@@ -53,7 +53,7 @@ function comment_notice($comment_id) {
 //get primal category of cat
 function cwob_get_type($catid) {
 	$ancestors = get_ancestors($catid,'category');
-	if (empty($ancestors)): 
+	if (empty($ancestors)):
 		return get_category($catid);
 	else:
 		return get_category(array_pop($ancestors));
@@ -64,7 +64,7 @@ function cwob_get_type($catid) {
 function cwob_get_category($postid) {
 	$cat = get_the_category($postid);
 	$ancestors = get_ancestors($cat[0]->term_id,'category');
-	if (empty($ancestors)) 
+	if (empty($ancestors))
 		return $cat[0];
 	return get_category(array_pop($ancestors));
 }
@@ -74,27 +74,27 @@ function time_passed($timestamp){
     $timestamp = (int) $timestamp;
     $current_time = time();
     $diff = $current_time - $timestamp;
-    $intervals = array ('day' => 86400, 'hour' => 3600, 'minute'=> 60);  
+    $intervals = array ('day' => 86400, 'hour' => 3600, 'minute'=> 60);
     //now we just find the difference
-    if ($diff == 0) return 'just now';   
+    if ($diff == 0) return 'just now';
     if ($diff < $intervals['hour']){
         $diff = floor($diff/$intervals['minute']);
         return $diff == 1 ? $diff . ' min ago' : $diff . ' mins ago';
-    }        
+    }
     if ($diff >= $intervals['hour'] && $diff < $intervals['day']){
         $diff = floor($diff/$intervals['hour']);
         return $diff == 1 ? $diff . ' hour ago' : $diff . ' hours ago';
-    }    
+    }
     if ($diff >= $intervals['day']){
         $diff = floor($diff/$intervals['day']);
         return $diff == 1 ? $diff . ' day ago' : $diff . ' days ago';
-    }    
+    }
 }
 
 function cwob_default_image($cat){
-	$images = get_posts(array('post_type' => 'attachment', 'numberposts' => 1, 'post_mime_type' =>'image', 'name' =>'default-'.$cat->slug)); 
+	$images = get_posts(array('post_type' => 'attachment', 'numberposts' => 1, 'post_mime_type' =>'image', 'name' =>'default-'.$cat->slug));
 	if (empty($images)):
-		$images = get_posts(array('post_type' => 'attachment', 'numberposts' => 1, 'post_mime_type' =>'image', 'name' =>'default')); 
+		$images = get_posts(array('post_type' => 'attachment', 'numberposts' => 1, 'post_mime_type' =>'image', 'name' =>'default'));
 	endif;
 	return $images;
 }
@@ -125,7 +125,7 @@ function remove_doubles($postlist) {
 	$postid_list = array();
 	foreach ($postlist as $key => $post) {
 		foreach ($postid_list as $postid) {
-			if ($post->ID == $postid) { 
+			if ($post->ID == $postid) {
 				unset($postlist[$key]);
 				$removed = true;
 				break;
@@ -162,13 +162,13 @@ function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
 	$postid = $_POST["postid"];
-	
+
 	if($postid == 'new'):
 		$catid = $_POST["currentcat"];
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
-			'post_status' => 'auto-draft', 
-			'post_title' => 'New Draft', 
+			'post_status' => 'auto-draft',
+			'post_title' => 'New Draft',
 			'post_category' => array($catid),
 			'post_author' => $current_user->ID,
 		));
@@ -202,22 +202,22 @@ function loadgallery_callback(){
 
 function savechanges_callback(){
 	global $wpdb; global $social;
-	
+
 	// first update the main post attributes
 	$postid = $_POST["postid"];
 	$postdata = array('ID' => $postid, 'post_status' => 'publish','post_category' => explode(',', $_POST["tags"]));
 	if($title = $_POST["edittitle"]) $postdata['post_title'] = $title;
 	if($content = $_POST["editcontent"]) $postdata['post_content'] = $content;
 	wp_update_post($postdata);
-	
+
 	//then update related posts
 	$postclass  = new Cowobo_Related_Posts();
 	$postclass->cwob_delete_relationships($postid);
-	
-	//then add all the custom fields and make sure the author is listed 
+
+	//then add all the custom fields and make sure the author is listed
 	delete_post_meta($postid, 'author');
 	delete_post_meta($postid, 'coordinates');
-	foreach ($_POST as $key => $value) :	
+	foreach ($_POST as $key => $value) :
 		if($value != ''):
 			delete_post_meta($postid, $key);
 			if($key == 'author'):
@@ -264,10 +264,10 @@ function addtag_callback(){
 
 function addlocation_callback(){
 	$current_user = wp_get_current_user();
-	//convert titles to 
+	//convert titles to
 	$catslug = sanitize_title($_POST["country"]);
 	$postslug = sanitize_title($_POST["city"]);
-	
+
 	//check if country exists and otherwise add it
 	$checkcat = get_category_by_slug($catslug);
 	if(!$checkcat):
@@ -278,13 +278,13 @@ function addlocation_callback(){
 	else:
 		$catid = $checkcat->term_id;
 	endif;
-	
+
 	//check if city exists and otherwise add it
 	$checkpost = get_posts(array('name' => $postslug, 'cat' => $catid, 'post_status' => 'publish'));
 	if(!$checkpost):
 		$postid = wp_insert_post( array(
-			'post_status' => 'publish', 
-			'post_title' => $_POST["city"], 
+			'post_status' => 'publish',
+			'post_title' => $_POST["city"],
 			'post_category' => array($catid),
 			'post_author' => $current_user->ID,
 		));
@@ -292,7 +292,7 @@ function addlocation_callback(){
 	else:
 		$postid = $checkpost->ID;
 	endif;?>
-	
+
 	<div class="<?php echo $postid;?> listitem">
 		<div class="thumbnail"></div>
 		<div class="text"><a href="<?php echo get_permalink($postid);?>"><?php echo $_POST["city"];?></a>
@@ -301,15 +301,15 @@ function addlocation_callback(){
 	die();
 }
 
-function cowobo_pagination($pages = '', $range = 2){  
-     $showitems = ($range * 2)+1;  
+function cowobo_pagination($pages = '', $range = 2){
+     $showitems = ($range * 2)+1;
      global $paged;
      if(empty($paged)) $paged = 1;
      if($pages == ''){
          global $wp_query;
          $pages = $wp_query->max_num_pages;
          if(!$pages) $pages = 1;
-     }   
+     }
      if(1 != $pages){
          for ($i=1; $i <= $pages; $i++){
              if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
@@ -326,7 +326,7 @@ function get_published_ids() {
 	foreach ( $postobjs as $post ) {
 		$postids[] = $post->ID;
 	}
-	return $postids;	
+	return $postids;
 }
 
 // for easier debugging
@@ -397,3 +397,37 @@ function my_save_extra_profile_fields( $user_id ) {
 	update_usermeta( $user_id, 'cowobo_profile', $_POST['cowobo_profile'] );
 }
 
+/**
+ * Return the current pagetitle
+ *
+ * @param obj (optional) Current category
+ * @return str $pagetitle
+ */
+function cowobo_get_pagetitle ( $currentcat = false ) {
+    if(isset($_GET['user'])) $pagetitle = "Favourite Feed";
+    elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
+    elseif(is_search()) $pagetitle = "<b>Search Results</b>";
+    elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
+    else $pagetitle = '<b>'.$currentcat->name.'</b>';
+
+    return $pagetitle;
+}
+
+/**
+ * Returns an array with the current category (obj) and the category id (str)
+ *
+ * @return arr  current category (obj) and category id (str)
+ */
+function cowobo_get_current_category() {
+    if (is_home()) {
+        $catid = 0;
+        $currentcat = false;
+    } elseif ($catid = get_query_var('cat')) {
+        $currentcat = get_category($catid);
+    } else {
+        $cat = get_the_category($post->ID);
+        $currentcat = $cat[0];
+        $catid = $currentcat->term_id;
+    }
+    return array ('currentcat' => $currentcat, 'catid' => $catid );
+}

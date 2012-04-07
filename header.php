@@ -34,16 +34,9 @@ global $query_string;
 // if post was requested to be deleted do this first
 wp_delete_post($_GET["deleteid"]);
 
-// get current category 
-if (is_home()):
-	$catid = 0;
-elseif ($catid = get_query_var('cat')):
-	$currentcat = get_category($catid);
-else:
-	$cat = get_the_category($post->ID);
-	$currentcat = $cat[0];
-	$catid = $currentcat->term_id;
-endif;
+// get current category
+$current_category = cowobo_get_current_category();
+extract ( $current_category );
 
 // get current type
 $currenttype = cwob_get_type($currentcat->term_id);
@@ -55,11 +48,7 @@ $feed_query .= ",".$userid;
 
 wp_head();
 
-if(isset($_GET['user'])) $pagetitle = "Favourite Feed";
-elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
-elseif(is_search()) $pagetitle = "<b>Search Results</b>";
-elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
-else $pagetitle = '<b>'.$currentcat->name.'</b>';
+$pagetitle = cowobo_get_pagetitle( $currentcat );
 
 $nextlink = next_posts($max_page, false);
 if(empty($nextlink)) $backlink = '#';
@@ -83,22 +72,22 @@ if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
 endif;
 
-if ($social->state == 1 ) : 
+if ($social->state == 1 ) :
 	$profile = '<li class="messenger join">Create Profile</li>';
 	$loginout = '<li class="messenger join">Login</li>';
-else: 
+else:
 	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Update Profile</li>';
 	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
 endif;
 ?>
-		
+
 </head>
 
 <body>
 
 <div class="topmenu">
 	<ul class="menu left">
-		<li class="largerss"></li> 
+		<li class="largerss"></li>
 		<li class="pagetitle" id="cat-<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?></li>
 		<li class="filter"><b>Filter</b>
 			<ul><?php echo $links;?></ul>
@@ -111,7 +100,7 @@ endif;
 				<li><a href='?sort=random'>Random</a></li>
 			</ul>
 		</li>
-		
+
 		<li class="search"><b>Search</b>
 			<ul>
 				<li>
@@ -124,7 +113,7 @@ endif;
 					Address <input type="text" class="searchform" value=""/>
 					<span class="searchbutton address"></span>
 				</li>
-			</ul>	
+			</ul>
 		</li>
 		<li class="zoomlevels"><b>Zoom</b>
 			<ul>

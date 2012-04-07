@@ -597,7 +597,6 @@ class Cowobo_Social {
      * @param str (optional) what to print before the link
      * @param str (optional) what to print after the link
      * @return boolean
-     * @todo feed the link here :)
      */
     public function print_rss_links( $feed_link = false, $before = '', $after = '' ) {
         $rss_services = array(
@@ -643,6 +642,17 @@ class Cowobo_Social {
         if ( ! $feed_link ) $feed_link = $this->current_feed_url();
 
         $output = "";
+
+        // Add to CoWoBo favourite feed
+        if (is_user_logged_in() ) {
+            $feed_type = 'c'; // 'p' or 'c'
+            $category = cowobo_get_current_category();
+            $feed_id = $category['catid'];
+            $user_id = wp_get_current_user()->ID;
+
+            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed($feed_type,$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
+        }
+
         foreach ( $rss_services as $rss ) {
             $output .= "$before<a href ='" . get_feed_url ( $rss['url'], $feed_link ) . "'>{$rss['name']}</a>$after";
         }
