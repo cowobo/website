@@ -1,6 +1,6 @@
 <?php
 //Definitions
-//define ( 'SITEURL', bloginfo('url') );
+define ( 'SITEURL', get_bloginfo('url') );
 define ( 'PERSONALFEEDSLUG', 'personal-feed' );
 define ( 'PERSONALFEEDURL', SITEURL . '/' . PERSONALFEEDSLUG );
 

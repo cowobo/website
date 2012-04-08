@@ -183,7 +183,7 @@ function cowobo_lightbox_listeners() {
 		var newlayer = jQuery('<div class="slide"><div class="streetholder"></div></div>');
 		for (var x = 0; x <= 1; x++) {
 			var url = baseurl + '&x=' + x + '&y=0';
-			newlayer.children().append('<img src="'+url+'" alt="" class="streettiles" width="50%">');
+			newlayer.children('.streetholder').append('<img src="'+url+'" alt="" width="50%">');
 		}
 		jQuery(this).parent().append(newlayer);
 		return false; //to prevent default action
@@ -303,8 +303,8 @@ function cowobo_map_listeners() {
 		var oldlng = jQuery(this).data('lng');
 		var oldzoom = jQuery(this).data('zoom');
 		if(jQuery('.large :visible').length<1 && oldzoom < 17) {
-			var mousex = Math.round(e.clientX/jQuery('.mainmap .maptiles:last').width()*xmid)-xmid;
-			var mousey = Math.round(e.clientY/jQuery('.mainmap .maptiles:last').height()*ymid*2)-ymid;
+			var mousex = Math.round(e.clientX/jQuery('.mainmap .tiles img:last').width()*xmid)-xmid;
+			var mousey = Math.round(e.clientY/jQuery('.mainmap .tiles img:last').height()*ymid*2)-ymid;
 			newlat = adjustLatByPx(oldlat, mousey, oldzoom);
 			newlng = adjustLonByPx(oldlng, mousex, oldzoom);
 			newzoom = parseFloat(oldzoom) + 2;
@@ -925,7 +925,7 @@ function loadNewMap(data){
 	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(data.zoom-1)+'&center='+data.lat+','+data.lng;
 	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+data.zoom+'&center=';
 	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">'
-	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'</div><div class="reflection">'+bufferimg+'</div></div>');
+	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'<div class="tiles"></div></div><div class="reflection">'+bufferimg+'<div class="tiles"></div></div></div>');
 
 	//update menu
 	jQuery('.maploading').fadeIn();
@@ -947,8 +947,8 @@ function loadNewMap(data){
 		});
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
-			newlayer.find('.mainmap').append('<img src="'+url+'" alt="" class="maptiles">');
-			newlayer.find('.reflection').append('<img src="'+url+'" alt="" class="maptiles">');
+			newlayer.find('.mainmap .tiles').append('<img src="'+url+'" alt="">');
+			newlayer.find('.reflection .tiles').append('<img src="'+url+'" alt="">');
 		}
 	});
 

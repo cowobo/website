@@ -58,7 +58,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .scrollarrow {position:absolute; right:20px; bottom:190px; height:15px; width:70px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
 .scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px; margin-top:2px;}
 
-
 /* Map */
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
 .maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
@@ -72,8 +71,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
 .mtitle span {margin:-2px 0 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px;}
 .buffer {z-index:0; }
-.maptiles, .streettiles {position:relative; z-index:1; }
-.maptiles {width:50%; height:100%;}
+.tiles {position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;}
+.tiles img {width:50%; height:100%;}
 .citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 .move {color:#0099CC;}
 
