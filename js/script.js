@@ -443,7 +443,7 @@ function cowobo_editpost_listeners() {
 							country:country,
 							city:city,
 							parent:parent,
-							coordinates:coordinates,
+							coordinates:coordinates
 						},
    						success: function(msg){
 							var listbox = selectbox.siblings('.listbox');
@@ -805,7 +805,7 @@ function mousemov() {
 		slider.css('top', sliderpos + "px");
 		return;
 	}
-	else if(overscroller>0) var scbar = jQuery('.scroller');
+	else if(overscroller>0) var scbar = jQuery('.page');
 	else return;
 
 	//horizontal scrolling

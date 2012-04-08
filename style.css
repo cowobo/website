@@ -51,8 +51,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .address {position:absolute; right:5px; top:0;}
 
 /* Feedbar */
-.page {position:absolute; bottom:0; width:100%; z-index:4;}
-.scroller {white-space: nowrap; overflow:hidden; clear:both; height:165px; padding-top:10px; background:url(images/black.png); font-size:12px;}
+.page {position:absolute; bottom:0; left:0; width:100%; z-index:4; overflow:hidden; background:url(images/black.png);}
+.scroller {white-space: nowrap; height:165px; padding-top:10px; font-size:12px;}
 .angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .scrollarrow {position:absolute; right:20px; bottom:190px; height:15px; width:70px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
@@ -110,8 +110,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .movedown:hover div {background-position:40px -20px}
 
 /* Feedbar Styles */
-.medium {position:relative; width:155px; height:165px; overflow:hidden; padding:0 5px 0 5px; display:inline-block!important; zoom: 1; *display: inline!important; vertical-align:top; white-space: normal; cursor:pointer;}
-.medium .holder {position:relative; padding: 6px 6px 0 6px; background:#eee; height:159px;}
+.medium {position:relative; width:155px; height:165px; padding:0 5px 0 5px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
+.medium .holder {position:relative; padding: 6px 6px 0 6px; background:#eee; height:159px; white-space: normal; overflow:hidden;}
 .medium .holder:hover {background:#fff}
 .medium .image {position:relative; height:95px; margin-bottom:4px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
