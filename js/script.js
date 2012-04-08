@@ -6,9 +6,11 @@ var overlightbox;
 var scroller;
 var rooturl;
 var geocoder;
+var nextposts;
 var mapdata = {};
 var xmid = 640;
 var ymid = 320;
+var loading = false;
 
 jQuery(document).mousemove(function(e) {
 	winx = jQuery(window).width();
@@ -696,6 +698,29 @@ function searchaddress(address) {
    	}
 }
 
+function loadnextposts() {
+	var url = jQuery('.nextposts').attr('href');
+	nextposts = jQuery.ajax({
+		type: "POST",
+   		url: url,
+		data: jQuery(this).serialize(),
+        dataType:'html',
+		success: function (msg){
+			var newdata = jQuery('<div></div>').append(msg);
+			var newboxes = newdata.find('.large');	
+			var newthumbs = newdata.find('.medium').not('#medium-join, #medium-selecttype');
+			var nextlink = newdata.find('.nextposts');
+			if(nextlink.length>0) jQuery('.nextposts').replaceWith(nextlink);
+			else jQuery('.nextposts').remove();
+			jQuery('.scroller').append(newthumbs);
+			jQuery('.page').animate({scrollLeft: jQuery('.page').scrollLeft()+500}, 'slow');
+			jQuery('body').append(newboxes);
+			jQuery('.scrollarrow').html('<div class="scrollicon"></div>more posts')
+			loading = false;
+		}
+	});
+}
+
 function loadlike(postid) {
 	// Load social share box
 	jQuery.ajax({
@@ -805,8 +830,24 @@ function mousemov() {
 		slider.css('top', sliderpos + "px");
 		return;
 	}
-	else if(overscroller>0) var scbar = jQuery('.page');
-	else return;
+	else if(overscroller>0) {
+		var scbar = jQuery('.page');
+		var scrollpos = scbar.get(0).scrollWidth - scbar.scrollLeft();
+		var linkcount = jQuery('.nextposts').length;
+		if(scrollpos == scbar.outerWidth()) {
+			if(linkcount > 0 && loading == false) {
+				jQuery('.scrollarrow').html('<div class="scrollicon"></div><span class="loadicon">loading posts..</span>');
+				loadnextposts();	
+				loading = true; 
+			}
+		} else {
+			if(loading == true) {
+				jQuery('.scrollarrow').html('<div class="scrollicon"></div>older posts');
+				nextposts.abort();
+				loading = false;
+			}
+		}
+	} else return;
 
 	//horizontal scrolling
 	if(window.ex <  winx/3) {

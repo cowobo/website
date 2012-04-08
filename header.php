@@ -30,6 +30,7 @@ global $currenttype;
 global $social;
 global $author;
 global $query_string;
+global $paged;
 
 // if post was requested to be deleted do this first
 wp_delete_post($_GET["deleteid"]);
@@ -49,9 +50,9 @@ $feed_query .= ",".$userid;
 wp_head();
 
 $pagetitle = cowobo_get_pagetitle( $currentcat );
-
-$nextlink = next_posts($max_page, false);
-if(empty($nextlink)) $backlink = '#';
+if($wp_query->max_num_pages != $paged):
+	$nextlink = '<a class="nextposts hide" href="'.next_posts($max_page, false).'"></a>';
+endif;
 
 // LOAD POSTS AND MENU LINKS
 if ( $userfeed = is_userfeed() ) :
@@ -173,7 +174,8 @@ endif;
 <div class="angel"></div>
 
 <div class="scrollarrow">
-<div class="scrollicon"></div>more
+<div class="scrollicon"></div>older posts
 </div>
 
 <div class="page">
+<?php echo $nextlink;?>
