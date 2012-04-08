@@ -402,6 +402,18 @@ function is_userfeed() {
 }
 
 /**
+ * Check if the current post is a Cowobo profile
+ *
+ * @param obj $currentcat
+ * @return boolean
+ * @todo Profile slug should be programmatically defined somewhere
+ */
+function is_cowobo_profile( $currentcat ) {
+    if ( $currentcat->name == 'Profile' ) return true;
+    else return false;
+}
+
+/**
  * Returns an array with the current category (obj) and the category id (str)
  *
  * @return arr  current category (obj) and category id (str)

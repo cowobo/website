@@ -56,7 +56,7 @@ class Cowobo_Feed {
 	}
 
 	/**
-     * Feed for users
+     * Feed for users (personal feed)
      * @param int $userid
      * @return null|boolean
      */

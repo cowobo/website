@@ -129,7 +129,7 @@ function cowobo_sidebar_listeners() {
 		var keywords = jQuery(this).siblings('.searchform').val();
 		searchaddress(keywords);
 	});
-	
+
 
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery(".scroller").mousewheel(function(event, delta) {
@@ -528,7 +528,7 @@ function cowobo_editpost_listeners() {
 		var posts = new Array(); var tags = new Array(); var authors = new Array(); var data = {};
 		var post = jQuery(this).parents('.large');
 		var latlng = post.find('.latlng').val();
-		
+
 		//check coordinates entered into box are correct format
 		if(typeof(latlng)!= 'undefined') {
 			var testlat = /^[0-9\-\.\,]*$/;
@@ -539,8 +539,8 @@ function cowobo_editpost_listeners() {
 				data['coordinates'] = latlng;
 			}
 		}
-			
-		// save all new text inputs 
+
+		// save all new text inputs
 		post.find('.new').each(function(){
 			data[jQuery(this).attr('name')] = jQuery(this).val();
 		});
@@ -630,12 +630,12 @@ function loadlightbox(postid, catid) {
 		mapdata['lat'] = markerpos[0];
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
-	}	
+	}
 
 	//load the appropriate content
 	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined') {
 		return true;
-	} else if (postid != 'new' && postid != 0) { 
+	} else if (postid != 'new' && postid != 0) {
 		update_scrollbars(postid);
 	} else if (postid != 'new') {
 		loadNewMap(mapdata);
@@ -693,7 +693,7 @@ function searchaddress(address) {
 				return false;
         	}
 		});
-   	}    
+   	}
 }
 
 function loadlike(postid) {
@@ -852,6 +852,18 @@ function add_to_feed(feed_type,feed_id,user_id) {
 	});
 }
 
+function add_to_profile(post_id,user_id) {
+	jQuery.ajax({
+		type: "POST",
+		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
+		data: {post_id:post_id,user_id:user_id,profile:true},
+		success: function(msg){
+            console.log(msg);
+			alert("Post shared on profile.");
+		}
+	});
+}
+
 function reset_feed(user_id) {
 	jQuery.ajax({
 		type: "POST",
@@ -874,7 +886,7 @@ function angel_talk(msg) {
 //MAP FUNCTIONS
 function initialize() {
 	//load map centered on africa
-	mapdata = {'post':0, 'lat':15.49860809171295, 'lng':10.932544165625036, 'markers': jQuery('.markerdata'), 'zoom':3, 'type':'satellite'} // 'markers':markers, 
+	mapdata = {'post':0, 'lat':15.49860809171295, 'lng':10.932544165625036, 'markers': jQuery('.markerdata'), 'zoom':3, 'type':'satellite'} // 'markers':markers,
 	loadNewMap(mapdata);
 }
 
