@@ -573,7 +573,7 @@ function cowobo_editpost_listeners() {
 
 		//make sure the post has a feed and author
 		if (tags.length<0) {
-			alert('You must specify atleast one feed');
+			alert('You must specify at least one feed');
 		} else {
 			jQuery.ajax({
 				type: "POST",
@@ -707,7 +707,7 @@ function loadnextposts() {
         dataType:'html',
 		success: function (msg){
 			var newdata = jQuery('<div></div>').append(msg);
-			var newboxes = newdata.find('.large');	
+			var newboxes = newdata.find('.large');
 			var newthumbs = newdata.find('.medium').not('#medium-join, #medium-selecttype');
 			var nextlink = newdata.find('.nextposts');
 			if(nextlink.length>0) jQuery('.nextposts').replaceWith(nextlink);
@@ -837,8 +837,8 @@ function mousemov() {
 		if(scrollpos == scbar.outerWidth()) {
 			if(linkcount > 0 && loading == false) {
 				jQuery('.scrollarrow').html('<div class="scrollicon"></div><span class="loadicon">loading posts..</span>');
-				loadnextposts();	
-				loading = true; 
+				loadnextposts();
+				loading = true;
 			}
 		} else {
 			if(loading == true) {
