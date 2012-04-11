@@ -29,7 +29,7 @@ else:?>
 	</div>
 	<div class="title"><span class="postrss"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div><?php
 	if($author):?>
-	<div class="container" style="margin:0;">
+	<div class="container" style="margin:0 10px 0 0;">
 		<b>Coordinates:</b> <?php echo $coordinates;?>
 		<div class="edit button">+ Edit</div>
 		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">

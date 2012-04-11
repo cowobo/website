@@ -13,9 +13,11 @@
 			endif;?>
 			<div class="slide loading hide"><span class="loadicon">Loading form..</span></div>
 		</div>
-		<div class="grey">
+		<div class="<?php if($social->state < 2) echo'grey';?>">
 		<h3>Choose the type of post</h3><?php
-		if($social->state > 1):
+		if($social->state < 2):?>
+			<select disabled="disabled" class="new choosetype"></select><?php
+		else:
 			wp_dropdown_categories(array(
 				'depth'=> 1, 
 				'class' =>'new choosetype', 
@@ -24,8 +26,6 @@
 				'exclude'=>get_cat_ID('Uncategorized').','.get_cat_ID('Profiles'),
 				'show_option_none' =>'Cick here to select',
 			));
-		else:?>
-			 <select disabled="disabled" class="new choosetype"></select><?php
 		endif;?>
 		<h3>Title of post:</h3>
 		<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" disabled="disabled"/>
