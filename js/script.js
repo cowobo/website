@@ -123,7 +123,11 @@ function cowobo_sidebar_listeners() {
 	);
 
 	jQuery('.homebutton').click(function() {
-		window.location = rooturl;
+		if(window.location.hash != '') {
+			window.location.hash = '';
+		} else {
+			window.location = rooturl;
+		}
 	});
 
 	//search address from menubar
@@ -621,7 +625,8 @@ function cowobo_editpost_listeners() {
 function loadlightbox(postid) {
 	//setup additional variables
 	var catid = 0;
-	var type = postid.split('-')[1];
+	if(postid != 0) 
+		var type = postid.split('-')[1];
 	if(typeof(type)!= 'undefined') {
 		catid = type;
 		postid = 'newtype';

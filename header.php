@@ -53,7 +53,7 @@ else $profileid = 'newprofile';
 
 wp_head();
 
-$pagetitle = cowobo_get_pagetitle( $currentcat );
+$pagetitle = cowobo_get_pagetitle($currentcat);
 if($wp_query->max_num_pages != $paged):
 	$nextlink = '<a class="nextposts hide" href="'.next_posts($max_page, false).'"></a>';
 endif;
@@ -97,7 +97,7 @@ endif;
 <div class="topmenu">
 	<ul class="menu left">
 		<li class="catrss"></li>
-		<li class="pagetitle" id="cat-<?php echo $currentcat->term_id;?>"><?php echo $pagetitle;?></li>
+		<li class="pagetitle"><?php echo $pagetitle;?></li>
 		<li class="filter"><b>Filter</b>
 			<ul><?php echo $links;?></ul>
 		</li>

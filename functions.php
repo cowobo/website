@@ -386,9 +386,9 @@ function my_save_extra_profile_fields( $user_id ) {
 function cowobo_get_pagetitle ( $currentcat = false ) {
     if ( $userfeed = is_userfeed() )
         $pagetitle = "Favourite Feed / {$userfeed->user_nicename}";
-    elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
-    elseif(is_search()) $pagetitle = "<b>Search Results</b>";
-    elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
+    elseif(is_home()) $pagetitle= '<a href="'.get_bloginfo('url').'"><b>CODERS</b> WITHOUT <b>BORDERS</b></a>';
+    elseif(is_search()) $pagetitle = '<b>Search Results</b>';
+    elseif(is_404()) $pagetitle = '<b>Post not found</b>..is it one of these?';
     else $pagetitle = '<b>'.$currentcat->name.'</b>';
 
     return $pagetitle;

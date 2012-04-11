@@ -45,6 +45,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .search li {width:150px;}
 .zoomlevels li {width:60px;}
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
+.pagetitle a {color:#fff;}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
 .maploading {font-weight:normal;  }
