@@ -183,7 +183,3 @@ endif;
 <div class="scrollarrow">
 <div class="scrollicon"></div>older posts
 </div>
-
-<div class="page"><?php 
-echo $nextlink;
-?>
