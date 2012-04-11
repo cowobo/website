@@ -168,7 +168,7 @@ function loadlightbox_callback(){
 	$wp_query->is_single = true;
 	$postid = $_POST["postid"];
 
-	if($postid == 'new'):
+	if($postid == 'newtype'):
 		$catid = $_POST["currentcat"];
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
@@ -184,8 +184,8 @@ function loadlightbox_callback(){
 		$newpost = false;
 	endif;
 	if (class_exists('FEE_Core')) FEE_Core::add_filters();
-	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;?>
-	<div><?php include(TEMPLATEPATH.'/templates/postbox.php');?></div><?php
+	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;
+	include(TEMPLATEPATH.'/templates/postbox.php');
 	endforeach;
 	wp_reset_query();
 	die;

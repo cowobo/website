@@ -47,6 +47,10 @@ $currenttype = cwob_get_type($currentcat->term_id);
 $userid = wp_get_current_user()->ID;
 $feed_query .= ",".$userid;
 
+//get profileid;
+if($social->state != 1) $profileid = $social->profile_id; 
+else $profileid = 'newprofile';
+
 wp_head();
 
 $pagetitle = cowobo_get_pagetitle( $currentcat );
@@ -84,13 +88,6 @@ if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
 endif;
 
-if ($social->state == 1 ) :
-	$profile = '<li class="messenger join">Create Profile</li>';
-	$loginout = '<li class="messenger join">Login</li>';
-else:
-	$profile = '<li class="messenger create_new_profile profile-'.$social->profile_id.'">Update Profile</li>';
-	$loginout = '<li><a id="logout" href="'.wp_logout_url(home_url()).'" title="Logout">Logout</a></li>';
-endif;
 ?>
 
 </head>
@@ -139,10 +136,10 @@ endif;
 				<li class="zoom level-17">Level 8</li>
 			</ul>
 		</li>
-		<li><span class="maploading loadicon">Loading Map...</span></li>
+		<li><span class="maploading loadicon">Loading...</span></li>
 	</ul>
 	<ul class="menu right">
-		<?php echo $profile;?>
+		<li class="profile <?php echo $profileid;?>">Your Profile</li>
 		<li class="home">
 			<span class="homebutton">Home</span>
 			<div class="droparrow"></div>
@@ -150,13 +147,23 @@ endif;
                 <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
 				<li>Account Settings</li>
 				<li>Disclaimer</li>
-				<?php echo $loginout;?>
+				<?php if ($social->state != 1):?>
+				<li><a id="logout" href="<?php echo wp_logout_url(home_url());?>" title="Logout">Logout</a></li><?php
+				endif;?>
 			</ul>
 		</li>
 	</ul>
 </div>
 
 <div class="map">
+	<div class="maplayer" style="display:block">
+		<div class="mainmap">
+			<img class="buffer" src="http://maps.googleapis.com/maps/api/staticmap?maptype=satellite&sensor=false&size=640x320&format=jpg&zoom=2&center=15.49860809171295,10.932544165625036" alt=""/>
+		</div>
+		<div class="reflection">
+			<img class="buffer" src="http://maps.googleapis.com/maps/api/staticmap?maptype=satellite&sensor=false&size=640x320&format=jpg&zoom=2&center=15.49860809171295,10.932544165625036" alt=""/>
+		</div>
+	</div>
 	<div class="pan moveleft"><div></div></div>
 	<div class="pan moveright"><div></div></div>
 	<div class="pan moveup"><div></div></div>
@@ -177,5 +184,6 @@ endif;
 <div class="scrollicon"></div>older posts
 </div>
 
-<div class="page">
-<?php echo $nextlink;?>
+<div class="page"><?php 
+echo $nextlink;
+?>

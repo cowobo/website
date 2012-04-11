@@ -36,7 +36,6 @@ jQuery(document).ready(function() {
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
-    cowobo_messenger_listeners();
 
 	//update scrollbars if single post is present
 	if(jQuery('.single').length>0){
@@ -52,12 +51,14 @@ jQuery(document).ready(function() {
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
 		var hasharray = newhash.split('#');
+		var catid = 0;
 		for (var x = 1; x < hasharray.length; x++) {
 			var part = hasharray[x].split('=');
 			mapdata[part[0]] = part[1];
 		}
 		jQuery('#'+mapdata.post).fadeIn();
-		loadlightbox(mapdata.post, 0);
+		
+		loadlightbox(mapdata.post);
 	}
 
 	//load lightbox when hash changes
@@ -132,6 +133,11 @@ function cowobo_sidebar_listeners() {
 		searchaddress(keywords);
 	});
 
+	//profile button
+	jQuery('.profile').click( function() {
+		var postid = jQuery(this).attr('class').split(' ')[1];
+        window.location.hash = '#post='+postid;
+    });
 
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery(".scroller").mousewheel(function(event, delta) {
@@ -139,6 +145,11 @@ function cowobo_sidebar_listeners() {
 		event.preventDefault();
 		removeMarkers();
 	});
+
+	//scroll posts
+	jQuery(".scrollarrow").click(function(){
+		jQuery('.page').animate({scrollLeft: jQuery('.page').scrollLeft()+500}, 'slow');
+	})
 
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
@@ -239,23 +250,6 @@ function cowobo_lightbox_listeners() {
 
 }
 
-//MESSENGER//
-function cowobo_messenger_listeners() {
-	jQuery('.messenger').click( function() {
-		var type = jQuery(this).attr('class').split(' ');
-		if (type[1] == 'join') {
-            jQuery('.large').fadeOut('slow');
-			jQuery('#join').fadeIn('slow');
-		} else {
-            var postid = type[2].split('-')[1];
-            jQuery('.large').fadeOut('slow');
-			jQuery('#'+postid).fadeIn('slow');
-			loadlightbox(postid, 0);
-			//loadmap here
-		}
-    });
-}
-
 function cowobo_map_listeners() {
 	jQuery('.zoom, .pan').click(function(){
 		var map = jQuery('.maplayer:last').data('hash');
@@ -331,7 +325,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.choosetype').change(function() {
 		var catid = jQuery(this).val();
 		jQuery(this).parents('.large').find('.loading').fadeIn();
-		loadlightbox('new', catid);
+		loadlightbox('new-'+catid);
 	});
 
 	//relocate marker
@@ -624,7 +618,16 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid, catid) {
+function loadlightbox(postid) {
+	//setup additional variables
+	var catid = 0;
+	var type = postid.split('-')[1];
+	if(typeof(type)!= 'undefined') {
+		catid = type;
+		postid = 'newtype';
+		jQuery('#new').find('.loading').removeClass('hide');
+	}
+	
 	// get coordinates of post and load corresponding map
 	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
@@ -633,15 +636,10 @@ function loadlightbox(postid, catid) {
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}
-
-	//load the appropriate content
-	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined') {
-		return true;
-	} else if (postid != 'new' && postid != 0) {
-		update_scrollbars(postid);
-	} else if (postid != 'new') {
-		loadNewMap(mapdata);
-	}
+	
+	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);
+	if (postid == 'new' || postid == 'newprofile' || typeof(postid) == 'undefined') return true;
+	else if (postid != 'newtype') loadNewMap(mapdata);
 
 	if(jQuery('#'+postid + '.container').length<1 && postid != 0) {
 		jQuery.ajax({
@@ -653,14 +651,20 @@ function loadlightbox(postid, catid) {
 				postid:postid
 			},
    			success: function(msg){
-				var newbox = jQuery(msg);
+				var newbox = jQuery('<div>'+msg+'</div>');
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();
+				//replace newbox so users can go back to their new post
+				if(postid == 'newtype') {
+					oldbox = jQuery('#new'); 
+					jQuery('#medium-new').attr('id', 'medium-'+newid);
+				}
 				//if oldbox doesnt exist then add it	;
 				if(oldbox.length<1){
 					jQuery('.large').hide();
 					jQuery('body').append(newbox);
+					jQuery('#new').find('.loading').addClass('hide');
 				} else {
 					if(oldbox.css("display") == "none") newbox.children('.large').hide();
 					oldbox.replaceWith(newbox.children('.large'));
@@ -867,7 +871,7 @@ function mousemov() {
 var number = 0;
 // hide markers on map corresponding to timeline
 function removeMarkers() {
-	var newnumber = Math.floor(jQuery('.scroller').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
+	var newnumber = Math.floor(jQuery('.page').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
 	if(newnumber != number) {number = newnumber;
 		jQuery('.medium').each(function(){
 		if(jQuery(this).index() <= number) {
@@ -965,7 +969,7 @@ function loadNewMap(data){
 	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+data.type+'&sensor=false&size=';
 	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(data.zoom-1)+'&center='+data.lat+','+data.lng;
 	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+data.zoom+'&center=';
-	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">'
+	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="">'
 	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'<div class="tiles"></div></div><div class="reflection">'+bufferimg+'<div class="tiles"></div></div></div>');
 
 	//update menu
@@ -984,13 +988,15 @@ function loadNewMap(data){
 	newlayer.find('.buffer:first').load(function(){
 		newlayer.fadeIn(function() {
 			jQuery('.maplayer').not(this).hide();
-			jQuery('.maploading').fadeOut();
 		});
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
 			newlayer.find('.mainmap .tiles').append('<img src="'+url+'" alt="">');
 			newlayer.find('.reflection .tiles').append('<img src="'+url+'" alt="">');
 		}
+		newlayer.find('.mainmap .tiles img').load(function(){
+			jQuery('.maploading').fadeOut();
+		});
 	});
 
 	//sort markers by latitude to ensure correct overlapping
