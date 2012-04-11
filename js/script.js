@@ -1019,6 +1019,7 @@ function loadNewMap(data){
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
+		if(markertitle == 'Profiles') marker.append('<div class="mprofile"></div>');
 		marker.css({top:marker_y, left: marker_x});
 		marker.appendTo(newlayer.find('.mainmap'));
 		marker.click(function(event){
@@ -1028,8 +1029,8 @@ function loadNewMap(data){
 			jQuery('#'+postid).fadeIn();
 		});
 		marker.hover(
-			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
-			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
+			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 4);},
+			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
 
