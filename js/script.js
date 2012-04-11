@@ -873,21 +873,16 @@ function mousemov() {
 	}
 }
 
-var number = 0;
 // hide markers on map corresponding to timeline
 function removeMarkers() {
-	var newnumber = Math.floor(jQuery('.page').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
-	if(newnumber != number) {number = newnumber;
-		jQuery('.medium').each(function(){
-		if(jQuery(this).index() <= number) {
-			var id = jQuery(this).attr('id');
-			jQuery('#marker'+id).fadeOut();
+	jQuery('.medium').each(function(){
+		var id = jQuery(this).attr('id').split('-')[1];
+		if(jQuery(this).offset().left < 0) {
+			jQuery('.marker'+id).hide();
 		} else {
-			var id = jQuery(this).attr('id');
-			jQuery('#marker'+id).fadeIn();
+			jQuery('.marker'+id).show();
 		}
-		})
-	}
+	});
 }
 
 // Personal RSS feed Ajax-calls
@@ -1019,8 +1014,8 @@ function loadNewMap(data){
 		var markerthumb = jQuery(this).attr('name');
 		var markertitle = jQuery(this).attr('title');
 		var markerimg = jQuery('.markerimg').val();
-		var marker = jQuery('<div class="marker" id="marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
-  		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
+		var marker = jQuery('<div class="marker marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
+		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
