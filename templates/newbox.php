@@ -13,7 +13,6 @@
 			endif;?>
 			<div class="slide loading hide"><span class="loadicon">Loading form..</span></div>
 		</div>
-		<div class="<?php if($social->state < 2) echo'grey';?>">
 		<h3>Choose the type of post</h3><?php
 		if($social->state < 2):?>
 			<select disabled="disabled" class="new choosetype"></select><?php
@@ -27,12 +26,13 @@
 				'show_option_none' =>'Cick here to select',
 			));
 		endif;?>
-		<h3>Title of post:</h3>
+		<div class="grey">
+		<h3>Title of post</h3>
 		<input tabindex="1" type="text" name="edittitle" class="new edittitle" value="" disabled="disabled"/>
-		<h3>Address:</h3>
+		<h3>Address</h3>
 		<input tabindex="2" type="text" name="editaddress" class="new editaddress" value="" disabled="disabled"/>
 		<ul class="coordinates horlist"></ul>
-		<h3>Content of post:</h3>
+		<h3>Content of post</h3>
 		<textarea tabindex="3" name="editcontent" rows="5" class="new editcontent" disabled="disabled"></textarea>
 		</div>
 	</div>

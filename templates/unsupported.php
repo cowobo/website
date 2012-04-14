@@ -1,3 +1,4 @@
+<div class="block">
 <div class="large single" id="newprofile">
 	<div class="holder">
 	<div class="content">
@@ -16,4 +17,5 @@
 		<span class="save button" id="save-<?php echo $post->ID;?>">Save</span>
 		<span class="delete button">Delete</span>      
 	</div>
+</div>
 </div>

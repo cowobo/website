@@ -384,7 +384,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.edit').live('click', function() {
 		var selectbox = jQuery(this).siblings('.selectbox').eq(0);
 		if(selectbox.is(":visible")){
-			jQuery(this).html('+ Add');
+			jQuery(this).html('+ Link');
 			if(jQuery(this).siblings('.listbox').children().length<1){
 				jQuery(this).siblings('h3').addClass('empty');
 			}
@@ -569,9 +569,11 @@ function cowobo_editpost_listeners() {
 		data['authors'] = authors.join(',');
 		data['posts'] = posts.join(',');
 
-		//make sure the post has a feed and author
-		if (tags.length<0) {
-			alert('You must specify atleast one feed');
+		//make sure the post has a title and feed
+		if(post.find('.edittitle').val().length < 3) {
+			alert('You must specify a title');
+		} else if (tags.length<1) {
+			alert('You must specify atleast one tag');
 		} else {
 			jQuery.ajax({
 				type: "POST",

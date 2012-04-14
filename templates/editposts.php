@@ -27,7 +27,7 @@ foreach($typearray as $type):
 	<div class="container <?php echo $type['cat']->slug;?>">
 	<h3 class="<?php if($count<1) echo 'empty';?>"><span class="link smallicon"></span><?php echo $type['cat']->name.' ('.$count.')'?></h3><?php
 	if($count>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
-	<div class="edit button">+ Add</div>
+	<div class="edit button">+ Link</div>
 	<div class="selectbox" id="new-<?php echo $typeid;?>"><?php
 		if($author):
 			if($type['cat']->slug == 'locations'):

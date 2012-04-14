@@ -4,7 +4,7 @@ if($newpost):?>
 		<div class="topshadow">
 		<h1><?php echo $postcat->name;?></h1>
 		</div>
-		<div class="slide loading">Add images or screenshots..</div>
+		<div class="slide loading">Click here to add images/screenshots</div>
 	</div>
 	<h3>Short title of your question:</h3>
 	<input type="text" name="edittitle" class="new edittitle" value="" />

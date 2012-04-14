@@ -122,6 +122,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
 .medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
 .medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
+.medium .title {font-weight:bold;}
 
 /* Lightboxes Styles*/
 #rss {z-index:21; margin:-290px 0 0 -270px;}
@@ -144,7 +145,6 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
-.cowobo_social_share {display: none; background: #fff; width:550px;}
 .postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:0 -20px!important;}
 .postrss:hover {background-position:0 0}
 .login {text-align:center; margin-top:100px;}
@@ -192,6 +192,8 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 /* Cowobo connect */
 .cowobo_connect {padding: 10px;}
 
-/* Profile */
-.profile_pic {position:relative; background: url('images/profile.png') no-repeat; width: 250px; height:200px; overflow:hidden; float:left; }
-.profile_info {width: 250px; height:200px; float:right;}
+/* Cowobo share */
+.cowobo_social_share {display: none; background: #eee; width:550px; padding-top:10px}
+.onprofile {float:left; height: 19px; width:70px; font-size:11px; border:1px solid #ccc; font-weight:10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:url(images/buttonshade.png);}
+.sharebutton {display:inline-block; vertical-align: top; height: 20px; padding-right:10px; margin:4px;}
+.count {float:right; background:url(images/count.png); width:26px; height:20px; font-size:11px; line-height:20px;}
