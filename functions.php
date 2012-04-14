@@ -163,6 +163,13 @@ add_action("wp_ajax_nopriv_addtag", "addtag_callback");
 add_action("wp_ajax_addlocation", "addlocation_callback");
 add_action("wp_ajax_nopriv_addlocation", "addlocation_callback");
 
+add_action("wp_ajax_showshare", "showshare_callback");
+add_action("wp_ajax_nopriv_showshare", "showshare_callback");
+
+add_action("wp_ajax_feedsetter", "feedsetter_callback");
+add_action("wp_ajax_nopriv_feedsetter", "feedsetter_callback");
+
+
 function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
@@ -296,6 +303,32 @@ function addlocation_callback(){
 		<div class="text"><a href="<?php echo get_permalink($postid);?>"><?php echo $_POST["city"];?></a>
 		<span class="remove button"> (x)</span><br/>Updated just now</div>
 	</div><?php
+	die();
+}
+
+function showshare_callback(){
+	global $social;
+	$post_link = get_permalink( $_POST['postid'] );
+	$post_title = get_the_title ( $_POST['postid'] ); ?>
+
+	<div class='like_wrapper' style='display:block;text-align:center;'>
+        <?php $social = new Cowobo_Social(true);
+        $social->show_share($_POST['postid']); ?>
+	</div><?php
+	die();
+}
+
+function feedsetter_callback(){
+	print_r ( $_REQUEST );
+	$userid = $_POST['user_id'];
+	if (empty($userid)) die;
+	if (isset($_POST['reset'])) $social->reset_feed($userid);
+	if (isset($_POST['add'])) {
+		$feed_query = array ( $_POST['feed_type'] => $_POST['feed_id'] );
+		$social->add_to_feed($userid,$feed_query);
+	} elseif ( isset($_POST['profile'] ) ) {
+		$social->add_to_profile( $userid, $_POST['post_id'] );
+	}
 	die();
 }
 

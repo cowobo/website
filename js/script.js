@@ -736,8 +736,11 @@ function loadlike(postid) {
 	// Load social share box
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-show-share.php',
-		data: {postid:postid},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'showshare',
+			postid:postid
+		},
 		success: function ( msg ){
 			jQuery('#' + postid).find('.cowobo_social_share').html( msg ).hide();
 			// Load Social Buttons
@@ -902,8 +905,13 @@ function add_to_feed(feed_type,feed_id,user_id) {
 function add_to_profile(post_id,user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {post_id:post_id,user_id:user_id,profile:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			user_id:user_id,
+			profile:true,
+			post_id:post_id
+		},
 		success: function(msg){
             console.log(msg);
 			alert("Post shared on profile.");
@@ -917,8 +925,12 @@ function add_to_profile(post_id,user_id) {
 function reset_feed(user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {user_id:user_id,reset:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			user_id:user_id,
+			reset:true
+		},
 		success: function(msg){
 			alert("Your feed has been succesfully reset.");
 		}
