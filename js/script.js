@@ -741,8 +741,8 @@ function loadlike(postid) {
 		success: function ( msg ){
 			jQuery('#' + postid).find('.cowobo_social_share').html( msg ).hide();
 			// Load Social Buttons
-			gapi.plusone.go();
-			twttr.widgets.load();
+			if(typeof(gapi)!='undefined') gapi.plusone.go();
+			if(typeof(twttr)!='undefined') twttr.widgets.load();
 		}
 	});
 
@@ -907,6 +907,9 @@ function add_to_profile(post_id,user_id) {
 		success: function(msg){
             console.log(msg);
 			alert("Post shared on profile.");
+			var count = jQuery('#'+postid).find('.count');
+			var newcount = parseFloat(count.html())+1;
+			count.html(newcount);
 		}
 	});
 }
