@@ -39,9 +39,10 @@ endif;
 		endif;?>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
+		<div class="cowobo_social_share"></div>
 	</div>
-	<div class="cowobo_social_share"></div>
 	<div class="arrow"><?php
+		$sharecount = $social->get_total_shares($post->ID, true);
 		if($author):
 			if ($post->post_status == 'draft' && $post->ID == $social->profile_id) : ?>
 				<span class="save button">Complete Profile</span><?php
@@ -49,7 +50,7 @@ endif;
                 <span class="save button">Save</span><?php
 				if(!$newpost):?>
 				<span class="link icon"></span><span class='cowobo_social_like button'>
-					Share (<?php echo $social->get_total_shares;?>)
+					Share (<?php echo $sharecount;?>)
 				</span><?php
 				endif;
 				if ($post->ID != $social->profile_id):?>
@@ -61,7 +62,7 @@ endif;
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
 			<span class="link icon"></span><span class='cowobo_social_like button'>
-				Share (<?php echo $social->get_total_shares;?>)
+				Share (<?php echo $sharecount;?>)
 			</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>

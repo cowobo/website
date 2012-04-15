@@ -123,11 +123,8 @@ function cowobo_sidebar_listeners() {
 	);
 
 	jQuery('.homebutton').click(function() {
-		if(window.location.hash != '') {
-			window.location.hash = '';
-		} else {
-			window.location = rooturl;
-		}
+		if(window.location.hash != '') window.location.hash = '';
+		else window.location = rooturl;
 	});
 
 	//search address from menubar
@@ -264,36 +261,32 @@ function cowobo_map_listeners() {
 		mapdata['post'] = 0;
 
 		//save new value with corresponding key
-		if(typeof(map) !='undefined'){
-			if(jQuery(this).hasClass('labels')) {
-				newvalue['type']= 'hybrid';
-			}else if(jQuery(this).hasClass('moveleft')) {
-				newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*-1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('moveright')) {
-				newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('moveup')) {
-				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('movedown')) {
-				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('zoom')) {
-				var level = jQuery(this).attr('class').split(' ')[1];
-				newvalue['zoom']= level.split('-')[1];
-			}
-			//update hash with new values
-			for (key in newvalue) {
-				if(hash.indexOf(key) != -1){
-    				var vars = hash.split("#");
-					for (var i = 0; i < vars.length; i++) {
-        				var part = vars[i].split("=");
-        				if (part[0] == key) vars[i] = key+"="+newvalue[key];
-					}
-					window.location.hash = vars.join('#');
-				} else {
-					window.location.hash = '#'+key+'='+newvalue[key];
+		if(jQuery(this).hasClass('labels')) {
+			newvalue['type']= 'hybrid';
+		}else if(jQuery(this).hasClass('moveleft')) {
+			newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*-1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('moveright')) {
+			newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('moveup')) {
+			newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('movedown')) {
+			newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('zoom')) {
+			var level = jQuery(this).attr('class').split(' ')[1];
+			newvalue['zoom']= level.split('-')[1];
+		}
+		//update hash with new values
+		for (key in newvalue) {
+			if(hash.indexOf(key) != -1){
+    			var vars = hash.split("#");
+				for (var i = 0; i < vars.length; i++) {
+       				var part = vars[i].split("=");
+       				if (part[0] == key) vars[i] = key+"="+newvalue[key];
 				}
+				window.location.hash = vars.join('#');
+			} else {
+				window.location.hash = '#'+key+'='+newvalue[key];
 			}
-		} else {
-			alert('Please wait for map to finish loading')
 		}
 	});
 
@@ -316,11 +309,6 @@ function cowobo_map_listeners() {
 		var lng = jQuery('.maplayer:last').data('map').lng;
 		jQuery('#savemarker').html(lat+','+lng);
 	});
-
-	jQuery('#closebutton1, #closebutton2').click(function(){
-		jQuery(this).parent().fadeOut();
-	});
-
 }
 
 //CONTRIBUTE//
