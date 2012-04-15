@@ -454,7 +454,9 @@ function cowobo_editpost_listeners() {
 		var post = replylink.parents('.large');
 		var postid = post.attr('id');
 		replylink.siblings('h3').removeClass('empty');
-		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(replylink).slideDown()});;
+		post.find('.commentbox .replybox').slideUp(function(){
+			jQuery(this).css('marginLeft', 0).insertAfter(replylink).slideDown();
+		});
 		post.find('.comment_parent').val(0);
 		post.find('.comment_post_ID').val(postid);
 		update_scrollbars(postid);
@@ -465,12 +467,31 @@ function cowobo_editpost_listeners() {
 		var comment = jQuery(this).parents('.comments');
 		var commid = comment.attr('id').split('-')[1];
 		var post = comment.parents('.large');
-		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(comment).slideDown()});
+		post.find('.commentbox .replybox').slideUp(function(){
+			jQuery(this).css('marginLeft', 20).insertAfter(comment).slideDown();
+		});
 		post.find('.commentbox .listbox').removeClass('restrict');
 		post.find('.comment_parent').val(commid);
 		update_scrollbars(post.attr('id'));
 	});
 
+	jQuery('.deletemsg').live('click', function(){
+		if(confirm('Are you sure you want to delete this post?')) {
+			var comment = jQuery(this).parents('.comments');
+			var commentid = comment.attr('id').split('-')[1];		
+			var postid = comment.parents('.large').attr('id');
+			comment.remove();
+			jQuery.ajax({
+   				type: "POST",
+   				url: rooturl+'wp-admin/admin-ajax.php',
+   				data: {action: 'deletemsg', commentid:commentid},
+   				success: function(msg){
+					update_scrollbars(postid);
+				}
+			});
+		}
+	});
+	
 	jQuery('.remove').live('click', function() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
 		listbox.css('height', 'auto');

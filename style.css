@@ -7,7 +7,7 @@ Author: Coders Without Borders
 Author URI: http://www.cowobo.org
 */
 
-/* Generic */
+/* Tags */
 * {margin:0; padding:0;}
 html, body {height:100%; background:#03030d; overflow:hidden;}
 body {font-family:arial, 'lucida console', sans-serif; color: #333; line-height:1.5em; font-size:13px; overflow:hidden;}
@@ -22,12 +22,16 @@ h1 {font-size:32px; color:#fff; padding:15px; height:25px;}
 h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
+
+/* Generic */
 .clear {clear:both;}
 .left {float:left;}
 .right {float:right;}
 .hide {display:none;}
 .grey {color:#ccc;}
 .empty {color:#888;}
+.button {color:#888; cursor:pointer;}
+.button:hover {color:#888;}
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:25; }
@@ -39,10 +43,8 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .droparrow {display:inline-block; width:15px; height:15px; background:url(images/smallicons.png); background-position:-75px -15px; }
 .droparrow:hover {background-position:-75px 0;}
 .home ul {margin: 0 0 0 -70px;}
-.home li {width:150px;}
-.sort li {width:150px;}
+.home li, .sort li, .search li {width:150px;}
 .filter li {width:100px;}
-.search li {width:150px;}
 .zoomlevels li {width:60px;}
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .pagetitle a {color:#fff;}
@@ -158,9 +160,6 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .selectbox .slide {display:none; overflow:hidden; padding:0 5px 0 5px;}
 .selectbox li:hover {background:#333; color:#fff;}
 .column {display:inline-block; position:relative; width:46%; padding:0 5px 0 5px; height:130px; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
-.button {color:#ccc; cursor:pointer;}
-.button:hover {color:#888;}
-.edit, .add, .reply {float:right;}
 .horlist {display:inline; list-style:none;}
 .horlist li {display:inline; padding-left:3px;}
 .horlist span {color:#888; cursor:pointer;}
@@ -171,7 +170,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none; clear:both;}
-.listbox li {padding:0;}
+.listbox li {padding:0; margin:0;}
 .listbox ul {padding-left:15px;}
 .restrict {height:125px; }
 .listitem {height:50px; clear:both; margin-top:10px;}

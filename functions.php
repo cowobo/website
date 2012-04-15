@@ -169,6 +169,8 @@ add_action("wp_ajax_nopriv_showshare", "showshare_callback");
 add_action("wp_ajax_feedsetter", "feedsetter_callback");
 add_action("wp_ajax_nopriv_feedsetter", "feedsetter_callback");
 
+add_action("wp_ajax_deletemsg", "deletemsg_callback");
+add_action("wp_ajax_nopriv_deletemsg", "deletemsg_callback");
 
 function loadlightbox_callback(){
 	global $wp_query;
@@ -332,6 +334,10 @@ function feedsetter_callback(){
 	die();
 }
 
+function deletemsg_callback(){
+	if($_POST['commentid']) wp_delete_comment($_POST['commentid']);
+}
+
 function get_published_ids() {
 	global $wpdb;
 	$postobjs = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish'");
@@ -463,4 +469,13 @@ function cowobo_get_current_category() {
         $catid = $currentcat->term_id;
     }
     return array ('currentcat' => $currentcat, 'catid' => $catid );
+}
+
+// Add private tag to corresponding comment
+add_action ('comment_post', 'cowobo_add_comment_meta', 1);
+function cowobo_add_comment_meta($comment_id) {
+	if(isset($_POST['privatemsg'])){
+		$type = wp_filter_nohtml_kses($_POST['privatemsg']);
+		add_comment_meta($comment_id, 'privatemsg', $type, false);
+	}
 }
