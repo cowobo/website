@@ -32,11 +32,9 @@ jQuery(document).ready(function() {
 	//load maps and listners
 	initialize();
 	cowobo_sidebar_listeners();
-	cowobo_jquery_ui_listeners();
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
-    cowobo_messenger_listeners();
 
 	//update scrollbars if single post is present
 	if(jQuery('.single').length>0){
@@ -52,12 +50,14 @@ jQuery(document).ready(function() {
 	if(window.location.hash != '') {
 		var newhash = window.location.hash;
 		var hasharray = newhash.split('#');
+		var catid = 0;
 		for (var x = 1; x < hasharray.length; x++) {
 			var part = hasharray[x].split('=');
 			mapdata[part[0]] = part[1];
 		}
 		jQuery('#'+mapdata.post).fadeIn();
-		loadlightbox(mapdata.post, 0);
+		
+		loadlightbox(mapdata.post);
 	}
 
 	//load lightbox when hash changes
@@ -122,7 +122,8 @@ function cowobo_sidebar_listeners() {
 	);
 
 	jQuery('.homebutton').click(function() {
-		window.location = rooturl;
+		if(window.location.hash != '') window.location.hash = '';
+		else window.location = rooturl;
 	});
 
 	//search address from menubar
@@ -132,6 +133,11 @@ function cowobo_sidebar_listeners() {
 		searchaddress(keywords);
 	});
 
+	//profile button
+	jQuery('.profile').click( function() {
+		var postid = jQuery(this).attr('class').split(' ')[1];
+        window.location.hash = '#post='+postid;
+    });
 
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery(".scroller").mousewheel(function(event, delta) {
@@ -139,6 +145,11 @@ function cowobo_sidebar_listeners() {
 		event.preventDefault();
 		removeMarkers();
 	});
+
+	//scroll posts
+	jQuery(".scrollarrow").click(function(){
+		jQuery('.page').animate({scrollLeft: jQuery('.page').scrollLeft()+500}, 'slow');
+	})
 
 	// listerners for thumbs in sidebar
 	jQuery('.medium').click(function(event) {
@@ -151,12 +162,6 @@ function cowobo_sidebar_listeners() {
 	jQuery('.catrss').click(function(){
 		jQuery("#rss").fadeIn();
 	});
-}
-
-//jQuery UI
-function cowobo_jquery_ui_listeners() {
-	jQuery('.large').draggable({cancel:'.content'});
-	jQuery(".scroller, .map, .slider").disableSelection();
 }
 
 //LIGHTBOX//
@@ -196,7 +201,6 @@ function cowobo_lightbox_listeners() {
 		jQuery("#rss").fadeIn();
 	});
 
-
 	//intercept submit of comment form
 	jQuery(".commentform").live("submit", function() {
 		var newform = jQuery(this);
@@ -228,32 +232,6 @@ function cowobo_lightbox_listeners() {
        		});
       	return false;
 	});
-
-	//resize text areas to fit content (requires autoresize.js)
-	jQuery(".commenttext, .editcontent").autoResize({
-    	onResize : function() {jQuery(this).css({opacity:0.8});},
-    	animateCallback : function() {jQuery(this).css({opacity:1});},
-    	animateDuration : 300,
-    	extraSpace : 20
-	});
-
-}
-
-//MESSENGER//
-function cowobo_messenger_listeners() {
-	jQuery('.messenger').click( function() {
-		var type = jQuery(this).attr('class').split(' ');
-		if (type[1] == 'join') {
-            jQuery('.large').fadeOut('slow');
-			jQuery('#join').fadeIn('slow');
-		} else {
-            var postid = type[2].split('-')[1];
-            jQuery('.large').fadeOut('slow');
-			jQuery('#'+postid).fadeIn('slow');
-			loadlightbox(postid, 0);
-			//loadmap here
-		}
-    });
 }
 
 function cowobo_map_listeners() {
@@ -266,36 +244,32 @@ function cowobo_map_listeners() {
 		mapdata['post'] = 0;
 
 		//save new value with corresponding key
-		if(typeof(map) !='undefined'){
-			if(jQuery(this).hasClass('labels')) {
-				newvalue['type']= 'hybrid';
-			}else if(jQuery(this).hasClass('moveleft')) {
-				newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*-1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('moveright')) {
-				newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('moveup')) {
-				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('movedown')) {
-				newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*1, mapdata.zoom);
-			} else if(jQuery(this).hasClass('zoom')) {
-				var level = jQuery(this).attr('class').split(' ')[1];
-				newvalue['zoom']= level.split('-')[1];
-			}
-			//update hash with new values
-			for (key in newvalue) {
-				if(hash.indexOf(key) != -1){
-    				var vars = hash.split("#");
-					for (var i = 0; i < vars.length; i++) {
-        				var part = vars[i].split("=");
-        				if (part[0] == key) vars[i] = key+"="+newvalue[key];
-					}
-					window.location.hash = vars.join('#');
-				} else {
-					window.location.hash = '#'+key+'='+newvalue[key];
+		if(jQuery(this).hasClass('labels')) {
+			newvalue['type']= 'hybrid';
+		}else if(jQuery(this).hasClass('moveleft')) {
+			newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*-1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('moveright')) {
+			newvalue['lng']= adjustLonByPx(mapdata.lng, xmid*1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('moveup')) {
+			newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*-1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('movedown')) {
+			newvalue['lat']= adjustLatByPx(mapdata.lat, ymid*1, mapdata.zoom);
+		} else if(jQuery(this).hasClass('zoom')) {
+			var level = jQuery(this).attr('class').split(' ')[1];
+			newvalue['zoom']= level.split('-')[1];
+		}
+		//update hash with new values
+		for (key in newvalue) {
+			if(hash.indexOf(key) != -1){
+    			var vars = hash.split("#");
+				for (var i = 0; i < vars.length; i++) {
+       				var part = vars[i].split("=");
+       				if (part[0] == key) vars[i] = key+"="+newvalue[key];
 				}
+				window.location.hash = vars.join('#');
+			} else {
+				window.location.hash = '#'+key+'='+newvalue[key];
 			}
-		} else {
-			alert('Please wait for map to finish loading')
 		}
 	});
 
@@ -318,11 +292,6 @@ function cowobo_map_listeners() {
 		var lng = jQuery('.maplayer:last').data('map').lng;
 		jQuery('#savemarker').html(lat+','+lng);
 	});
-
-	jQuery('#closebutton1, #closebutton2').click(function(){
-		jQuery(this).parent().fadeOut();
-	});
-
 }
 
 //CONTRIBUTE//
@@ -331,7 +300,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.choosetype').change(function() {
 		var catid = jQuery(this).val();
 		jQuery(this).parents('.large').find('.loading').fadeIn();
-		loadlightbox('new', catid);
+		loadlightbox('new-'+catid);
 	});
 
 	//relocate marker
@@ -386,7 +355,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.edit').live('click', function() {
 		var selectbox = jQuery(this).siblings('.selectbox').eq(0);
 		if(selectbox.is(":visible")){
-			jQuery(this).html('+ Add');
+			jQuery(this).html('+ Link');
 			if(jQuery(this).siblings('.listbox').children().length<1){
 				jQuery(this).siblings('h3').addClass('empty');
 			}
@@ -461,14 +430,15 @@ function cowobo_editpost_listeners() {
 		}
   	});
 
-
 	//move commentbox back to top
 	jQuery('.add').live('click', function() {
 		var replylink = jQuery(this);
 		var post = replylink.parents('.large');
 		var postid = post.attr('id');
 		replylink.siblings('h3').removeClass('empty');
-		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(replylink).slideDown()});;
+		post.find('.commentbox .replybox').slideUp(function(){
+			jQuery(this).css('marginLeft', 0).insertAfter(replylink).slideDown();
+		});
 		post.find('.comment_parent').val(0);
 		post.find('.comment_post_ID').val(postid);
 		update_scrollbars(postid);
@@ -479,12 +449,31 @@ function cowobo_editpost_listeners() {
 		var comment = jQuery(this).parents('.comments');
 		var commid = comment.attr('id').split('-')[1];
 		var post = comment.parents('.large');
-		post.find('.commentbox .replybox').slideUp(function(){jQuery(this).insertAfter(comment).slideDown()});
+		post.find('.commentbox .replybox').slideUp(function(){
+			jQuery(this).css('marginLeft', 20).insertAfter(comment).slideDown();
+		});
 		post.find('.commentbox .listbox').removeClass('restrict');
 		post.find('.comment_parent').val(commid);
 		update_scrollbars(post.attr('id'));
 	});
 
+	jQuery('.deletemsg').live('click', function(){
+		if(confirm('Are you sure you want to delete this post?')) {
+			var comment = jQuery(this).parents('.comments');
+			var commentid = comment.attr('id').split('-')[1];		
+			var postid = comment.parents('.large').attr('id');
+			comment.remove();
+			jQuery.ajax({
+   				type: "POST",
+   				url: rooturl+'wp-admin/admin-ajax.php',
+   				data: {action: 'deletemsg', commentid:commentid},
+   				success: function(msg){
+					update_scrollbars(postid);
+				}
+			});
+		}
+	});
+	
 	jQuery('.remove').live('click', function() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
 		listbox.css('height', 'auto');
@@ -571,9 +560,11 @@ function cowobo_editpost_listeners() {
 		data['authors'] = authors.join(',');
 		data['posts'] = posts.join(',');
 
-		//make sure the post has a feed and author
-		if (tags.length<0) {
-			alert('You must specify at least one feed');
+		//make sure the post has a title and feed
+		if(post.find('.edittitle').val().length < 3) {
+			alert('You must specify a title');
+		} else if (tags.length<1) {
+			alert('You must specify atleast one tag');
 		} else {
 			jQuery.ajax({
 				type: "POST",
@@ -624,7 +615,17 @@ function cowobo_editpost_listeners() {
 
 //FUNCTIONS//
 
-function loadlightbox(postid, catid) {
+function loadlightbox(postid) {
+	//setup additional variables
+	var catid = 0;
+	if(postid != 0) 
+		var type = postid.split('-')[1];
+	if(typeof(type)!= 'undefined') {
+		catid = type;
+		postid = 'newtype';
+		jQuery('#new').find('.loading').removeClass('hide');
+	}
+	
 	// get coordinates of post and load corresponding map
 	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
@@ -633,15 +634,10 @@ function loadlightbox(postid, catid) {
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}
-
-	//load the appropriate content
-	if (postid == 'join' || postid == 'selecttype' || typeof(postid) == 'undefined') {
-		return true;
-	} else if (postid != 'new' && postid != 0) {
-		update_scrollbars(postid);
-	} else if (postid != 'new') {
-		loadNewMap(mapdata);
-	}
+	
+	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);
+	if (postid == 'new' || postid == 'newprofile' || typeof(postid) == 'undefined') return true;
+	else if (postid != 'newtype') loadNewMap(mapdata);
 
 	if(jQuery('#'+postid + '.container').length<1 && postid != 0) {
 		jQuery.ajax({
@@ -653,25 +649,34 @@ function loadlightbox(postid, catid) {
 				postid:postid
 			},
    			success: function(msg){
-				var newbox = jQuery(msg);
+				var newbox = jQuery('<div>'+msg+'</div>');
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();
+				//replace newbox so users can go back to their new post
+				if(postid == 'newtype') {
+					oldbox = jQuery('#new'); 
+					jQuery('#medium-new').attr('id', 'medium-'+newid);
+				}
 				//if oldbox doesnt exist then add it	;
 				if(oldbox.length<1){
 					jQuery('.large').hide();
 					jQuery('body').append(newbox);
+					jQuery('#new').find('.loading').addClass('hide');
 				} else {
 					if(oldbox.css("display") == "none") newbox.children('.large').hide();
 					oldbox.replaceWith(newbox.children('.large'));
 					newbox.find('.content').scrollTop(scrollpos);
 				}
-				cowobo_jquery_ui_listeners();
 				update_scrollbars(newid);
 				loadlike(newid);
 				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.editable').length > 0) {
 					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
 				}
+				//resize text areas to fit content (requires autoresize.js)
+				newbox.find(".commenttext").autoResize({
+				onResize : function() {alert('test');},
+				extraSpace : 20});
 			}
 		});
 	}
@@ -725,13 +730,16 @@ function loadlike(postid) {
 	// Load social share box
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-show-share.php',
-		data: {postid:postid},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'showshare',
+			postid:postid
+		},
 		success: function ( msg ){
 			jQuery('#' + postid).find('.cowobo_social_share').html( msg ).hide();
 			// Load Social Buttons
-			gapi.plusone.go();
-			twttr.widgets.load();
+			if(typeof(gapi)!='undefined') gapi.plusone.go();
+			if(typeof(twttr)!='undefined') twttr.widgets.load();
 		}
 	});
 
@@ -864,29 +872,30 @@ function mousemov() {
 	}
 }
 
-var number = 0;
 // hide markers on map corresponding to timeline
 function removeMarkers() {
-	var newnumber = Math.floor(jQuery('.scroller').scrollLeft()/(jQuery('.medium').eq(1).width()+10));
-	if(newnumber != number) {number = newnumber;
-		jQuery('.medium').each(function(){
-		if(jQuery(this).index() <= number) {
-			var id = jQuery(this).attr('id');
-			jQuery('#marker'+id).fadeOut();
+	jQuery('.medium').each(function(){
+		var id = jQuery(this).attr('id').split('-')[1];
+		if(jQuery(this).offset().left < 0) {
+			jQuery('.marker'+id).hide();
 		} else {
-			var id = jQuery(this).attr('id');
-			jQuery('#marker'+id).fadeIn();
+			jQuery('.marker'+id).show();
 		}
-		})
-	}
+	});
 }
 
 // Personal RSS feed Ajax-calls
 function add_to_feed(feed_type,feed_id,user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {feed_type:feed_type,feed_id:feed_id,user_id:user_id,add:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			feed_type:feed_type,
+			feed_id:feed_id,
+			user_id:user_id,
+			add:true
+		},
 		success: function(msg){
 			alert("This feed is now part of your personal feed.");
 		}
@@ -896,11 +905,19 @@ function add_to_feed(feed_type,feed_id,user_id) {
 function add_to_profile(post_id,user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {post_id:post_id,user_id:user_id,profile:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			user_id:user_id,
+			profile:true,
+			post_id:post_id
+		},
 		success: function(msg){
             console.log(msg);
 			alert("Post shared on profile.");
+			var count = jQuery('#'+postid).find('.count');
+			var newcount = parseFloat(count.html())+1;
+			count.html(newcount);
 		}
 	});
 }
@@ -908,8 +925,12 @@ function add_to_profile(post_id,user_id) {
 function reset_feed(user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {user_id:user_id,reset:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			user_id:user_id,
+			reset:true
+		},
 		success: function(msg){
 			alert("Your feed has been succesfully reset.");
 		}
@@ -965,7 +986,7 @@ function loadNewMap(data){
 	var mapurl = 'http://maps.googleapis.com/maps/api/staticmap?maptype='+data.type+'&sensor=false&size=';
 	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(data.zoom-1)+'&center='+data.lat+','+data.lng;
 	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+data.zoom+'&center=';
-	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="" width="100%" height="100%">'
+	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="">'
 	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'<div class="tiles"></div></div><div class="reflection">'+bufferimg+'<div class="tiles"></div></div></div>');
 
 	//update menu
@@ -984,13 +1005,15 @@ function loadNewMap(data){
 	newlayer.find('.buffer:first').load(function(){
 		newlayer.fadeIn(function() {
 			jQuery('.maplayer').not(this).hide();
-			jQuery('.maploading').fadeOut();
 		});
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
 			newlayer.find('.mainmap .tiles').append('<img src="'+url+'" alt="">');
 			newlayer.find('.reflection .tiles').append('<img src="'+url+'" alt="">');
 		}
+		newlayer.find('.mainmap .tiles img').load(function(){
+			jQuery('.maploading').fadeOut();
+		});
 	});
 
 	//sort markers by latitude to ensure correct overlapping
@@ -1008,11 +1031,12 @@ function loadNewMap(data){
 		var markerthumb = jQuery(this).attr('name');
 		var markertitle = jQuery(this).attr('title');
 		var markerimg = jQuery('.markerimg').val();
-		var marker = jQuery('<div class="marker" id="marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
-  		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
+		var marker = jQuery('<div class="marker marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
+		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
+		if(markertitle == 'Profiles') marker.append('<div class="mprofile"></div>');
 		marker.css({top:marker_y, left: marker_x});
 		marker.appendTo(newlayer.find('.mainmap'));
 		marker.click(function(event){
@@ -1022,8 +1046,8 @@ function loadNewMap(data){
 			jQuery('#'+postid).fadeIn();
 		});
 		marker.hover(
-			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
-			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
+			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 4);},
+			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
 

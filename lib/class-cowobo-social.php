@@ -368,16 +368,14 @@ class Cowobo_Social {
         $userid = wp_get_current_user()->ID;
 
 		$output = '';
-		if ($option['active_buttons']['facebook_like']==true) {
-			$output .= '
-				<div style="display:inline-block; width:' .$option['facebook_like_width']. 'px;padding-right:10px; margin:4px;height:30px;">
-				<iframe src="http://www.facebook.com/plugins/like.php?href=' . urlencode($post_link) . '&amp;layout=button_count&amp;show_faces=false&amp;width='.$option['facebook_like_width'].'&amp;action=like&amp;font=verdana&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width='.$option['facebook_like_width'].'px; height:21px;" allowTransparency="true"></iframe></div>';
-		}
+		
+        // Share on Cowobo
+        $output .= '<div class="sharebutton" style="width:100px"><div class="onprofile"><a href="javascript:void(0)" onclick="add_to_profile(' . $post_id . ', '. $userid . ')">On Profile</a></div><div class="count">0</div></div>';
 
 		if ($option['active_buttons']['google_plus']==true) {
 			$data_count = ($option['google_count']) ? '' : 'count="false"';
 			$output .= '
-				<div style="display:inline-block; width:' .$option['google_width']. 'px;padding-right:10px; margin:4px;height:30px;">
+				<div class="sharebutton" style="width:' .$option['google_width']. 'px;">				
 				<g:plusone size="medium" href="' . $post_link . '"'.$data_count.'></g:plusone>
 				</div>';
 		}
@@ -386,30 +384,36 @@ class Cowobo_Social {
 			$data_count = ($option['twitter_count']) ? 'horizontal' : 'none';
 			if ($option['twitter_id'] != ''){
 				$output .= '
-					<div style="display:inline-block; width:' .$option['twitter_width']. 'px;padding-right:10px; margin:4px;height:30px;">
+				<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">				
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'" data-via="'. $option['twitter_id'] . '">Tweet</a>
 					</div>';
 			} else {
 				$output .= '
-					<div style="display:inline-block; width:' .$option['twitter_width']. 'px;padding-right:10px; margin:4px;height:30px;">
+					<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">				
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'">Tweet</a>
 					</div>';
 			}
 		}
-		if ($option['active_buttons']['linkedin']==true) {
-			$counter = ($option['linkedin_count']) ? 'right' : '';
-			$output .= '<div style="float:left; width:' .$option['linkedin_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><script type="in/share" data-url="' . $post_link . '" data-counter="' .$counter. '"></script></div>';
-		}
-
+		
 		if ($option['active_buttons']['stumbleupon']==true) {
 			$output .= '
-				<div style="float:left; width:' .$option['stumbleupon_width']. 'px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><!--<script src="http://www.stumbleupon.com/hostedbadge.php?s=1&amp;r='.$post_link.'"></script>-->
+				<div class="sharebutton" style="width:' .$option['stumbleupon_width']. 'px;">				
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
 		}
-        // Share on Cowobo
-        $output .= '
-            <div style="float:left; width:40px;padding-right:10px; margin:4px 4px 4px 4px;height:30px;"><a href="javascript:void(0)" onclick="add_to_profile(' . $post_id . ', '. $userid . ')">On Profile</a></div>';
+		
+		if ($option['active_buttons']['facebook_like']==true) {
+			$output .= '
+				<div class="sharebutton" style="width:' .$option['facebook_like_width']. 'px;">
+				<iframe src="http://www.facebook.com/plugins/like.php?href=' . urlencode($post_link) . '&amp;layout=button_count&amp;show_faces=false&amp;width='.$option['facebook_like_width'].'&amp;action=like&amp;font=verdana&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width='.$option['facebook_like_width'].'px; height:21px;" allowTransparency="true"></iframe></div>';
+		}
 
+		//if ($option['active_buttons']['linkedin']==true) {
+			//$counter = ($option['linkedin_count']) ? 'right' : '';
+			//$output .= '
+				//<div class="sharebutton" style="width:' .$option['linkedin_width']. 'px;">				
+				//<script type="in/share" data-url="' . $post_link . '" data-counter="' .$counter. '"></script>
+				//</div>';
+		//}
 		echo $output;
 	}
 
@@ -684,17 +688,6 @@ class Cowobo_Social {
         if ( ! $feed_link ) $feed_link = $this->current_feed_url();
 
         $output = "";
-
-        // Add to CoWoBo favourite feed
-        if (is_user_logged_in() && !is_userfeed() ) {
-            $feed_type = 'c';
-            $category = cowobo_get_current_category();
-            $feed_id = $category['catid'];
-            $user_id = wp_get_current_user()->ID;
-
-            $output .= "$before<a href='javascript:void(0)' onclick='add_to_feed(\"$feed_type\",$feed_id,$user_id)'>Add to CoWoBo Personal Feed</a>$after";
-        }
-
         foreach ( $rss_services as $rss ) {
             $output .= "$before<a href ='" . get_feed_url ( $rss['url'], $feed_link ) . "'>{$rss['name']}</a>$after";
         }

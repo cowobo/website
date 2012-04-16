@@ -27,15 +27,17 @@ else:?>
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 		endif;?>
 	</div>
-	<div class="title"><span class="postrss"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div>
-	<div class="container" style="margin:0;">
+	<div class="title"><span class="postrss"></span><?php if($ajax) the_title(); else echo $post->post_title;?></div><?php
+	if($author):?>
+	<div class="container" style="margin:0 10px 0 0;">
 		<b>Coordinates:</b> <?php echo $coordinates;?>
 		<div class="edit button">+ Edit</div>
 		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
 			Enter address below and then <span class="relocate">click here</span> to geocode it<br/>
 			<input type="text" class="searchform new latlng" value="<?php echo $coordinates;?>"/>
 		</div>
-	</div><br/><?php 
+	</div><br/><?php
+	endif;
 	the_content();
 endif;
 

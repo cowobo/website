@@ -7,7 +7,7 @@ Author: Coders Without Borders
 Author URI: http://www.cowobo.org
 */
 
-/* Generic */
+/* Tags */
 * {margin:0; padding:0;}
 html, body {height:100%; background:#03030d; overflow:hidden;}
 body {font-family:arial, 'lucida console', sans-serif; color: #333; line-height:1.5em; font-size:13px; overflow:hidden;}
@@ -21,11 +21,17 @@ textarea {border:1px solid #eee;}
 h1 {font-size:32px; color:#fff; padding:15px; height:25px;}
 h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
-h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
+h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
+
+/* Generic */
 .clear {clear:both;}
 .left {float:left;}
 .right {float:right;}
 .hide {display:none;}
+.grey {color:#ccc;}
+.empty {color:#888;}
+.button {color:#888; cursor:pointer;}
+.button:hover {color:#888;}
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:35px; width:100%; color:#fff; background:url(images/black.png); z-index:25; }
@@ -37,12 +43,11 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .droparrow {display:inline-block; width:15px; height:15px; background:url(images/smallicons.png); background-position:-75px -15px; }
 .droparrow:hover {background-position:-75px 0;}
 .home ul {margin: 0 0 0 -70px;}
-.home li {width:150px;}
-.sort li {width:150px;}
+.home li, .sort li, .search li {width:150px;}
 .filter li {width:100px;}
-.search li {width:150px;}
 .zoomlevels li {width:60px;}
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
+.pagetitle a {color:#fff;}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
 .searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
 .maploading {font-weight:normal;  }
@@ -53,26 +58,27 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 /* Feedbar */
 .page {position:absolute; bottom:0; left:0; width:100%; z-index:4; overflow:hidden; background:url(images/black.png);}
 .scroller {white-space: nowrap; height:165px; padding-top:10px; font-size:12px;}
-.angel {position:absolute; cursor:pointer; left:30px; bottom:150px; width:125px; height:80px; background:url(images/angel.png) no-repeat; z-index:200}
+.angel {position:absolute; cursor:pointer; left:10px; bottom:190px; width:130px; height:120px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .scrollarrow {position:absolute; right:20px; bottom:190px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
 .scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px; margin:2px 0 0 5px;}
 
 /* Map */
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
-.maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; }
-.maplayer {display:none; z-index:2; width:100%; height:100%;}
+.maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; width:100%; height:100%;}
+.maplayer {display:none; z-index:2;}
 .mainmap {position:absolute; left:0; top:0; bottom:175px; width:100%;}
 .reflection {position:absolute; left:0; bottom:0; width:100%; height:175px; overflow:hidden; -webkit-transform: scaleY(-1);}
 .reflection img { -moz-transform:scaleY(-1); -o-transform: scaleY(-1); transform: scaleY(-1); filter: flipv; /*IE*/}
 .tiles {position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;}
 .tiles img {width:50%; height:100%;}
-.marker {position:absolute; width:80px; height:50px; margin: -46px 0 0 -25px; cursor:pointer; z-index:3; opacity:0.7}
+.marker {position:absolute; width:70px; height:45px; margin: -40px 0 0 -22px; cursor:pointer; z-index:3;}
 .marker img {width:100%; height:100%;}
-.mcontent {position:absolute; width:45px; height:35px; top:3px; left:3px;}
+.mcontent {position:absolute; width:39px; height:30px; top:3px; left:3px;}
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
-.mtitle span {margin:-2px 0 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px;}
-.buffer {z-index:0; }
+.mtitle span {margin:-2px 2px 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px; overflow:hidden;}
+.mprofile {position:absolute; width:30px; height:30px; top:0; left:0; margin: -21px 0 0 -14px; background:url(images/largeicons.png); background-position:-64px 0;}
+.buffer {z-index:0;}
 .citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 .move {color:#0099CC;}
 
@@ -82,7 +88,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .loadicon {padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .data {margin-left:6px; color:#fff; font-weight:bold;}
 .holder {background:#fff;}
-.title {color:#333; font-weight:bold;}
 .smallicon {display: inline-block; width: 15px; height: 15px; margin: 0 5px -2px 0; background: url(images/smallicons.png) no-repeat;}
 .rss {background-position:-45px 0; margin: 0 0 -2px 5px; cursor:pointer}
 .tag  {background-position: 0px 0}
@@ -97,17 +102,17 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .moveup, .movedown {width:100%; height:20px;}
 .moveup div, .movedown div {width:20px; height:10px; left:50%; margin-left:-10px;}
 .moveleft {left:0;}
-.moveleft div {background-position:18px 0; right:0}
-.moveleft:hover div {background-position:18px -20px; }
+.moveleft div {background-position:-50px 0; right:0}
+.moveleft:hover div {background-position:-50px -20px; }
 .moveright {right:0;}
-.moveright div {background-position: 50px 0; left:0}
-.moveright:hover div {background-position:50px -20px;}
+.moveright div {background-position: -20px 0; left:0}
+.moveright:hover div {background-position:-20px -20px;}
 .moveup {top:35px;}
-.moveup div {background-position:40px -10px; bottom:0}
-.moveup:hover div {background-position:40px -30px}
+.moveup div {background-position:-30px -10px; bottom:0}
+.moveup:hover div {background-position:-30px -30px}
 .movedown {bottom:190px; }
-.movedown div {background-position:40px 0; top:0;}
-.movedown:hover div {background-position:40px -20px}
+.movedown div {background-position:-30px 0; top:0;}
+.movedown:hover div {background-position:-30px -20px}
 
 /* Feedbar Styles */
 .medium {position:relative; width:155px; height:165px; padding:0 5px 0 5px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
@@ -119,6 +124,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
 .medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
 .medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
+.medium .title {font-weight:bold;}
 
 /* Lightboxes Styles*/
 #rss {z-index:21; margin:-290px 0 0 -270px;}
@@ -127,7 +133,7 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
 .large .content {position:relative; height:435px; overflow:hidden;}
 .large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; background:#ccc;}
-.large .title {font-size:21px; line-height:30px; margin-right:10px;}
+.large .title {font-size:21px; font-weight:bold; line-height:30px; margin-right:10px;}
 .large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:40px; font-weight:bold; cursor:move; clear:both;} 
 .large .arrow span {margin:0 5px 0 5px; color:#888;}
 .large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
@@ -141,9 +147,9 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
-.cowobo_social_share {display: none; background: #fff; width:550px;}
 .postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:0 -20px!important;}
 .postrss:hover {background-position:0 0}
+.login {text-align:center; margin-top:100px;}
 
 /* Edit Post Styles */
 .new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin:2px 0 15px 0; background:#fff;}
@@ -154,9 +160,6 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .selectbox .slide {display:none; overflow:hidden; padding:0 5px 0 5px;}
 .selectbox li:hover {background:#333; color:#fff;}
 .column {display:inline-block; position:relative; width:46%; padding:0 5px 0 5px; height:130px; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
-.button {color:#ccc; cursor:pointer;}
-.button:hover {color:#888;}
-.edit, .add, .reply {float:right;}
 .horlist {display:inline; list-style:none;}
 .horlist li {display:inline; padding-left:3px;}
 .horlist span {color:#888; cursor:pointer;}
@@ -164,12 +167,10 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 .selected {background:#333; color:#fff;}
 .relocate {font-weight:bold; cursor:pointer;}
 .loading {color:#888; font-size:18px; line-height:300px; text-align:center; cursor:pointer; background:#ccc;}
-.grey {color:#ccc;}
-.empty {color:#888;}
 
 /* Related Boxes */
 .listbox {overflow:hidden; list-style:none; clear:both;}
-.listbox li {padding:0;}
+.listbox li {padding:0; margin:0;}
 .listbox ul {padding-left:15px;}
 .restrict {height:125px; }
 .listitem {height:50px; clear:both; margin-top:10px;}
@@ -190,6 +191,8 @@ h3 {color:#333; font-size:17px; font-weight:bold; display:inline; line-height:25
 /* Cowobo connect */
 .cowobo_connect {padding: 10px;}
 
-/* Profile */
-.profile_pic {position:relative; background: url('images/profile.png') no-repeat; width: 250px; height:200px; overflow:hidden; float:left; }
-.profile_info {width: 250px; height:200px; float:right;}
+/* Cowobo share */
+.cowobo_social_share {display: none; position:absolute; bottom:0; left:0; height:25px; background: #eee; width:550px; padding-top:5px}
+.onprofile {float:left; height: 19px; width:70px; font-size:11px; border:1px solid #ccc; font-weight:10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:url(images/buttonshade.png);}
+.sharebutton {display:inline-block; vertical-align: top; height: 20px; padding-right:10px; margin:4px;}
+.count {float:right; background:url(images/count.png); width:26px; height:20px; font-size:11px; line-height:20px;}

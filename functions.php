@@ -163,12 +163,21 @@ add_action("wp_ajax_nopriv_addtag", "addtag_callback");
 add_action("wp_ajax_addlocation", "addlocation_callback");
 add_action("wp_ajax_nopriv_addlocation", "addlocation_callback");
 
+add_action("wp_ajax_showshare", "showshare_callback");
+add_action("wp_ajax_nopriv_showshare", "showshare_callback");
+
+add_action("wp_ajax_feedsetter", "feedsetter_callback");
+add_action("wp_ajax_nopriv_feedsetter", "feedsetter_callback");
+
+add_action("wp_ajax_deletemsg", "deletemsg_callback");
+add_action("wp_ajax_nopriv_deletemsg", "deletemsg_callback");
+
 function loadlightbox_callback(){
 	global $wp_query;
 	$wp_query->is_single = true;
 	$postid = $_POST["postid"];
 
-	if($postid == 'new'):
+	if($postid == 'newtype'):
 		$catid = $_POST["currentcat"];
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
@@ -184,8 +193,8 @@ function loadlightbox_callback(){
 		$newpost = false;
 	endif;
 	if (class_exists('FEE_Core')) FEE_Core::add_filters();
-	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;?>
-	<div><?php include(TEMPLATEPATH.'/templates/postbox.php');?></div><?php
+	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;
+	include(TEMPLATEPATH.'/templates/postbox.php');
 	endforeach;
 	wp_reset_query();
 	die;
@@ -299,6 +308,36 @@ function addlocation_callback(){
 	die();
 }
 
+function showshare_callback(){
+	global $social;
+	$post_link = get_permalink( $_POST['postid'] );
+	$post_title = get_the_title ( $_POST['postid'] ); ?>
+
+	<div class='like_wrapper' style='display:block;text-align:center;'>
+        <?php $social = new Cowobo_Social(true);
+        $social->show_share($_POST['postid']); ?>
+	</div><?php
+	die();
+}
+
+function feedsetter_callback(){
+	print_r ( $_REQUEST );
+	$userid = $_POST['user_id'];
+	if (empty($userid)) die;
+	if (isset($_POST['reset'])) $social->reset_feed($userid);
+	if (isset($_POST['add'])) {
+		$feed_query = array ( $_POST['feed_type'] => $_POST['feed_id'] );
+		$social->add_to_feed($userid,$feed_query);
+	} elseif ( isset($_POST['profile'] ) ) {
+		$social->add_to_profile( $userid, $_POST['post_id'] );
+	}
+	die();
+}
+
+function deletemsg_callback(){
+	if($_POST['commentid']) wp_delete_comment($_POST['commentid']);
+}
+
 function get_published_ids() {
 	global $wpdb;
 	$postobjs = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_status = 'publish'");
@@ -386,9 +425,9 @@ function my_save_extra_profile_fields( $user_id ) {
 function cowobo_get_pagetitle ( $currentcat = false ) {
     if ( $userfeed = is_userfeed() )
         $pagetitle = "Favourite Feed / {$userfeed->user_nicename}";
-    elseif(is_home()) $pagetitle= "<b>CODERS</b> WITHOUT <b>BORDERS</b>";
-    elseif(is_search()) $pagetitle = "<b>Search Results</b>";
-    elseif(is_404()) $pagetitle = "<b>Post not found</b>..is it one of these?";
+    elseif(is_home()) $pagetitle= '<a href="'.get_bloginfo('url').'"><b>CODERS</b> WITHOUT <b>BORDERS</b></a>';
+    elseif(is_search()) $pagetitle = '<b>Search Results</b>';
+    elseif(is_404()) $pagetitle = '<b>Post not found</b>..is it one of these?';
     else $pagetitle = '<b>'.$currentcat->name.'</b>';
 
     return $pagetitle;
@@ -430,4 +469,13 @@ function cowobo_get_current_category() {
         $catid = $currentcat->term_id;
     }
     return array ('currentcat' => $currentcat, 'catid' => $catid );
+}
+
+// Add private tag to corresponding comment
+add_action ('comment_post', 'cowobo_add_comment_meta', 1);
+function cowobo_add_comment_meta($comment_id) {
+	if(isset($_POST['privatemsg'])){
+		$type = wp_filter_nohtml_kses($_POST['privatemsg']);
+		add_comment_meta($comment_id, 'privatemsg', $type, false);
+	}
 }

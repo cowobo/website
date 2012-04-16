@@ -4,8 +4,8 @@ global $currenttype;
 if(!$newpost) $relatedtags = get_the_category(); //to prevent users saveing post under parent cat
 $subcats = get_categories(array('parent'=>$postcat->term_id, 'hide_empty'=>false, 'child_of'=>$postcat->term_id,));?>
 
-<h3><span class="tag icon"></span>Tags (<?php echo count($relatedtags);?>)</h3><?php if(count($relatedtags)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
-<div class="edit button">+ Add</div>
+<h3><span class="tag smallicon"></span>Tags (<?php echo count($relatedtags);?>)</h3><?php if(count($relatedtags)>2):?><span class="showall button">Show All &darr;</span><?php endif;?>
+<div class="edit button right">+ Add</div>
 
 <div class="selectbox" id="new-<?php echo $postcat->term_id;?>"><?php
 	if($author):?>
