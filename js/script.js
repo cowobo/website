@@ -56,7 +56,7 @@ jQuery(document).ready(function() {
 			mapdata[part[0]] = part[1];
 		}
 		jQuery('#'+mapdata.post).fadeIn();
-		
+
 		loadlightbox(mapdata.post);
 	}
 
@@ -460,7 +460,7 @@ function cowobo_editpost_listeners() {
 	jQuery('.deletemsg').live('click', function(){
 		if(confirm('Are you sure you want to delete this post?')) {
 			var comment = jQuery(this).parents('.comments');
-			var commentid = comment.attr('id').split('-')[1];		
+			var commentid = comment.attr('id').split('-')[1];
 			var postid = comment.parents('.large').attr('id');
 			comment.remove();
 			jQuery.ajax({
@@ -473,7 +473,7 @@ function cowobo_editpost_listeners() {
 			});
 		}
 	});
-	
+
 	jQuery('.remove').live('click', function() {
 		var listbox = jQuery(this).parents('.container').children('.listbox');
 		listbox.css('height', 'auto');
@@ -618,14 +618,14 @@ function cowobo_editpost_listeners() {
 function loadlightbox(postid) {
 	//setup additional variables
 	var catid = 0;
-	if(postid != 0) 
+	if(postid != 0)
 		var type = postid.split('-')[1];
 	if(typeof(type)!= 'undefined') {
 		catid = type;
 		postid = 'newtype';
 		jQuery('#new').find('.loading').removeClass('hide');
 	}
-	
+
 	// get coordinates of post and load corresponding map
 	var latlng = jQuery('#'+postid).find('.coordinates').val();
 	if(typeof(latlng) != 'undefined' && latlng.length>0) {
@@ -634,7 +634,7 @@ function loadlightbox(postid) {
 		mapdata['lng'] = markerpos[1];
 		mapdata['zoom'] = 15;
 	}
-	
+
 	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);
 	if (postid == 'new' || postid == 'newprofile' || typeof(postid) == 'undefined') return true;
 	else if (postid != 'newtype') loadNewMap(mapdata);
@@ -655,7 +655,7 @@ function loadlightbox(postid) {
 				var scrollpos = oldbox.find('.content').scrollTop();
 				//replace newbox so users can go back to their new post
 				if(postid == 'newtype') {
-					oldbox = jQuery('#new'); 
+					oldbox = jQuery('#new');
 					jQuery('#medium-new').attr('id', 'medium-'+newid);
 				}
 				//if oldbox doesnt exist then add it	;
@@ -915,7 +915,7 @@ function add_to_profile(post_id,user_id) {
 		success: function(msg){
             console.log(msg);
 			alert("Post shared on profile.");
-			var count = jQuery('#'+postid).find('.count');
+			var count = jQuery('#'+post_id).find('.count');
 			var newcount = parseFloat(count.html())+1;
 			count.html(newcount);
 		}
