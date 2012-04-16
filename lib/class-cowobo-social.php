@@ -166,11 +166,24 @@ class Cowobo_Social {
      * @param int $post_id
      * @return boolean true on success
      */
-	public function add_to_profile( $userid,$post_id ) {
+	public function add_to_profile( $userid, $post_id ) {
+        // Update user profile
 		$currentfeed = get_user_meta( $userid, 'cowobo_profilefeed', true );
 		if ( empty ( $currentfeed ) ) $currentfeed = array();
 		$currentfeed[] = $post_id;
 		update_user_meta($userid,'cowobo_profilefeed',$currentfeed);
+
+        // Update post profile share count
+        $profile_shares = $this->get_profile_shares ( $post_id );
+        $success = update_post_meta ( $post_id, 'cowobo_profile_shares', $profile_shares + 1 );
+        error_log ( "Profile Shares: $success" );
+
+        // Update post awesome count
+         if ( ! $awesome_count = get_post_meta ( $post_id, 'cowobo_share_count', true ) )
+                $awesome_count = 0;
+        $success = update_post_meta ( $post_id, 'cowobo_share_count', $awesome_count + 1 );
+        error_log ( "Awesome count: $success" );
+
 		return true;
 	}
 
@@ -356,26 +369,33 @@ class Cowobo_Social {
 	<?php return ob_get_clean();
 	}
 
+    public function get_profile_shares ( $post_id ) {
+        if ( ! $profile_shares = get_post_meta ( $post_id, 'cowobo_profile_shares', true ) )
+            $profile_shares = 0;
+        return $profile_shares;
+    }
+
     /**
      * Echos the share buttons
      *
      * @param int $post_id
      */
-	public function show_share($post_id) {
+	public function show_share ( $post_id ) {
 		$option = $this->share_options();
 		$post_link = get_permalink( $post_id );
 		$post_title = get_the_title ( $post_id );
         $userid = wp_get_current_user()->ID;
+        $profileshares = $this->get_profile_shares( $post_id );
 
 		$output = '';
-		
+
         // Share on Cowobo
-        $output .= '<div class="sharebutton" style="width:100px"><div class="onprofile"><a href="javascript:void(0)" onclick="add_to_profile(' . $post_id . ', '. $userid . ')">On Profile</a></div><div class="count">0</div></div>';
+        $output .= '<div class="sharebutton" style="width:100px"><div class="onprofile"><a href="javascript:void(0)" onclick="add_to_profile(' . $post_id . ', '. $userid . ')">On Profile</a></div><div class="count">'. $profileshares .'</div></div>';
 
 		if ($option['active_buttons']['google_plus']==true) {
 			$data_count = ($option['google_count']) ? '' : 'count="false"';
 			$output .= '
-				<div class="sharebutton" style="width:' .$option['google_width']. 'px;">				
+				<div class="sharebutton" style="width:' .$option['google_width']. 'px;">
 				<g:plusone size="medium" href="' . $post_link . '"'.$data_count.'></g:plusone>
 				</div>';
 		}
@@ -384,23 +404,23 @@ class Cowobo_Social {
 			$data_count = ($option['twitter_count']) ? 'horizontal' : 'none';
 			if ($option['twitter_id'] != ''){
 				$output .= '
-				<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">				
+				<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'" data-via="'. $option['twitter_id'] . '">Tweet</a>
 					</div>';
 			} else {
 				$output .= '
-					<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">				
+					<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'">Tweet</a>
 					</div>';
 			}
 		}
-		
+
 		if ($option['active_buttons']['stumbleupon']==true) {
 			$output .= '
-				<div class="sharebutton" style="width:' .$option['stumbleupon_width']. 'px;">				
+				<div class="sharebutton" style="width:' .$option['stumbleupon_width']. 'px;">
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
 		}
-		
+
 		if ($option['active_buttons']['facebook_like']==true) {
 			$output .= '
 				<div class="sharebutton" style="width:' .$option['facebook_like_width']. 'px;">
@@ -410,7 +430,7 @@ class Cowobo_Social {
 		//if ($option['active_buttons']['linkedin']==true) {
 			//$counter = ($option['linkedin_count']) ? 'right' : '';
 			//$output .= '
-				//<div class="sharebutton" style="width:' .$option['linkedin_width']. 'px;">				
+				//<div class="sharebutton" style="width:' .$option['linkedin_width']. 'px;">
 				//<script type="in/share" data-url="' . $post_link . '" data-counter="' .$counter. '"></script>
 				//</div>';
 		//}
@@ -474,7 +494,8 @@ class Cowobo_Social {
 		if ( ! $postids ) $postids = get_published_ids();
 		foreach ( $postids as $postid ) {
 			$url = get_permalink ( $postid );
-			$share_count = $this->get_total_count_sharethis ( $url );
+            $profile_shares = $this->get_profile_shares ( $postid );
+			$share_count = $this->get_total_count_sharethis ( $url ) + $profile_shares;
 			update_post_meta ( $postid, 'cowobo_share_count', $share_count );
 			update_post_meta ( $postid, 'cowobo_popularity', $this->get_popularity_count( $postid, true ) );
 		}
