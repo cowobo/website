@@ -20,9 +20,15 @@ $postids = array();?>
 </div>
 </div>
 
-<?php //load rrs and new post/profile boxes
+<?php 
+//load rrs and new post/profile boxes
+$rsspost = get_posts(array('name' => 'rssbox', 'showposts' => 1));
+foreach($rsspost as $post): setup_postdata($post); $wp_query->in_the_loop = true;
+	include(TEMPLATEPATH.'/templates/rssbox.php');
+endforeach;
+
+//load new post/profile boxes
 include( TEMPLATEPATH . '/templates/newbox.php');
-include(TEMPLATEPATH.'/templates/rssbox.php');
 if ($social->state > 1 && !in_array( $social->profile_id, $postids ) ) :
 	$post = get_post ( $social->profile_id );
 	setup_postdata($post);

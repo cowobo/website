@@ -83,7 +83,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .move {color:#0099CC;}
 
 /* Boxes Generic */
-.topshadow {position:absolute; top:0; left:0; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; z-index:10; }
+.topshadow {position:absolute; top:0; left:0; width:100%; height:60px; background:url(images/topshadow.png) top repeat-x; z-index:10; }
 .topshadow p {padding:15px; color:#fff; font-size:16px; font-weight:bold; line-height:30px;}
 .loadicon {padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .data {margin-left:6px; color:#fff; font-weight:bold;}
@@ -114,6 +114,18 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .movedown div {background-position:-30px 0; top:0;}
 .movedown:hover div {background-position:-30px -20px}
 
+/* RSS Icons */
+.rssicons {margin-top:10px;}
+.rssicon {position:relative; height:40px; opacity:0.6; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; background:url(images/rssicons.jpg)}
+.rssicon:hover {opacity:1}
+.myyahoo  {width:150px; background-position: 0px 0}
+.facebook  {width:135px; background-position: -150px 0}
+.igoogle {width:130px; background-position: -285px 0}
+.other  {width:105px; background-position: -415px 0}
+.bloglines  {width:175px; background-position: 0px -40px}
+.netvibes  {width:135px; background-position: -175px -40px}
+.newsgator {width:195px; background-position: -310px -40px}
+
 /* Feedbar Styles */
 .medium {position:relative; width:155px; height:165px; padding:0 5px 0 5px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
 .medium .holder {position:relative; padding: 6px 6px 0 6px; background:#eee; height:159px; white-space: normal; overflow:hidden;}
@@ -128,7 +140,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 
 /* Lightboxes Styles*/
 #rss {z-index:21; margin:-290px 0 0 -270px;}
-.large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-270px 0 0 -250px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
+.large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-240px 0 0 -250px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
 .single {display:block;}
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
 .large .content {position:relative; height:435px; overflow:hidden;}

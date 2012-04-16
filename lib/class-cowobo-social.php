@@ -668,30 +668,35 @@ class Cowobo_Social {
      */
     public function print_rss_links( $feed_link = false, $before = '', $after = '' ) {
         $rss_services = array(
-            'rss_feed' => array(
-                'name' => 'RSS Reader',
-                'url' => '%feed%',
+            'yahoo' => array(
+                'name' => '<span class="myyahoo rssicon"></span>',
+                'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
                 ),
-            'bloglines' => array(
-                'name' => 'Bloglines',
-                'url' => 'http://www.bloglines.com/sub/%feed%',
+			'facebook' => array(
+                'name' => '<span class="facebook rssicon"></span>',
+                'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
                 ),
             'google' => array(
-                'name' => 'Google Reader',
+                'name' => '<span class="igoogle rssicon"></span>',
                 'url' => 'http://fusion.google.com/add?feedurl=%enc_feed%',
                 ),
-            'netvibes' => array(
-                'name' => 'Netvibes',
+
+			 'rss_feed' => array(
+                'name' => '<span class="other rssicon"></span>',
+                'url' => '%feed%',
+             	),
+			'bloglines' => array(
+                'name' => '<span class="bloglines rssicon"></span>',
+                'url' => 'http://www.bloglines.com/sub/%feed%',
+                ),
+			'netvibes' => array(
+                'name' => '<span class="netvibes rssicon"></span>',
                 'url' => 'http://www.netvibes.com/subscribe.php?url=%enc_feed%',
                 ),
             'newsgator' => array(
-                'name' => 'Newsgator',
+                'name' => '<span class="newsgator rssicon"></span>',
                 'url' => 'http://www.newsgator.com/ngs/subscriber/subext.aspx?url=%enc_feed%',
                 ),
-            'yahoo' => array(
-                'name' => 'Yahoo!',
-                'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
-                )
         );
 
         /**
