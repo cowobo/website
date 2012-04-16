@@ -321,6 +321,8 @@ function showshare_callback(){
 }
 
 function feedsetter_callback(){
+    global $social;
+
 	print_r ( $_REQUEST );
 	$userid = $_POST['user_id'];
 	if (empty($userid)) die;
