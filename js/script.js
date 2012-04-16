@@ -405,7 +405,6 @@ function cowobo_editpost_listeners() {
 				if (status == google.maps.GeocoderStatus.OK) {
 					var latlng = results[0].geometry.location;
 					var coordinates = latlng.lat()+','+latlng.lng();
-					alert(coordinates);
 					jQuery.ajax({
    						type: "POST",
    						url: rooturl+'wp-admin/admin-ajax.php',
@@ -420,6 +419,8 @@ function cowobo_editpost_listeners() {
 							var listbox = selectbox.siblings('.listbox');
 							selectbox.find('input').val('');
 							listbox.html(msg);
+							selectbox.slideUp();
+							selectbox.siblings('.edit').html('+ Link');
 						}
 					});
 				} else {
@@ -519,7 +520,8 @@ function cowobo_editpost_listeners() {
 		var posts = new Array(); var tags = new Array(); var authors = new Array(); var data = {};
 		var post = jQuery(this).parents('.large');
 		var latlng = post.find('.latlng').val();
-
+		var newtitle = post.find('.edittitle').val();
+		
 		//check coordinates entered into box are correct format
 		if(typeof(latlng)!= 'undefined') {
 			var testlat = /^[0-9\-\.\,]*$/;
@@ -561,7 +563,7 @@ function cowobo_editpost_listeners() {
 		data['posts'] = posts.join(',');
 
 		//make sure the post has a title and feed
-		if(post.find('.edittitle').val().length < 3) {
+		if(typeof(newtitle) !='undefined' && newtitle.length < 3) {
 			alert('You must specify a title');
 		} else if (tags.length<1) {
 			alert('You must specify atleast one tag');

@@ -288,24 +288,22 @@ class Cowobo_Related_Posts {
      */
     public function create_relations($postid, $relatedpostids) {
         global $wpdb;
-
         $results = array();
         foreach($relatedpostids as $relatedpostid) {
             $relatedpostid = (int) $relatedpostid;
             $results[] = $this->create_relation( $postid, $relatedpostid );
         }
-
         return $results;
     }
 
     /**
      * Creates one relation between two posts
      *
-     * @param int $postid1
-     * @param int $postid2
+     * @param int $post1
+     * @param int $post2
      * @return str Result of WP query.
      */
-    public function create_relation ( $postid1, $postid2 ) {
+    public function create_relation ($post1, $post2) {
         $type = cwob_get_category($post2);
         if($type->slug == "locations"):
             $coordinates = get_post_meta($post2, 'coordinates', true);
