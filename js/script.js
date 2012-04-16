@@ -654,7 +654,11 @@ function loadlightbox(postid) {
 				var newbox = jQuery('<div>'+msg+'</div>');
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
-				var scrollpos = oldbox.find('.content').scrollTop();
+				var scrollpos = oldbox.find('.content').scrollTop();	
+				//activate front end editor on editable fields
+				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.fee-field').length > 0) {
+					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
+				}
 				//replace newbox so users can go back to their new post
 				if(postid == 'newtype') {
 					oldbox = jQuery('#new');
@@ -672,9 +676,7 @@ function loadlightbox(postid) {
 				}
 				update_scrollbars(newid);
 				loadlike(newid);
-				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.editable').length > 0) {
-					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
-				}
+				
 				//resize text areas to fit content (requires autoresize.js)
 				newbox.find(".commenttext").autoResize({
 				onResize : function() {alert('test');},
