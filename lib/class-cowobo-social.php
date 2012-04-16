@@ -137,12 +137,20 @@ class Cowobo_Social {
      * @param type $query
      * @return type
      */
-	public function feed_filter($query) {
+	public function feed_filter ( $query ) {
 		if ($query->is_feed) {
-			add_filter('the_content', array( &$this, 'feedContentFilter' ) );
+			add_filter('the_content', array( &$this, 'feed_content_filter' ) );
+			if ( ! $query->is_category )
+            add_filter('the_title', array( &$this, 'feed_title_filter' ), 10, 2 );
 		}
 		return $query;
 	}
+
+    public function feed_title_filter ( $title, $post_id ) {
+        $type = cwob_get_category( $post_id );
+        $title = "{$type->name}: $title";
+        return $title;
+    }
 
     /**
      * Add query to user feed
@@ -204,7 +212,7 @@ class Cowobo_Social {
      * @param object $content
      * @return object content with image
      */
-	public function feedContentFilter($content) {
+	public function feed_content_filter($content) {
 		$img = cwob_get_first_image($post->ID);
 		if($img) {
 			$image = '<img align="left" src="'. $img .'" alt="" />';
