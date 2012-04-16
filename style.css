@@ -139,8 +139,8 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .medium .title {font-weight:bold;}
 
 /* Lightboxes Styles*/
-#rss {z-index:21; margin:-290px 0 0 -270px;}
-.large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-240px 0 0 -250px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
+#rss {z-index:21; margin:-240px 0 0 -290px;}
+.large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-240px 0 0 -270px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
 .single {display:block;}
 .large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
 .large .content {position:relative; height:435px; overflow:hidden;}
