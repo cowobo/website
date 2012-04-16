@@ -10,11 +10,7 @@
  			</div><?php
 			endforeach;?>
 			</div>
-			<?php if (!is_home): ?>
-                <h3>Get the feed for "<?php echo cowobo_get_pagetitle() ?>"</h3>
-            <?php else: ?>
-                <h3>Get the feed for "Coders Without Borders"</h3>			
-			<?php endif; ?>
+			<h3>Get the feed for "<?php if (!is_home) echo cowobo_get_pagetitle(); else: echo 'Coders Without Borders';?>" on:</h3>
 			<div class="rssicons"><?php $social->print_rss_links(false); ?></div>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
