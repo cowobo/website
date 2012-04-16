@@ -116,7 +116,8 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 
 /* RSS Icons */
 .rssicons {margin-top:10px;}
-.rssicon {position:relative; height:40px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; background:url(images/rssicons.jpg)}
+.rssicon {position:relative; height:40px; opacity:0.6; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; background:url(images/rssicons.jpg)}
+.rssicon:hover {opacity:1}
 .myyahoo  {width:150px; background-position: 0px 0}
 .facebook  {width:135px; background-position: -150px 0}
 .igoogle {width:130px; background-position: -285px 0}
@@ -124,13 +125,6 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .bloglines  {width:175px; background-position: 0px -40px}
 .netvibes  {width:135px; background-position: -175px -40px}
 .newsgator {width:195px; background-position: -310px -40px}
-.myyahoo:hover  {background-position: 0px -80px}
-.facebook:hover  {background-position: -150px -80px}
-.igoogle:hover {background-position: -285px -80px}
-.other:hover  {background-position: -415px -80px}
-.bloglines:hover  {background-position: 0px -120px}
-.netvibes:hover  {background-position: -175px -120px}
-.newsgator:hover {background-position: -310px -120px}
 
 /* Feedbar Styles */
 .medium {position:relative; width:155px; height:165px; padding:0 5px 0 5px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}

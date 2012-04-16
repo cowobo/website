@@ -27,6 +27,6 @@
             $feed_id = $category['catid'];
             $user_id = wp_get_current_user()->ID;
             echo "<a href='javascript:void(0)' onclick='add_to_feed(\"$feed_type\",$feed_id,$user_id)'>Add to Favourites</a>";
-        endif;?>
+		endif;?>
 	</div>
 </div>
