@@ -17,8 +17,7 @@
 wp_enqueue_script("jquery");
 wp_enqueue_script('mainscript', get_bloginfo('template_url').'/js/script.js', array('jquery'));
 wp_enqueue_script('horscroll', get_bloginfo('template_url').'/js/horscroll.js', array('mainscript'));
-wp_enqueue_script('jqueryui', get_bloginfo('template_url').'/js/jquery-ui-1.8.16.custom.min.js', array('horscroll'));
-wp_enqueue_script('hashchange', get_bloginfo('template_url').'/js/hashchange.min.js',array('jqueryui'),'',true);
+wp_enqueue_script('hashchange', get_bloginfo('template_url').'/js/hashchange.min.js',array('horscroll'),'',true);
 wp_enqueue_script('autosize', get_bloginfo('template_url').'/js/autoresize.min.js',array('hashchange'),'',true);
 
 

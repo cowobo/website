@@ -32,7 +32,6 @@ jQuery(document).ready(function() {
 	//load maps and listners
 	initialize();
 	cowobo_sidebar_listeners();
-	cowobo_jquery_ui_listeners();
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
@@ -165,12 +164,6 @@ function cowobo_sidebar_listeners() {
 	});
 }
 
-//jQuery UI
-function cowobo_jquery_ui_listeners() {
-	jQuery('.large').draggable({cancel:'.content'});
-	jQuery(".scroller, .map, .slider").disableSelection();
-}
-
 //LIGHTBOX//
 function cowobo_lightbox_listeners() {
 	//fadeout lightboxes when clicked outside holder
@@ -208,7 +201,6 @@ function cowobo_lightbox_listeners() {
 		jQuery("#rss").fadeIn();
 	});
 
-
 	//intercept submit of comment form
 	jQuery(".commentform").live("submit", function() {
 		var newform = jQuery(this);
@@ -240,15 +232,6 @@ function cowobo_lightbox_listeners() {
        		});
       	return false;
 	});
-
-	//resize text areas to fit content (requires autoresize.js)
-	jQuery(".commenttext, .editcontent").autoResize({
-    	onResize : function() {jQuery(this).css({opacity:0.8});},
-    	animateCallback : function() {jQuery(this).css({opacity:1});},
-    	animateDuration : 300,
-    	extraSpace : 20
-	});
-
 }
 
 function cowobo_map_listeners() {
@@ -446,7 +429,6 @@ function cowobo_editpost_listeners() {
    			}
 		}
   	});
-
 
 	//move commentbox back to top
 	jQuery('.add').live('click', function() {
@@ -686,12 +668,15 @@ function loadlightbox(postid) {
 					oldbox.replaceWith(newbox.children('.large'));
 					newbox.find('.content').scrollTop(scrollpos);
 				}
-				cowobo_jquery_ui_listeners();
 				update_scrollbars(newid);
 				loadlike(newid);
 				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.editable').length > 0) {
 					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
 				}
+				//resize text areas to fit content (requires autoresize.js)
+				newbox.find(".commenttext").autoResize({
+				onResize : function() {alert('test');},
+				extraSpace : 20});
 			}
 		});
 	}
@@ -903,8 +888,14 @@ function removeMarkers() {
 function add_to_feed(feed_type,feed_id,user_id) {
 	jQuery.ajax({
 		type: "POST",
-		url: rooturl+'wp-content/themes/cowobo/lib/ajax-feed-setter.php',
-		data: {feed_type:feed_type,feed_id:feed_id,user_id:user_id,add:true},
+		url: rooturl+'wp-admin/admin-ajax.php',
+   		data: {
+			action: 'feedsetter',
+			feed_type:feed_type,
+			feed_id:feed_id,
+			user_id:user_id,
+			add:true
+		},
 		success: function(msg){
 			alert("This feed is now part of your personal feed.");
 		}
