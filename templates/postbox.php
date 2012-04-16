@@ -52,7 +52,7 @@ endif;
                 <span class="save button">Save</span><?php
 				if(!$newpost):?>
 				<span class="link icon"></span><span class='cowobo_social_like button'>
-					Share (<?php echo $sharecount;?>)
+					Share (<span><?php echo $sharecount;?></span>)
 				</span><?php
 				endif;
 				if ($post->ID != $social->profile_id):?>
@@ -64,7 +64,7 @@ endif;
 			$next = get_adjacent_post(true,'',true);?>
 			<span class="<?php if(!empty($prev)) echo 'lastpost button';?>" id="last-<?php echo $prev->ID; ?>">Last</span>
 			<span class="link icon"></span><span class='cowobo_social_like button'>
-				Share (<?php echo $sharecount;?>)
+				Share (<span><?php echo $sharecount;?></span>)
 			</span>
 			<span class="<?php if(!empty($next)) echo 'nextpost button';?>" id="next-<?php echo $next->ID;?>">Next</span><?php
 		endif;?>

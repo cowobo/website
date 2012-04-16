@@ -150,11 +150,6 @@ class Cowobo_Social_Options {
 			$option['twitter_count'] = (isset($_POST['cowobo_share_twitter_count']) and $_POST['cowobo_share_twitter_count']=='on') ? true : false;
 			$option['google_count'] = (isset($_POST['cowobo_share_google_count']) and $_POST['cowobo_share_google_count']=='on') ? true : false;
 			$option['linkedin_count'] = (isset($_POST['cowobo_share_linkedin_count']) and $_POST['cowobo_share_linkedin_count']=='on') ? true : false;
-			$option['google_width'] = esc_html($_POST['cowobo_share_google_width']);
-			$option['facebook_like_width'] = esc_html($_POST['cowobo_share_facebook_like_width']);
-			$option['twitter_width'] = esc_html($_POST['cowobo_share_twitter_width']);
-			$option['linkedin_width'] = esc_html($_POST['cowobo_share_linkedin_width']);
-			$option['stumbleupon_width'] = esc_html($_POST['cowobo_share_stumbleupon_width']);
 			update_option($option_name, $option);
 			// Put a settings updated message on the screen
 			$out .= '<div class="updated"><p><strong>'.__('Settings saved.', 'menu-test' ).'</strong></p></div>';
@@ -216,31 +211,9 @@ class Cowobo_Social_Options {
 		</div>
 
 		<div class="postbox">
-		<h3>'.__("Adjust Width and Count Display", 'menu-test' ).'</h3>
+		<h3>'.__("Adjust Count Display", 'menu-test' ).'</h3>
 		<div class="inside">
 			<table>
-			<tr><td style="padding-bottom:20px; padding-right:10px;" valign="top">'.__("Facebook Button width", 'menu-test' ).':</td>
-				<td style="padding-bottom:20px;">
-					<input type="text" name="cowobo_share_facebook_like_width" value="'.stripslashes($option['facebook_like_width']).'" size="5">px<br />
-				</td>
-				<td style="padding-bottom:20px; padding-left:50px; padding-right:10px;" valign="top">'.__("Google +1 Button width", 'menu-test' ).':</td>
-				<td style="padding-bottom:20px;">
-					<input type="text" name="cowobo_share_google_width" value="'.stripslashes($option['google_width']).'" size="5">px<br />
-				</td>
-				<td style="padding-bottom:20px; padding-right:10px;" valign="top">'.__("Stumbleupon Button width", 'menu-test' ).':</td>
-				<td style="padding-bottom:20px;">
-					<input type="text" name="cowobo_share_stumbleupon_width" value="'.stripslashes($option['stumbleupon_width']).'" size="10"> px <br />
-				</td>
-			</tr>
-			<tr><td style="padding-bottom:20px; padding-right:10px;" valign="top">'.__("Twitter Button width", 'menu-test' ).':</td>
-				<td style="padding-bottom:20px;">
-					<input type="text" name="cowobo_share_twitter_width" value="'.stripslashes($option['twitter_width']).'" size="5"> px <br />
-				</td>
-				<td style="padding-bottom:20px; padding-left:50px; padding-right:10px;" valign="top">'.__("Linkedin Button width", 'menu-test' ).':</td>
-				<td style="padding-bottom:20px;">
-					<input type="text" name="cowobo_share_linkedin_width" value="'.stripslashes($option['linkedin_width']).'" size="5"> px <br />
-				</td>
-			</tr>
 			<tr><td style="padding-bottom:20px; padding-right:10px;" valign="top">'.__("Google +1 counter", 'menu-test' ).':</td>
 				<td style="padding-bottom:20px;">
 					<input type="checkbox" name="cowobo_share_google_count" '.$google_count.' />

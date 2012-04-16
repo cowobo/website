@@ -208,3 +208,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .onprofile {float:left; height: 19px; width:70px; font-size:11px; border:1px solid #ccc; font-weight:10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:url(images/buttonshade.png);}
 .sharebutton {display:inline-block; vertical-align: top; height: 20px; padding-right:10px; margin:4px;}
 .count {float:right; background:url(images/count.png); width:26px; height:20px; font-size:11px; line-height:20px;}
+.ontwitter {width: 75px}
+.ongoogle {width: 60px}
+.onstumble {width: 70px}
+.onfacebook {width: 60px}

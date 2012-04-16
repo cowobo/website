@@ -521,6 +521,7 @@ function cowobo_editpost_listeners() {
 		var post = jQuery(this).parents('.large');
 		var latlng = post.find('.latlng').val();
 		var newtitle = post.find('.edittitle').val();
+		jQuery(this).addClass('loadicon');
 		
 		//check coordinates entered into box are correct format
 		if(typeof(latlng)!= 'undefined') {
@@ -733,7 +734,8 @@ function loadnextposts() {
 function loadlike(postid) {
 	// Load social share box if loginbox is not present
 	var sharediv = jQuery('#' + postid).find('.cowobo_social_share');
-	if(sharediv.is(':empty')) {
+	
+	if(sharediv.children().length <1) {
 		jQuery.ajax({
 			type: "POST",
 			url: rooturl+'wp-admin/admin-ajax.php',
@@ -752,7 +754,7 @@ function loadlike(postid) {
 
 	// Listen for click to expand like interface
 	jQuery('.cowobo_social_like').click(function(ev) {
-		if(!sharediv.is(':empty')) sharediv.css('height', '60px');
+		if(sharediv.children('.sharebutton').length > 0) sharediv.css('height', '60px');
 		sharediv.slideToggle();
 		ev.preventDefault();
 	});

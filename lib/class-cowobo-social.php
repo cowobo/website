@@ -403,7 +403,7 @@ class Cowobo_Social {
 		if ($option['active_buttons']['google_plus']==true) {
 			$data_count = ($option['google_count']) ? '' : 'count="false"';
 			$output .= '
-				<div class="sharebutton" style="width:' .$option['google_width']. 'px;">
+				<div class="sharebutton ongoogle">
 				<g:plusone size="medium" href="' . $post_link . '"'.$data_count.'></g:plusone>
 				</div>';
 		}
@@ -412,12 +412,12 @@ class Cowobo_Social {
 			$data_count = ($option['twitter_count']) ? 'horizontal' : 'none';
 			if ($option['twitter_id'] != ''){
 				$output .= '
-				<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">
+				<div class="sharebutton ontwitter">
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'" data-via="'. $option['twitter_id'] . '">Tweet</a>
 					</div>';
 			} else {
 				$output .= '
-					<div class="sharebutton" style="width:' .$option['twitter_width']. 'px;">
+					<div class="sharebutton ontwitter">
 					<a href="http://twitter.com/share" class="twitter-share-button" data-url="'. $post_link .'"  data-text="'. $post_title . '" data-count="'.$data_count.'">Tweet</a>
 					</div>';
 			}
@@ -425,13 +425,13 @@ class Cowobo_Social {
 
 		if ($option['active_buttons']['stumbleupon']==true) {
 			$output .= '
-				<div class="sharebutton" style="width:' .$option['stumbleupon_width']. 'px;">
+				<div class="sharebutton onstumble">
 				<iframe src="http://www.stumbleupon.com/badge/embed/1/?url='.urlencode($post_link).'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:74px; height: 18px;" allowtransparency="true"></iframe></div>';
 		}
 
 		if ($option['active_buttons']['facebook_like']==true) {
 			$output .= '
-				<div class="sharebutton" style="width:' .$option['facebook_like_width']. 'px;">
+				<div class="sharebutton onfacebook">
 				<iframe src="http://www.facebook.com/plugins/like.php?href=' . urlencode($post_link) . '&amp;layout=button_count&amp;show_faces=false&amp;width='.$option['facebook_like_width'].'&amp;action=like&amp;font=verdana&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width='.$option['facebook_like_width'].'px; height:21px;" allowTransparency="true"></iframe></div>';
 		}
 
