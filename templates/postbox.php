@@ -39,7 +39,9 @@ endif;
 		endif;?>
 		</div>
 		<div class="scrolltrack"><div class="slider"></div></div>
-		<div class="cowobo_social_share"></div>
+		<div class="cowobo_social_share"><?php
+			if ($social->state < 2) echo $social->speechbubble();?>
+		</div>
 	</div>
 	<div class="arrow"><?php
 		$sharecount = $social->get_total_shares($post->ID, true);

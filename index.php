@@ -22,7 +22,7 @@ $postids = array();?>
 
 <?php 
 //load rrs and new post/profile boxes
-$rsspost = get_posts(array('name' => 'rssbox', 'showposts' => 1));
+$rsspost = get_posts(array('name' => 'stay-connected', 'showposts' => 1));
 foreach($rsspost as $post): setup_postdata($post); $wp_query->in_the_loop = true;
 	include(TEMPLATEPATH.'/templates/rssbox.php');
 endforeach;

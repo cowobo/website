@@ -727,25 +727,29 @@ function loadnextposts() {
 }
 
 function loadlike(postid) {
-	// Load social share box
-	jQuery.ajax({
-		type: "POST",
-		url: rooturl+'wp-admin/admin-ajax.php',
-   		data: {
-			action: 'showshare',
-			postid:postid
-		},
-		success: function ( msg ){
-			jQuery('#' + postid).find('.cowobo_social_share').html( msg ).hide();
-			// Load Social Buttons
-			if(typeof(gapi)!='undefined') gapi.plusone.go();
-			if(typeof(twttr)!='undefined') twttr.widgets.load();
-		}
-	});
+	// Load social share box if loginbox is not present
+	var sharediv = jQuery('#' + postid).find('.cowobo_social_share');
+	if(sharediv.is(':empty')) {
+		jQuery.ajax({
+			type: "POST",
+			url: rooturl+'wp-admin/admin-ajax.php',
+   			data: {
+				action: 'showshare',
+				postid:postid
+			},
+			success: function ( msg ){
+				sharediv.html( msg ).hide();
+				// Load Social Buttons
+				if(typeof(gapi)!='undefined') gapi.plusone.go();
+				if(typeof(twttr)!='undefined') twttr.widgets.load();
+			}
+		});		
+	}
 
 	// Listen for click to expand like interface
 	jQuery('.cowobo_social_like').click(function(ev) {
-		jQuery('#' + postid).find('.cowobo_social_share').slideToggle();
+		if(!sharediv.is(':empty')) sharediv.css('height', '60px');
+		sharediv.slideToggle();
 		ev.preventDefault();
 	});
 }

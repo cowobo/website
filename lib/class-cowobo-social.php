@@ -666,7 +666,7 @@ class Cowobo_Social {
                 ),
 			'facebook' => array(
                 'name' => '<span class="facebook rssicon"></span>',
-                'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
+                'url' => 'http://www.facebook.com/cowobo',
                 ),
             'google' => array(
                 'name' => '<span class="igoogle rssicon"></span>',
