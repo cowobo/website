@@ -138,7 +138,6 @@ class Cowobo_Social {
      * @return type
      */
 	public function feed_filter ( $query ) {
-        //print_r ( $query ); die;
 		if ($query->is_feed) {
 			add_filter('the_content', array( &$this, 'feed_content_filter' ) );
 			if ( ! $query->is_category )
