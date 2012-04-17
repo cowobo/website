@@ -17,7 +17,7 @@ endif;
 		
 //check if user is author of post or added to the authors of post
 if($post->post_author == get_current_user_id()) $author = true; else $author = false; 
-$profiles = get_post_meta($post->ID, 'author', false);
+$profiles = get_post_meta($post->ID, 'authors', false);
 if(!empty($profiles) && !empty($social->profile_id)):
 	if(in_array($social->profile_id, $profiles)) $author = true;
 endif;
@@ -38,7 +38,7 @@ endif;
 			include(TEMPLATEPATH.'/templates/default.php');
 		endif;?>
 		</div>
-		<div class="scrolltrack"><div class="slider"></div></div>
+		<div class="scrolltrack"><div class="toparrow"></div><div class="slider"></div><div class="bottomarrow"></div></div>
 		<div class="cowobo_social_share"><?php
 			if ($social->state < 2) echo $social->speechbubble();?>
 		</div>

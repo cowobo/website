@@ -231,15 +231,15 @@ function savechanges_callback(){
 	$related->cwob_delete_relationships($postid);
 
 	//then add all the custom fields and make sure the author is listed
-	delete_post_meta($postid, 'author');
+	delete_post_meta($postid, 'authors');
 	delete_post_meta($postid, 'coordinates');
 	foreach ($_POST as $key => $value) :
 		if($value != ''):
 			delete_post_meta($postid, $key);
-			if($key == 'author'):
+			if($key == 'authors'):
 				$authors = explode(',', $value);
 				foreach ($authors as $author):
-					add_post_meta($postid, 'author', $author);
+					add_post_meta($postid, 'authors', $author);
 					$query = "INSERT INTO ".$wpdb->prefix."post_relationships VALUES($postid, $author)";
 					$result = $wpdb->query($query);
 				endforeach;
@@ -251,8 +251,6 @@ function savechanges_callback(){
 			endif;
 		endif;
 	endforeach;
-	//in case original author was deleted restore it here
-	update_post_meta($postid, 'author', $social->profile_id);
 }
 
 function addtag_callback(){

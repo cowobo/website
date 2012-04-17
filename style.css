@@ -142,7 +142,7 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 #rss {z-index:21; margin:-240px 0 0 -290px;}
 .large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-240px 0 0 -270px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
 .single {display:block;}
-.large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; }
+.large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px;}
 .large .content {position:relative; height:435px; overflow:hidden;}
 .large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; background:#ccc;}
 .large .title {font-size:21px; font-weight:bold; line-height:30px; margin-right:10px;}
@@ -150,8 +150,14 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .large .arrow span {margin:0 5px 0 5px; color:#888;}
 .large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
 .navarrow {padding-right:20px; margin-right:8px; cursor:pointer;}
-.scrolltrack, .slider {position:absolute; top:0; right:0; width:15px; height:100%; overflow:hidden; }
-.slider {margin-top:15px; background:#eee;}
+
+.scrolltrack, .slider, .toparrow, .bottomarrow {position:absolute; right:0; width:15px; overflow:hidden; background:#eee;}
+.scrolltrack, .slider {top:0; height:100%;}
+.slider {margin-top:15px; background:#ddd; width:13px; border:1px solid #ccc;}
+.toparrow, .bottomarrow {height: 15px;}
+.toparrow {top:0; background:#fff url(images/smallicons.png); background-position: -135px 0}
+.bottomarrow {bottom:0; background:url(images/smallicons.png); background-position: -135px 15px; margin-bottom:-5px;}
+
 .slide {position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; overflow:hidden; z-index:1;}
 .prev, .next {position:absolute; top:15px; width:30px; height:15px; font-weight:bold; font-size:15px; color:#fff; cursor:pointer;}
 .shadowclick {position:absolute; top:0; right:0; width:50px; height:100%;}
@@ -168,9 +174,10 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .choosetype {width:520px;}
 .editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
-.selectbox {display:none; clear:both; margin-bottom:5px;}
+.selectbox {display:none; clear:both; margin-bottom:5px; height:130px;}
 .selectbox .slide {display:none; overflow:hidden; padding:0 5px 0 5px;}
 .selectbox li:hover {background:#333; color:#fff;}
+.relocatebox {height: 60px;}
 .column {display:inline-block; position:relative; width:46%; padding:0 5px 0 5px; height:130px; border:1px solid #ccc; overflow-y:scroll; overflow-x:hidden; background:#fff;}
 .horlist {display:inline; list-style:none;}
 .horlist li {display:inline; padding-left:3px;}

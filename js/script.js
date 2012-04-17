@@ -2,7 +2,6 @@
 var winx;
 var overscroller;
 var overslide;
-var overlightbox;
 var scroller;
 var rooturl;
 var geocoder;
@@ -93,7 +92,7 @@ jQuery(document).ready(function() {
 			loadlightbox(mapdata.post, 0);
 		}
 	})
-
+	
 	//SHARETHIS KEY//
 	/* var switchTo5x=true;
 	if (typeof(stLight)!= 'undefined') stLight.options({publisher:'4a45176a-73d4-4e42-8be9-c015a589c031'});*/
@@ -138,7 +137,7 @@ function cowobo_sidebar_listeners() {
 		var postid = jQuery(this).attr('class').split(' ')[1];
         window.location.hash = '#post='+postid;
     });
-
+	
 	//add horizontal scroll with mousewheel (requires horscroll.js)
 	jQuery(".scroller").mousewheel(function(event, delta) {
 		jQuery(this).scrollLeft(jQuery(this).scrollLeft()+delta * -30);
@@ -476,9 +475,16 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.remove').live('click', function() {
-		var listbox = jQuery(this).parents('.container').children('.listbox');
-		listbox.css('height', 'auto');
-		jQuery(this).parents('.listitem').remove();
+		var listitem = jQuery(this).parents('.listitem');
+		var isauthor = listitem.parents('.container').hasClass('authors');
+		if(listitem.siblings().length < 1 && isauthor  == true) {
+			alert('To remove this author please add another one to replace it');
+		} else {
+			var listbox = jQuery(this).parents('.container').children('.listbox');
+			listbox.css('height', 'auto');
+			jQuery(this).parents('.listitem').remove();
+		}
+		
 	});
 
 	jQuery('.typelist li').live('click', function() {
@@ -573,7 +579,7 @@ function cowobo_editpost_listeners() {
 				type: "POST",
 				url: rooturl+'wp-admin/admin-ajax.php',
 				data: data,
-				success: function (permalink){
+				success: function (msg){
 					alert('Your changes have been saved');
 					document.location.reload(true);
 				}
@@ -656,10 +662,19 @@ function loadlightbox(postid) {
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();	
+				
 				//activate front end editor on editable fields
 				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.fee-field').length > 0) {
 					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
 				}
+				
+				//resize text areas to fit content (requires autoresize.js)
+				newbox.find('.content').scrollTop(scrollpos);
+				newbox.find(".commenttext").autoResize({
+					onResize : function() {alert('test');},
+					extraSpace : 20
+				});
+						
 				//replace newbox so users can go back to their new post
 				if(postid == 'newtype') {
 					oldbox = jQuery('#new');
@@ -673,15 +688,9 @@ function loadlightbox(postid) {
 				} else {
 					if(oldbox.css("display") == "none") newbox.children('.large').hide();
 					oldbox.replaceWith(newbox.children('.large'));
-					newbox.find('.content').scrollTop(scrollpos);
 				}
 				update_scrollbars(newid);
 				loadlike(newid);
-				
-				//resize text areas to fit content (requires autoresize.js)
-				newbox.find(".commenttext").autoResize({
-				onResize : function() {alert('test');},
-				extraSpace : 20});
 			}
 		});
 	}
@@ -768,21 +777,15 @@ function update_scrollbars(postid) {
 	var contentdim = content.get(0).scrollHeight;
 	var sliderdim = content.height() * (content.height()/contentdim);
 	slider.css({height: sliderdim});
-
+	
+	jQuery('body').disableSelection();
+	
 	content.find('.gallery').hover(
 		function() {overslide = 1},
 		function () {overslide = 0}
 	);
 
-	content.hover(
-		function() {var t = setTimeout(function() {overlightbox=true;}, 200);
-    		jQuery(this).data('timeout', t);
-			scroller = jQuery(this);
-  		},
-		function() {clearTimeout(jQuery(this).data('timeout'));
-			overlightbox=false;
-  		}
-	);
+	content.hover(function() {scroller = jQuery(this);});
 
 	jQuery('#'+postid).mousemove(function(e){
 		mousepos = e.pageY - jQuery(this).offset().top;
@@ -805,7 +808,14 @@ function update_scrollbars(postid) {
 
 	//bind mousewheel to new content
 	jQuery(".content").mousewheel(function(event, delta) {
-		jQuery(this).scrollTop(jQuery(this).scrollTop()+(delta * -30));
+		var scroller = jQuery(this);
+		var contentdim = scroller.get(0).scrollHeight;
+		var scrolldim = scroller.siblings('.scrolltrack').height();
+		var scrollratio = scroller.scrollTop() / (contentdim-scrolldim);
+		var slider = scroller.siblings('.scrolltrack').children('.slider');
+		var sliderpos = (scrolldim-slider.height()) * scrollratio;	
+		scroller.scrollTop(scroller.scrollTop()+(delta * -30));
+		slider.css('top', sliderpos + "px");
 	});
 
 }
@@ -828,27 +838,9 @@ function mousemov() {
 		}
 	}
 	var maxspeed = 10;
-	//scroll content of lightbox
-	if(overlightbox) {
-		var mousey = window.ey - scroller.offset().top;
-		var contentdim = scroller.get(0).scrollHeight;
-		var scrolldim = scroller.siblings('.scrolltrack').height();
-		var scrollratio = scroller.scrollTop() / (contentdim-scrolldim);
-		var slider = scroller.siblings('.scrolltrack').children('.slider');
-		var sliderpos = (scrolldim-slider.height()) * scrollratio;
-		if(mousey < scroller.height()/4) {
-			var speed = (scroller.height()/4)/mousey;
-			if (speed > maxspeed) speed = maxspeed;
-			scroller.scrollTop(scroller.scrollTop()- speed);
-		} else if(mousey > (scroller.height()-scroller.height()/4)) {
-			var speed = (scroller.height()/4)/(scroller.height()-mousey);
-			if (speed > maxspeed) speed = maxspeed;
-			scroller.scrollTop(scroller.scrollTop()+ speed);
-		}
-		slider.css('top', sliderpos + "px");
-		return;
-	}
-	else if(overscroller>0) {
+	
+	//load new posts if feedbar reaches end
+	if(overscroller>0) {
 		var scbar = jQuery('.page');
 		var scrollpos = scbar.get(0).scrollWidth - scbar.scrollLeft();
 		var linkcount = jQuery('.nextposts').length;
@@ -867,7 +859,7 @@ function mousemov() {
 		}
 	} else return;
 
-	//horizontal scrolling
+	//scroll feedbar
 	if(window.ex <  winx/3) {
 		var speed = (winx/3)/window.ex;
 		if (speed > maxspeed) speed = maxspeed;
@@ -931,6 +923,23 @@ function add_to_profile(post_id,user_id) {
 		}
 	});
 }
+
+jQuery.fn.disableSelection = function() {
+    return this.each(function() {           
+        jQuery(this).attr('unselectable', 'on')
+               .css({
+                   '-moz-user-select':'none',
+                   '-webkit-user-select':'none',
+                   'user-select':'none',
+                   '-ms-user-select':'none'
+               })
+               .each(function() {
+                   this.onselectstart = function() { return false; };
+               });
+    });
+};
+
+
 
 function reset_feed(user_id) {
 	jQuery.ajax({

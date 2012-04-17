@@ -10,7 +10,7 @@ if($newpost):?>
 	<h3>Name of Town or City:</h3> Check it does not exist on our site
 	<input type="text" name="edittitle" class="new edittitle" value="" />
 		
-	<h3>Coordinates:</h3> Enter an address below and then <span class="relocate">click here</span> to geocode it
+	<h3>Coordinates:</h3> Enter an address below and then <span class="relocate">click here to geocode it</span> 
 	<input type="text" class="searchform new latlng" value=""/>
 	
 	<h3>Description:</h3> Maximum 1000 characters
@@ -31,9 +31,9 @@ else:?>
 	if($author):?>
 	<div class="container" style="margin:0 10px 0 0;">
 		<b>Coordinates:</b> <?php echo $coordinates;?>
-		<div class="edit button">+ Edit</div>
-		<div class="selectbox" id="new-<?php echo $postcat->term_id;?>">
-			Enter address below and then <span class="relocate">click here</span> to geocode it<br/>
+		<div class="edit right button">+ Edit</div>
+		<div class="selectbox relocatebox" id="new-<?php echo $postcat->term_id;?>">
+			Enter address below and then <span class="relocate">click here to geocode it</span><br/>
 			<input type="text" class="searchform new latlng" value="<?php echo $coordinates;?>"/>
 		</div>
 	</div><br/><?php
