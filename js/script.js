@@ -106,20 +106,6 @@ function cowobo_sidebar_listeners() {
 	//check if the mouse is over a scrollable div
 	jQuery('.scroller').hover(function() {overscroller = 1}, function () {overscroller = 0});
 
-	//animate the submenus with intent
-	jQuery('.menu li').hover(
-		function() {
-			var child = jQuery(this).children('ul');
-			var t = setTimeout(function() {child.slideDown()}, 200);
-			jQuery(this).data('timeout', t);
-		},
-		function() {
-			var child = jQuery(this).children('ul');
-			clearTimeout(jQuery(this).data('timeout'));
-			child.slideUp();
-		}
-	);
-
 	jQuery('.homebutton').click(function() {
 		if(window.location.hash != '') window.location.hash = '';
 		else window.location = rooturl;
