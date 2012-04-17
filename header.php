@@ -179,5 +179,6 @@ endif;
 <div class="angel"></div>
 
 <div class="scrollarrow">
+<?php echo $nextlink;?>
 <div class="scrollicon"></div>older posts
 </div>
