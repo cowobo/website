@@ -304,6 +304,7 @@ class Cowobo_Related_Posts {
      * @return str Result of WP query.
      */
     public function create_relation ($post1, $post2) {
+		global $wpdb;
         $type = cwob_get_category($post2);
         if($type->slug == "locations"):
             $coordinates = get_post_meta($post2, 'coordinates', true);
