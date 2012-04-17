@@ -992,7 +992,7 @@ function loadNewMap(data){
 	var bufferurl = mapurl+buffersize+'&format=jpg'+'&zoom='+(data.zoom-1)+'&center='+data.lat+','+data.lng;
 	var baseurl = mapurl+tilesize+'&format=jpg-baseline'+'&zoom='+data.zoom+'&center=';
 	var bufferimg = '<img class="buffer" src="'+bufferurl+'" alt="">'
-	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'<div class="tiles"></div></div><div class="reflection">'+bufferimg+'<div class="tiles"></div></div></div>');
+	var newlayer = jQuery('<div class="maplayer"><div class="mainmap">'+bufferimg+'<div class="tiles"></div></div><div class="mapshadow"></div></div>');
 
 	//update menu
 	jQuery('.maploading').fadeIn();
@@ -1014,7 +1014,6 @@ function loadNewMap(data){
 		for (var y=-1; y<=1; y+=2) {
 			var url = baseurl + data.lat + ',' + adjustLonByPx(data.lng, xmid/2*y, data.zoom);
 			newlayer.find('.mainmap .tiles').append('<img src="'+url+'" alt="">');
-			newlayer.find('.reflection .tiles').append('<img src="'+url+'" alt="">');
 		}
 		newlayer.find('.mainmap .tiles img').load(function(){
 			jQuery('.maploading').fadeOut();

@@ -158,9 +158,7 @@ endif;
 		<div class="mainmap">
 			<img class="buffer" src="http://maps.googleapis.com/maps/api/staticmap?maptype=satellite&sensor=false&size=640x320&format=jpg&zoom=2&center=15.49860809171295,10.932544165625036" alt=""/>
 		</div>
-		<div class="reflection">
-			<img class="buffer" src="http://maps.googleapis.com/maps/api/staticmap?maptype=satellite&sensor=false&size=640x320&format=jpg&zoom=2&center=15.49860809171295,10.932544165625036" alt=""/>
-		</div>
+		<div class="mapshadow"></div>
 	</div>
 	<div class="pan moveleft"><div></div></div>
 	<div class="pan moveright"><div></div></div>
