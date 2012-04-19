@@ -639,7 +639,7 @@ function loadlightbox(postid) {
 		var markerpos = latlng.split(',');
 		mapdata['lat'] = markerpos[0];
 		mapdata['lng'] = markerpos[1];
-		mapdata['zoom'] = 15;
+		mapdata['zoom'] = 16;
 	}
 
 	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);

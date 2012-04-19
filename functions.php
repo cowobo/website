@@ -182,7 +182,7 @@ function loadlightbox_callback(){
 		$current_user = wp_get_current_user();
 		$post_id = wp_insert_post( array(
 			'post_status' => 'auto-draft',
-			'post_title' => 'New Draft',
+			'post_title' => ' ',
 			'post_category' => array($catid),
 			'post_author' => $current_user->ID,
 		));

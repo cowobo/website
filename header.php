@@ -33,9 +33,9 @@ global $paged;
 
 //load the thickbox for users that need to edit_bookmark_link(
 if($social->state > 1):
-	wp_enqueue_script('media-upload');
 	wp_enqueue_script('thickbox');
-	wp_enqueue_style( 'thickbox' );
+	wp_enqueue_style('thickbox');
+	wp_enqueue_script('media-upload');
 endif;
 
 // if post was requested to be deleted do this first
@@ -75,13 +75,14 @@ elseif ( is_cowobo_profile( $currentcat ) ) :
     $profile_feed = get_user_meta($profile_user_id, 'cowobo_profilefeed', true );
     if ( ! is_array ( $profile_feed ) ) $profile_feed = array();
     $profile_feed[] = $profile_user_id;
-    $newposts = query_posts(array ( 'post__in' => $profile_feed, 'sort' => 'DESC' ) );
+    $newposts = query_posts(array ( 'post__in' => $profile_feed, 'sort' => 'DESC', 'orderby'=>'modified' ) );
 else:
     if ( is_404() ) :
         $query_string= '';
         $_GET['sort'] = 'random';
     endif;
-	$sort = '&orderby='.$_GET['sort'];
+	if($_GET['sort'])$sort = '&orderby='.$_GET['sort'];
+	else $sort = '&orderby=modified';
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
 		$catposts = get_posts(array('cat'=>$cat->term_id, 'number'=>-1));

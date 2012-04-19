@@ -4,7 +4,7 @@
 			<div class="image">
 				<div class="topshadow">
 					<h2><?php echo $typepost->name;?></h2>
-					<div class="data"><?php if(is_sticky()) echo 'Just now'; else echo time_passed(strtotime(get_the_date('Y-m-d')));?></div>
+					<div class="data"><?php if(is_sticky()) echo 'Just now'; else echo time_passed(strtotime(get_the_modified_time('m/d/Y H:i')));?></div>
 				</div><?php
 				$images = get_children(array('post_parent' => $post->ID, 'numberposts' => 1, 'post_mime_type' =>'image'));
 				if (empty($images)) $images = cwob_default_image($typepost);  unset($smallimg);
