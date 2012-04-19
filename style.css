@@ -129,6 +129,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .medium {position:relative; width:154px; height:165px; margin:0 3px 0 0; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
 .medium .holder {position:relative; padding: 6px 6px 0 6px; height:159px; white-space: normal; overflow:hidden;}
 .medium .holder:hover {background:#eee}
+.medium .holder:hover {background:#eee}
 .medium .image {position:relative; height:95px; margin-bottom:4px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
 .medium .tags a {font-weight:normal}
@@ -220,7 +221,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 
 /* Richtext editor */
 .rte-toolbar {margin: 5px 0 5px;}
-.rte-toolbar a {display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; height:15px; margin-rigth:10px; background:url(images/smallicons.png);}
+.rte-toolbar a {display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; height:15px; margin-right:5px; background:url(images/smallicons.png);}
 .rte-toolbar a:hover {opacity:0.6}
 .rte-toolbar .bold {width:15px; background-position:-150px 0;}
 .rte-toolbar .italic {width:15px; background-position:-165px 0;}

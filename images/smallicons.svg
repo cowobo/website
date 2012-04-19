@@ -81,9 +81,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="131.35609"
-     inkscape:cy="-14.009275"
+     inkscape:zoom="2"
+     inkscape:cx="105.23003"
+     inkscape:cy="18.162767"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -167,7 +167,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -314,24 +314,6 @@
        id="path3962"
        d="m 77.439183,1039.2334 -0.692009,1 2.968944,4.1875 -2.968944,4.1563 0.692009,0.9687 3.16985,-4.4375 2.857327,0 -2.477838,3.4688 0.714331,0.9687 3.169849,-4.4375 10.201559,0 0,3.5625 10.089939,-3.7812 -10.089939,-5.1563 0,3.875 -10.246205,0 -3.125203,-4.375 -0.714331,1 2.41087,3.375 -2.835005,0 -3.125204,-4.375 z"
        style="fill:#f6f6f6;fill-opacity:1;stroke:none" />
-    <path
-       style="fill:none;stroke:#bababa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 232.96994,1034.6764 c 0,0 -1.65349,-0.1714 -1.67938,1.3259 -0.0276,1.5932 0,5.3917 0,5.3917 l -4.02481,3.4471 3.95538,3.3367 0.0221,3.9111 c 0,0 0.44194,1.591 1.85615,1.591 l 17.45286,0 c 0,0 1.75,0.1424 1.75,-1.6701 0,-1.8125 0,-15.8125 0,-15.8125 0,0 -0.21875,-1.4375 -2.09375,-1.5 -2.74847,-0.092 -17.23854,-0.021 -17.23854,-0.021 z"
-       id="path18791"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="csccccccscscc" />
-    <rect
-       ry="0"
-       y="1033.5646"
-       x="217.98225"
-       height="19.75"
-       width="3.722574"
-       id="rect18869"
-       style="fill:url(#linearGradient19873);fill-opacity:1;stroke:none"
-       rx="0"
-       inkscape:export-filename="G:\xampplite\htdocs\public_html\wp-content\themes\cowobo\images\buttonshade.png"
-       inkscape:export-xdpi="90.05455"
-       inkscape:export-ydpi="90.05455" />
     <g
        style="opacity:0.62389377;stroke-width:1.4554354;stroke-miterlimit:4;stroke-dasharray:none"
        transform="matrix(0.62136627,0,0,0.75974252,11.745406,213.75583)"
