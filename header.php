@@ -19,6 +19,7 @@ wp_enqueue_script('hashchange', get_bloginfo('template_url').'/js/hashchange.min
 wp_enqueue_script('mainscript', get_bloginfo('template_url').'/js/script.js', array('hashchange'));
 wp_enqueue_script('horscroll', get_bloginfo('template_url').'/js/horscroll.js', array('mainscript'));
 wp_enqueue_script('autosize', get_bloginfo('template_url').'/js/autoresize.min.js',array('horscroll'),'',true);
+wp_enqueue_script('richtext', get_bloginfo('template_url').'/js/jquery.rte.js',array('autosize'),'',true);
 
 // SETUP VARIABLES
 global $wp_query;
@@ -29,6 +30,13 @@ global $social;
 global $author;
 global $query_string;
 global $paged;
+
+//load the thickbox for users that need to edit_bookmark_link(
+if($social->state > 1):
+	wp_enqueue_script('media-upload');
+	wp_enqueue_script('thickbox');
+	wp_enqueue_style( 'thickbox' );
+endif;
 
 // if post was requested to be deleted do this first
 wp_delete_post($_GET["deleteid"]);
@@ -93,12 +101,12 @@ endif;
 <body>
 
 <div class="topmenu">
-	<ul class="menu left">
+	<ul class="topleft menu">
 		<li class="catrss"></li>
-		<li class="pagetitle"><?php echo $pagetitle;?></li>
-		<li class="filter"><b>Filter</b>
+		<li class="pagetitle"><?php echo $pagetitle;?>
 			<ul><?php echo $links;?></ul>
-		</li>
+		
+		</li>		
 		<li class="sort"><b>Sort</b>
 			<ul>
 				<li><a href="?sort=popularity">Most Popular</a></li>
@@ -124,32 +132,32 @@ endif;
 		</li>
 		<li class="zoomlevels"><b>Zoom</b>
 			<ul>
-				<li class="zoom level-3 zoomselect">Level 1</li>
-				<li class="zoom level-5">Level 2</li>
-				<li class="zoom level-7">Level 3</li>
-				<li class="zoom level-9">Level 4</li>
-				<li class="zoom level-11">Level 5</li>
-				<li class="zoom level-13">Level 6</li>
-				<li class="zoom level-15">Level 7</li>
-				<li class="zoom level-17">Level 8</li>
+				<li class="zoom level-3 zoomselect">1</li>
+				<li class="zoom level-5">2</li>
+				<li class="zoom level-7">3</li>
+				<li class="zoom level-9">4</li>
+				<li class="zoom level-11">5</li>
+				<li class="zoom level-13">6</li>
+				<li class="zoom level-15">7</li>
+				<li class="zoom level-17">8</li>
 			</ul>
 		</li>
 		<li><span class="maploading loadicon">Loading...</span></li>
 	</ul>
-	<ul class="menu right">
-		<li class="profile <?php echo $profileid;?>">Your Profile</li>
+	<ul class="topright menu">
 		<li class="home">
 			<span class="homebutton">Home</span>
 			<div class="droparrow"></div>
 			<ul>
-                <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
-				<li>Account Settings</li>
-				<li>Disclaimer</li>
 				<?php if ($social->state != 1):?>
 				<li><a id="logout" href="<?php echo wp_logout_url(home_url());?>" title="Logout">Logout</a></li><?php
 				endif;?>
+                <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
+				<li>Disclaimer</li>
+				<li>Account Settings</li>
 			</ul>
 		</li>
+		<li class="profile <?php echo $profileid;?>">Your Profile</li>
 	</ul>
 </div>
 

@@ -9,7 +9,7 @@ include_once('lib/class-cowobo-feed.php');
 include_once('lib/class-cowobo-social.php');
 include_once('lib/class-related-posts.php');
 
-global $social;
+global $social; 
 $social = new Cowobo_Social;
 
 // Session
@@ -192,7 +192,7 @@ function loadlightbox_callback(){
 		$loadpost = query_posts(array('p'=>$postid));
 		$newpost = false;
 	endif;
-	if (class_exists('FEE_Core')) FEE_Core::add_filters();
+
 	foreach($loadpost as $post): setup_postdata($post); the_post(); $ajax = true;
 	include(TEMPLATEPATH.'/templates/postbox.php');
 	endforeach;
@@ -215,24 +215,21 @@ function loadgallery_callback(){
 }
 
 function savechanges_callback(){
-	global $wpdb;
-    global $social;
-    global $related;
+	global $wpdb; global $related;
 
-	// first update the main post attributes
+	// update the main post attributes
 	$postid = $_POST["postid"];
 	$postdata = array('ID' => $postid, 'post_status' => 'publish','post_category' => explode(',', $_POST["tags"]));
 	if($title = $_POST["edittitle"]) $postdata['post_title'] = $title;
 	if($content = $_POST["editcontent"]) $postdata['post_content'] = $content;
 	wp_update_post($postdata);
 
-	//then update related posts
-	//$postclass  = new Cowobo_Related_Posts();
+	//reset all custom field and relationships
 	$related->cwob_delete_relationships($postid);
-
-	//then add all the custom fields and make sure the author is listed
 	delete_post_meta($postid, 'authors');
 	delete_post_meta($postid, 'coordinates');
+	
+	//then add all the custom fields and make sure the author is listed
 	foreach ($_POST as $key => $value) :
 		if($value != ''):
 			delete_post_meta($postid, $key);

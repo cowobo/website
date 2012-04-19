@@ -224,8 +224,6 @@ function cowobo_map_listeners() {
 		var map = jQuery('.maplayer:last').data('hash');
 		var hash = window.location.hash;
 		var newvalue = {};
-
-		jQuery('.menu ul').slideUp();
 		mapdata['post'] = 0;
 
 		//save new value with corresponding key
@@ -288,6 +286,11 @@ function cowobo_editpost_listeners() {
 		loadlightbox('new-'+catid);
 	});
 
+	jQuery('.editpost').live('click', function() {
+		jQuery(this).parent().slideUp();
+		jQuery(this).parent().siblings('.postform').slideDown();
+	});
+
 	//relocate marker
 	jQuery('.relocate').live('click', function() {
 		var keywords = jQuery(this).siblings('.searchform').val();
@@ -297,7 +300,7 @@ function cowobo_editpost_listeners() {
 			jQuery('.large, .marker').fadeOut();
 			jQuery('.editmarker').css('top', jQuery('.maplayer:last .mainmap').height()/2).show();
 		} else {
-			alert('Please enter a town or city')
+			alert('Please enter a town or city');
 		}
 
   	});
@@ -509,10 +512,13 @@ function cowobo_editpost_listeners() {
 	});
 
 	jQuery('.save').live('click', function() {
+		//setup variables
 		var posts = new Array(); var tags = new Array(); var authors = new Array(); var data = {};
 		var post = jQuery(this).parents('.large');
 		var latlng = post.find('.latlng').val();
 		var newtitle = post.find('.edittitle').val();
+		
+		//add loading icon while we do the rest
 		jQuery(this).addClass('loadicon');
 		
 		//check coordinates entered into box are correct format
@@ -526,6 +532,12 @@ function cowobo_editpost_listeners() {
 			}
 		}
 
+		// convert rich text into html
+		post.find('textarea.richtext').each(function() {
+			var content = jQuery(this).next().contents().find("body").html();
+			jQuery(this).val(content);
+		})
+		
 		// save all new text inputs
 		post.find('.new').each(function(){
 			data[jQuery(this).attr('name')] = jQuery(this).val();
@@ -648,14 +660,13 @@ function loadlightbox(postid) {
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();	
+				var template = 'wp-content/themes/cowobo/'
 				
-				//activate front end editor on editable fields
-				if(typeof(FrontEndEditor) != 'undefined' && newbox.find('.fee-field').length > 0) {
-					newbox.find('.fee-field').each(FrontEndEditor.make_editable);
-				}
+				//add rich text editor to forms (requires jquery.rte.js)
+				newbox.find('.content').scrollTop(scrollpos);
+				newbox.find(".richtext").rte();
 				
 				//resize text areas to fit content (requires autoresize.js)
-				newbox.find('.content').scrollTop(scrollpos);
 				newbox.find(".commenttext").autoResize({
 					onResize : function() {alert('test');},
 					extraSpace : 20
@@ -692,7 +703,7 @@ function searchaddress(address) {
 				var latlng = results[0].geometry.location;
 				mapdata.lat = latlng.lat();
 				mapdata.lng = latlng.lng();
-				mapdata.zoom = 10;
+				mapdata.zoom = 17;
 				loadNewMap(mapdata);
 				return latlng;
 			} else {
@@ -713,7 +724,7 @@ function loadnextposts() {
 		success: function (msg){
 			var newdata = jQuery('<div></div>').append(msg);
 			var newboxes = newdata.find('.large');
-			var newthumbs = newdata.find('.medium').not('#medium-join, #medium-selecttype');
+			var newthumbs = newdata.find('.medium').not('#medium-new');
 			var nextlink = newdata.find('.nextposts');
 			if(nextlink.length>0) jQuery('.nextposts').replaceWith(nextlink);
 			else jQuery('.nextposts').remove();
@@ -764,7 +775,7 @@ function update_scrollbars(postid) {
 	var sliderdim = content.height() * (content.height()/contentdim);
 	slider.css({height: sliderdim});
 	
-	jQuery('body').disableSelection();
+	//jQuery('body').disableSelection();
 	
 	content.find('.gallery').hover(
 		function() {overslide = 1},
@@ -1053,24 +1064,6 @@ function loadNewMap(data){
 			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 4);},
 			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);}
 		);
-	});
-
-	if(data.zoom>4) var fileurl = rooturl+'allcities.xml';
-	else if(data.zoom>2) var fileurl = rooturl+'majorcities.xml';
-	else var fileurl = '';
-	jQuery.get(fileurl, function(xml) {
-    	jQuery(xml).find("marker").each(function(){
-      		var mdata = jQuery(this).children('td');
-			var markertitle = mdata.eq(0).text();
-			var markerpos = new Array(mdata.eq(2).text(), mdata.eq(1).text());
-			var marker = jQuery('<div class="citylabel">'+markertitle+'</div>');
-  			var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
-			var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
-   			var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
-   			var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
-			marker.css({top:marker_y, left: marker_x});
-			marker.appendTo(newlayer.find('.mainmap'));
-		});
 	});
 }
 

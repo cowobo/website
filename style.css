@@ -9,7 +9,7 @@ Author URI: http://www.cowobo.org
 
 /* Tags */
 * {margin:0; padding:0;}
-html, body {height:100%; background:#03030d; overflow:hidden;}
+html, body {height:100%; background:#eee; overflow:hidden;}
 body {font-family:arial, 'lucida console', sans-serif; color: #333; line-height:1.5em; font-size:13px; overflow:hidden;}
 a:link, a:visited, a:active {text-decoration:none; font-weight:bold; color:#0099CC;}
 a:hover {color: #888}
@@ -22,6 +22,7 @@ h1 {font-size:32px; color:#fff; padding:15px; height:25px;}
 h1 a {color:#fff; font-size:14px; margin-left:10px;}
 h2 {color:#fff; font-size:16px; padding:4px 4px 0 6px;}
 h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-right:10px;}
+textarea {font-family:arial, 'lucida console', sans-serif;}
 
 /* Generic */
 .clear {clear:both;}
@@ -35,34 +36,37 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:40px; width:100%; color:#fff; background:url(images/menushadow.png); z-index:25; }
-.menu {list-style:none; color:#fff; font-size:14px; font-weight:bold; margin-right:15px;}
-.menu li {position:relative; float:left; list-style:none; line-height:40px; _display:inline; cursor:pointer; }
+.topleft ul{left:10px;}
+.topright ul{right:10px;}
+.topleft li{float:left;}
+.topright li{float:right;}
+.zoomlevels ul {left:300px;}
+.menu {list-style:none; color:#fff; font-size:14px; font-weight:bold; margin-right:10px;}
+.menu li {list-style:none; line-height:40px; _display:inline; cursor:pointer; }
 .menu li:hover ul {display:block;}
-.menu ul {position:absolute; display:none; top:35px; left:0px; list-style:none; z-index:15; margin-left:-10px; }
-.menu ul li {background:url(images/black.png); padding:10px; line-height:20px; margin:0; color:#0099CC;}
-.menu a:hover, .menu li:hover, .zoomselect {color:#ccc!important}
-.droparrow {display:inline-block; width:15px; height:15px; background:url(images/smallicons.png); background-position:-75px -15px; }
-.droparrow:hover {background-position:-75px 0;}
-.home ul {margin: 0 0 0 -70px;}
-.home li, .sort li, .search li {width:150px;}
-.filter li {width:100px;}
-.zoomlevels li {width:60px;}
+.menu ul {position:absolute; display:none; top:30px;  list-style:none; z-index:15; width:100%; height:40px;}
+.menu ul li {padding:10px; margin:0; line-height:16px; font-size:14px;}
+.menu a {color:#fff}
+.menu a:hover, .menu ul li:hover {color:#ccc!important}
+
+.catrss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:-60px 0}
+.catrss:hover {opacity:0.6}
 .pagetitle {font-size:20px; line-height: 35px!important; font-weight:normal!important}
 .pagetitle a {color:#fff;}
 .searchform {background:none; border:1px solid #ccc; margin-top:-4px; width:125px; font-size:14px; color:#eee}
-.searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px -15px}
-.maploading {font-weight:normal;  }
-.catrss {margin:7px -5px 0 15px; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
-.catrss:hover {background-position:0 -20px}
-.address {position:absolute; right:5px; top:0;}
+.searchbutton {display:inline-block; width:15px; height:15px; border:none; cursor:pointer; background:url(images/smallicons.png); background-position:-60px 0}
+.zoomselect {color:#888!important;}
+.maploading {font-weight:normal;}
+.droparrow {display:inline-block; width:15px; height:15px; background:url(images/smallicons.png); background-position:-120px 0}
+.droparrow:hover {opacity:0.6}
 
 /* Feedbar */
-.page {position:absolute; bottom:0; left:0; width:100%; z-index:4; overflow:hidden; background:#333;}
-.scroller {white-space: nowrap; height:165px; font-size:12px;}
+.page {position:absolute; bottom:0; left:0; width:100%; z-index:4; overflow:hidden; background:url(images/scroller.png);}
+.scroller {display: inline-block; min-width: 100%; white-space: nowrap; height:165px; font-size:12px; background:url(images/scroller.png);}
 .angel {position:absolute; cursor:pointer; left:10px; bottom:180px; width:130px; height:120px; background:url(images/angel.png) no-repeat; z-index:200}
 .editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
 .scrollarrow {position:absolute; right:20px; bottom:190px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
-.scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position:-90px -15px; margin:2px 0 0 5px;}
+.scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position: -75px 0px; margin:2px 0 0 5px;}
 
 /* Map */
 .map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
@@ -77,9 +81,8 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .mcontent {position:absolute; width:39px; height:30px; top:3px; left:3px;}
 .mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
 .mtitle span {margin:-2px 2px 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px; overflow:hidden;}
-.mprofile {position:absolute; width:30px; height:30px; top:0; left:0; margin: -21px 0 0 -14px; background:url(images/largeicons.png); background-position:-64px 0;}
+.mprofile {position:absolute; width:30px; height:30px; top:0; left:0; margin: -21px 0 0 -14px; background:url(images/smallangel.png);}
 .buffer {z-index:0;}
-.citylabel {position:absolute; width:60px; height:10px; margin: -5px 0 0 -30px; z-index:2; opacity:0.7; font-size:8px; color:#fff; text-align:center;}
 .move {color:#0099CC;}
 
 /* Boxes Generic */
@@ -87,7 +90,6 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .topshadow p {padding:15px; color:#fff; font-size:16px; font-weight:bold; line-height:30px;}
 .loadicon {padding-right:20px; background:url(images/ajax-loader.gif) right no-repeat}
 .data {margin-left:6px; color:#fff; font-weight:bold;}
-.holder {background:#fff;}
 .smallicon {display: inline-block; width: 15px; height: 15px; margin: 0 5px -2px 0; background: url(images/smallicons.png) no-repeat;}
 .rss {background-position:-45px 0; margin: 0 0 -2px 5px; cursor:pointer}
 .tag  {background-position: 0px 0}
@@ -97,22 +99,19 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 /* Pan map buttons */
 .pan, .pan div {position:absolute; z-index:10; cursor:pointer}
 .pan div {background:url(images/largeicons.png); cursor:pointer;}
+.pan:hover {opacity:0.6}
 .moveleft, .moveright {top:0; bottom:220px; width:20px;}
 .moveleft div, .moveright div {top:50%; width:10px; height:20px; margin-top:-10px;}
 .moveup, .movedown {width:100%; height:20px;}
 .moveup div, .movedown div {width:20px; height:10px; left:50%; margin-left:-10px;}
 .moveleft {left:0;}
 .moveleft div {background-position:-50px 0; right:0}
-.moveleft:hover div {background-position:-50px -20px; }
 .moveright {right:0;}
 .moveright div {background-position: -20px 0; left:0}
-.moveright:hover div {background-position:-20px -20px;}
 .moveup {top:35px;}
 .moveup div {background-position:-30px -10px; bottom:0}
-.moveup:hover div {background-position:-30px -30px}
 .movedown {bottom:180px; }
 .movedown div {background-position:-30px 0; top:0;}
-.movedown:hover div {background-position:-30px -20px}
 
 /* RSS Icons */
 .rssicons {margin-top:10px;}
@@ -127,13 +126,12 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .newsgator {width:195px; background-position: -310px -40px}
 
 /* Feedbar Styles */
-.medium {position:relative; width:155px; height:165px; padding:0 1px 0 1px; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
-.medium .holder {position:relative; padding: 6px 6px 0 6px; background:#eee; height:159px; white-space: normal; overflow:hidden;}
-.medium .holder:hover {background:#fff}
+.medium {position:relative; width:154px; height:165px; margin:0 3px 0 0; display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer;}
+.medium .holder {position:relative; padding: 6px 6px 0 6px; height:159px; white-space: normal; overflow:hidden;}
+.medium .holder:hover {background:#eee}
 .medium .image {position:relative; height:95px; margin-bottom:4px; overflow:hidden;}
 .medium .newimage {background:url(images/addimage.png);}
 .medium .tags a {font-weight:normal}
-.medium .arrow {height:30px; background:url(images/mediumarrow.png) right; color:#999; text-align:center; font-weight:bold; line-height:25px; cursor:move;}
 .medium .like {padding-right:14px; margin-left:6px; background:url(images/mediumlike.png) right no-repeat;}
 .medium .comment {padding-right:14px; margin-left:6px; background:url(images/mediumcomment.png) right no-repeat;}
 .medium .title {font-weight:bold;}
@@ -142,14 +140,15 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 #rss {z-index:21; margin:-240px 0 0 -290px;}
 .large {display:none; position:absolute; opacity: 1!important; top:50%; left: 50%; margin:-240px 0 0 -270px; height: 550px; width:600px; background:url(images/lightboxshadow.png) bottom right no-repeat; z-index:20;}
 .single {display:block;}
-.large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px;}
+.large .holder {position:relative; padding:15px 15px 0 15px; margin-right:50px; background:#fff;}
 .large .content {position:relative; height:435px; overflow:hidden;}
 .large .gallery {position:relative; height:280px; overflow:hidden; margin:0 0 5px 0; background:#ccc;}
-.large .title {font-size:21px; font-weight:bold; line-height:30px; margin-right:10px;}
+.large .title {font-size:21px; font-weight:bold; line-height:30px; margin-right:50px;}
 .large .arrow {height:60px; margin-right:50px; background:url(images/largearrow.png); color:#999; text-align:center; font-size:16px; line-height:40px; font-weight:bold; cursor:move; clear:both;} 
 .large .arrow span {margin:0 5px 0 5px; color:#888;}
 .large .comment {padding-right:30px; margin-right:8px; cursor:pointer; background:url(images/largecomment.png) right no-repeat;}
 .navarrow {padding-right:20px; margin-right:8px; cursor:pointer;}
+.postbox, .postform {width:510px}
 
 .scrolltrack, .slider, .toparrow, .bottomarrow {position:absolute; right:0; width:15px; overflow:hidden; background:#eee;}
 .scrolltrack, .slider {top:0; height:100%;}
@@ -165,14 +164,13 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .next {right:5px;}
 .streetview {position:absolute; bottom:10px; right:10px; z-index:10; background:#fff; cursor:pointer; padding:3px;}
 .streetholder {width:1024px; height:410px; overflow:hidden; margin-top:-30px}
-.postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer; background-position:0 -20px!important;}
+.postrss {margin:0 7px -2px 0; display: inline-block; width: 20px; height: 20px; background:url(images/largeicons.png); cursor:pointer;}
 .postrss:hover {background-position:0 0}
 .login {text-align:center; margin-top:100px;}
 
 /* Edit Post Styles */
-.new {width:508px; border:1px solid #ccc; padding: 5px; color:#333; margin:2px 0 15px 0; background:#fff;}
+.new {width:500px; border:1px solid #ccc; padding: 5px; color:#333; margin:2px 0 15px 0; background:#fff;}
 .choosetype {width:520px;}
-.editcontent {font-family:arial, 'lucida console', sans-serif;}
 .container {margin:20px 10px 0 0;}
 .selectbox {display:none; clear:both; margin-bottom:5px; height:130px;}
 .selectbox .slide {display:none; overflow:hidden; padding:0 5px 0 5px;}
@@ -214,8 +212,19 @@ h3 {font-size:17px; font-weight:bold; display:inline; line-height:25px; margin-r
 .cowobo_social_share {display: none; position:absolute; bottom:0; left:0; height:25px; background: #eee; text-align: center; width:550px; padding-top:5px}
 .onprofile {float:left; height: 19px; width:70px; font-size:11px; border:1px solid #ccc; font-weight:10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; background:url(images/buttonshade.png);}
 .sharebutton {display:inline-block; vertical-align: top; height: 20px; padding-right:10px; margin:4px;}
-.count {float:right; background:url(images/count.png); width:26px; height:20px; font-size:11px; line-height:20px;}
+.count {float:right; background:url(images/largeicons.png); background-position:-80px 0; width:26px; height:20px; font-size:11px; line-height:20px;}
 .ontwitter {width: 75px}
 .ongoogle {width: 60px}
 .onstumble {width: 70px}
 .onfacebook {width: 60px}
+
+/* Richtext editor */
+.rte-toolbar {margin: 5px 0 5px;}
+.rte-toolbar a {display:inline-block; zoom: 1; *display: inline; vertical-align:top; cursor:pointer; height:15px; margin-rigth:10px; background:url(images/smallicons.png);}
+.rte-toolbar a:hover {opacity:0.6}
+.rte-toolbar .bold {width:15px; background-position:-150px 0;}
+.rte-toolbar .italic {width:15px; background-position:-165px 0;}
+.rte-toolbar .unorderedlist {width:15px; background-position:-180px 0;}
+.rte-toolbar .link {width:15px; background-position:-195px 0;}
+.disable, .rte-edm {float:right; background:none!important; width:150px; text-align:right}
+.editpost {margin:5px 0 0 0;}

@@ -28,7 +28,6 @@
 			endif;?>
 		</div>
 	</div>
-	<div class="arrow"></div>
 </div><?php
 
 // Save post id for populating the share count later #redundant?
