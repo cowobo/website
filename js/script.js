@@ -26,15 +26,21 @@ jQuery(document).ready(function() {
 	//setup basic parameters
 	rooturl = jQuery('meta[name=rooturl]').attr("content");
 	winx = jQuery(window).width();
-	setInterval(mousemov, 10);
-
+	mapdata = {
+		'post':0, 'zoom':3, 
+		'lat':15.49860809171295, 
+		'lng':10.932544165625036, 
+		'markers': jQuery('.markerdata'), 
+		'type':'satellite'
+	}
+	
 	//load maps and listners
-	initialize();
+	setInterval(mousemov, 10);
 	cowobo_sidebar_listeners();
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
-
+	
 	//update scrollbars if single post is present
 	if(jQuery('.single').length>0){
 		update_scrollbars(jQuery('.single').attr('id'));
@@ -55,8 +61,9 @@ jQuery(document).ready(function() {
 			mapdata[part[0]] = part[1];
 		}
 		jQuery('#'+mapdata.post).fadeIn();
-
 		loadlightbox(mapdata.post);
+	} else {
+		loadNewMap(mapdata);
 	}
 
 	//load lightbox when hash changes
@@ -75,9 +82,7 @@ jQuery(document).ready(function() {
 		//if map has already loaded update mapdata and fade it in, else load the new map
 		if(typeof(prevmap) != 'undefined') {
 			jQuery.each(prevmap.data(),function(key, value) {mapdata[key] = value;});
-			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn( function() {
-				jQuery('.maplayer').not(this).hide();
-			});
+			prevmap.insertAfter(jQuery('.maplayer:last')).fadeIn();
 			jQuery('.large').fadeOut();
 			jQuery('#'+mapdata.post).fadeIn();
 		} else {
@@ -928,12 +933,6 @@ function reset_feed(user_id) {
 }
 
 //MAP FUNCTIONS
-function initialize() {
-	//load map centered on africa
-	mapdata = {'post':0, 'lat':15.49860809171295, 'lng':10.932544165625036, 'markers': jQuery('.markerdata'), 'zoom':3, 'type':'satellite'} // 'markers':markers,
-	loadNewMap(mapdata);
-}
-
 // map to pixels conversion functions
 var offset = 268435456; // center of google map in pixels at max zoom level
 function LonToX(lon) {
