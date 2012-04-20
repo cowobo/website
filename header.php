@@ -86,7 +86,7 @@ else:
 	$newposts = query_posts($query_string.$sort); //store posts in variable so we can use the same loop
 	foreach(get_categories(array('child_of'=>$catid, 'hide_empty'=>false, 'parent'=>$catid, 'exclude'=>get_cat_ID('Uncategorized'),)) as $cat):
 		$catposts = get_posts(array('cat'=>$cat->term_id, 'number'=>-1));
-		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.'</a></li>';
+		$links .= '<li><a href="'.get_category_link($cat->term_id).'">'.$cat->name.' ('.count($catposts).')</a></li>';
 	endforeach;
 endif;
 
@@ -128,7 +128,7 @@ endif;?>
 					</form>
 				</li>
 				<li>
-					Address <input type="text" class="searchform" value=""/>
+					Location <input type="text" class="searchform" value=""/>
 					<span class="searchbutton address"></span>
 				</li>
 			</ul>
@@ -195,6 +195,7 @@ endif;?>
 </div>
 
 <div class="scrollarrow">
-<?php echo $nextlink;?>
 <div class="scrollicon"></div>older posts
 </div>
+
+<?php echo $nextlink;?>
