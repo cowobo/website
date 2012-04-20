@@ -152,7 +152,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .slider {margin-top:15px; background:#ddd; width:13px; border:1px solid #ccc;}
 .toparrow, .bottomarrow {height: 15px;}
 .toparrow {top:0; background:#fff url(images/smallicons.png); background-position: -135px 0}
-.bottomarrow {bottom:0; background:url(images/smallicons.png); background-position: -135px 15px; margin-bottom:-5px;}
+.bottomarrow {bottom:0; background:url(images/smallicons.png); background-position: -120px 0; margin-bottom:-5px;}
 
 .slide {position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; overflow:hidden; z-index:1;}
 .prev, .next {position:absolute; top:15px; width:30px; height:15px; font-weight:bold; font-size:15px; color:#fff; cursor:pointer;}
