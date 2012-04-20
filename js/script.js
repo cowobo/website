@@ -4,6 +4,7 @@ var overscroller;
 var overslide;
 var scroller;
 var rooturl;
+var templateurl
 var geocoder;
 var nextposts;
 var mapdata = {};
@@ -25,6 +26,7 @@ jQuery(window).resize(function() {
 jQuery(document).ready(function() {
 	//setup basic parameters
 	rooturl = jQuery('meta[name=rooturl]').attr("content");
+	templateurl = rooturl + '/wp-content/themes/cowobo/'
 	winx = jQuery(window).width();
 	setInterval(mousemov, 10);
 
@@ -128,7 +130,6 @@ function cowobo_sidebar_listeners() {
 	jQuery(".scroller").mousewheel(function(event, delta) {
 		jQuery(this).scrollLeft(jQuery(this).scrollLeft()+delta * -30);
 		event.preventDefault();
-		removeMarkers();
 	});
 
 	//scroll posts
@@ -318,13 +319,6 @@ function cowobo_editpost_listeners() {
 		} else {
 			alert('Please wait for map to finish loading');
 		}
-  	});
-
-	jQuery('.cancellocation').click(function() {
-		var id = jQuery(this).parents('.editmarker').data('postid');
-		jQuery('#'+id+' .latlng').val('');
-		jQuery('#'+id+', .marker').fadeIn();
-		jQuery('.editmarker').hide();
   	});
 
 	jQuery('.showall').live('click', function() {
@@ -517,9 +511,7 @@ function cowobo_editpost_listeners() {
 		var post = jQuery(this).parents('.large');
 		var latlng = post.find('.latlng').val();
 		var newtitle = post.find('.edittitle').val();
-		
-		//add loading icon while we do the rest
-		jQuery(this).addClass('loadicon');
+
 		
 		//check coordinates entered into box are correct format
 		if(typeof(latlng)!= 'undefined') {
@@ -573,6 +565,7 @@ function cowobo_editpost_listeners() {
 		} else if (tags.length<1) {
 			alert('You must specify atleast one tag');
 		} else {
+			jQuery(this).addClass('loadicon');
 			jQuery.ajax({
 				type: "POST",
 				url: rooturl+'wp-admin/admin-ajax.php',
@@ -639,7 +632,7 @@ function loadlightbox(postid) {
 		var markerpos = latlng.split(',');
 		mapdata['lat'] = markerpos[0];
 		mapdata['lng'] = markerpos[1];
-		mapdata['zoom'] = 16;
+		mapdata['zoom'] = 17;
 	}
 
 	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);
@@ -660,7 +653,6 @@ function loadlightbox(postid) {
 				var newid = newbox.children('.large').attr('id');
 				var oldbox = jQuery('#'+newid);
 				var scrollpos = oldbox.find('.content').scrollTop();	
-				var template = 'wp-content/themes/cowobo/'
 				
 				//add rich text editor to forms (requires jquery.rte.js)
 				newbox.find('.content').scrollTop(scrollpos);
@@ -861,26 +853,12 @@ function mousemov() {
 		var speed = (winx/3)/window.ex;
 		if (speed > maxspeed) speed = maxspeed;
 		scbar.scrollLeft(scbar.scrollLeft()-speed);
-		removeMarkers();
 	}
 	else if(window.ex > winx-winx/3) {
 		var speed = (winx/3)/(winx-window.ex)
 		if (speed > maxspeed) speed = maxspeed;
 		scbar.scrollLeft(scbar.scrollLeft()+speed);
-		removeMarkers();
 	}
-}
-
-// hide markers on map corresponding to timeline
-function removeMarkers() {
-	jQuery('.medium').each(function(){
-		var id = jQuery(this).attr('id').split('-')[1];
-		if(jQuery(this).offset().left < 0) {
-			jQuery('.marker'+id).hide();
-		} else {
-			jQuery('.marker'+id).show();
-		}
-	});
 }
 
 // Personal RSS feed Ajax-calls
@@ -936,8 +914,6 @@ jQuery.fn.disableSelection = function() {
     });
 };
 
-
-
 function reset_feed(user_id) {
 	jQuery.ajax({
 		type: "POST",
@@ -952,14 +928,6 @@ function reset_feed(user_id) {
 		}
 	});
 }
-
-// Make the angel talk
-function angel_talk(msg) {
-	if (jQuery('.speechbubble').css('display') == 'block')
-		jQuery('.speechbubble').fadeOut(function() {angel_talk(msg); return;});
-	else 	{ jQuery('#speech').html(msg);	jQuery('.speechbubble').fadeIn(); }
-}
-
 
 //MAP FUNCTIONS
 function initialize() {
@@ -1037,22 +1005,32 @@ function loadNewMap(data){
 		var posa = a.value.split(',');
 		var posb = b.value.split(',');
     	return  posb[0] - posa[0];
-	}).clone().appendTo(markerlist);
+	}).parent().clone().appendTo(markerlist);
 
+	//get highest count to set percentages for widths and heights
+	var markercount = new Array();
+	data.markers.each(function(){
+		var count = jQuery(this).siblings('.mtitle').html();
+		markercount.push(parseFloat(count));
+	});
+	var maxcount = Math.max.apply(Math, markercount);
+	
 	//append markers to map
-	markerlist.children('.markerdata').each(function(){
-		var postid = jQuery(this).attr('id').split('-')[1];
-		var markerpos = jQuery(this).val().split(',');
-		var markerthumb = jQuery(this).attr('name');
-		var markertitle = jQuery(this).attr('title');
-		var markerimg = jQuery('.markerimg').val();
-		var marker = jQuery('<div class="marker marker'+postid+'"><div class="mcontent"><div class="mtitle"><span>'+markertitle+'</span></div><img src="'+markerthumb+'" alt=""/></div><img src="'+markerimg+'" alt=""/></div>');
+	markerlist.children().each(function(){
+		var marker = jQuery(this);
+		var postid = marker.attr('class').split(' ')[1];
+		var count = marker.children('.mtitle').html();
+		var markerpos = marker.children('.markerdata').val().split(',');
 		var delta_x  = (LonToX(markerpos[1]) - LonToX(data.lng)) >> (21 - data.zoom);
 		var delta_y  = (LatToY(markerpos[0]) - LatToY(data.lat)) >> (21 - data.zoom);
    		var marker_x = ((xmid + delta_x)/(xmid*2)*100)+'%';
    		var marker_y = ((ymid + delta_y)/(ymid*2)*100)+'%';
-		if(markertitle == 'Profiles') marker.append('<div class="mprofile"></div>');
-		marker.css({top:marker_y, left: marker_x});
+		var percentage = parseFloat(count)/maxcount;
+		var newwidth = Math.round(40 + percentage * 60);
+		var newheight = Math.round(32 + percentage * 48);
+		var newmargin = '-'+newheight+'px 0 0 '+'-'+newwidth/2+'px';
+		var newfont =  Math.round(8 + percentage * 12) +'px';
+		marker.css({top:marker_y, left: marker_x, width: newwidth+'px', height: newheight+'px', margin: newmargin, 'font-size': newfont});
 		marker.appendTo(newlayer.find('.mainmap'));
 		marker.click(function(event){
 			event.stopPropagation();

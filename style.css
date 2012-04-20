@@ -64,7 +64,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .page {position:absolute; bottom:0; left:0; width:100%; z-index:4; overflow:hidden; background:url(images/scroller.png);}
 .scroller {display: inline-block; min-width: 100%; white-space: nowrap; height:165px; font-size:12px; background:url(images/scroller.png);}
 .angel {position:absolute; cursor:pointer; left:10px; bottom:180px; width:130px; height:120px; background:url(images/angel.png) no-repeat; z-index:200}
-.editmarker {display:none; top:50%; left:50%; text-align:center; font-weight:bold; color:#000; z-index:200}
+.editmarker {display:none; top:50%; left:50%; text-align:center; width:100px; height:80px; margin: -80px 0 0 -50px; z-index:200}
 .scrollarrow {position:absolute; right:20px; bottom:190px; font-size:14px; font-weight:bold; color:#fff; cursor:pointer; z-index:25}
 .scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position: -75px 0px; margin:2px 0 0 5px;}
 
@@ -76,14 +76,10 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .mainmap {position:absolute; left:0; top:0; bottom:165px; width:100%;}
 .tiles {position:absolute; top:0; left:0; width:100%; height:100%;}
 .tiles img {width:50%; height:100%;}
-.marker {position:absolute; width:70px; height:45px; margin: -40px 0 0 -22px; cursor:pointer; z-index:3;}
+.marker {position:absolute; cursor:pointer; z-index:3;}
 .marker img {width:100%; height:100%;}
-.mcontent {position:absolute; width:39px; height:30px; top:3px; left:3px;}
-.mtitle {position:absolute; width:100%; height:100%; background:url(images/topshadow.png) top repeat-x; }
-.mtitle span {margin:-2px 2px 0 3px; display:block; color:#fff; font-weight:bold; font-size:9px; overflow:hidden;}
-.mprofile {position:absolute; width:30px; height:30px; top:0; left:0; margin: -21px 0 0 -14px; background:url(images/smallangel.png);}
+.mtitle {position:absolute; width:100%; top:60%; text-align:center; color:#fff; line-height: 100%;}
 .buffer {z-index:0;}
-.move {color:#0099CC;}
 
 /* Boxes Generic */
 .topshadow {position:absolute; top:0; left:0; width:100%; height:60px; background:url(images/topshadow.png) top repeat-x; z-index:10; }

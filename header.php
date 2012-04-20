@@ -93,9 +93,7 @@ endif;
 // Sort the query if needed
 if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
-endif;
-
-?>
+endif;?>
 
 </head>
 
@@ -103,7 +101,11 @@ endif;
 
 <div class="topmenu">
 	<ul class="topleft menu">
-		<li class="catrss"></li>
+		<li class="catrss">
+			<ul>
+		  		<li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Add to Personal feed</a></li>
+			</ul>
+		</li>
 		<li class="pagetitle"><?php echo $pagetitle;?>
 			<ul><?php echo $links;?></ul>
 		
@@ -153,7 +155,6 @@ endif;
 				<?php if ($social->state != 1):?>
 				<li><a id="logout" href="<?php echo wp_logout_url(home_url());?>" title="Logout">Logout</a></li><?php
 				endif;?>
-                <li><a href='<?php echo PERSONALFEEDURL . '/' . wp_get_current_user()->user_login; ?>'>Personal feed</a></li>
 				<li>Disclaimer</li>
 				<li>Account Settings</li>
 			</ul>
@@ -173,17 +174,25 @@ endif;
 	<div class="pan moveright"><div></div></div>
 	<div class="pan moveup"><div></div></div>
 	<div class="pan movedown"><div></div></div>
+	<div class="hide"><?php
+	if(is_home()) $markercat = get_cat_id('Locations'); else $markercat = $currentcat->term_id;
+	foreach (query_posts(array('cat'=>$markercat, 'numberposts'=>-1)) as $markerpost):
+		$relatedposts = new Cowobo_Feed(array('posts' => $markerpost->ID));
+		$postcount = count($relatedposts->get_related());
+		$coordinates = get_post_meta($markerpost->ID, 'coordinates', true);?>
+		<div class="marker <?php echo $markerpost->ID;?>">
+			<input type="hidden" class="markerdata" value="<?php echo $coordinates;?>"/>
+			<img src="<?php bloginfo('template_url');?>/images/angel.png" alt=""/>
+			<div class="mtitle"><?php echo $postcount;?></div>
+		</div><?php
+	endforeach;?>
+	</div>
 </div>
 
 <div class="marker editmarker">
-	<div class="mcontent">
-		<span class="savelocation">Save</span>
-		<span class="cancellocation">Cancel</span>
-	</div>
-	<img src="<?php echo get_bloginfo('template_url').'/images/smallarrow.png';?>" alt=""/>
+	<img src="<?php bloginfo('template_url');?>/images/angel.png" alt=""/>
+	<div class="mtitle"><span class="savelocation">Save</span></div>
 </div>
-
-<div class="angel"></div>
 
 <div class="scrollarrow">
 <?php echo $nextlink;?>

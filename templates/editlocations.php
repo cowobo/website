@@ -20,10 +20,10 @@
 	endforeach;?>
 	<div class="slide cataddcat" style="display:block">
 		<h3>Or add a new one:</h3><br/>
+		Name of Town/City:<br/>
+		<input type="text" name="newcity" class="newcity"/><br/>
 		Name of Country:<br/>
 		<input type="text" name="newcountry" class="newcountry"/><br/>
-		Name of City:<br/>
-		<input type="text" name="newcity" class="newcity"/><br/>
 		<span class="addlocation button">Add</span><br/>
 	</div>
 </div>

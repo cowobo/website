@@ -16,7 +16,7 @@ if(!empty($coordinates) && checkdnsrr('google.com', 'ANY')):
 endif;
 		
 //check if user is author of post or added to the authors of post
-if($post->post_author == get_current_user_id()) $author = true; else $author = false; 
+if($post->post_author == get_current_user_id() or current_user_can('edit_others_posts')) $author = true; else $author = false; 
 $profiles = get_post_meta($post->ID, 'authors', false);
 if(!empty($profiles) && !empty($social->profile_id)):
 	if(in_array($social->profile_id, $profiles)) $author = true;
