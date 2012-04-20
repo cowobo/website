@@ -16,15 +16,14 @@
 		<h3>Choose the type of post</h3><?php
 		if($social->state < 2):?>
 			<select disabled="disabled" class="new choosetype"></select><?php
-		else:
-			wp_dropdown_categories(array(
-				'depth'=> 1, 
-				'class' =>'new choosetype', 
-				'hide_empty'=> 0, 
-				'hierarchical' => 1, 
-				'exclude'=>get_cat_ID('Uncategorized').','.get_cat_ID('Profiles'),
-				'show_option_none' =>'Cick here to select',
-			));
+		else:?>
+			<select class="new choosetype">
+			<option value="">Click here to select</option><?php
+			$types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>get_cat_ID('Uncategorized').','.get_cat_ID('Profiles') ));
+			foreach($types as $type):
+			echo '<option value="'.$type->term_id.'">'.$type->name.'</option>';
+			endforeach;?>
+			</select><?php
 		endif;?>
 		<div class="grey">
 		<h3>Title of post</h3>

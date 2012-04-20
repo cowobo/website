@@ -4,7 +4,6 @@ var overscroller;
 var overslide;
 var scroller;
 var rooturl;
-var templateurl
 var geocoder;
 var nextposts;
 var mapdata = {};
@@ -26,7 +25,6 @@ jQuery(window).resize(function() {
 jQuery(document).ready(function() {
 	//setup basic parameters
 	rooturl = jQuery('meta[name=rooturl]').attr("content");
-	templateurl = rooturl + '/wp-content/themes/cowobo/'
 	winx = jQuery(window).width();
 	setInterval(mousemov, 10);
 
@@ -979,9 +977,7 @@ function loadNewMap(data){
 	jQuery('.level-'+data.zoom).addClass('zoomselect');
 
 	//load new layer
-	for (key in data) {
-		newlayer.data(key, data[key]);
-	}
+	for (key in data) {newlayer.data(key, data[key]);}
 	newlayer.data('hash', window.location.hash);
 	map.append(newlayer);
 
@@ -1005,8 +1001,12 @@ function loadNewMap(data){
 		var posa = a.value.split(',');
 		var posb = b.value.split(',');
     	return  posb[0] - posa[0];
-	}).parent().clone().appendTo(markerlist);
-
+	});
+	
+	data.markers.each(function() {
+		jQuery(this).parent().appendTo(markerlist);
+	});
+	
 	//get highest count to set percentages for widths and heights
 	var markercount = new Array();
 	data.markers.each(function(){

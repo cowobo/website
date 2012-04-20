@@ -78,7 +78,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .tiles img {width:50%; height:100%;}
 .marker {position:absolute; cursor:pointer; z-index:3;}
 .marker img {width:100%; height:100%;}
-.mtitle {position:absolute; width:100%; top:60%; text-align:center; color:#fff; line-height: 100%;}
+.mtitle {position:absolute; width:100%; top:60%; text-align:center; color:#eee; line-height: 100%;}
 .buffer {z-index:0;}
 
 /* Boxes Generic */
