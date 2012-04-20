@@ -76,7 +76,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .mainmap {position:absolute; left:0; top:0; bottom:165px; width:100%;}
 .tiles {position:absolute; top:0; left:0; width:100%; height:100%;}
 .tiles img {width:50%; height:100%;}
-.marker {position:absolute; cursor:pointer; z-index:3;}
+.marker {position:absolute; cursor:pointer; z-index:3; opacity:0.7;}
 .marker img {width:100%; height:100%;}
 .mtitle {position:absolute; width:100%; top:60%; text-align:center; color:#eee; line-height: 100%;}
 .buffer {z-index:0;}

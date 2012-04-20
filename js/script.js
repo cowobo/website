@@ -1004,7 +1004,7 @@ function loadNewMap(data){
 	});
 	
 	data.markers.each(function() {
-		jQuery(this).parent().appendTo(markerlist);
+		jQuery(this).parent().clone().appendTo(markerlist);
 	});
 	
 	//get highest count to set percentages for widths and heights
@@ -1039,8 +1039,8 @@ function loadNewMap(data){
 			jQuery('#'+postid).fadeIn();
 		});
 		marker.hover(
-			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 4);},
-			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 3);}
+			function() {jQuery(this).animate({opacity: 1},'fast'); jQuery(this).css('z-index', 4);},
+			function() {jQuery(this).animate({opacity: 0.7},'fast'); jQuery(this).css('z-index', 3);}
 		);
 	});
 }
