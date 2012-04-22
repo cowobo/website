@@ -33,6 +33,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .empty {color:#888;}
 .button {color:#888; cursor:pointer;}
 .button:hover {color:#888;}
+.unselect {-moz-user-select:none; -webkit-user-select:none; user-select:none; -ms-user-select:none;}
 
 /* Nav Menu */
 .topmenu {position:absolute; top:0; left:0; height:40px; width:100%; color:#fff; background:url(images/menushadow.png); z-index:25; }

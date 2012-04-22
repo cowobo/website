@@ -40,6 +40,7 @@ jQuery(document).ready(function() {
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
+		
 	
 	//update scrollbars if single post is present
 	if(jQuery('.single').length>0){
@@ -770,8 +771,6 @@ function update_scrollbars(postid) {
 	var sliderdim = content.height() * (content.height()/contentdim);
 	slider.css({height: sliderdim});
 	
-	//jQuery('body').disableSelection();
-	
 	content.find('.gallery').hover(
 		function() {overslide = 1},
 		function () {overslide = 0}
@@ -792,10 +791,18 @@ function update_scrollbars(postid) {
 		}
 	})
 
-	jQuery('body').mouseup(function(){scrollit = false;});
-	slider.mousedown(function(event){scrollit = true;
+	//activate scrollbar
+	slider.mousedown(function(event){
+		scrollit = true;
+		jQuery('body').disableSelection();
 		event.stopPropagation();
 		startpos = mousepos - jQuery(this).position().top;
+	});
+	
+	//deactivate scrollbar
+	jQuery('body').mouseup(function(){
+		scrollit = false;
+		jQuery('body').enableSelection();
 	});
 
 	//bind mousewheel to new content
@@ -904,18 +911,20 @@ function add_to_profile(post_id,user_id) {
 
 jQuery.fn.disableSelection = function() {
     return this.each(function() {           
-        jQuery(this).attr('unselectable', 'on')
-               .css({
-                   '-moz-user-select':'none',
-                   '-webkit-user-select':'none',
-                   'user-select':'none',
-                   '-ms-user-select':'none'
-               })
-               .each(function() {
-                   this.onselectstart = function() { return false; };
-               });
+        jQuery(this).attr('unselectable', 'on').addClass('unselect').each(function() {
+			this.onselectstart = function() {return false;};
+        });
     });
 };
+
+jQuery.fn.enableSelection = function() {
+    return this.each(function() {           
+        jQuery(this).attr('unselectable', 'off').removeClass('unselect').each(function() {
+			this.onselectstart = function() {return true;};
+        });
+    });
+};
+
 
 function reset_feed(user_id) {
 	jQuery.ajax({
