@@ -38,10 +38,26 @@ else:
 	include(TEMPLATEPATH.'/templates/newprofile.php');
 endif;
 
-//load posts in current category
+//load location posts
+if(is_home()) $markercat = get_cat_id('Locations'); else $markercat = $currentcat->term_id;
+foreach (query_posts(array('cat'=>$markercat, 'numberposts'=>-1)) as $post): setup_postdata($post);
+	$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
+	$postcount = count($relatedposts->get_related());
+	$coordinates = get_post_meta($post->ID, 'coordinates', true);
+	include(TEMPLATEPATH.'/templates/postbox.php');?>
+	<div class="marker <?php echo $post->ID;?> hide">
+		<input type="hidden" class="markerdata" value="<?php echo $coordinates;?>"/>
+		<img src="<?php bloginfo('template_url');?>/images/angel.png" alt=""/>
+		<div class="mtitle"><?php echo $postcount;?></div>
+	</div><?php
+endforeach;
+
+//load other posts in current category
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
+	$postcat = cwob_get_category($post->ID);		
+	$posttype = $postcat->slug;
 	if(is_single()) $ajax = true; else $ajax = false; 
-	include(TEMPLATEPATH.'/templates/postbox.php');
+	if($posttype != 'locations') include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
 get_footer();

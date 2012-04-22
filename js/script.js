@@ -63,7 +63,7 @@ jQuery(document).ready(function() {
 		}
 		jQuery('#'+mapdata.post).fadeIn();
 		loadlightbox(mapdata.post);
-	} else {
+	} else if(jQuery('.maplayer').length<2) {
 		loadNewMap(mapdata);
 	}
 
@@ -98,7 +98,6 @@ jQuery(document).ready(function() {
 			loadlightbox(mapdata.post, 0);
 		}
 	})
-	
 	//SHARETHIS KEY//
 	/* var switchTo5x=true;
 	if (typeof(stLight)!= 'undefined') stLight.options({publisher:'4a45176a-73d4-4e42-8be9-c015a589c031'});*/
@@ -639,7 +638,7 @@ function loadlightbox(postid) {
 		mapdata['zoom'] = 17;
 	}
 
-	if (postid != 'newtype' && postid != 0 && typeof(postid) != 'undefined') update_scrollbars(postid);
+	if (postid != 'newtype' && jQuery('#'+postid).length>0) update_scrollbars(postid);
 	if (postid == 'new' || postid == 'newprofile' || typeof(postid) == 'undefined') return true;
 	else if (postid != 'newtype') loadNewMap(mapdata);
 
@@ -663,10 +662,7 @@ function loadlightbox(postid) {
 				newbox.find(".richtext").rte();
 				
 				//resize text areas to fit content (requires autoresize.js)
-				newbox.find(".commenttext").autoResize({
-					onResize : function() {alert('test');},
-					extraSpace : 20
-				});
+				newbox.find(".commenttext").autoResize({extraSpace : 20});
 						
 				//replace newbox so users can go back to their new post
 				if(postid == 'newtype') {
@@ -728,7 +724,7 @@ function loadnextposts() {
 			jQuery('.page').animate({scrollLeft: jQuery('.page').scrollLeft()+500}, 'slow');
 			jQuery('body').append(newboxes);
 			jQuery('.scrollarrow').html('<div class="scrollicon"></div>more posts')
-			loading = false;
+			loading = false;	
 		}
 	});
 }
@@ -1039,7 +1035,7 @@ function loadNewMap(data){
 		var newmargin = '-'+newheight+'px 0 0 '+'-'+newwidth/2+'px';
 		var newfont =  Math.round(8 + percentage * 12) +'px';
 		marker.css({top:marker_y, left: marker_x, width: newwidth+'px', height: newheight+'px', margin: newmargin, 'font-size': newfont});
-		marker.appendTo(newlayer.find('.mainmap'));
+		marker.appendTo(newlayer.find('.mainmap')).removeClass('hide');
 		marker.click(function(event){
 			event.stopPropagation();
 			window.location.hash = '#post='+postid;

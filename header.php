@@ -94,7 +94,6 @@ endif;
 if ( isset ( $_GET['sort'] ) && ! empty ( $_GET['sort'] ) ) :
 	$newposts = $social->sort_posts( $newposts, $_GET['sort'] );
 endif;?>
-
 </head>
 
 <body>
@@ -174,19 +173,6 @@ endif;?>
 	<div class="pan moveright"><div></div></div>
 	<div class="pan moveup"><div></div></div>
 	<div class="pan movedown"><div></div></div>
-	<div class="hide"><?php
-	if(is_home()) $markercat = get_cat_id('Locations'); else $markercat = $currentcat->term_id;
-	foreach (query_posts(array('cat'=>$markercat, 'numberposts'=>-1)) as $markerpost):
-		$relatedposts = new Cowobo_Feed(array('posts' => $markerpost->ID));
-		$postcount = count($relatedposts->get_related());
-		$coordinates = get_post_meta($markerpost->ID, 'coordinates', true);?>
-		<div class="marker <?php echo $markerpost->ID;?>">
-			<input type="hidden" class="markerdata" value="<?php echo $coordinates;?>"/>
-			<img src="<?php bloginfo('template_url');?>/images/angel.png" alt=""/>
-			<div class="mtitle"><?php echo $postcount;?></div>
-		</div><?php
-	endforeach;?>
-	</div>
 </div>
 
 <div class="marker editmarker">

@@ -70,7 +70,7 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .scrollicon {float:right; width:30px; height:15px; background:url(images/smallicons.png) no-repeat; z-index:200; background-position: -75px 0px; margin:2px 0 0 5px;}
 
 /* Map */
-.map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default;}       
+.map {position:absolute; top:0; left:0; height:100%; width:100%; cursor: url(images/zoomin.cur),default; background:#eee;}       
 .maplayer, .buffer {position:absolute; top:0; left:0; overflow:hidden; width:100%; height:100%;}
 .maplayer {display:none; z-index:2;}
 .mapshadow {position:absolute; left:0; top:0; width:100%; height:300px; background:url(images/mapshadow.png)}

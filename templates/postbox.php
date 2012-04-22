@@ -4,8 +4,6 @@ global $social;
 unset($coordinates);
 
 //setup parameters
-$postcat = cwob_get_category($post->ID);		
-$posttype = $postcat->slug;
 $coordinates = get_post_meta($post->ID, 'coordinates', true);
 
 if(!empty($coordinates) && checkdnsrr('google.com', 'ANY')):
@@ -23,7 +21,7 @@ if(!empty($profiles) && !empty($social->profile_id)):
 endif;
 ?>
 
-<div class="large <?php if ($ajax == 'true') echo 'single';?>" id="<?php echo $post->ID;?>">
+<div class="large<?php if ($ajax == 'true') echo ' single';?>" id="<?php echo $post->ID;?>">
 	<div class="holder">
 		<div class="content"><?php
 		if(!empty($coordinates)):?>
