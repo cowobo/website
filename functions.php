@@ -16,17 +16,6 @@ $social = new Cowobo_Social;
 if (!session_id())
     session_start();
 
-// add styles to admin
-add_action('admin_head', 'myadminstyles');
-function myadminstyles() {?>
-	<style>
-	.mapholder{position:relative; margin-top:5px;}
-	.map {width:100%; height:150px; overflow:hidden; cursor:pointer;}
-	.marker {position:absolute; top:50%; left:50%; width:20px; height:20px; margin:-10px 0 0 -10px; background:url(<?php bloginfo('template_url');?>/images/location.png); z-index:100}
-	.thumb {width:80px; height:55px; padding:5px;}
-	</style><?php
-}
-
 // Remove admin bar
 add_filter( 'show_admin_bar' , 'my_function_admin_bar');
 function my_function_admin_bar(){
@@ -475,4 +464,140 @@ function cowobo_add_comment_meta($comment_id) {
 		$type = wp_filter_nohtml_kses($_POST['privatemsg']);
 		add_comment_meta($comment_id, 'privatemsg', $type, false);
 	}
+}
+
+
+// Add Settings Page to Reservations
+add_action('admin_menu', 'template_add_page_fn');
+function template_add_page_fn() {
+	add_submenu_page('edit.php', 'Settings', 'Templates', 'manage_options', 'templates', 'template_page_fn');
+}
+
+add_action('admin_init', 'template_init_fn' );
+function template_init_fn(){
+	register_setting('template_options', 'template_options', 'template_options_validate' );
+}
+
+// Display the admin options page
+function template_page_fn() {?>
+	<h2>Template Settings</h2>
+	<form method="post" action="options.php"><?php
+	
+	settings_fields('template_options');
+	delete_option('template_options');
+	$settings = get_option('template_options');
+	$types = get_categories(array('parent'=>0, 'exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false));
+	
+	//set default options
+	if(empty($settings)):
+	$settings[get_cat_ID('location')] = array(
+		array('type' => 'title', 'label' =>'Name of Town or City', 'hint' => 'Check it does not exist on our site'),
+		array('type' => 'coordinates', 'label' =>'Coordinates', 'hint' => 'Enter an address below and then'),
+		array('type' => 'content', 'label' =>'Add a description', 'hint' => 'Keep it short and sweet'),
+	);
+	$settings[get_cat_ID('profile')] = array(
+		array('type' => 'title', 'label' =>'Your Full Name', 'hint' => 'Keep it real',),
+		array('type' => 'custom', 'label' =>'Looking For', 'hint' => 'ie Collaborators, Funding, etc',),
+		array('type' => 'custom', 'label' =>'Experience', 'hint' => ''),
+		array('type' => 'content', 'label' =>'About You', 'hint' => 'Keep it short and sweet'),	
+	);	
+	$settings[get_cat_ID('forum')] = array(
+		array('type' => 'title', 'label' =>'Short title of your question', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'content', 'label' =>'Elaborate question', 'hint' => 'Max 3000 characters'),
+		array('type' => 'authors', 'label' =>'Authors'),
+	);
+	$settings[get_cat_ID('project')] = array(
+		array('type' => 'title', 'label' =>'Title', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'custom', 'label' =>'Status', 'hint' => 'ie Completed, Prototype, Under Construction'),
+		array('type' => 'content', 'label' =>'Description', 'hint' => 'Max 3000 characters'),	
+		array('type' => 'authors', 'label' =>'Authors'),
+	);
+	$settings[get_cat_ID('event')] = array(
+		array('type' => 'title', 'label' =>'Short title of event', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'custom', 'label' =>'Start Date', 'hint' => 'ie 10am September 15th, 2012'),
+		array('type' => 'custom', 'label' =>'End Date', 'hint' => 'ie 6apm September 18th, 2012'),
+		array('type' => 'content', 'label' =>'Description of Event', 'hint' => 'Max 3000 characters'),	
+		array('type' => 'authors', 'label' =>'Authors'),
+	);
+	$settings[get_cat_ID('job')] = array(
+		array('type' => 'title', 'label' =>'Short title of your question', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'content', 'label' =>'Elaborate question', 'hint' => 'Max 3000 characters'),
+		array('type' => 'authors', 'label' =>'Authors'),	
+	);
+	$settings[get_cat_ID('wiki')] = array(
+		array('type' => 'title', 'label' =>'Short title of your wiki', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'content', 'label' =>'Text', 'hint' => 'Max 3000 characters'),	
+		array('type' => 'custom', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
+		array('type' => 'authors', 'label' =>'Authors'),	
+	);
+	$settings[get_cat_ID('news')] = array(
+		array('type' => 'title', 'label' =>'Short title of your wiki', 'hint' => 'Keep it short and sweet',),
+		array('type' => 'content', 'label' =>'Text', 'hint' => 'Max 3000 characters'),	
+		array('type' => 'custom', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
+		array('type' => 'authors', 'label' =>'Authors'),
+	);
+	update_option('template_options', $settings);
+	endif;
+	
+	foreach($types as $type):
+		$template = $settings[$type->term_id];
+		if(empty($template)) $template = array(array());?>
+		<h3><?php echo $type->name?></h3>
+		<table style="text-align:left">
+		<tr><th>Label</th><th>Hint</th><th>Type</th><th>Rows</th></tr><?php
+		foreach ($template as $i => $x):?>
+		<tr>
+			<td><input type="text" value="<?php echo $x['label'];?>" name="template_options[<?php echo $type->term_id;?>][<?php echo $i;?>][label]" size="60"/></td>
+			<td><input type="text" value="<?php echo $x['hint'];?>" name="template_options[<?php echo $type->term_id;?>][<?php echo $i;?>][hint]" size="50"/></td>
+			<td><select name="template_options[<?php echo $type->term_id;?>][<?php echo $i;?>][type]">
+				<option></option>
+				<option <?php if($x['type']=='title') _e('selected');?> value="title">Title</option>
+				<option <?php if($x['type']=='content') _e('selected');?> value="content">Content</option>
+				<option <?php if($x['type']=='coordinates') _e('selected');?> value="coordinates">Coordinates</option>
+				<option <?php if($x['type']=='custom') _e('selected');?> value="custom">Custom Field</option>
+				<option <?php if($x['type']=='authors') _e('selected');?> value="authors">Authors</option>
+				</select>
+			</td>
+			<td><select name="template_options[<?php echo $type->term_id;?>][<?php echo $i;?>][rows]">
+				<option></option>
+				<option <?php if($x['rows']=='1') _e('selected');?> value="1">1</option>
+				<option <?php if($x['rows']=='2') _e('selected');?> value="2">2</option>
+				<option <?php if($x['rows']=='3') _e('selected');?> value="content">3</option>
+				<option <?php if($x['rows']=='5') _e('selected');?> value="5">5</option>
+				<option <?php if($x['rows']=='10') _e('selected');?> value="10">10</option>
+				</select>
+			</td>
+			<td><input type="button" value="x" class="deleterow"></td>
+		</tr><?php
+		endforeach;?>
+		<tr><td><input type="button" value="Add Another Section" class="clonerow"/></td></tr>
+		</table><?php 
+	endforeach;?>
+	<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+	</form>
+	
+	<script>
+		jQuery('.clonerow').live('click', function() {
+			var row = jQuery(this).parents('tr').prev();
+			var sections = row.html().split('][');
+			var newnum = parseFloat(sections[1])+1;
+			sections[1] = newnum;
+			sections[3] = newnum;
+			sections[5] = newnum;
+			sections[7] = newnum;
+			row.after('<tr>'+sections.join('][')+'</tr>');
+		});
+		jQuery('.deleterow').live('click', function() {
+			if(jQuery(this).parents('tr').siblings().length<3) {
+				alert('You must keep at least one section');
+			} else {
+				jQuery(this).parents('tr').remove();
+			}
+		});
+	</script><?php	
+}
+
+// Validate user data for some/all of your input fields
+function template_options_validate($input) {
+	return $input;
 }

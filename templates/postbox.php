@@ -27,14 +27,7 @@ endif;
 		if(!empty($coordinates)):?>
 			<input type="hidden" class="coordinates" value="<?php echo $coordinates;?>"/><?php 
 		endif;
-		//load the templates
-		if(file_exists(TEMPLATEPATH.'/templates/'.$post->post_name.'.php')):
-			include(TEMPLATEPATH.'/templates/'.$post->post_name.'.php');
-		elseif ( file_exists(TEMPLATEPATH.'/templates/' . $posttype . '.php') ):
-			include(TEMPLATEPATH.'/templates/' . $posttype . '.php');
-		else:
-			include(TEMPLATEPATH.'/templates/default.php');
-		endif;?>
+		include(TEMPLATEPATH.'/templates/templates.php');?>
 		</div>
 		<div class="scrolltrack"><div class="toparrow"></div><div class="slider"></div><div class="bottomarrow"></div></div>
 		<div class="cowobo_social_share"><?php

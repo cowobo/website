@@ -3,7 +3,7 @@
 	<div class="content">
 		<div class="image newimage">
 			<div class="topshadow">
-				<h2>Add Posts</h2>
+				<h2>Add Content</h2>
 				<div class="data">Right now!</div>
 			</div>
 		</div>

@@ -38,9 +38,9 @@ else:
 	include(TEMPLATEPATH.'/templates/newprofile.php');
 endif;
 
-//load location posts
-if(is_home()) $markercat = get_cat_id('Locations'); else $markercat = $currentcat->term_id;
-foreach (query_posts(array('cat'=>$markercat, 'numberposts'=>-1)) as $post): setup_postdata($post);
+//load marker posts
+if(is_home()) $markercat = get_cat_id('Location'); else $markercat = $currentcat->term_id;
+foreach (query_posts(array('cat'=>$markercat, 'numberposts'=>40)) as $post): setup_postdata($post);
 	$relatedposts = new Cowobo_Feed(array('posts' => $post->ID));
 	$postcount = count($relatedposts->get_related());
 	$coordinates = get_post_meta($post->ID, 'coordinates', true);
@@ -57,7 +57,7 @@ foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = tru
 	$postcat = cwob_get_category($post->ID);		
 	$posttype = $postcat->slug;
 	if(is_single()) $ajax = true; else $ajax = false; 
-	if($posttype != 'locations') include(TEMPLATEPATH.'/templates/postbox.php');
+	if($posttype != 'location') include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 
 get_footer();

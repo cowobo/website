@@ -95,7 +95,7 @@ jQuery(document).ready(function() {
 				jQuery('.large').fadeOut();
 				jQuery('#'+mapdata.post).fadeIn();
 			}
-			loadlightbox(mapdata.post, 0);
+			loadlightbox(mapdata.post);
 		}
 	})
 	//SHARETHIS KEY//
