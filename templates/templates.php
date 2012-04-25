@@ -11,8 +11,7 @@
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
 	endif;?>
 </div><?php
-
-$postcat = cwob_get_category($post->ID);		
+		
 $settings = get_option('template_options');
 $sections = $settings[$postcat->term_id];
 
@@ -27,10 +26,13 @@ if($newpost or $author && $ajax):?>
 		elseif($section['type'] == 'coordinates'):
 			echo '<span class="relocate"> click here to geocode it</span>'; 
 			echo '<input type="text" class="searchform new latlng" value="'.$coordinates.'"/>';
-		elseif($section['type'] == 'custom'):
+		elseif($section['type'] == 'custom' or $section['type'] == 'website'):
 			$slug = sanitize_title($section['label']);
 			$value = get_post_meta(get_the_ID(), $slug, true);
 			echo '<input tabindex="'.$tabindex.'" type="text" name="'.$slug.'" class="new" value="'.$value.'"/>';
+		elseif($section['type'] == 'website'):
+			$value = get_post_meta(get_the_ID(), 'website', true);
+			echo '<input tabindex="'.$tabindex.'" type="text" name="website" class="new" value="'.$value.'"/>';
 		endif;
 	endforeach;?>
 </div><?php
@@ -43,12 +45,16 @@ if(!$newpost):?>
 		if($section['type'] == 'title'):
 			echo '<div class="title"><span class="postrss"></span>'.get_the_title().'</div>';
 		elseif($section['type'] == 'content'):
-			the_content();
-			echo '<br/>';
+			echo '<br/>'; the_content();echo '<br/>';
 		elseif($section['type'] == 'custom'):
 			$slug = sanitize_title($section['label']);
 			if($value = get_post_meta(get_the_ID(), $slug, true)):
 				echo '<b>'.$section['label'].'</b>: '.$value.'<br/>';
+			endif;
+		elseif($section['type'] == 'website'):
+			$slug = sanitize_title($section['label']);
+			if($value = get_post_meta(get_the_ID(), $slug, true)):
+				echo '<a href="'.$value.'" title="">Website</a>';
 			endif;
 		endif;
 	endforeach;?>

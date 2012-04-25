@@ -1,6 +1,6 @@
 <?php
 $exclude = get_cat_ID('Uncategorized');
-if($postcat->slug == 'locations') $exclude .= ','.get_cat_ID('Locations');
+if($postcat->slug == 'location') $exclude .= ','.get_cat_ID('Location');
 $types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>$exclude));
 
 //load and sort related posts by type
@@ -14,7 +14,7 @@ endif;
 
 //Sort type by number of related posts and put locations on top
 foreach($types as $type):
-	if($type->slug == 'locations') $count = 100; else $count = count($typeposts[$type->term_id]); 
+	if($type->slug == 'location') $count = 100; else $count = count($typeposts[$type->term_id]); 
 	$typearray[] = array('cat'=>$type, 'posts'=>$count);
 endforeach;
 usort($typearray, 'sort_types');
@@ -30,7 +30,7 @@ foreach($typearray as $type):
 	<div class="edit right button">+ Link</div>
 	<div class="selectbox" id="new-<?php echo $typeid;?>"><?php
 		if($author):
-			if($type['cat']->slug == 'locations'):
+			if($type['cat']->slug == 'location'):
 				include(TEMPLATEPATH.'/templates/editlocations.php');
 			else:?>
 			<div class="column left">

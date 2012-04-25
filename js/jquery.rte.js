@@ -105,7 +105,8 @@ if(typeof $.fn.rte === "undefined") {
 
         function disableDesignMode(submit) {
             var content = $(iframe).contents().find("body").html();
-            if($(iframe).is(":visible")) textarea.val(content);
+		   	content = content.replace(/div/g, 'p');
+		    if($(iframe).is(":visible")) textarea.val(content);
             if(submit !== true) {
                 textarea.show();
                 $(iframe).hide();

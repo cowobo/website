@@ -25,7 +25,7 @@ if ($social->state > 1):?>
 		<input type='hidden' class='comment_post_ID' name='comment_post_ID' value='<?php echo $post->ID;?>'/>
 		<input type='hidden' class='comment_parent' name='comment_parent' value='0' />
 		<input name='submit' type="submit" class="submit" value="Submit Comment" /><span class="sendingcomment"></span>
-		<input type='checkbox' name='privatemsg' value='1' /> Private (to author)<br/>
+		<input type='checkbox' name='privatemsg' value='1' /> Private message to author<br/>
 		</div>
 		<?php do_action('comment_form', $post->ID);?>
 	</form><?php

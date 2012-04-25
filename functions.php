@@ -484,7 +484,6 @@ function template_page_fn() {?>
 	<form method="post" action="options.php"><?php
 	
 	settings_fields('template_options');
-	delete_option('template_options');
 	$settings = get_option('template_options');
 	$types = get_categories(array('parent'=>0, 'exclude'=>get_cat_ID('Uncategorized'), 'hide_empty'=>false));
 	
@@ -494,11 +493,13 @@ function template_page_fn() {?>
 		array('type' => 'title', 'label' =>'Name of Town or City', 'hint' => 'Check it does not exist on our site'),
 		array('type' => 'coordinates', 'label' =>'Coordinates', 'hint' => 'Enter an address below and then'),
 		array('type' => 'content', 'label' =>'Add a description', 'hint' => 'Keep it short and sweet'),
+		array('type' => 'website', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
 	);
 	$settings[get_cat_ID('profile')] = array(
 		array('type' => 'title', 'label' =>'Your Full Name', 'hint' => 'Keep it real',),
 		array('type' => 'custom', 'label' =>'Looking For', 'hint' => 'ie Collaborators, Funding, etc',),
 		array('type' => 'custom', 'label' =>'Experience', 'hint' => ''),
+		array('type' => 'website', 'label' =>'Website', 'hint' => 'ie http://www.myblog.com'),	
 		array('type' => 'content', 'label' =>'About You', 'hint' => 'Keep it short and sweet'),	
 	);	
 	$settings[get_cat_ID('forum')] = array(
@@ -506,34 +507,37 @@ function template_page_fn() {?>
 		array('type' => 'content', 'label' =>'Elaborate question', 'hint' => 'Max 3000 characters'),
 		array('type' => 'authors', 'label' =>'Authors'),
 	);
-	$settings[get_cat_ID('project')] = array(
+	$settings[get_cat_ID('solution')] = array(
 		array('type' => 'title', 'label' =>'Title', 'hint' => 'Keep it short and sweet',),
 		array('type' => 'custom', 'label' =>'Status', 'hint' => 'ie Completed, Prototype, Under Construction'),
 		array('type' => 'content', 'label' =>'Description', 'hint' => 'Max 3000 characters'),	
+		array('type' => 'website', 'label' =>'Website', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
 		array('type' => 'authors', 'label' =>'Authors'),
 	);
 	$settings[get_cat_ID('event')] = array(
 		array('type' => 'title', 'label' =>'Short title of event', 'hint' => 'Keep it short and sweet',),
 		array('type' => 'custom', 'label' =>'Start Date', 'hint' => 'ie 10am September 15th, 2012'),
 		array('type' => 'custom', 'label' =>'End Date', 'hint' => 'ie 6apm September 18th, 2012'),
+		array('type' => 'website', 'label' =>'Website', 'hint' => 'ie http://www.wikipedia.org/cowobo'),		
 		array('type' => 'content', 'label' =>'Description of Event', 'hint' => 'Max 3000 characters'),	
 		array('type' => 'authors', 'label' =>'Authors'),
 	);
 	$settings[get_cat_ID('job')] = array(
 		array('type' => 'title', 'label' =>'Short title of your question', 'hint' => 'Keep it short and sweet',),
 		array('type' => 'content', 'label' =>'Elaborate question', 'hint' => 'Max 3000 characters'),
+		array('type' => 'website', 'label' =>'Website', 'hint' => 'ie http://www.wikipedia.org/cowobo'),		
 		array('type' => 'authors', 'label' =>'Authors'),	
 	);
 	$settings[get_cat_ID('wiki')] = array(
 		array('type' => 'title', 'label' =>'Short title of your wiki', 'hint' => 'Keep it short and sweet',),
 		array('type' => 'content', 'label' =>'Text', 'hint' => 'Max 3000 characters'),	
-		array('type' => 'custom', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
+		array('type' => 'website', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
 		array('type' => 'authors', 'label' =>'Authors'),	
 	);
 	$settings[get_cat_ID('news')] = array(
 		array('type' => 'title', 'label' =>'Short title of your wiki', 'hint' => 'Keep it short and sweet',),
 		array('type' => 'content', 'label' =>'Text', 'hint' => 'Max 3000 characters'),	
-		array('type' => 'custom', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
+		array('type' => 'website', 'label' =>'Source', 'hint' => 'ie http://www.wikipedia.org/cowobo'),
 		array('type' => 'authors', 'label' =>'Authors'),
 	);
 	update_option('template_options', $settings);
@@ -555,6 +559,7 @@ function template_page_fn() {?>
 				<option <?php if($x['type']=='content') _e('selected');?> value="content">Content</option>
 				<option <?php if($x['type']=='coordinates') _e('selected');?> value="coordinates">Coordinates</option>
 				<option <?php if($x['type']=='custom') _e('selected');?> value="custom">Custom Field</option>
+				<option <?php if($x['type']=='website') _e('selected');?> value="website">Website</option>
 				<option <?php if($x['type']=='authors') _e('selected');?> value="authors">Authors</option>
 				</select>
 			</td>

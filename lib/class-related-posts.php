@@ -291,6 +291,11 @@ class Cowobo_Related_Posts {
         $results = array();
         foreach($relatedpostids as $relatedpostid) {
             $relatedpostid = (int) $relatedpostid;
+			$type = cwob_get_category($relatedpostid);
+			if($type->slug == "location"):
+				$coordinates = get_post_meta($relatedpostid, 'coordinates', true);
+				add_post_meta($postid, 'coordinates', $coordinates);
+			endif;
             $results[] = $this->create_relation( $postid, $relatedpostid );
         }
         return $results;
