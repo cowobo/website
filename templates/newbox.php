@@ -19,7 +19,7 @@
 		else:?>
 			<select class="new choosetype">
 			<option value="">Click here to select</option><?php
-			$types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>get_cat_ID('Uncategorized').','.get_cat_ID('Profiles') ));
+			$types = get_categories(array('parent'=>0, 'hide_empty'=>false, 'exclude'=>get_cat_ID('Uncategorized').','.get_cat_ID('Profile') ));
 			foreach($types as $type):
 			echo '<option value="'.$type->term_id.'">'.$type->name.'</option>';
 			endforeach;?>

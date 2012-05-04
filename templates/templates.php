@@ -18,7 +18,7 @@ $sections = $settings[$postcat->term_id];
 if($newpost or $author && $ajax):?>
 <div class="postform <?php if (!$newpost) echo 'hide';?>"><?php
 	foreach($sections as $section): $tabindex++;
-		echo '<h3>'.$section['label'].'</h3> '.$section['hint'];
+		if($section['type'] != 'authors') echo '<h3>'.$section['label'].'</h3> '.$section['hint'];
 		if($section['type'] == 'title'):
 			echo '<span class="cancelpost right button">- Cancel</span>';
 			echo '<input tabindex="'.$tabindex.'" type="text" name="edittitle" class="new edittitle" value="'.get_the_title().'"/>';
@@ -55,7 +55,7 @@ if(!$newpost):?>
 		elseif($section['type'] == 'website'):
 			$slug = sanitize_title($section['label']);
 			if($value = get_post_meta(get_the_ID(), $slug, true)):
-				echo '<a href="'.$value.'" title="">Website</a>';
+				echo '<b>'.$section['label'].'</b>: <a href="'.$value.'">'.$value.'</a>';
 			endif;
 		endif;
 	endforeach;?>

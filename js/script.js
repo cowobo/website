@@ -40,11 +40,11 @@ jQuery(document).ready(function() {
 	cowobo_lightbox_listeners();
 	cowobo_editpost_listeners();
 	cowobo_map_listeners();
-		
 	
-	//update scrollbars if single post is present
+	//update scrollbars and textboxes if single post is present
 	if(jQuery('.single').length>0){
 		update_scrollbars(jQuery('.single').attr('id'));
+		jQuery(".richtext").rte();
 	}
 
 	//setup geocoder if script has been loaded
