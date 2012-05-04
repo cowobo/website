@@ -294,6 +294,11 @@ function cowobo_editpost_listeners() {
 		jQuery(this).parent().slideUp();
 		jQuery(this).parent().siblings('.postform').slideDown();
 	});
+	
+	jQuery('.cancelpost').live('click', function() {
+		jQuery(this).parent().slideUp();
+		jQuery(this).parent().siblings('.postbox').slideDown();
+	});
 
 	//relocate marker
 	jQuery('.relocate').live('click', function() {

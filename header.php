@@ -184,4 +184,5 @@ endif;?>
 <div class="scrollicon"></div>older posts
 </div>
 
-<?php echo $nextlink;?>
+<img src="<?php bloginfo('template_url');?>/images/largearrow.png" class="hide"/><?php 
+echo $nextlink;?>

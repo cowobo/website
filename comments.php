@@ -45,7 +45,7 @@ if (!function_exists('cowobo_comments')) {
 		<article class="comments" id="comment-<?php comment_ID(); ?>" >
 			<footer class="comment-meta">
 				<div class="comment-author vcard">
-					<div class="reply right button">+ Add</div>
+					<div class="reply right button">+ Reply</div>
 					<div class="thumbnail"></div>
 					<div class="text"><?php
 						echo '<b><span class="authorlink">'.get_comment_author_link().'</span></b>, '.time_passed(strtotime($comment->comment_date));

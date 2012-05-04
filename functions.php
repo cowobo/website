@@ -189,9 +189,10 @@ function loadlightbox_callback(){
 	die;
 }
 
-function loadgallery_callback(){
-	if($_POST['postid'] != 'new'):
-		$images = get_children(array('post_parent' => $_POST['postid'], 'numberposts' => -1, 'post_mime_type' =>'image', 'order'=>'ASC'));
+function loadgallery_callback($postid){
+	if(!empty($_POST['postid'])) $postid = $_POST['postid'];
+	if($postid != 'new'):
+		$images = get_children(array('post_parent' => $postid, 'numberposts' => -1, 'post_mime_type' =>'image', 'order'=>'ASC'));
 		if(!empty($images)):
 		foreach($images as $image):?>
 			<div class="slide"><?php

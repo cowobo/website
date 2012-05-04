@@ -56,7 +56,7 @@ endforeach;
 foreach($newposts as $post): setup_postdata($post); $wp_query->in_the_loop = true;
 	$postcat = cwob_get_category($post->ID);		
 	$posttype = $postcat->slug;
-	if(is_single()) $ajax = true; else $ajax = false; 
+	if(is_single() or is_sticky()) $ajax = true; else $ajax = false; 
 	if($posttype != 'location') include(TEMPLATEPATH.'/templates/postbox.php');
 endforeach;
 

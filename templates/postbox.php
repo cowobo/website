@@ -1,7 +1,6 @@
 <?php 
 global $author; 
 global $social;
-unset($coordinates);
 
 //setup parameters
 $postcat = cwob_get_category($post->ID);

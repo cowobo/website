@@ -5,7 +5,7 @@
 	if($newpost):?>
 		<div class="slide loading">Click here to add images</div><?php
 	elseif($ajax):
-		loadgallery_callback();
+		loadgallery_callback($post->ID);
 		if(!empty($pano_id)):?><div class="streetview" id="<?php echo $pano_id;?>">Streetview!</div><?php endif;
 	else:?>
 		<div class="slide loading"><span class="loadicon">Loading post..</span></div><?php
@@ -20,6 +20,7 @@ if($newpost or $author && $ajax):?>
 	foreach($sections as $section): $tabindex++;
 		echo '<h3>'.$section['label'].'</h3> '.$section['hint'];
 		if($section['type'] == 'title'):
+			echo '<span class="cancelpost right button">- Cancel</span>';
 			echo '<input tabindex="'.$tabindex.'" type="text" name="edittitle" class="new edittitle" value="'.get_the_title().'"/>';
 		elseif($section['type'] == 'content'):
 			echo '<textarea name="editcontent" rows="5" class="new richtext">'.apply_filters('the_content', get_the_content()).'</textarea>';

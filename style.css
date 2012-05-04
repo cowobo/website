@@ -225,4 +225,4 @@ textarea {font-family:arial, 'lucida console', sans-serif;}
 .rte-toolbar .unorderedlist {width:15px; background-position:-180px 0;}
 .rte-toolbar .link {width:15px; background-position:-195px 0;}
 .disable, .rte-edm {float:right; background:none!important; width:150px; text-align:right}
-.editpost {margin:5px 0 0 0;}
+.editpost, .cancelpost {margin:5px 0 0 0;}
