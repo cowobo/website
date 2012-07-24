@@ -74,8 +74,10 @@ class Cowobo_Social {
 
 		if ( $this->state == '4' ) $this->show_bubble = false;
 		else { // Move away from state 4 (logged in with profile)
-            add_action ( 'publish_post', array ( &$this, 'complete_profile') );
-			// add_action('profile_update',array( &$this, 'complete_register'));
+        /**
+         * @todo Complete profile doesn't exist anymore, but the line below was not commented out. What happen?
+         */
+            //add_action ( 'publish_post', array ( &$this, 'complete_profile') );
 		}
 		// New user profile page
 		add_action('user_register',array( &$this, 'new_user_profile'));
